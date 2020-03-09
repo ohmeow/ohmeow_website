@@ -41,6 +41,7 @@ minima:
   social_links:
     twitter: waydegilliam
     github: ohmeow
+    email: wgilliam@ohmeow.com
 
 # Set this to true to get LaTeX math equation support
 use_math: 
