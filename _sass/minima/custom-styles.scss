@@ -2,5 +2,5 @@
 @import "minima/fastpages-styles";
 
 // Add your styles below
-.wrapper { width: 100%; }
-.site-header { border-top: none; }
+.wrapper { width: 100% !important; }
+.site-header { border-top: none !important; }
