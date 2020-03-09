@@ -471,7 +471,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 ::-webkit-scrollbar-corner { background-color: transparent; }
 
-.wrapper { width: 100% !important; }
+.wrapper { width: 100% !important; max-width: 100% !important; }
 
 .site-header { border-top: none !important; }
 
