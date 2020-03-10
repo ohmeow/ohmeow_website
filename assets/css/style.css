@@ -475,7 +475,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .wrapper { width: 100% !important; max-width: 100% !important; }
 
-a, a:visited { color: #ca6328; }
+a, a:visited { color: #ca6328 !important; }
 
 .site-header { padding: 5px !important; border-top: none !important; background-color: #ca6328; }
 
