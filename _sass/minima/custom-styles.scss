@@ -7,7 +7,8 @@
 // header
 .site-header { padding: 5px !important; border-top: none !important;  background-color: #ca6328; }
 .site-header { position: -webkit-sticky; position: sticky; top: 0; z-index: 9999; }    
-.site-nav .page-link .top-menu-text { color: #ffffff;}
+.site-nav { background-color: #ca6328; }
+    .site-nav .page-link .top-menu-text { color: #ffffff;}
 
 // footer
 .site-footer { padding: 5px 0; background-color: #ca6328; }
