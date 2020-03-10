@@ -477,7 +477,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .site-nav .page-link .top-menu-text { color: #ffffff; }
 
-.site-footer { background-color: #ca6328; }
+.site-footer { padding: 5px 0; background-color: #ca6328; }
 
 .footer-col-wrapper { color: #ffffff !important; }
 
