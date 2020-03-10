@@ -4,16 +4,12 @@
 // Add your styles below
 .wrapper { width: 100% !important; max-width: 100% !important; }
 
-.site-header {
-    padding: 5px !important;
-    border-top: none !important; 
-    background-color: #ca6328; 
-    position: -webkit-sticky;  // required for Safari
-    position: sticky;
-    top: 0; // required as well.
+// header
+.site-header { padding: 5px !important; border-top: none !important;  background-color: #ca6328; 
 }  
 .site-nav .page-link .top-menu-text { color: #ffffff;}
 
+// footer
 .site-footer { padding: 5px 0; background-color: #ca6328; }
 .footer-col-wrapper { color: #ffffff !important;}
 
@@ -22,8 +18,3 @@
 .social-media-list li a { background-color: #e8e8e8; border: black solid thin !important; }
 .social-media-list li a.fa-icon, .pagination li a.fa-icon { width: 42px; height: 42px; text-align: center; }
 .social-media-list li a.fa-icon i.far, .pagination li a.fa-icon i.far { color: #828282 !important }
-
-.vega-embed { position: inherit !important;}
-// .utterances-frame { position: unset !important;}
-
-summary.btn { position: inherit !important;}
