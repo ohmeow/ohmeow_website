@@ -489,8 +489,8 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .social-media-list li a.fa-icon i.far, .pagination li a.fa-icon i.far, .pagination li a.fa-icon i.far { color: #828282 !important; }
 
-.vega-embed { position: inherit !important; }
+.vega-embed { position: unset !important; }
 
-.utterances-frame { position: inherit !important; }
+.utterances-frame { position: unset !important; }
 
 /*# sourceMappingURL=style.css.map */
