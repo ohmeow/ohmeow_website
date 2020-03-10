@@ -479,4 +479,10 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .site-footer { background-color: #ca6328; }
 
+.footer-col-wrapper { color: #ffffff; }
+
+.feed-subscribe a span { color: #ffffff; }
+
+.social-media-list li a, .pagination li a { background-color: #e8e8e8; border: black solid thin; }
+
 /*# sourceMappingURL=style.css.map */
