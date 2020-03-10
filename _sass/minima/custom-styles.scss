@@ -23,5 +23,5 @@
 .social-media-list li a.fa-icon, .pagination li a.fa-icon { width: 42px; height: 42px; text-align: center; }
 .social-media-list li a.fa-icon i.far, .pagination li a.fa-icon i.far { color: #828282 !important }
 
-.vega-embed { position: inherit !important;}
-.utterances-frame { position: inherit !important;}
+.vega-embed { position: unset !important;}
+.utterances-frame { position: unset !important;}
