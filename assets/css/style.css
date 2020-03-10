@@ -473,7 +473,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .wrapper { width: 100% !important; max-width: 100% !important; }
 
-.site-header { border-top: none !important; background-color: #ca6328; }
+.site-header { border-top: none !important; background-color: #ca6328; position: -webkit-sticky; position: sticky; top: 0; }
 
 .site-nav .page-link .top-menu-text { color: #ffffff; }
 
@@ -485,8 +485,6 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .social-media-list li a, .pagination li a { background-color: #e8e8e8; border: black solid thin !important; }
 
-.site-header { position: -webkit-sticky; position: sticky; top: 0; }
-
-.social-media-list li a.fa-icon, .pagination li a.fa-icon, .pagination li a.fa-icon { width: 42px; height: 42px; text-align: center; }
+.social-media-list li a.fa-icon, .pagination li a.fa-icon, .pagination li a.fa-icon { width: 42px; height: 42px; text-align: center; color: #828282; }
 
 /*# sourceMappingURL=style.css.map */
