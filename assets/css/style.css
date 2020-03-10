@@ -473,7 +473,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .wrapper { width: 100% !important; max-width: 100% !important; }
 
-.site-header { padding: 5px !important; border-top: none !important; background-color: #ca6328; position: -webkit-sticky; position: sticky; top: 0; }
+.site-header { padding: 5px !important; border-top: none !important; background-color: #ca6328; }
 
 .site-nav .page-link .top-menu-text { color: #ffffff; }
 
@@ -488,9 +488,5 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 .social-media-list li a.fa-icon, .pagination li a.fa-icon, .pagination li a.fa-icon { width: 42px; height: 42px; text-align: center; }
 
 .social-media-list li a.fa-icon i.far, .pagination li a.fa-icon i.far, .pagination li a.fa-icon i.far { color: #828282 !important; }
-
-.vega-embed { position: inherit !important; }
-
-summary.btn { position: inherit !important; }
 
 /*# sourceMappingURL=style.css.map */
