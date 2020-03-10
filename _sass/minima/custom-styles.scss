@@ -5,8 +5,8 @@
 .wrapper { width: 100% !important; max-width: 100% !important; }
 
 // header
-.site-header { padding: 5px !important; border-top: none !important;  background-color: #ca6328; 
-}  
+.site-header { padding: 5px !important; border-top: none !important;  background-color: #ca6328; }
+.site-header .wrapper{ position: -webkit-sticky; position: sticky; top: 0; }    
 .site-nav .page-link .top-menu-text { color: #ffffff;}
 
 // footer
