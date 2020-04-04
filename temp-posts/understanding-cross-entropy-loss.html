@@ -833,7 +833,9 @@ Successfully installed fastcore-0.1.17
 <p><em>Rember that a loss function returns a number.</em> That's it!</p>
 <p>Or the more technical explanation from fastbook:</p>
 <p>"The gradient of a function is its slope, or its steepness, which can be defined as rise over run -- that is, how much the value of function goes up or down, divided by how much you changed the input. We can write this in maths: <code>(y_new-y_old) / (x_new-x_old)</code>. Specifically, it is defined when <code>x_new</code> is very similar to <code>x_old</code>, meaning that their difference is very small. <strong>But accuracy only changes at all when a prediction changes from a 3 to a 7, or vice versa.</strong> So the problem is that a small change in weights from <code>x_old</code> to <code>x_new</code> isn't likely to cause any prediction to change, so <code>(y_new - y_old)</code> will be zero. <strong>In other words, the gradient is zero almost everywhere.</strong></p>
-<p>As a result, <strong>a very small change in the value of a weight will often not actually change the accuracy at all</strong>. This means it is not useful to use accuracy as a loss function. When we use accuracy as a loss function, most of the time our gradients will actually be zero, and the model will not be able to learn from that number. That is not much use at all!"</p>
+<p>As a result, <strong>a very small change in the value of a weight will often not actually change the accuracy at all</strong>. This means it is not useful to use accuracy as a loss function. When we use accuracy as a loss function, most of the time our gradients will actually be zero, and the model will not be able to learn from that number. That is not much use at all!" <sup id="fnref-1" class="footnote-ref"><a href="#fn-1">1</a></sup></p>
+<p></p>
+<div class="footnotes"><p id="fn-1">1. fastbook <a href="https://github.com/fastai/fastbook/blob/dc1bf74f2639aa39b16461f20406587baccb13b3/04_mnist_basics.ipynb">chaper 4</a><a href="#fnref-1" class="footnote footnotes">↩</a></p></div>
 
 </div>
 </div>
