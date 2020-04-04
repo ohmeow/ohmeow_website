@@ -7,6 +7,6 @@ At [ohmeow](https://ohmeow.com), we're both passionate building full-stack web a
 
 If you're looking to apply deep learning/AI in your organization, let's talk!
 
-![](images/diagram.png "https://github.com/fastai/fastpages")
+![](images/ohmeow_home_workflow.png "https://ohmeow.com")
 
 # Posts
