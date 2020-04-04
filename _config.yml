@@ -42,6 +42,11 @@ minima:
     twitter: waydegilliam
     github: ohmeow
     email: wgilliam@ohmeow.com
+    
+default_badges:
+  github: true
+  binder: true
+  colab: true
 
 # Set this to true to get LaTeX math equation support
 use_math: 
