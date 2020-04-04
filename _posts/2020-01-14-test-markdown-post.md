@@ -3,7 +3,13 @@ toc: true
 layout: post
 description: A minimal example of using markdown with fastpages.
 categories: [markdown]
+comments: false
+hide: true
+search_exclude: true
+show_tags: false
+permalink: /temp-posts/test_markdown_post
 ---
+
 # Example Markdown Post
 
 ## Basic setup
