@@ -36,6 +36,8 @@ url: "https://ohmeow.com" # the base hostname & protocol for your site, e.g. htt
 #
 baseurl: "" # the subpath of your site, e.g. "/blog".
 
+permalink: /posts/:year/:month/:day/:title:output_ext
+
 # Github and twitter are optional:
 minima:
   social_links:
