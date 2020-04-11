@@ -248,7 +248,7 @@ window.onload = wrap_img;
 <a class="anchor" href="#Flying-at-50,000-feet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Flying at 50,000 feet<a class="anchor-link" href="#Flying-at-50,000-feet"> </a>
 </h3>
 <p>At a high level, most machine learning and deep learning systems can be summed up as consisting of three primary elements. Data, an architecture/model, and a loss function.  It can be visually described as such:</p>
-<p><img src="//images/copied_from_nb/my_icons/nn-high-level.png" alt="" title="High-Level NN system"></p>
+<p><img src="//images/copied_from_nb/my_icons/nn-high-level.png" alt="" title="High-Level NN system.png"></p>
 <p>The <strong>data</strong> describes the information given to the <strong>model</strong> for learning a specific task, and the <strong>loss function</strong> provides the feedback necessary for the model to improve in that task via a number that tells it how well it is doing.</p>
 
 </div>
@@ -262,12 +262,11 @@ window.onload = wrap_img;
 </h3>
 <p>Simple! You can't have a good model without a good architecture and proper loss function, <strong><em>but you can't have anything without data</em></strong>.  And getting good data that can be transformed into something modelable isn't necessarily easy.  In the slide deck presentation heard throughout the ML world, Andrej Karpathy, Senior Director of Artifical Intelligence at Tesla, put it this way:</p>
 <p><img src="//images/copied_from_nb/my_icons/academia-v-irl-data-importance.png" alt="" title="Credit: https://electrek.co/2018/06/11/tesla-ai-director-insights-autopilot-computer-vision-neural-net/"></p>
-<p>Coming from academia and the utopia of prepared datasets ready of modeling, he found that in the real world, the bread and butter of a deep learning system and where the blood, sweat, and tears would be shed, was in the data.  Data acquisition, cleaning, preparation, and the day-to-day management thereof.  This same sentiment can as much be inferred from any of you that watched Jeremy Howard's v2 walk through in late 2019 FN1 ... <em>every single session was about getting your data modelable using the new v2 bits</em>.  That should tell you a lot!</p>
+<p>Coming from academia and the utopia of prepared datasets ready of modeling, he found that in the real world, the bread and butter of a deep learning system and where the blood, sweat, and tears would be shed, was in the data.  Data acquisition, cleaning, preparation, and the day-to-day management thereof.  This same sentiment can as much be inferred from any of you that watched Jeremy Howard's v2 walk through in late 2019<sup id="fnref-1" class="footnote-ref"><a href="#fn-1">1</a></sup>... <em>every single session was about getting your data modelable using the new v2 bits</em>.  That should tell you a lot!</p>
 <h3 id="So-how-do-we-do-it?--How-do-we-prepare-our-datasets-for-modeling?">
 <a class="anchor" href="#So-how-do-we-do-it?--How-do-we-prepare-our-datasets-for-modeling?" aria-hidden="true"><span class="octicon octicon-link"></span></a>So how do we do it?  How do we prepare our datasets for modeling?<a class="anchor-link" href="#So-how-do-we-do-it?--How-do-we-prepare-our-datasets-for-modeling?"> </a>
 </h3>
 <p>While there are many ways, even with fast.ai, most indicators point to it's DataBlock API as the answer.</p>
-<p>FN1: <a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq</a></p>
 
 </div>
 </div>
@@ -440,11 +439,10 @@ window.onload = wrap_img;
 <h3 id="Dataset">
 <a class="anchor" href="#Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset<a class="anchor-link" href="#Dataset"> </a>
 </h3>
-<p>A Pytorch <code>Dataset</code> (see <code>torch.utils.data.Dataset</code>) is defined as "an abstract class representing a dataset" (FN2). That's just a fancy way to say it represents a collection of our data. We inherit from it and implement two key methods:</p>
+<p>A Pytorch <code>Dataset</code> (see <code>torch.utils.data.Dataset</code>) is defined as "an abstract class representing a dataset"<sup id="fnref-2" class="footnote-ref"><a href="#fn-2">2</a></sup>. That's just a fancy way to say it represents a collection of our data. We inherit from it and implement two key methods:</p>
 <p><code>__len__</code>: To return the size of our dataset</p>
 <p><code>__getitem__</code>: To get at a particular item in our dataset.</p>
 <p>Let's start breaking down our DataBlock above by converting the underlying data representation as one of these <code>Dataset</code> classes. We'll import some new packages that will be using and create a <code>PetCategories</code> class that will allow us to map our target labels with their indexes (and vice-versa).</p>
-<p>FN2 = <a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html#dataset-class">https://pytorch.org/tutorials/beginner/data_loading_tutorial.html#dataset-class</a></p>
 
 </div>
 </div>
@@ -1766,6 +1764,16 @@ FN5 = same \</p>
 <li><a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">fastai v2 walk-thru playlist</a></li>
 <li><a href="https://www.youtube.com/watch?v=bw4PRyxa-y4">Zach Mueller's "A Guided Walk-through of 2.0": Lesson 1</a></li>
 </ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="footnotes"><p id="fn-1">1. See full playlist <a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">here</a><a href="#fnref-1" class="footnote footnotes">↩</a></p></div>
+<div class="footnotes"><p id="fn-2">2. <a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html#dataset-class">https://pytorch.org/tutorials/beginner/data_loading_tutorial.html#dataset-class</a><a href="#fnref-2" class="footnote footnotes">↩</a></p></div>
 
 </div>
 </div>
