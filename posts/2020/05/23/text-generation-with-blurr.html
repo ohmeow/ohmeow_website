@@ -8,8 +8,8 @@
 <meta property="og:title" content="Text Generation with blurr" />
 <meta name="author" content="Wayde Gilliam" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="blurr is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
-<meta property="og:description" content="blurr is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
+<meta name="description" content="blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
+<meta property="og:description" content="blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
 <link rel="canonical" href="https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html" />
 <meta property="og:url" content="https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html" />
 <meta property="og:site_name" content="ohmeow" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-23T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"blurr is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART.","@type":"BlogPosting","headline":"Text Generation with blurr","dateModified":"2020-05-23T00:00:00-05:00","datePublished":"2020-05-23T00:00:00-05:00","image":"https://ohmeow.com/images/articles/blurr-logo-small.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html"},"url":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART.","@type":"BlogPosting","headline":"Text Generation with blurr","dateModified":"2020-05-23T00:00:00-05:00","datePublished":"2020-05-23T00:00:00-05:00","image":"https://ohmeow.com/images/articles/blurr-logo-small.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html"},"url":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -31,8 +31,8 @@
 <meta property="og:title" content="Text Generation with blurr" />
 <meta name="author" content="Wayde Gilliam" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="blurr is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
-<meta property="og:description" content="blurr is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
+<meta name="description" content="blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
+<meta property="og:description" content="blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART." />
 <link rel="canonical" href="https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html" />
 <meta property="og:url" content="https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html" />
 <meta property="og:site_name" content="ohmeow" />
@@ -40,7 +40,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-23T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"blurr is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART.","@type":"BlogPosting","headline":"Text Generation with blurr","dateModified":"2020-05-23T00:00:00-05:00","datePublished":"2020-05-23T00:00:00-05:00","image":"https://ohmeow.com/images/articles/blurr-logo-small.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html"},"url":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new text generation capabilities to summarize documents using BART.","@type":"BlogPosting","headline":"Text Generation with blurr","dateModified":"2020-05-23T00:00:00-05:00","datePublished":"2020-05-23T00:00:00-05:00","image":"https://ohmeow.com/images/articles/blurr-logo-small.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html"},"url":"https://ohmeow.com/posts/2020/05/23/text-generation-with-blurr.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -100,7 +100,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Text Generation with blurr</h1><p class="page-description">&lt;a href=&#39;https://ohmeow.github.io/blurr/&#39;&gt;blurr&lt;/a&gt; is a libray I started that integrates huggingface transformers into the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models.  In this article, I provide a simple example of how to use blurr&#39;s new text generation capabilities to summarize documents using BART.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-23T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Text Generation with blurr</h1><p class="page-description">blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models.  In this article, I provide a simple example of how to use blurr&#39;s new text generation capabilities to summarize documents using BART.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-23T00:00:00-05:00" itemprop="datePublished">
         May 23, 2020
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -108,7 +108,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      17 min read
+      21 min read
     
 </span></p>
 
@@ -179,105 +179,11 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># only run this cell if you are in collab</span>
-<span class="o">!</span>pip install ohmeow-blurr
-<span class="o">!</span>pip install nlp
+<span class="c1"># !pip install ohmeow-blurr</span>
+<span class="c1"># !pip install nlp</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Requirement already satisfied: ohmeow-blurr in /usr/local/lib/python3.6/dist-packages (0.0.5)
-Requirement already satisfied: seqeval in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.0.12)
-Requirement already satisfied: fastai2 in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.0.17)
-Requirement already satisfied: transformers in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (2.10.0)
-Requirement already satisfied: fastcore in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.1.17)
-Requirement already satisfied: ipykernel in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (4.10.1)
-Requirement already satisfied: numpy&gt;=1.14.0 in /usr/local/lib/python3.6/dist-packages (from seqeval-&gt;ohmeow-blurr) (1.18.4)
-Requirement already satisfied: Keras&gt;=2.2.4 in /usr/local/lib/python3.6/dist-packages (from seqeval-&gt;ohmeow-blurr) (2.3.1)
-Requirement already satisfied: spacy in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (2.2.4)
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (3.2.1)
-Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (1.0.3)
-Requirement already satisfied: fastprogress&gt;=0.1.22 in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (0.2.3)
-Requirement already satisfied: requests in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (2.23.0)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (0.22.2.post1)
-Requirement already satisfied: torch&gt;=1.3.0 in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (1.5.0+cu101)
-Requirement already satisfied: torchvision&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (0.6.0+cu101)
-Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (1.4.1)
-Requirement already satisfied: pillow in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (7.0.0)
-Requirement already satisfied: pyyaml in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (3.13)
-Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (4.41.1)
-Requirement already satisfied: dataclasses; python_version &lt; &#34;3.7&#34; in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (0.7)
-Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (2019.12.20)
-Requirement already satisfied: sacremoses in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (0.0.43)
-Requirement already satisfied: sentencepiece in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (0.1.91)
-Requirement already satisfied: tokenizers==0.7.0 in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (0.7.0)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from transformers-&gt;ohmeow-blurr) (3.0.12)
-Requirement already satisfied: tornado&gt;=4.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (4.5.3)
-Requirement already satisfied: traitlets&gt;=4.1.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (4.3.3)
-Requirement already satisfied: jupyter-client in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.3.4)
-Requirement already satisfied: ipython&gt;=4.0.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.5.0)
-Requirement already satisfied: h5py in /usr/local/lib/python3.6/dist-packages (from Keras&gt;=2.2.4-&gt;seqeval-&gt;ohmeow-blurr) (2.10.0)
-Requirement already satisfied: keras-preprocessing&gt;=1.0.5 in /usr/local/lib/python3.6/dist-packages (from Keras&gt;=2.2.4-&gt;seqeval-&gt;ohmeow-blurr) (1.1.2)
-Requirement already satisfied: keras-applications&gt;=1.0.6 in /usr/local/lib/python3.6/dist-packages (from Keras&gt;=2.2.4-&gt;seqeval-&gt;ohmeow-blurr) (1.0.8)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from Keras&gt;=2.2.4-&gt;seqeval-&gt;ohmeow-blurr) (1.12.0)
-Requirement already satisfied: thinc==7.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (7.4.0)
-Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (2.0.3)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (46.3.0)
-Requirement already satisfied: blis&lt;0.5.0,&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (0.4.1)
-Requirement already satisfied: catalogue&lt;1.1.0,&gt;=0.0.7 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.0.0)
-Requirement already satisfied: srsly&lt;1.1.0,&gt;=1.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.0.2)
-Requirement already satisfied: plac&lt;1.2.0,&gt;=0.9.6 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.1.3)
-Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (0.6.0)
-Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.0.2)
-Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (3.0.2)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai2-&gt;ohmeow-blurr) (1.2.0)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai2-&gt;ohmeow-blurr) (0.10.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai2-&gt;ohmeow-blurr) (2.8.1)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai2-&gt;ohmeow-blurr) (2.4.7)
-Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;fastai2-&gt;ohmeow-blurr) (2018.9)
-Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;fastai2-&gt;ohmeow-blurr) (2.9)
-Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;fastai2-&gt;ohmeow-blurr) (3.0.4)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;fastai2-&gt;ohmeow-blurr) (2020.4.5.1)
-Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;fastai2-&gt;ohmeow-blurr) (1.24.3)
-Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.6/dist-packages (from scikit-learn-&gt;fastai2-&gt;ohmeow-blurr) (0.15.1)
-Requirement already satisfied: future in /usr/local/lib/python3.6/dist-packages (from torch&gt;=1.3.0-&gt;fastai2-&gt;ohmeow-blurr) (0.16.0)
-Requirement already satisfied: click in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers-&gt;ohmeow-blurr) (7.1.2)
-Requirement already satisfied: decorator in /usr/local/lib/python3.6/dist-packages (from traitlets&gt;=4.1.0-&gt;ipykernel-&gt;ohmeow-blurr) (4.4.2)
-Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.6/dist-packages (from traitlets&gt;=4.1.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.2.0)
-Requirement already satisfied: jupyter-core&gt;=4.6.0 in /usr/local/lib/python3.6/dist-packages (from jupyter-client-&gt;ipykernel-&gt;ohmeow-blurr) (4.6.3)
-Requirement already satisfied: pyzmq&gt;=13 in /usr/local/lib/python3.6/dist-packages (from jupyter-client-&gt;ipykernel-&gt;ohmeow-blurr) (19.0.1)
-Requirement already satisfied: simplegeneric&gt;0.8 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.8.1)
-Requirement already satisfied: pygments in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (2.1.3)
-Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.4 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (1.0.18)
-Requirement already satisfied: pexpect; sys_platform != &#34;win32&#34; in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (4.8.0)
-Requirement already satisfied: pickleshare in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.7.5)
-Requirement already satisfied: importlib-metadata&gt;=0.20; python_version &lt; &#34;3.8&#34; in /usr/local/lib/python3.6/dist-packages (from catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.6.0)
-Requirement already satisfied: wcwidth in /usr/local/lib/python3.6/dist-packages (from prompt-toolkit&lt;2.0.0,&gt;=1.0.4-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.1.9)
-Requirement already satisfied: ptyprocess&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from pexpect; sys_platform != &#34;win32&#34;-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.6.0)
-Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from importlib-metadata&gt;=0.20; python_version &lt; &#34;3.8&#34;-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy-&gt;fastai2-&gt;ohmeow-blurr) (3.1.0)
-Requirement already satisfied: nlp in /usr/local/lib/python3.6/dist-packages (0.1.0)
-Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from nlp) (4.41.1)
-Requirement already satisfied: pyarrow&gt;=0.16.0 in /usr/local/lib/python3.6/dist-packages (from nlp) (0.17.1)
-Requirement already satisfied: requests&gt;=2.19.0 in /usr/local/lib/python3.6/dist-packages (from nlp) (2.23.0)
-Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from nlp) (1.18.4)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from nlp) (3.0.12)
-Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from nlp) (0.3.1.1)
-Requirement already satisfied: dataclasses; python_version &lt; &#34;3.7&#34; in /usr/local/lib/python3.6/dist-packages (from nlp) (0.7)
-Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (1.24.3)
-Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (2.9)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (2020.4.5.1)
-Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (3.0.4)
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -813,24 +719,6 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
 
 
 <div class="output_html rendered_html output_subarea ">
-
-    <div>
-        <style>
-            /* Turns off some styling */
-            progress {
-                /* gets rid of default border in Firefox and Opera. */
-                border: none;
-                /* Needs to be in here for Safari polyfill so background images work as expected. */
-                background-size: auto;
-            }
-            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-                background: #F44336;
-            }
-        </style>
-      <progress value="0" class="" max="1" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      0.00% [0/1 00:00&lt;00:00]
-    </div>
-    
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: left;">
@@ -841,34 +729,22 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>0</td>
+      <td>3.085961</td>
+      <td>2.904940</td>
+      <td>24:16</td>
+    </tr>
   </tbody>
-</table><p>
+</table>
+</div>
 
-    <div>
-        <style>
-            /* Turns off some styling */
-            progress {
-                /* gets rid of default border in Firefox and Opera. */
-                border: none;
-                /* Needs to be in here for Safari polyfill so background images work as expected. */
-                background-size: auto;
-            }
-            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-                background: #F44336;
-            }
-        </style>
-      <progress value="2423" class="" max="3588" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      67.53% [2423/3588 14:23&lt;06:55 3.0159]
-    </div>
-    
-&lt;/div&gt;
+</div>
 
-&lt;/div&gt;
+</div>
+</div>
 
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
+</div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
@@ -892,6 +768,53 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>target</th>
+      <th>prediction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(CNN) -- The 56th annual Grammy Awards were held in Los Angeles on Sunday night with performances from Lorde, Macklemore &amp; Ryan Lewis, Jay Z, Beyonce and more. Take a look at some of the top winners below:. Record of the year. "Get Lucky" -- Daft Punk featuring Pharrell Williams and Nile Rodgers -- WINNER. "Radioactive" -- Imagine Dragons. "Royals" -- Lorde. "Locked out of Heaven" -- Bruno Mars. "Blurred Lines" -- Robin Thicke featuring T.I. and Pharrell. Album of the year. "The Blessed Unrest" -- Sara Bareilles. "Random Access Memories" -- Daft Punk -- WINNER. "Good Kid, M.A.A.D City" -- Kendrick Lamar. "The Heist" -- Macklemore &amp; Ryan Lewis. "Red" -- Taylor Swift. 5 things we loved about the 2014 Grammys. Song of the year. "Just Give Me a Reason" -- P!nk featuring Nate Ruess. "Locked Out of Heaven" -- Bruno Mars. "Roar" -- Katy Perry. "Royals" -- Lorde -- WINNER. "Same Love" -- Macklemore &amp; Ryan Lewis. Best new artist. James Blake. Kendrick Lamar. Macklemore &amp; Ryan Lewis -- WINNER. Kacey Musgraves. Ed Sheeran. Best pop solo performance. Sara Bareilles -- "Brave" Lorde -- "Royals" -- WINNER. Bruno Mars -- "When I Was Your Man" Katy Perry -- "Roar" Justin Timberlake -- "Mirrors" Best pop duo/group performance. Daft Punk featuring Pharrell Williams and Nile Rodgers -- "Get Lucky" -- WINNER. P!nk featuring Nate Ruess -- "Just Give Me a Reason" Rihanna featuring Mikky Ekko -- "Stay" Robin Thicke featuring T.I. and Pharrell -- "Blurred Lines" Justin Timberlake and Jay Z -- "Suit &amp; Tie" Best pop instrumental album. Herb Alpert -- "Steppin' Out" -- WINNER. Boney James -- "The Beat" Earl Klugh -- "Handpicked" Dave Koz, Gerald Albright, Mindi Abair and Richard Elliot -- "Summer Horns" Jeff Lorber Fusion -- "Hacienda" Best pop vocal album. Lana Del Rey -- "Paradise" Lorde -- "Pure Heroine</td>
+      <td>Daft Punk were the big winners at the 56th annual Grammys.\nThe group won record of the year and album of the year.\nLorde won song of the year and best pop vocal.\nMacklemore &amp; Ryan Lewis were named best new artist.</td>
+      <td>The. Punk's named big winners. the Gramth annual Grammys. " Punk album won album of the year and album of the year.&lt;/s&gt;.orde won b</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,050 even before the Air Asia plane vanished. Two incidents involving Malaysia Airlines planes - one over eastern Ukraine and the other in the Indian Ocean - led to the deaths of 537 people, while an Air Algerie crash in Mali killed 116 and TransAsia Airways crash in Taiwan killed a further 49 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies, governments or organisations. Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months. The all-time deadliest year for aviation was 1972 when a staggering 2,429 people were killed in a total of 55 plane crashes - including the crash of Aeroflot Flight 217, which killed 174 people in Russia, and Convair 990 Coronado, which claimed 155 lives in Spain. However this year's total death count of 1,212, including those presumed dead on board the missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 - which led to it being named the safest year in aviation since the end of the Second World War. Scroll down for videos. Deadly: The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,158 even before the Air Asia plane (pictured) vanished. Fatal: Two incidents involving Malaysia Airlines planes - one over eastern Ukraine (pictured) and the other in the Indian Ocean - led to the deaths of 537 people. Surprising: Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949. 2014 has been a horrific year for Malaysia-based airlines, with 537 people dying on Malaysia Airlines planes, and a further 162 people missing and feared dead in this week's Air Asia incident. In total more than half the people killed in aviation incidents this year had been flying on board Malaysia-registered planes. In January a total of 12 people lost their lives in five separate incidents, while the same number of crashes in February killed 107. There were only three fatal incidents in March, but the still-unexplained incident</td>
+      <td>Including Air Asia plane, 1,212 people were killed in air crashes in 2014.\nIncidents involving Malaysia-based airlines  led to total of 699 fatalities.\nIn 2013 just 265 people were killed worldwide as a result of plane crashes.\nThat made last year the safest  in aviation since the Second World War.\nBut despite 2014's very high death toll, there were only 111 plane crashes.\nThat is the lowest number since commercial jet flights began in 1949.</td>
+      <td>&lt;s&gt;. Alger plane vanished carrying,212,, killed in 2014 crashes in 2014. But idents involving Malaysia Airlinesregistered airlines</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
     
 
@@ -909,7 +832,9 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_article</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_article</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,050 even before the Air Asia plane vanished. Two incidents involving Malaysia Airlines planes - one over eastern Ukraine and the other in the Indian Ocean - led to the deaths of 537 people, while an Air Algerie crash in Mali killed 116 and TransAsia Airways crash in Taiwan killed a further 49 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies, governments or organisations. Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months. The all-time deadliest year for aviation was 1972 when a staggering 2,429 people were killed in a total of 55 plane crashes - including the crash of Aeroflot Flight 217, which killed 174 people in Russia, and Convair 990 Coronado, which claimed 155 lives in Spain. However this year&#39;s total death count of 1,212, including those presumed dead on board the missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 - which led to it being named the safest year in aviation since the end of the Second World War. Scroll down for videos. Deadly: The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,158 even before the Air Asia plane (pictured) vanished. Fatal: Two incidents involving Malaysia Airlines planes - one over eastern Ukraine (pictured) and the other in the Indian Ocean - led to the deaths of 537 people. Surprising: Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949. 2014 has been a horrific year for Malaysia-based airlines, with 537 people dying on Malaysia Airlines planes, and a further 162 people missing and feared dead in this week&#39;s Air Asia incident. In total more than half the people killed in aviation incidents this year had been flying on board Malaysia-registered planes. In January a total of 12 people lost their lives in five separate incidents, while the same number of crashes in February killed 107. </span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 
     </div>
@@ -933,6 +858,28 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=== Prediction 1 ===
+The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies.
+
+=== Prediction 2 ===
+The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. But total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949.
+
+=== Prediction 3 ===
+The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft.
+
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -978,6 +925,22 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies.&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
     
 
@@ -990,10 +953,8 @@ Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3
 </div>
 </div>
 </div>
-&lt;/div&gt;
- 
+</div>
 
-</p></div></div></div></div></div></div>
 
 
   </div><!-- from https://github.com/utterance/utterances -->
