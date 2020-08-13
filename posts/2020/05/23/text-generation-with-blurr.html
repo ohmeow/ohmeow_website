@@ -179,11 +179,117 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># only run this cell if you are in collab</span>
-<span class="c1"># !pip install ohmeow-blurr</span>
-<span class="c1"># !pip install nlp</span>
+<span class="o">!</span>pip install ohmeow-blurr
+<span class="o">!</span>pip install nlp
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Requirement already satisfied: ohmeow-blurr in /usr/local/lib/python3.6/dist-packages (0.0.7)
+Requirement already satisfied: rouge-score in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.0.4)
+Requirement already satisfied: nlp in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.4.0)
+Requirement already satisfied: seqeval in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.0.12)
+Requirement already satisfied: transformers&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (3.0.2)
+Requirement already satisfied: ipykernel in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (4.10.1)
+Requirement already satisfied: fastai2 in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.0.25)
+Requirement already satisfied: fastcore in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (0.1.30)
+Requirement already satisfied: nltk in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (3.2.5)
+Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (1.18.5)
+Requirement already satisfied: absl-py in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (0.9.0)
+Requirement already satisfied: six&gt;=1.14.0 in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (1.15.0)
+Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (0.3.2)
+Requirement already satisfied: xxhash in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (2.0.0)
+Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (1.0.5)
+Requirement already satisfied: pyarrow&gt;=0.16.0 in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (1.0.0)
+Requirement already satisfied: dataclasses; python_version &lt; &#34;3.7&#34; in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (0.7)
+Requirement already satisfied: requests&gt;=2.19.0 in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (2.23.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (3.0.12)
+Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (4.41.1)
+Requirement already satisfied: Keras&gt;=2.2.4 in /usr/local/lib/python3.6/dist-packages (from seqeval-&gt;ohmeow-blurr) (2.4.3)
+Requirement already satisfied: sentencepiece!=0.1.92 in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.0.2-&gt;ohmeow-blurr) (0.1.91)
+Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.0.2-&gt;ohmeow-blurr) (2019.12.20)
+Requirement already satisfied: tokenizers==0.8.1.rc1 in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.0.2-&gt;ohmeow-blurr) (0.8.1rc1)
+Requirement already satisfied: sacremoses in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.0.2-&gt;ohmeow-blurr) (0.0.43)
+Requirement already satisfied: packaging in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.0.2-&gt;ohmeow-blurr) (20.4)
+Requirement already satisfied: tornado&gt;=4.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.1.1)
+Requirement already satisfied: ipython&gt;=4.0.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.5.0)
+Requirement already satisfied: traitlets&gt;=4.1.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (4.3.3)
+Requirement already satisfied: jupyter-client in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.3.5)
+Requirement already satisfied: pillow in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (7.0.0)
+Requirement already satisfied: pyyaml in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (3.13)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (0.22.2.post1)
+Requirement already satisfied: torchvision&gt;=0.7 in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (0.7.0+cu101)
+Requirement already satisfied: pip in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (19.3.1)
+Requirement already satisfied: spacy in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (2.2.4)
+Requirement already satisfied: torch&gt;=1.6.0 in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (1.6.0+cu101)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (3.2.2)
+Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (1.4.1)
+Requirement already satisfied: fastprogress&gt;=0.2.4 in /usr/local/lib/python3.6/dist-packages (from fastai2-&gt;ohmeow-blurr) (0.2.5)
+Requirement already satisfied: python-dateutil&gt;=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp-&gt;ohmeow-blurr) (2.8.1)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp-&gt;ohmeow-blurr) (2018.9)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (2.10)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (3.0.4)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (2020.6.20)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (1.24.3)
+Requirement already satisfied: h5py in /usr/local/lib/python3.6/dist-packages (from Keras&gt;=2.2.4-&gt;seqeval-&gt;ohmeow-blurr) (2.10.0)
+Requirement already satisfied: joblib in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers&gt;=3.0.2-&gt;ohmeow-blurr) (0.16.0)
+Requirement already satisfied: click in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers&gt;=3.0.2-&gt;ohmeow-blurr) (7.1.2)
+Requirement already satisfied: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.6/dist-packages (from packaging-&gt;transformers&gt;=3.0.2-&gt;ohmeow-blurr) (2.4.7)
+Requirement already satisfied: setuptools&gt;=18.5 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (49.2.0)
+Requirement already satisfied: pexpect; sys_platform != &#34;win32&#34; in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (4.8.0)
+Requirement already satisfied: pygments in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (2.1.3)
+Requirement already satisfied: pickleshare in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.7.5)
+Requirement already satisfied: simplegeneric&gt;0.8 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.8.1)
+Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.4 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (1.0.18)
+Requirement already satisfied: decorator in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (4.4.2)
+Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.6/dist-packages (from traitlets&gt;=4.1.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.2.0)
+Requirement already satisfied: pyzmq&gt;=13 in /usr/local/lib/python3.6/dist-packages (from jupyter-client-&gt;ipykernel-&gt;ohmeow-blurr) (19.0.2)
+Requirement already satisfied: jupyter-core&gt;=4.6.0 in /usr/local/lib/python3.6/dist-packages (from jupyter-client-&gt;ipykernel-&gt;ohmeow-blurr) (4.6.3)
+Requirement already satisfied: plac&lt;1.2.0,&gt;=0.9.6 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.1.3)
+Requirement already satisfied: thinc==7.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (7.4.0)
+Requirement already satisfied: catalogue&lt;1.1.0,&gt;=0.0.7 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.0.0)
+Requirement already satisfied: blis&lt;0.5.0,&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (0.4.1)
+Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (3.0.2)
+Requirement already satisfied: srsly&lt;1.1.0,&gt;=1.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.0.2)
+Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (2.0.3)
+Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.0.2)
+Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai2-&gt;ohmeow-blurr) (0.7.1)
+Requirement already satisfied: future in /usr/local/lib/python3.6/dist-packages (from torch&gt;=1.6.0-&gt;fastai2-&gt;ohmeow-blurr) (0.16.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai2-&gt;ohmeow-blurr) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai2-&gt;ohmeow-blurr) (0.10.0)
+Requirement already satisfied: ptyprocess&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from pexpect; sys_platform != &#34;win32&#34;-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.6.0)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.6/dist-packages (from prompt-toolkit&lt;2.0.0,&gt;=1.0.4-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.2.5)
+Requirement already satisfied: importlib-metadata&gt;=0.20; python_version &lt; &#34;3.8&#34; in /usr/local/lib/python3.6/dist-packages (from catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy-&gt;fastai2-&gt;ohmeow-blurr) (1.7.0)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from importlib-metadata&gt;=0.20; python_version &lt; &#34;3.8&#34;-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy-&gt;fastai2-&gt;ohmeow-blurr) (3.1.0)
+Requirement already satisfied: nlp in /usr/local/lib/python3.6/dist-packages (0.4.0)
+Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from nlp) (1.18.5)
+Requirement already satisfied: pyarrow&gt;=0.16.0 in /usr/local/lib/python3.6/dist-packages (from nlp) (1.0.0)
+Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from nlp) (1.0.5)
+Requirement already satisfied: xxhash in /usr/local/lib/python3.6/dist-packages (from nlp) (2.0.0)
+Requirement already satisfied: requests&gt;=2.19.0 in /usr/local/lib/python3.6/dist-packages (from nlp) (2.23.0)
+Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from nlp) (4.41.1)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from nlp) (3.0.12)
+Requirement already satisfied: dataclasses; python_version &lt; &#34;3.7&#34; in /usr/local/lib/python3.6/dist-packages (from nlp) (0.7)
+Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from nlp) (0.3.2)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp) (2018.9)
+Requirement already satisfied: python-dateutil&gt;=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp) (2.8.1)
+Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (2.10)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (1.24.3)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (2020.6.20)
+Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (3.0.4)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil&gt;=2.6.1-&gt;pandas-&gt;nlp) (1.15.0)
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -233,7 +339,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;cnn_dailymail&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;cnn_dailymail&#39;</span><span class="p">,</span> <span class="s1">&#39;3.0.0&#39;</span><span class="p">)</span>
 <span class="n">raw_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 
@@ -249,7 +355,7 @@ window.onload = wrap_img;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>dict_keys([&#39;test&#39;, &#39;train&#39;, &#39;validation&#39;])</pre>
+<pre>dict_keys([&#39;train&#39;, &#39;validation&#39;, &#39;test&#39;])</pre>
 </div>
 
 </div>
@@ -309,33 +415,39 @@ window.onload = wrap_img;
       <th></th>
       <th>article</th>
       <th>highlights</th>
+      <th>id</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>(CNN) -- A blowout preventer that may hold important forensic evidence as to why it failed, triggering the world's largest accidental oil spill, has been brought to the surface of the Gulf and placed on a vessel, officials said Saturday night. The device "was taken into custody by the U.S. Department of Justice as evidence in its ongoing investigation into the incident," BP said. The blowout preventer was lifted to the surface at 8:53 p.m. (9:53 p.m. ET). Adm. Thad Allen, the government's national incident commander, said the huge blowout preventer "is considered evidentiary material." The...</td>
-      <td>NEW: The failed blowout preventer is brought to the surface .\nA new blowout preventer has been placed on the capped well .\nBP will continue work on its Gulf relief well .</td>
+      <td>It's official: U.S. President Barack Obama wants lawmakers to weigh in on whether to use military force in Syria. Obama sent a letter to the heads of the House and Senate on Saturday night, hours after announcing that he believes military action against Syrian targets is the right step to take over the alleged use of chemical weapons. The proposed legislation from Obama asks Congress to approve the use of military force "to deter, disrupt, prevent and degrade the potential for future uses of chemical weapons or other weapons of mass destruction." It's a step that is set to turn an internat...</td>
+      <td>Syrian official: Obama climbed to the top of the tree, "doesn't know how to get down"\nObama sends a letter to the heads of the House and Senate .\nObama to seek congressional approval on military action against Syria .\nAim is to determine whether CW were used, not by whom, says U.N. spokesman .</td>
+      <td>0001d1afc246a7964130f43ae940af6bc6c57f01</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>(CNN) -- A controversial photography exhibit called "In the Playroom" depicts young children reenacting tragic and violent historical events, including the September 11 attacks and the abuse of inmates at Iraq's infamous Abu Ghraib prison. The artist, Jonathan Hobin, says his work is an attempt to reflect on modern events that affect children and prompt dialogue about "issues in our world." But the photos have also drawn criticism from those who say Hobin's use of artistic license involving children crosses an ethical boundary. "Some of it is appropriate," said psychiatrist Alvin Poussaint...</td>
-      <td>Exhibit "In the Playroom" depicts young children re-enacting violent events .\nPhotographer Jonathan Hobin says it reflects on modern events that affect children .\nHe says the exhibit is supposed to prompt dialogue about "issues in our world"\nThe photos have drawn criticism from those who say it crosses an ethical line .</td>
+      <td>(CNN) -- Usain Bolt rounded off the world championships Sunday by claiming his third gold in Moscow as he anchored Jamaica to victory in the men's 4x100m relay. The fastest man in the world charged clear of United States rival Justin Gatlin as the Jamaican quartet of Nesta Carter, Kemar Bailey-Cole, Nickel Ashmeade and Bolt won in 37.36 seconds. The U.S finished second in 37.56 seconds with Canada taking the bronze after Britain were disqualified for a faulty handover. The 26-year-old Bolt has now collected eight gold medals at world championships, equaling the record held by American trio...</td>
+      <td>Usain Bolt wins third gold of world championship .\nAnchors Jamaica to 4x100m relay victory .\nEighth gold at the championships for Bolt .\nJamaica double up in women's 4x100m relay .</td>
+      <td>0002095e55fcbd3a2f366d9bf92a95433dc305ef</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>(CNN)Wintry weather is a relative thing. The Northeast is on alert -- urging drivers to stay off roads -- as the fourth storm in three weeks drops snow that in Boston has exceeded 45 inches in February alone. It takes a fraction of that to get residents in the South into emergency mode. Sometimes, it doesn't even have to snow -- just the possibility of wintry weather is enough for a partial shutdown. "Wintry precipitation possible" early this week, the National Weather Service in Atlanta said. The Weather Service issued a winter storm watch for northern Georgia, warning of potential snow a...</td>
-      <td>Winter storm watch in effect for parts of the South .\nJust a little snow or ice can be enough to cause havoc .</td>
+      <td>Kansas City, Missouri (CNN) -- The General Services Administration, already under investigation for lavish spending, allowed an employee to telecommute from Hawaii even though he is based at the GSA's Kansas City, Missouri, office, a CNN investigation has found. It cost more than $24,000 for the business development specialist to travel to and from the mainland United States over the past year. He is among several hundred GSA "virtual" workers who also travel to various conferences and their home offices, costing the agency millions of dollars over the past three years. Under the program, ...</td>
+      <td>The employee in agency's Kansas City office is among hundreds of "virtual" workers .\nThe employee's travel to and from the mainland U.S. last year cost more than $24,000 .\nThe telecommuting program, like all GSA practices, is under review .</td>
+      <td>00027e965c8264c35cc1bc55556db388da82b07f</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>(CNN) -- U.S. Sgt. Bowe Bergdahl -- a former captive, a survivor and a hometown hero to many in Hailey, Idaho -- is being accused by some of his fellow soldiers of deserting his post. This charge of treason will be proven or dismissed in the coming weeks and months. But whether it is true or not, and whether he faces official military charges, he has already been sentenced to life to be haunted by his captivity -- and if the allegations are true, his choices. Survivors of the Hanoi Hilton, POWs during Vietnam such as Sen. John McCain and Medal of Honor winner Adm. James Stockdale, endured ...</td>
-      <td>Bowe Bergdahl a "hometown hero" in Hailey, Idaho, and a "deserter" to some soldiers .\nO'Shea: He learned Pashtun; building rapport with captors is critical to survival as a hostage .\nHe says Bergdahl probably wondered each day if this would be his last .\nTo break vow to fellow soldiers is terrible: If he indeed deserted, that will haunt him, too .</td>
+      <td>Los Angeles (CNN) -- A medical doctor in Vancouver, British Columbia, said Thursday that California arson suspect Harry Burkhart suffered from severe mental illness in 2010, when she examined him as part of a team of doctors. Dr. Blaga Stancheva, a family physician and specialist in obstetrics, said both Burkhart and his mother, Dorothee, were her patients in Vancouver while both were applying for refugee status in Canada. "I was asked to diagnose and treat Harry to support a claim explaining why he was unable to show up in a small-claims court case," Stancheva told CNN in a phone intervie...</td>
+      <td>NEW: A Canadian doctor says she was part of a team examining Harry Burkhart in 2010 .\nNEW: Diagnosis: "autism, severe anxiety, post-traumatic stress disorder and depression"\nBurkhart is also suspected in a German arson probe, officials say .\nProsecutors believe the German national set a string of fires in Los Angeles .</td>
+      <td>0002c17436637c4fe1837c935c04de47adb18e9a</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>(CNN) -- Rafael Nadal continued his domination on clay as he crushed compatriot Guillermo Garcia-Lopez 6-1, 6-2 in the second round of the Barcelona Open. The Spaniard carved out 15 break points during the match, polishing off Garcia-Lopez in just over 80 minutes. It was Nadal's 30th straight victory at the event, where he has won six of the last seven titles at the Real Club de Tennis. Nadal has started the season in ominous form. After battling back from a serious knee injury, the world number two won his first title in ten months last week after finally beating rival -- and world number...</td>
-      <td>World number two Rafael Nadal starts with win at Barcelona Open .\nReigning champion enjoys 30th straight victory in the tournament .\nFormer world number one Ana Ivanovic loses to qualifier in Stuttgart .\nGerman Mona Barthel watched Ivanovic win French Open whilst at school .</td>
+      <td>(CNN) -- Police arrested another teen Thursday, the sixth suspect jailed in connection with the gang rape of a 15-year-old girl on a northern California high school campus. Jose Carlos Montano, 18, was arrested on charges of felony rape, rape in concert with force, and penetration with a foreign object, said Richmond Police Lt. Mark Gagan. Montano was arrested Thursday evening in San Pablo, California, a small town about two miles from the city of Richmond, where the crime took place. Montano, who was held in lieu of $1.3 million bail, is accused of taking part in what police said was a 2½...</td>
+      <td>Another arrest made in gang rape outside California school .\nInvestigators say up to 20 people took part or stood and watched the assault .\nFour suspects appeared in court Thursday; three wore bulletproof vests .</td>
+      <td>0003ad6ef0c37534f80b55b4235108024b407f0b</td>
     </tr>
   </tbody>
 </table>
@@ -364,12 +476,11 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pretrained_model_name</span> <span class="o">=</span> <span class="s2">&quot;bart-large-cnn&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pretrained_model_name</span> <span class="o">=</span> <span class="s2">&quot;facebook/bart-large-cnn&quot;</span>
+<span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_config</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">hf_model</span> <span class="o">=</span> <span class="n">BLURR_MODEL_HELPER</span><span class="o">.</span><span class="n">get_hf_objects</span><span class="p">(</span><span class="n">pretrained_model_name</span><span class="p">,</span> 
+                                                                               <span class="n">model_cls</span><span class="o">=</span><span class="n">BartForConditionalGeneration</span><span class="p">)</span>
 
-<span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">hf_config</span><span class="p">,</span> <span class="n">hf_model</span> <span class="o">=</span> \
-    <span class="n">BLURR_MODEL_HELPER</span><span class="o">.</span><span class="n">get_hf_objects</span><span class="p">(</span><span class="n">pretrained_model_name</span><span class="p">,</span> <span class="n">BartTokenizer</span><span class="p">,</span> <span class="n">HF_MODELS</span><span class="o">.</span><span class="n">BartForConditionalGeneration</span><span class="p">)</span>
-
-<span class="n">hf_arch</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">hf_tokenizer</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">hf_config</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">hf_model</span><span class="p">)</span>
+<span class="n">hf_arch</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">hf_config</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">hf_tokenizer</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">hf_model</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -381,12 +492,21 @@ window.onload = wrap_img;
 
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Some weights of BartForConditionalGeneration were not initialized from the model checkpoint at facebook/bart-large-cnn and are newly initialized: [&#39;final_logits_bias&#39;]
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>(&#39;bart&#39;,
- transformers.tokenization_bart.BartTokenizer,
  transformers.configuration_bart.BartConfig,
+ transformers.tokenization_bart.BartTokenizer,
  transformers.modeling_bart.BartForConditionalGeneration)</pre>
 </div>
 
@@ -401,7 +521,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next we need to build out our DataBlock.  Remember tha a DataBlock is a blueprint describing how to move your raw data into something modelable.  That blueprint is executed when we pass it a data source, which in our case, will be the DataFrame we created above. We'll use a random subset to get things moving along a bit faster for the demo as well.</p>
-<p>Notice we're specifying <code>trg_max_length</code> to constrain our decoder inputs to 250 so that our input/predicted summaries will be padded to 250 rather than the default which is whatever you are using for your encoder inputs (e.g., the text you want summarized).</p>
+<p>Notice we're specifying <code>max_length</code> to constrain our decoder inputs to 150 so that our input/predicted summaries will be padded to 150 rather than the default which is whatever you are using for your encoder inputs (e.g., the text you want summarized).</p>
 
 </div>
 </div>
@@ -413,15 +533,17 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blocks</span> <span class="o">=</span> <span class="p">(</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hf_batch_tfm</span> <span class="o">=</span> <span class="n">HF_TextGenerationBatchTransform</span><span class="p">(</span><span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">)</span>
+
+<span class="n">blocks</span> <span class="o">=</span> <span class="p">(</span> 
     <span class="n">HF_TextBlock</span><span class="p">(</span><span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">),</span> 
-    <span class="n">HF_TextBlock</span><span class="p">(</span><span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="n">ForConditionalGenerationTask</span><span class="p">(),</span> <span class="n">trg_max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+    <span class="n">HF_TextBlock</span><span class="p">(</span><span class="n">hf_arch</span><span class="p">,</span> <span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">hf_batch_tfm</span><span class="o">=</span><span class="n">hf_batch_tfm</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
 <span class="p">)</span>
 
 <span class="n">dblock</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span> 
                    <span class="n">get_x</span><span class="o">=</span><span class="n">ColReader</span><span class="p">(</span><span class="s1">&#39;article&#39;</span><span class="p">),</span> 
                    <span class="n">get_y</span><span class="o">=</span><span class="n">ColReader</span><span class="p">(</span><span class="s1">&#39;highlights&#39;</span><span class="p">),</span> 
-                   <span class="n">splitter</span><span class="o">=</span><span class="n">RandomSubsetSplitter</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+                   <span class="n">splitter</span><span class="o">=</span><span class="n">RandomSubsetSplitter</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -438,7 +560,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">dataloaders</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span> <span class="o">=</span> <span class="n">dblock</span><span class="o">.</span><span class="n">dataloaders</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -463,7 +585,7 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">dls</span><span class="o">.</span><span class="n">one_batch</span><span class="p">()</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;input_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -478,7 +600,7 @@ window.onload = wrap_img;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(2, torch.Size([4, 512]), torch.Size([4, 250]))</pre>
+<pre>(2, torch.Size([2, 512]), torch.Size([2, 150]))</pre>
 </div>
 
 </div>
@@ -528,13 +650,13 @@ window.onload = wrap_img;
   <tbody>
     <tr>
       <th>0</th>
-      <td>Mauricio Pochettino might want to look up that old saying about houses built on sand. It might just ring a Christmas bell or two regarding a side who are reasonably capable of scoring but need some pointers on how to defend. That much was obvious here in a performance of numerous back-line errors that had to be redeemed by goals 85 minutes apart. Leading after four minutes through Harry Kane, Tottenham spent large swathes of what remained hanging on. Had Wilfried Bony made more of the space he was repeatedly afforded by Federico Fazio, this might have been a different result altogether. Tottenham Hotspur midfielder Christian Eriksen celebrates scoring an 89th-minute winner at the Liberty Stadium against Swansea City. Tottenham's Harry Kane (left), Eriksen (centre) and Jan Vertonghen (right) celebrate their 89th-minute winner on Sunday. Christian Eriksen (left) scores a late winner for Tottenham Hotspur as they took all three points away from the Liberty Stadium. Swansea City's (from left) Ashley Williams, Gylfi Sigurdsson, Jonjo Shelvey and Ki Sung-yueng look devastated after conceding late on. Harry Kane clinches his first in celebration after putting Tottenham Hotspur 1-0 ahead against Swansea City at the Liberty Stadium. Kane (centre) leaps above the Swansea defence to power a header into the back of the net in just the fourth minute of the game. The Tottenham forward clenches his fist in celebration and runs off into the corner after opening the scoring on Sunday. Kane (centre, obscured) is congratulated by team-mates after opening the scoring at the Liberty Stadium on Sunday. Instead, Bony scored only once and Tottenham rode a Swansea storm until Christian Eriksen picked their pocket at the other end. As Swansea manager Garry Monk put it: ‘It would have been stopped in the second half if it was a boxing match.’ Pochettino, meanwhile, was asked if there was a Spanish phrase for ‘smash and grab’, but he didn’t understand the question. Instead he focused on the ‘positives’, which in this case meant a first win in three league games and a tribute to the team’s spirit. Certainly, there was no shortage of application from Tottenham’s players when the going got tough and that has not always been the case in this strange season. SWANSEA CITY (4-2-3-1): Tremmel 6;</td>
-      <td>Harry Kane opens the scoring for Tottenham Hotspur with a header after only four minutes at the Liberty Stadium.\nWilfried Bony equalises for Swansea City (48mins) on his 50th Premier League appearance for the club.\nChristian Eriksen scores late winner for Spurs with a shot from just inside the penalty area.\nSpurs move up to seventh in the table and leapfrog the Swans, who now sit ninth in the Premier League.</td>
+      <td>'The West Ham way was beating Manchester United 4-0 on a snowy December night in 2010'... Click here to read our blogger's view on exactly what constitutes the 'West Ham way' West Ham co-chairman David Sullivan has hit back at Sir Alex Ferguson’s claims in his updated autobiography that he doesn’t know what the "West Ham way" is. Ferguson wrote, in updated chapters of his book, that he didn't understand the phrase, before going on to claim that the West Ham squad is 'a team of very average players' helped by Sam Allardyce. But Sullivan has hit back by saying that the Hammers – who play Manchester City on Saturday and are fourth in the Premier League – are playing attacking football that fans want to see. Aaron Cresswell leads the celebrations after Diafra Sakho scored for West Ham against Burnley. Sam Allardyce pumps his fist in celebration at the travelling West Ham fans. David Sullivan (right), pictured alongside co-owner David Gold, has hit back at Sir Alex Ferguson's claims. Writing in the West Ham programme, Sullivan said: 'I read an article this week in which Sir Alex Ferguson said he was not sure what the "West Ham Way" was. 'Personally I think what we are witnessing right now is exactly that. We are playing attacking football with everybody giving 100 per cent and we are getting results at the same time. 'Our strikers have scored nine times this season and given us what we sorely lacked last year - goals.' West Ham have won five of their first nine Premier League matches this season, beating Liverpool and Manchester City in the process, and are unlikely occupants of a top-four position.</td>
+      <td>Sir Alex Ferguson claims he does not understand the 'West Ham way'\nWriting in updated chapters of his book, Ferguson also stated that West Ham have 'a team of very average players'\nWest Ham co-chairman has hit back in his programme notes.\nThe Hammers beat Manchester City at Upton Park on Saturday afternoon.</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>USA are on the verge of qualifying for the last-16 of the World Cup after a dramatic draw 2-2 with Portugal on Sunday. Jurgen Klinsmann's side had led the game until injury time before a last-gasp equaliser from Silvestre Varela delayed their passage into the second round. Either way it has been a superb tournament so far for the Americans, who also beat Ghana 2-1 in their opening game, now Sportsmail takes a look at the men who have taken them this far in Brazil. Soccer stars: USA are on the verge of qualification to the last-16 of the World Cup. Tim Howard – Everton. Born: New Jersey, March 6, 1979 (35) Clubs: North Jersey Imperials, Metrostars, Manchester United, Everton. Education: Raised in North Brunswick, one of the USA’s most successful exports in fact spent his formative years as a midfield player, balancing his talent for soccer with his obsession with basketball. Howard, affectionately known as Timmy by those who know him, was a teenage sensation on the court. His basketball coach Eddie Breheney recently told CBS: ‘Timmy’s athletic ability as a high school student was really off the charts. His agility, his hand-eye coordination, his stamina and just his love and passion for the game.’ By the age of 15, though, Howard was in goal for the USA youth teams and emerged as the nation’s most exciting young player, wining the MLS goalkeeper of the year award in 2001 and then earning a move to Manchester United in 2003. Value: £3million. All smiles: Tim Howard acknowledges the US fans after their 2-2 draw with Portugal. Geoff Cameron – Stoke City. Born: Massachusetts, 07/11/1985 (28) Clubs: Rhode Island Stingrays, Houston Dynamo, Stoke City. Education: After emerging into the MLS draft from the University of Rhode Island, Cameron was plucked out by Houston Dynamo. The versatile Stoke defender, a hero for many young soccer fans in the States, recently reflected on the rise of the game in an interview with the Providence Journal: ‘In Europe, in South America, in Africa — just about everywhere else in the world — most kids grow up playing soccer,’ he said. ‘But there are so many other sports in America. There’s the NFL, the NBA, MLB, the NHL, and they’re all full of great</td>
-      <td>USA are on the verge of qualifying for last 16 of the World Cup.\nThey beat Ghana 2-1 in their opening game before drawing 2-2 with Portugal.\nA point against Germany in their final game will secure qualification.</td>
+      <td>By. Sarah Griffiths. Most of us take telling the time for granted. But for visually impaired people it can be a real struggle and sometimes a speaking clock just isn’t practical. However, a new tactile watch is about to hit the shops that lets people tell the time just by touching it – and it’s so stylish that many people with perfect vision are also ordering one for themselves. The Bradley Timepiece has a minimalistic titanium face with gently protruding markings, but no numbers or hands. Scroll down for video. It's about time! The Bradley Timepiece (pictured left) lets people tell the time using their sense of touch. It is named after Paralympic gold medal winner Bradley Snyder (pictured right) and features two distinctive grooves with ball bearings set inside them that denote the minutes and hours of the day. Instead of traditional watch hands, time is indicated by two ball bearings. The one towards the centre of the watch indicates the passing minutes and one marking the hours is positioned on the side. The ball bearings are connected to a watch movement beneath the casing with magnets. If the ball bearings are pressed a little too hard and are moved accidently, a user can shake their wrist and they spring back to show the correct time. Its unique feature is two ball bearings set into grooves that people can touch to tell the time. The ball in the central groove rotates to mark the minutes, while another set into the side of the timepiece travels round the face to denote the hours. Designer Hyungsoo Kim, CEO of E-onetime, which is based in Washington DC, designed the quirky timepiece while he was a student at MIT. ‘Most clocks and watches require vision and checking the time is still a big problem if you're visually impaired. We wanted to develop a timepiece where you can touch time,’ he said. ‘This is a timepiece and not a watch because you don’t have to watch this to tell the time.’ Touch the time: As well as helping visually impaired people live independently Mr Kim explained it's been a hit with people with perfect sight too. There are occasions - from lectures and job interviews to dinner with the in-laws - when looking at a watch is considered rude and telling the time by touch solves that problem, he said. Because of its striking design, the timepiece is proving a hit with everyone and Mr Kim explained that there are so many occasions – from lectures and job interviews to dinner with</td>
+      <td>The Bradley Timepiece has a minimalistic titanium face with gently protruding markings, but no numbers and no hands.\nTwo magnetic ball bearings denote the hours and minutes of the day by moving around the tactile timepiece.\nIt is named after Paralympic swimmer Bradley Snyder who won two gold medals and a silver in the 2012 Games.\nThe 'watch' goes on sale in the U.S. in May and will launch in the UK and Europe afterwards at around $275 (£164)\nBack to Mail Online home.\nBack to the page you came from.</td>
     </tr>
   </tbody>
 </table>
@@ -570,43 +692,8 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">HF_TextGenerationModelWrapper</span><span class="p">(</span><span class="n">hf_model</span><span class="p">)</span>
-
-<span class="n">learn</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">dls</span><span class="p">,</span> 
-                <span class="n">model</span><span class="p">,</span>
-                <span class="n">opt_func</span><span class="o">=</span><span class="n">ranger</span><span class="p">,</span>
-                <span class="n">loss_func</span><span class="o">=</span><span class="n">CrossEntropyLossFlat</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="n">hf_tokenizer</span><span class="o">.</span><span class="n">pad_token_id</span><span class="p">),</span>
-                <span class="n">cbs</span><span class="o">=</span><span class="p">[</span><span class="n">HF_BaseModelCallback</span><span class="p">],</span>
-                <span class="n">splitter</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">text_gen_splitter</span><span class="p">,</span> <span class="n">arch</span><span class="o">=</span><span class="n">hf_arch</span><span class="p">))</span><span class="c1">#.to_fp16()</span>
-
-<span class="n">learn</span><span class="o">.</span><span class="n">create_opt</span><span class="p">()</span> 
-<span class="n">learn</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It's also not a bad idea to run a batch through your model and make sure the shape of what goes in, and comes out, looks right.</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">dls</span><span class="o">.</span><span class="n">one_batch</span><span class="p">()</span>
-<span class="n">preds</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">preds</span><span class="p">),</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">text_gen_kwargs</span> <span class="o">=</span> <span class="p">{</span> <span class="o">**</span><span class="n">hf_config</span><span class="o">.</span><span class="n">task_specific_params</span><span class="p">[</span><span class="s1">&#39;summarization&#39;</span><span class="p">],</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;max_length&#39;</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span> <span class="s1">&#39;min_length&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span> <span class="p">}</span>
+<span class="n">text_gen_kwargs</span>
 </pre></div>
 
     </div>
@@ -621,17 +708,44 @@ window.onload = wrap_img;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(2,
- 4,
- torch.Size([4, 512]),
- 4,
- torch.Size([4, 250]),
- 2,
- torch.Size([4, 250, 50264]))</pre>
+<pre>{&#39;early_stopping&#39;: True,
+ &#39;length_penalty&#39;: 2.0,
+ &#39;max_length&#39;: 130,
+ &#39;min_length&#39;: 30,
+ &#39;no_repeat_ngram_size&#39;: 3,
+ &#39;num_beams&#39;: 4}</pre>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">HF_BaseModelWrapper</span><span class="p">(</span><span class="n">hf_model</span><span class="p">)</span>
+<span class="n">model_cb</span> <span class="o">=</span> <span class="n">HF_TextGenModelCallback</span><span class="p">(</span><span class="n">text_gen_kwargs</span><span class="o">=</span><span class="n">text_gen_kwargs</span><span class="p">)</span>
+
+<span class="n">learn</span> <span class="o">=</span> <span class="n">Learner</span><span class="p">(</span><span class="n">dls</span><span class="p">,</span> 
+                <span class="n">model</span><span class="p">,</span>
+                <span class="n">opt_func</span><span class="o">=</span><span class="n">ranger</span><span class="p">,</span>
+                <span class="n">loss_func</span><span class="o">=</span><span class="n">HF_MaskedLMLoss</span><span class="p">(),</span>
+                <span class="n">cbs</span><span class="o">=</span><span class="p">[</span><span class="n">model_cb</span><span class="p">],</span>
+                <span class="n">splitter</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">text_gen_splitter</span><span class="p">,</span> <span class="n">arch</span><span class="o">=</span><span class="n">hf_arch</span><span class="p">))</span><span class="c1">#.to_fp16()</span>
+
+<span class="n">learn</span><span class="o">.</span><span class="n">create_opt</span><span class="p">()</span> 
+<span class="n">learn</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -676,7 +790,7 @@ window.onload = wrap_img;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>SuggestedLRs(lr_min=0.02089296132326126, lr_steep=6.309573450380412e-07)</pre>
+<pre>SuggestedLRs(lr_min=0.0002511886414140463, lr_steep=7.585775847473997e-07)</pre>
 </div>
 
 </div>
@@ -686,8 +800,52 @@ window.onload = wrap_img;
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYIAAAEKCAYAAAAfGVI8AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjEsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+j8jraAAAgAElEQVR4nO3deXxU5fX48c+ZyU42IGFJwk5YAwkYFsUVQakLoFbUWtta19aqrd/W1tZa9ddabetSq1axi7buKyJuRQVRlCVA2Pc1rEmAhATINvP8/phJCGGSTJK5mcnc83695uXkzp07J2OYM89znkWMMSillLIvR7ADUEopFVyaCJRSyuY0ESillM1pIlBKKZvTRKCUUjaniUAppWwuItgBtFRKSorp27dvsMNQSqkOZdmyZcXGmFRfj3W4RNC3b1/y8vKCHYZSSnUoIrKzsce0a0gppWxOE4FSStmcJgKllLI5TQRKKWVzmgiUUsrmNBEopZTN2TYRrCwooayiOthhKKVU0HW4eQSBsGH/EaY9vZDoCAcTh3TjkpFpXDi8OxFO2+ZFpZSN2fKT78jxGgDG9+9K3s7D3PbKcp6etzXIUSmlVHDYMhHUuN0A/OjcASy653zG9O3MJ2v3BzkqpZQKDnsmApdne84Ih+B0COcO7sa6fUcoLKsIcmRKKdX+bJkIXG5PInA6BIBzBnnWYfpyU3HQYlJKqWCxZSKo8SaCSG9xeFjPRFLio1iwuSiYYSmlVFDYMxG4PDWC2haBwyGclZnKl5uLcXuThFJK2YU9E4H7RI2g1tmDUjh0tIo1e0uDFZZSSgWFLRNBwxoBwFmZnjrBgk3aPaSUshdbJoKGNQKAlPhostIT+UITgVLKZuyZCBrUCGqdnZnK8l0lHNGlJ5RSNmLPROCjRgCeYaQut+HrLQeDEZZSSgWFLROBrxoBwOg+nYmPjtDuIaWUrdgyEdS1CBosMhfpdDCuXxcWb9MWgVLKPuyZCLw1goZdQ+BpFWwrPsrho1XtHZZSSgWFPRNBI11DAKN7dwZgRcHhdo1JKaWCxbJEICIxIrJERFaKyFoRecDHOY+LSL73tklESqyKpz6Xj+GjtbJ7JeF0CMt3tksoSikVdFZuTFMJTDTGlItIJPCViHxkjFlUe4Ix5me190XkdmCUhfHUqe0a8tEgIC4qgiE9Eli+S1sESil7sKxFYDzKvT9Gem9NLeRzDfCqVfHUV+M2RDgEER+ZAE/30MqCkrqWg1JKhTNLawQi4hSRfKAQmGuMWdzIeX2AfsDnjTx+s4jkiUheUVHbh3a63MZnfaDW6D7JHK1ysXF/WZtfSymlQp2licAY4zLG5AAZwFgRyWrk1KuBt4wxrkauM9MYk2uMyU1NTW1zXDVu47M+UKu2YKzdQ0opO2iXUUPGmBJgHjClkVOupp26hcBTI2iqRdC7SxxdO0VpIlBK2YKVo4ZSRSTZez8WmAxs8HHeEKAz8I1VsTRUWyNojIgwqndnVuzSkUNKqfBnZYugJzBPRFYBS/HUCOaIyIMiMrXeeVcDrxlj2q0y21yNADx1gu3FRzmkE8uUUmHOsuGjxphV+BgOaoy5r8HP91sVQ2OqXU3XCOBEnSC/4DATh3Rvj7CUUioobDmz2OVuukYAMDJDJ5YppezBlomguRoBeCaWDe2pE8uUUuHPlonA5TZEOJtOBODpHsovKKGyxueoVqWUCgu2TATVLoPT0fyvPnFIN45VuZi/UfcnUEqFL1smApfb3WzXEMCZA1Po2imK2fl72yEqpZQKDlsmgho/ho+CZ+OaS0b25NP1ByjTfYyVUmHKlonA5TZE+lEjAJiak05ljZtP1h6wOCqllAoOWyaCGpd/LQKA0b2T6dUllvfy91gclVJKBYc9E4HbTYQfxWLwLDcxLTudhVuKKSyrsDgypZRqf7ZMBP4OH601fVQabgNzVu6zMCqllAoOWyaCalfzE8rqG9gtgWE9E3lvpY4eUkqFH1smAn8WnWto+qg0VhaUsOvgMYuiUkqp4LBlImhJjaDW+P5dAdiw/4gVISmlVNDYMhG0tEYAkJ4cC8CekuNWhKSUUkFjy0RQ3YLho7W6dIoiJtLBnsOaCJRS4cWWicDlx+qjDYkI6cmx2iJQSoUdWyYCzxITLf/V0zvHaSJQSoUdWyYCl9vt9xIT9aUnx2rXkFIq7NgyEbRkiYn6MjrHcvBoFcerdH8CpVT4sGciaEWNAHTkkFIqPNkyEXiGj7amRqCJQCkVfmyZCKr93JimoboWgdYJlFJhxLJEICIxIrJERFaKyFoReaCR82aIyDrvOa9YFU8tt9tgDK2qEXRPjCHCIewp0WUmlFLhI8LCa1cCE40x5SISCXwlIh8ZYxbVniAimcA9wARjzGER6WZhPICnPgC0qkXgdAg9kmK0RaCUCiuWJQJjjAHKvT9Gem+mwWk3AU8bYw57n1NoVTy1XLWJoBU1AkAnlSmlwo6lNQIRcYpIPlAIzDXGLG5wyiBgkIgsFJFFIjKlkevcLCJ5IpJXVFTUppiq3W6gdS0C8BSMtUWglAonliYCY4zLGJMDZABjRSSrwSkRQCZwLnAN8LyIJPu4zkxjTK4xJjc1NbVNMblcnhZBa2oEABnJsew/UkG1y92mOJRSKlS0y6ghY0wJMA9o+I1/NzDbGFNtjNkObMKTGCzTlhoBeFoEbgP7S3XbSqVUeLBy1FBq7bd7EYkFJgMbGpw2C09rABFJwdNVtM2qmCAQNYI4QOcSKKXCh5WjhnoCL4qIE0/CecMYM0dEHgTyjDGzgU+AC0RkHeACfmGMOWhhTHVdOq3tGkpLjgF0LoFSKnxYOWpoFTDKx/H76t03wF3eW7twtbFrKE2XmVBKhRnbzSyuaWPXUEykk5T4aG0RKKXChg0TQduGj4KnYLy3VBOBUio82C8RtHH4KHiGkGqLQCkVLmyXCNpaIwDvpLKS43hKHEop1bHZLhG0tUYAnmUmKmvcFJdXBSospZQKGvslAlcAagQ6ckgpFUZslwhqu4baUiOo26BG6wRKqTBgu0RQ2zXUms3ra9UmgoLDui+BUqrjs10iONEiaP2vnhgTSVpSDOv3HQlUWEopFTS2SwTVAagRAAxPT2LNntJAhKSUUkFlu0QQiBoBQFZaEtuKj3K0siYQYSmlVNDYLhEEokYAkJWeiDEEtHuootrF1qJyNh0oC9g1lVKqOVauPhqSapeYaEuNAGBEehIAq/eUktu3S5uu9WZeAQ9/tIGDR0/MS/jkp2czuEdCm66rlFL+sF+LwNX2mcUA3RJjSE2IZs2etrcI5m8swm0MP79gEI9cMQKHwOyVe9p8XaWU8oftEkGgagQAWWmJrN3b9oJxUXklmd0T+MnETK4a05szBqQwZ9U+XcJCKdUubJcITiwxEYBEkJ7E5sJyKqpdbbpOcXklqfHRdT9fMrInOw8eC0hrQymlmmO/RFA3fLTtv/rwtCRcbtPmgnFxWSUp8VF1P0/J6kGEQ5izam9bQ1RKqWbZLxEEsmsoPRGANXtbnwgqql0cqaghNeFEiyA5LoozM7V7SCnVPmyXCFwBGj4KnsXnOsdFsrYNE8tqRwql1OsaArhkZBp7So6zoqCkTTEqpVRzbJcIAtkiEBGy0pNYU69gXHDoGPM2Fvp9jeKySuDURHDB8O5EOR3MWbmvzXEqpVRT7JcI6oaPBuZXH56WxMb9ZVTVuCkur+TqmYu45T/L6payaE5xuTcRJJycCBJjIjl7UCofrt6H263dQ0op69guEbi8E8oC0CAAPHWCapdhzd5SfvTSMvaUHKfK5WbnwaN+Pb8uEdQrFte6NLsn+49UkLfzcGCCVUopHyxLBCISIyJLRGSliKwVkQd8nPMDESkSkXzv7Uar4qlV4zZEOgWRwGSCrDTPDOPbX1nB0h2HueWc/gBsPlDu1/OLGukaAjhvSDcAlu44FIhQlVLKJytbBJXARGNMNpADTBGR8T7Oe90Yk+O9/cPCeABPIghEfaBW7y5xJERHsKfkOHecn8lPzx+ECGzyMxEUl1eREBNBTKTzlMcSYyLp0zUuIJPWlFKqMZatNWQ84x5rPw0jvbegd3bXuEzA6gMADodwaU4aVTVufnp+Jg6H0KtzHJsK/Vs4rqjBZLKGstKSWK3LXSulLGRpjUBEnCKSDxQCc40xi32cdoWIrBKRt0SkVyPXuVlE8kQkr6ioqE0xudzugLYIAB66bAR/uTIbh/e6md3i2eJvi6Cs0me3UK1haYnsOnSMIxXVAYlVKaUasjQRGGNcxpgcIAMYKyJZDU55H+hrjBkJzAVebOQ6M40xucaY3NTU1DbFVFsjsFJm9wS2FZf7NXKoqLzypMlkDQ1P80xaW9eGSWtKKdWUdhk1ZIwpAeYBUxocP2iMqfT++A/gNKtjqXEFtkbgy6Du8VS7DDsPNr+nccPlJRoa7i1G625oSimrWDlqKFVEkr33Y4HJwIYG5/Ss9+NUYL1V8dSqcQe2RuBLZjfPPgKbm9lgprLGs7xEU11DqQnRdE+M1haBUsoyVn4i9gTmicgqYCmeGsEcEXlQRKZ6z7nDO7R0JXAH8AML4wE8NYJArDzalIHd4n2OHGo4MexguXd5iSa6hsDTKlijI4eUUhaxctTQKmCUj+P31bt/D3CPVTH4Eujho77ERjnJ6BzL5nojhw6WV3L+Y1/wx8tG8K0RnobQiclkTSeCrLREvthUREW1y+cwU6WUagvbzSz2DB+1NhEADOqWcNKksjmr9lFyrJqvtx6sO1Y7maypYjHAMO9y1xv2617GSqnAs18icJs271fsj9qRQ7X7H7y7wrP15Ib9J/r6m1peor7akUNaMFZKWcF2m9e73G7Lh4+CZy5Btcuw4+AxnA4hv6CEuCgnG/aVYYxBRCgu970EdUMZnWNJio1krRaMlVIWsGmLoB26hrqfGDn0Xv4eROCGM/tRVlnD7sPHAU/XUEK07+Ul6hMRhqclsk4LxkopC/iVCESkk4g4vPcHichUEYm0NjRrtFeNoP7IoVkr9jC+X9e6ReRq+/qLm5lMVt/wtETW7y/ze3lrpZTyl78tggVAjIikA/8DrgNesCooK7naYR4BnBg5NCt/DzsOHuOyUekM9rYSNnj3OC5qZnmJ+rLSk6iqcbO1yL+lK5RSyl/+fiKKMeYYcDnwjDHmSmC4dWFZp6Yd5hHUGtQtge3FR4mKcDBlRA86RUfQp2sc670F4+LySlISmi4U16otGK/do3UCpVRg+Z0IROR04FrgA++xDjmgvb1qBOAZOQQwaWg3EmM8PWlDeiSwYV9t11CV3y2CfinxxEY6WbVb9zBWSgWWv4ngp3gmfr1rjFkrIv3xrB3U4bRXjQBgcI94AKblpNcdG9ozke0Hj1J6vJrS49V+JwKnQ5gwsCsfr92PS7euVEoFkF/DR40xXwBfAHiLxsXGmDusDMwq7VUjAPhWVk+MgclDu9cdG9IjEWPgm63FQPOTyeq7bFQGn64v5OutxZyV2bZVWJVSqpa/o4ZeEZFEEekErAHWicgvrA3NGjVuN852qhHERDq5fHRG3T4FAEN7erqLvtzsSQT+tggAzh/ajYSYCN5dviewgSqlbM3fr8bDjDFHgOnAR0A/PCOHOhzP6qPtkwh86dU5jk5RznqJwL9iMXgSyyUje/Lx2v0cq6qxKkSllM34mwgivfMGpgOzjTHVhMC2k63RHvsRNMXhEAb3SGDXIc9eBS1pEYCne+hYlYtP1u63IjyllA35mwieA3YAnYAFItIH6JDjGF1uQ2Q71QgaM6RnYt39ltQIAHL7dCajcyzvaPeQUipA/PpENMY8aYxJN8ZcZDx2AudZHJsl2rNG0JihPTx1An+Wl2jI4RAuG5XOwi3FHDhSYUV4Simb8bdYnCQij9VuIC8ij+JpHXQ4wa4RwIkWQXMb0jTmslHpuA28l6+tAqVU2/nbR/IvoAyY4b0dAf5tVVBWcrnab/hoYwZ7WwQtKRTX1z81nuxeybyyeBfHq1yBDE0pZUP+fiIOMMb8zhizzXt7AOhvZWBWqXGbdltiojGJMZH0T+lEenJsq6/xiwsGs/PQMR54f20AI1NK2ZG/+xEcF5EzjTFfAYjIBOC4dWFZp8btDuqooVr/vn4McVGt3w7izMwUfnTOAJ6Zv5UzBqYwNTstgNEppezE30+iW4H/iEiS9+fDwPetCclaoVAjAOjTte0llrsmD2Lx9kP8+p3VjExPom9KhyzbKKWCzN9RQyuNMdnASGCkMWYUMNHSyCzgdhuMIeg1gkCJcDp48ppROB3CT15dXrctplJKtUSLPhGNMUe8M4wB7mrqXBGJEZElIrJSRNaKyANNnHuFiBgRyW1JPC1V412sLdg1gkBKT47l99OzWLPnCHNW7Qt2OEqpDqgtX42b+zStBCZ6WxI5wBQRGX/KRUQSgDuBxW2IxS81bs835lCoEQTSxSN6ktktnr/P34pbVyZVSrVQWxJBk5843olntdtpRXpvvp7z/4BHAMtnR9W1CMIsETgcwo/PG8DGA2V8vqEw2OEopTqYJhOBiJSJyBEftzKg2WEqIuIUkXygEJhrjFnc4PHRQC9jzAc+LxBgLld4JgKAS0emkdE5lqfnb8GYwLUKZi7YyiMfb2hRS6P0WDWHj1YFLAallLWaHDVkjEloy8WNMS4gR0SSgXdFJMsYswbq9jV4DPhBc9cRkZuBmwF69+7d6niqa7uGnOFRLK4vwunglrP789v31rJo2yFOH9C1zdc8XuXiiU83c6zKhctt+PVFQ5t9TkW1i6lPf8Wew8c5e1Aq03LSmDyse5uGyiqlrNUun4jGmBI8O5pNqXc4AcgC5ovIDmA8MNtXwdgYM9MYk2uMyU1Nbf2GLK4w7RqqdWVuL1Lio3lm/paAXO/zDYUcq3Ixrl8XZi7YxnNfbG32Oc99sY2dB49x2ah01u87wp2v5XPhEwsoq6gOSExKqcCzLBGISKq3JYCIxAKTgQ21jxtjSo0xKcaYvsaYvsAiYKoxJs+qmGrCuGsIPPsV3HBmP77cXMyynYeaPNcYw6YDZSzbeZivtxTz9dbiU7qU3l+5l9SEaF66cRyXjOzJHz/awJt5BY1es+DQMZ6Zv4WLR/bkz1dms/CXE3n2u6ex+/Bxnvh080nnFh6p4Lp/LiZvR9NxKqWsZ2V7vSfwoog48SScN4wxc0TkQSDPGDPbwtf2yRWGw0cbuu70Pry0aCd3vbGSD+44i/ho3/+Ln/xsC49/uumkY3+4LItrx/UBoKyims83FvKdsb2JdDp4bEYOpcerufvtVewvreC28waetPMawP+bsw6nQ7j3Yk8XksMhTMnqwdVjevHC1zu4MjeDIT0SqXa5+ckrK1iy4xDREQ7+0beLBe+EUspflrUIjDGrjDGjjDEjjTFZxpgHvcfv85UEjDHnWtkagPrDR8OvRlArPjqCJ67OoeDQMe6btcbnOcXllTy3YCvnDU7lhevH8NrN4zmtT2cen7uZo5Wenc8+XX+Aqho3l2b3BCAqwsHM63KZlp3Go3M3cetLy07q7pm/sZD/rTvA7RMz6Zl08hpKd184hMSYCH47aw3GGP78yUaW7DjEiPQk5m8sori80qJ3Qynlj/D9RPQhXIePNjSmbxdun5jJOyv2MGvFqUtV/33+ViqqXdx7yTDOHdyN8f278puLh1JcXsnzX24D4P2V+0hPjmVUr851z4uNcvL4VTncd8kwPttQyLf++iXX/XMxVz33DXe9sZL+KZ244cx+p7xe505R/HLKEJbuOMxdb6xk5oJtXDe+D4/OyKbGbZidv9e6N0Mp1Sx7JYIwrxHUd/vEgeT26cy9s9awo/ho3fF9pcf576KdXDE6gwGp8XXHR/fuzEUjejBzwTY2HyhjwaYiLh7Z85TuHxHhh2f246UbxpGWFFvXghiZkcTjV+UQFeH7T2pGbi9G9U7m3RV7yOmVzL2XDGVQ9wRGpCfx9vLdFrwDSil/2SoR2KFGUCvC6eCJq3NwCFzx969ZsKkIgKc+98wzuOP8zFOe84sLh1BV4+YH/15Kjdtw6cjGp4qcPqArb9x6Ou/8eAKv33I6L1w/luxeyY2e73AIj1wxkm9l9eCZa0cTHeHZme2K0ems3XuEDfs75M6nSoUFWyUCO9QI6svoHMc7Pz6DlPhovvevJfx21hpeX1rA1WN606tL3Cnn90vpxLXjerOn5Dh9usaRlZ7o46qtN6h7An//7mmk1duH4dLsNCIcwru6B7NSQWOPT0Sv2q6hSBt0DdUa2C2BWbdN4Ooxvfjvop2elUonDmz0/DvOz6RzXCRXnpaBiPXvU9f4aM4d3I13V+xp8eqpmw+UcVALzUq1ma2me9Z2DYXbonPNiY1y8vAVI5k4pBsiQvfEmEbP7Rofzde/Op/oRvr6rXDF6HQ+XX+AhVsPcs4g/yYMHq9ycfkzX5OSEM2s2yaQFBtpcZRKhS9btQiqbVQj8OWC4T2YPKx7s+fFRjlPKRJbaeLQbiTFRvoc4dSYzzYcoKyyhu3FR7nr9XxddVWpNrBVInDZrEbQUURHOJk0tDufrT9AtZ/dQ7Pz99ItIbpuKOvfPg/MshpK2ZGtPhHtNHy0o5k8rDtHKmpY6seSE6XHqpm/sYhLs9O4fkJfLh+VzhOfbeLzDQfaIVKlwo+tEoGdho92NGdlphAV4eDTdc3vp/Dx2n1UudxMy0lDRHjo8hEM7ZHIPe+s1u06VViqqnHz8zdXsvlAmSXXt1UiqLbJzOKOqFN0BBMGdGXu+v0nLX63ZPshLntmIVuLyuuOzV65l34pnRiRngR4Ftv76aRMDhyp1I15VNgxxvDbWWt4a9lu1u61Zr6NrRKB1ghC26Rh3Sk4dJzNhZ4PfWMMv/9gHSt2lfDDF5ZysLySwiMVfL31IJdmp500vHXikG50S4jm9aWNr47aUI3L7XdNQqlg+ceX23k9r4DbJw5k+qh0S17DVp+IWiMIbZOGekY0zV3n6ev/bH0hq3aX8r3T+7C/tIKb/7uMt5bvxhiYmn3yrOcIp4MrczOYt7GQfaXH/Xq9O1/PZ8Zz3wR0RzelAmnuugM89NF6LhrRg59NGmTZ69grEWiNIKR1T4whOyOJuesOYIzhic820btLHL+9ZBiPX5XDsp2H+fMnG8lKT2Rgt/hTnn9Vbm/cBt7Ma37tokNHq/hkzX5W7Cphvnf5DaVCyY7io9z52gpGpCfx6JU5lg7ptmUisNuEso5k0tDu5BeU8MqSXazZc4TbJw4k0ungohE9+dW3hmAMTM/x3Tzu3TWOMwem8PrSgmbnFXyweh81bkNCTATPzNOhpyr0/G/dfo5VuXjm2tHERjktfS1bJQKXtz84UmsEIWuSd8Lb/bPX0rdrHJfV6xO95ez+vPPjM7h+wqlLXde6emwv9pQc58stxQBsKSzjyc82c/ho1UnnvbdiD4O6x3PX5EEs3XGYJdt1pzQVWlbtLiU9OZaMzqeuCxZotvpErGsRaNdQyBrSI4H05FiqXZ4VUiOcJ/5ERYTRvTs32aKbPKw7XTpF8fS8Ldz4Yh6THlvAY3M38fsP1tedU3DoGHk7DzMtJ52rx/Smq/d8q+wrPX7SUuBK+WPV7lKyeyW1y2vZMhFosTh0iQjXjO3F6N7JpxSE/REd4eSK0eks2X6IvJ2HuOP8TK4b34e3l+8mv6AE8Aw/BZiWk0ZslJMfntmPLzYVsWZPaUB/F4DS49VMe2oh5/5lPpMe+4JHPt5g2VhwFT5KjlWx69AxRqQ3vrR7INkqEdh10bmO5icTM3nnxxNOag20xB3nZ/K3a0bx9a8mctfkQfzyW0NITYjm/tlrcbsNs1bsYUzfznVN7utO70NCdETdXg2B9PBHGygur+TO8zPplhDNzAXbuPSpryg4dCygr6PCy6rdni8l2RnaIgi4E8tQ2+rXtp2EmEguzU4jLsqzuG58dAS/nDKE/IIS/vjRejYXljOtXsE5MSaS6yf05eO1+/n2s9/wzdaDAYlj0baDvLpkFzee1Z+fTR7EKzeNZ/7Pz8Uhwv2z1+qwVdWoVbs9rdfh6ZoIAs7ldiNCu66sqULD5aPSye6VzPNfbifCIVw8oudJj99xfiZ/uCyLPYePc83zi7jun4spKmt+rwNXI6OTKqpd/Pqd1fTqEnvS+O9eXeL46aRMPttQWDdfQqmGVu0upX9Kp3ZbXt1WiaDabbQ+YFMOh/C7S4cBcM6gVDp3ijrp8Qing2vH9WH+L87l3ouHkrfjMDf9J4+Kalej1/z9nHVMePhz9pScOoHtqc+3sK34KA9dNuKUoX/XT+jH4O4JPPD+Oo5V1Zzy3GqXm5kLtjJvoy6XYVerdpcysp26hcDCRCAiMSKyRERWishaEXnAxzm3ishqEckXka9EZJhV8YDn25vWB+xrdO/OPHPtaH5z8dBGz4mJdHLjWf15/Kps8gtKuPutVT67cN5atpt/fLWd/UcquO3l5VTVnFiq4n9r9/P3L7Zy+eh0zso8daOdSKfD0/ooOc5fP9t80mMFh44x47lveOjDDfzk5eXsPqy1BLspPFLB/iMVjMhon0IxWNsiqAQmGmOygRxgioiMb3DOK8aYEcaYHOBPwGMWxkONy2h9wOYuGtGT/qmnzkpuaEpWT+6eMpjZK/fy5GcnDy1dvbuUX7+7mjMGdOVv14wiv6CEhz70DE/9YlMRP3nFMxv0wWlZjV4/t28XZuRm8PyCbUx/eiEPvr+O577YykV//ZItheXc7229/Ort1VpLsJn2LhSDhVtVGs9fb+2SkZHem2lwTv2l9Do1fDzQatxunUOg/PajcwawpbCcxz/dxK5DxzhjQFcG90jg1peWkRofzd+uGUXX+GiW7zrMvxfuICbSyQtfb2dgt3hevH4s8dFN//P67SXDSImPZumOQ7y8eCeVNW5G9U7myatH0atLHBFOB/fOWsMrS3Zx7bg+7fRbq2BbtbsEh8DwtDBIBAAi4gSWAQOBp40xi32ccxtwFxAFTLQynhqtEagWEBH+ePkIHCLMXXeAt5d71jCKinDw9q1n0DU+GoB7vjWU/IISnv1iKwO7xfPfG8aSFNd8kS8hJpK7p7k/54kAABaCSURBVAwBPOvNFxw+Rh9vAgC4dlxvPlqzj4c+WM/Zman06mL9DFMVfKv2lDKoe4Lly0rUZ2kiMMa4gBwRSQbeFZEsY8yaBuc8DTwtIt8B7gW+3/A6InIzcDNA7969Wx2Py2WI0K4h1QLREU7+cmU2brdhU2EZS7cfon9qPCPqNdujIhw8c+1oZi7Yxi1nD6hLEC0RFeFgQIMuKxHhkStGcuHjC/j5myt5+cZxrZ5boToGYwyrdpcyaWi3dn3ddvmrMsaUAPOAKU2c9howvZHnzzTG5BpjclNTTy2++atGi8WqlRwOYUiPRK47vS8TBqac8njPpFh+d+lweiTFBPR1MzrH8eC0LBZvP8QfPlx/yuMHyyt9jjxSHdPuw8c5dLSKke1YKAYLWwQikgpUG2NKRCQWmAw80uCcTGNM7bCJi4HNWKjG7dYlqFWHc8VpGazde4R/LdzOkB4JXDWmN1U1bh7930ZmfrkNY6BHYgx9U+I4e1Aq3xnbm+S4qOYvrELOau8yJ+05dBSs7RrqCbzorRM4gDeMMXNE5EEgzxgzG/iJiEwCqoHD+OgWCiRtEaiO6tcXDWFzYRn3zlqD0+Hg3wu3s3bvEWbkZtC7Sxzbi4+xubCMP328kSc/28wVozO4akwvhvZMJFK7k0JeVY2bj9bs45l5W4lyOhjSI7FdX9/KUUOrgFE+jt9X7/6dVr2+Ly4dPqo6qAing6euGc20p7/i52+upEunKGZedxoXDO9x0nkb9h/hX19t58283by8eBdREQ6G9UxkXP8u3D4xs9mRTKr9vZlXwJ8+2UhRWSX9Ujrx6IxsoiLa93PKVn8V2iJQHVlSXCT/vn6sZ/2iM/vRLfHUesSQHon86dvZ3D1lCF9vPcjq3SWs2l3K8wu28fn6Qp697rRTitIqeIrKKvnNrDUM7ZnIn789krMzU4OyBI7NEoHWCFTH1i+lE7++qPGZ0bVS4qOZmp1Wt5T3wi3F3P7qCqY9tZBHZ2RzYYOWhAqOF7/eQbXLzeMzsv2a6GgVW/WTuHQegbKpCQNTeP/2M+mf2olb/ruMP360nmqXu/knKsscrazhP9/s4MJhPYKaBMBmiaBG5xEoG0tPjuWNW07nO+N689wX27hm5iL2lZ66YJ5qH68tLeBIRQ23nNM/2KHYLBG43VojULYWE+nkoctG8Nerc1i/7wgX/fVLPlq975T1jBZvO8jMBVu11WCRapebf365jbH9ujCqd+dgh2O3GoEhJlITgVLTctIZkZ7E7a+u4EcvL+eszBTunzqc2Egnf/xoA+97t/NcvrOEJ68Z1e6jWMLdnFV72Vtawe8va3xhwvZkq0SgNQKlTuifGs97t03gv4t28tj/NjHliQU4HYIxcOf5mXSKdvLQhxu49aVlPHPtaGIi22/tm3BWUe3i2fnbGNw9gfMGt+9SEo2xVSKocRmcWiNQqk6E08H1E/pxycg0/vrZJiqq3fx0Umbdfs5xURHcO2sNN/0nj+e/l6vJoI0Olldy03/y2HigjGe/OxqR0Phiaq9E4HZri0ApH1ITovn99BGnHP/u+D5ERzi4++1V3PPOah6bkX3Sh1eNt4agi+E1b0thOT98YSkHjlTw92tHMyWrZ/NPaic2SwRG9yNQqoWuzO3FvtIKHpu7iRHpSfzwzH4AbCsq58b/5BHldPDyjeNatepqOPtqczGPzd1Itcvgcht2HTpGTKSD124eHxIF4vpslQhcbkOktgiUarGfnDeQNXtK+cOH6xnaMxGX2/Djl5cR4XRwtLKGa/+xmFdvGn/KXtB2VVHt4u63VmKAIT0ScDqEIT0S+NnkQSG5r4StEoHWCJRqHYdDeHRGNtOfXsjN/83jWJWLganx/OP7uWwvPsqN/8nju/9czCs3jvdrU55w99KinewtreCVG8dxho9ly0ONrT4VtUagVOslxEQy83u5OB3CuYNSeetHp9Ori2fp6+euO43NB8r5wQtLcLvtvcfykYpqnpq3hbMyUzpEEgCbJQKX2+haQ0q1wYDUeBbdcz7/+H4uCTEnvvmfN7gbf7gsixW7Spi7/kAQIwy+577YSsmxan7p3Ya0I7BVItA9i5Vqu5hIp89hj5eNSiejcywzF2wLQlShofBIBf/8ajtTs9PISm/fzWXawl6JQGsESlkmwungprP6s2znYfJ2HAp2OEHxxGebcbkNP79gcLBDaRFbfSrqMtRKWevK3AyS4yJ5zoatgq1F5by+tIDvjO1N766hNzKoKbZKBLrEhFLWiouK4Hun92XuugNsKSwPdjjt6s8fbyQmwsHt52cGO5QWs1Ui0BqBUtb7/ume2cjPh2GrwO02fLGpiPtnr2X34WN1x5ftPMzHa/dz89kDSOmAE+tsM4/A5TYYg9YIlLJY1/horszN4I2lu7lzUiZpybHBDqnNKqpdvL60gBe/3sG24qMAfLB6Hy9cP4ZhPRN5+KP1pMRHc+NZ/YIcaevY5lOxxl27Joq2CJSy2i1nD8DhgHtnrTllr4OOxhjDz99cye9mryUxNpInrsphzu1nEukQZjz7DQ9/vIGlOw7z00mZdIrumN+tbZMIXN5JLto1pJT1enWJ4xcXDuHzDYW8u2JPsMNpk7eX72HOqn383+RBzLptAtNHpZOVnsS7t02gV5c4nvtiG/1TOnHVmF7BDrXVLEsEIhIjIktEZKWIrBWRB3ycc5eIrBORVSLymYj0sSqeGm8i0B3KlGofPzijL6f16cz9s9dSeKQi2OG0yo7io9z33hrG9evCj88beNJj3RNjePPW07lufB8e+fZIIjvwCqxWRl4JTDTGZAM5wBQRGd/gnBVArjFmJPAW8CergqlxaYtAqfbkdAh/+vZIKmvc/PrdjtdFVFXj5o7XVhDpdPD4VTk+v0QmxETy/6ZnMaZvlyBEGDiWJQLjUTt+LNJ7Mw3OmWeMqS29LwIyrIrnRI2g42ZtpTqaAanx/N8Fg/h0/QEe/d+mDrUH8lPztrBqdykPXz4iLAreTbH0U1FEnCKSDxQCc40xi5s4/Qbgo0auc7OI5IlIXlFRUati0RqBUsFxw5n9uWxUOk/N28L0pxeybu+RYIfUrIpqFy9+vYMpw3vwrRGhs4GMVSxNBMYYlzEmB883/bEi4nOnZhH5LpAL/LmR68w0xuQaY3JTU1NbFUtt15DWCJRqX06H8PhVOTz73dEcOFLB1Ke+4sWvdwQ7rCbNXXeA0uPVXDu+d7BDaRft0k9ijCkB5gFTGj4mIpOA3wBTjTGVVsVQWyzW4aNKBceUrJ7872fncO7gVH43ey3vLN8d7JAa9UZeAenJsZwxoGMsI91WVo4aShWRZO/9WGAysKHBOaOA5/AkgUKrYgFw1dYIdEKZUkHTpVMUT187mtP7d+Xut1bx5ebWdfVaaU/Jcb7aUswVp2XYpgfByk/FnsA8EVkFLMVTI5gjIg+KyFTvOX8G4oE3RSRfRGZbFUyN1giUCgnREU6e+95pDOwWz49eWs7avaWnnLO35Dg3vpjHom0H2z2+t5ftxhi48jTLxq6EHMumwRljVgGjfBy/r979SVa9fkNaI1AqdCTGRPLC9WO5/JmFXPfPJTx+VQ7nDPLU/woOHeOa5xex+/Bx8gtK+OjOs0hNaJ/1e9xuw5vLCjhjQNeQ3FvYKrbpJ6ltEXTkSR9KhZMeSTG8dOM4UuOj+f6/lvDIxxvYUljOVc99Q1lFDY/NyKasopr/e3Nlu21/uWj7QQoOHWdGbsedJdwatvlUrK0RaItAqdDRPzWeWbdN4Jqxvfj7/K1c8PgXVNS4efWm8Vw+OoPfXjKMBZuK+OdX29slnjfzdpMQE8GUrB7t8nqhwjaJQGcWKxWaYqOc/PHykTx5zSjG9uvCqzeNZ1haIgDXjuvNhcO786dPNrBqd4mlcZRX1vDRmn1cmp1GTKTT0tcKNfZJBLrWkFIhbWp2Gq/dfDqDeyTUHRMRHrliJCnx0fz8zZWWzkyeu24/FdVuLh+VbtlrhCrbJQJdYkKpjiU5LooHp2Wx6UC5pV1E7+XvJT05ltG9O1v2GqHKNp+KJ+YRaItAqY5m8rDuTBranb9+uvmkncEC5WB5JV9uLubS7DQcNvyMsE0iqNbho0p1aPdPHQbAA++vC/i1P1y9D5fbMC0nLeDX7ghskwhcusSEUh1aRuc47jg/k7nrDvDpugMBvfZ7+XsZ1D2eIfXqE3Zim0RwYmaxbX5lpcLOjWf1Y1D3eO57bw2lx6sDcs2CQ8fI23mYaTnpiNjzi6JtPhW1RqBUxxfpdPCnb2dTWFbJb95dHZDNbt5ftRfwjFqyK9skAq0RKBUecnol87PJg5izah9vL2/7fsiz8/cyuneyrZaUaMg2icClS0woFTZuPWcA4/p14b731rCj+Girr7NwSzEb9pfZujUANkoEOqFMqfBRu9lNpNPBna+toLyypsXXKCyr4M7X8hmQ2okrbba2UEO2SQQul9YIlAonacmxPHLFSFbvKWXaU1+x+UCZ3891uQ13vLqC8spqnrn2NDpFW7YQc4dgm0RQ1yLQ4aNKhY0pWT14+cbxlB6vZtrTC3l/5V6/nvfEp5tYtO0Qv58+4qQlLezKdokgUoePKhVWTh/QlTm3n8XQnonc/uoKzvvLfO55ZzWzV+7lqI8uo4/X7OepeVu48rQMvm2jzWeaIoEYftWecnNzTV5eXoufV1ZRTcmxatKTY205hVypcFftcvPK4l0s2FTEku2HKKusoW/XOGZ+L5dB3T3f+j9cvY87Xl3B8PQkXrtpPLFR9lllVESWGWNyfT5ml0SglLKPGpebhVsP8n9vrOR4VQ2PzsimssbNXW+sJKdXMi9cP4aEmMhgh9muNBEopWxpf2kFt760jPyCEkRgbN8u/OsHY2xZHG4qEdjv3VBK2UaPpBhev2U8D32wnoNHq/jzt7Nt1R3kL00ESqmwFh3h5IFpWcEOI6TpEBqllLI5yxKBiMSIyBIRWSkia0XkAR/nnC0iy0WkRkS+bVUsSimlGmdli6ASmGiMyQZygCkiMr7BObuAHwCvWBiHUkqpJlhWIzCe4Ujl3h8jvTfT4JwdACJi3Y7USimlmmRpjUBEnCKSDxQCc40xi1t5nZtFJE9E8oqKigIbpFJK2ZylicAY4zLG5AAZwFgRaVXp3hgz0xiTa4zJTU1NDWyQSillc+0yasgYUwLMA6a0x+sppZTyn5WjhlJFJNl7PxaYDGyw6vWUUkq1jmVLTIjISOBFwIkn4bxhjHlQRB4E8owxs0VkDPAu0BmoAPYbY4Y3c90iYKf3xySgtIn7Df+bAhS34Neof01/H294rKm4fB0LZIytjc9XXPoetiw+X3G1V3xNxeQrLl/H9D0Mv/ewjzHGd9+6MabD3oCZTd338d+81l7f38cbHmsqLqtjbG18+h52nPewsccai0nfQ/u+h03dOvrM4vebud/wv225vr+PNzzWVFyNHWuJpp7X2vjq39f3sPljwXwPG3ussZgai0ffw6aPh8N72KgOt/poW4hInmlk9b1QEeoxhnp8EPoxhnp8EPoxhnp80DFirNXRWwQtNTPYAfgh1GMM9fgg9GMM9fgg9GMM9figY8QI2KxFoJRS6lR2axEopZRqQBOBUkrZnCYCpZSyOU0EXiJylog8KyL/EJGvgx1PQyLiEJE/iMjfROT7wY7HFxE5V0S+9L6P5wY7Hl9EpJN3AcNLgh2LLyIy1Pv+vSUiPwp2PA2JyHQReV5EXheRC4Idjy8i0l9E/ikibwU7llrev7sXve/dtcGOp6GwSAQi8i8RKRSRNQ2OTxGRjSKyRUR+1dQ1jDFfGmNuBebgmREdUvEB0/As3lcN7A5kfAGMsXbp8ZhAxxig+AB+CbwRyNgCGaMxZr3373AGMCEE45tljLkJuBW4KpDxBTDGbcaYGwIdW0MtjPVy4C3vezfV6tharCUz30L1BpwNjAbW1DvmBLYC/YEoYCUwDBiB58O+/q1bvee9ASSEWnzAr4BbvM99KxTfQ8DhfV534OUQjG8ycDWezZAuCcX30PucqcBHwHdCMT7v8x4FRofqe2jVv5M2xHoPkOM95xUr42rNLSw2rzfGLBCRvg0OjwW2GGO2AYjIa8A0Y8wfAZ/dAiLSGyg1xpSFWnwishuo8v7oCmR8gYqxnsNAdKjF5+2u6oTnH+ZxEfnQGBOwTZEC9R4aY2YDs0XkAwK4e1+A3kMBHgY+MsYsD1RsgYyxvbQkVjwt5AwgnxDsiQmLRNCIdKCg3s+7gXHNPOcG4N+WRXSylsb3DvA3ETkLWGBlYPW0KEYRuRy4EEgGnrI2NKCF8RljfgMgIj8AigOZBJrQ0vfwXDzdCNHAh5ZG5tHSv8PbgUlAkogMNMY8a2VwXi19D7sCfwBGicg93oTRXhqL9UngKRG5mNYvQWGZcE4ELWaM+V2wY2iMMeYYnkQVsowx7+BJWCHNGPNCsGNojDFmPjA/yGE0yhjzJJ4PtZBljDmIp4YRMowxR4Hrgx1HY0KuiRJAe4Be9X7O8B4LFaEeH4R+jKEeH4R+jKEeH3SMGGt1pFjrhHMiWApkikg/EYnCUyScHeSY6gv1+CD0Ywz1+CD0Ywz1+KBjxFirI8V6QrCr1QGq3r8K7OPE0MobvMcvAjbhqeL/RuPruDGGenwdIcZQj6+jxNgRY23upovOKaWUzYVz15BSSik/aCJQSimb00SglFI2p4lAKaVsThOBUkrZnCYCpZSyOU0EKiyISHk7v15A9qwQzx4OpSKSLyIbROQvfjxnuogMC8TrKwWaCJTySUSaXIfLGHNGAF/uS2NMDjAKuEREmtuHYDqeFVSVCghNBCpsicgAEflYRJaJZ+e0Id7jl4rIYhFZISKfikh37/H7ReS/IrIQ+K/353+JyHwR2SYid9S7drn3v+d6H3/L+43+Ze9SzYjIRd5jy0TkSRGZ01S8xpjjeJYpTvc+/yYRWSoiK0XkbRGJE5Ez8OxX8GdvK2JAY7+nUv7SRKDC2UzgdmPMacDPgWe8x78CxhtjRgGvAXfXe84wYJIx5hrvz0PwLK09FvidiET6eJ1RwE+9z+0PTBCRGOA54Fve109tLlgR6QxkcmKZ8XeMMWOMMdnAejxLGHyNZ+2aXxhjcowxW5v4PZXyiy5DrcKSiMQDZwBver+gw4nNcjKA10WkJ55dpLbXe+ps7zfzWh8YYyqBShEpxLP7WsNtOJcYY3Z7Xzcf6Itny85txpjaa78K3NxIuGeJyEo8SeAJY8x+7/EsEfk9nv0d4oFPWvh7KuUXTQQqXDmAEm/fe0N/Ax4zxsz2bgRzf73HjjY4t7LefRe+/834c05TvjTGXCIi/YBFIvKGMSYfeAGYboxZ6d1M51wfz23q91TKL9o1pMKSMeYIsF1ErgTPFosiku19OIkTa8R/36IQNgL9621l2OxG797Ww8PAL72HEoB93u6oa+udWuZ9rLnfUym/aCJQ4SJORHbXu92F58PzBm+3y1o8e8eCpwXwpogsA4qtCMbbvfRj4GPv65QBpX489VngbG8C+S2wGFgIbKh3zmvAL7zF7gE0/nsq5Rddhlopi4hIvDGm3DuK6GlgszHm8WDHpVRD2iJQyjo3eYvHa/F0Rz0X5HiU8klbBEopZXPaIlBKKZvTRKCUUjaniUAppWxOE4FSStmcJgKllLI5TQRKKWVz/x8t6a4XAtbhUAAAAABJRU5ErkJggg==
+<img src="data:image/png;base64,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
 " />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It's also not a bad idea to run a batch through your model and make sure the shape of what goes in, and comes out, looks right.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">dls</span><span class="o">.</span><span class="n">one_batch</span><span class="p">()</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">preds</span><span class="p">),</span><span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">preds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3,
+ tensor(2.6405, device=&#39;cuda:0&#39;, grad_fn=&lt;NllLossBackward&gt;),
+ torch.Size([2, 149, 50264]))</pre>
 </div>
 
 </div>
@@ -725,15 +883,21 @@ window.onload = wrap_img;
       <th>epoch</th>
       <th>train_loss</th>
       <th>valid_loss</th>
+      <th>rouge1</th>
+      <th>rouge2</th>
+      <th>rougeL</th>
       <th>time</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td>3.085961</td>
-      <td>2.904940</td>
-      <td>24:16</td>
+      <td>1.310324</td>
+      <td>1.394706</td>
+      <td>0.418580</td>
+      <td>0.200035</td>
+      <td>0.293107</td>
+      <td>45:29</td>
     </tr>
   </tbody>
 </table>
@@ -761,7 +925,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">show_results</span><span class="p">(</span><span class="n">hf_tokenizer</span><span class="o">=</span><span class="n">hf_tokenizer</span><span class="p">,</span> <span class="n">max_n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">show_results</span><span class="p">(</span><span class="n">learner</span><span class="o">=</span><span class="n">learn</span><span class="p">,</span> <span class="n">max_n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -782,34 +946,43 @@ window.onload = wrap_img;
 
 <div class="output_area">
 
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-15-83740b3d5086&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>learn<span class="ansi-blue-fg">.</span>show_results<span class="ansi-blue-fg">(</span>learner<span class="ansi-blue-fg">=</span>learn<span class="ansi-blue-fg">,</span> max_n<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">)</span>
 
-<div class="output_html rendered_html output_subarea ">
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>text</th>
-      <th>target</th>
-      <th>prediction</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>(CNN) -- The 56th annual Grammy Awards were held in Los Angeles on Sunday night with performances from Lorde, Macklemore &amp; Ryan Lewis, Jay Z, Beyonce and more. Take a look at some of the top winners below:. Record of the year. "Get Lucky" -- Daft Punk featuring Pharrell Williams and Nile Rodgers -- WINNER. "Radioactive" -- Imagine Dragons. "Royals" -- Lorde. "Locked out of Heaven" -- Bruno Mars. "Blurred Lines" -- Robin Thicke featuring T.I. and Pharrell. Album of the year. "The Blessed Unrest" -- Sara Bareilles. "Random Access Memories" -- Daft Punk -- WINNER. "Good Kid, M.A.A.D City" -- Kendrick Lamar. "The Heist" -- Macklemore &amp; Ryan Lewis. "Red" -- Taylor Swift. 5 things we loved about the 2014 Grammys. Song of the year. "Just Give Me a Reason" -- P!nk featuring Nate Ruess. "Locked Out of Heaven" -- Bruno Mars. "Roar" -- Katy Perry. "Royals" -- Lorde -- WINNER. "Same Love" -- Macklemore &amp; Ryan Lewis. Best new artist. James Blake. Kendrick Lamar. Macklemore &amp; Ryan Lewis -- WINNER. Kacey Musgraves. Ed Sheeran. Best pop solo performance. Sara Bareilles -- "Brave" Lorde -- "Royals" -- WINNER. Bruno Mars -- "When I Was Your Man" Katy Perry -- "Roar" Justin Timberlake -- "Mirrors" Best pop duo/group performance. Daft Punk featuring Pharrell Williams and Nile Rodgers -- "Get Lucky" -- WINNER. P!nk featuring Nate Ruess -- "Just Give Me a Reason" Rihanna featuring Mikky Ekko -- "Stay" Robin Thicke featuring T.I. and Pharrell -- "Blurred Lines" Justin Timberlake and Jay Z -- "Suit &amp; Tie" Best pop instrumental album. Herb Alpert -- "Steppin' Out" -- WINNER. Boney James -- "The Beat" Earl Klugh -- "Handpicked" Dave Koz, Gerald Albright, Mindi Abair and Richard Elliot -- "Summer Horns" Jeff Lorber Fusion -- "Hacienda" Best pop vocal album. Lana Del Rey -- "Paradise" Lorde -- "Pure Heroine</td>
-      <td>Daft Punk were the big winners at the 56th annual Grammys.\nThe group won record of the year and album of the year.\nLorde won song of the year and best pop vocal.\nMacklemore &amp; Ryan Lewis were named best new artist.</td>
-      <td>The. Punk's named big winners. the Gramth annual Grammys. " Punk album won album of the year and album of the year.&lt;/s&gt;.orde won b</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,050 even before the Air Asia plane vanished. Two incidents involving Malaysia Airlines planes - one over eastern Ukraine and the other in the Indian Ocean - led to the deaths of 537 people, while an Air Algerie crash in Mali killed 116 and TransAsia Airways crash in Taiwan killed a further 49 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies, governments or organisations. Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months. The all-time deadliest year for aviation was 1972 when a staggering 2,429 people were killed in a total of 55 plane crashes - including the crash of Aeroflot Flight 217, which killed 174 people in Russia, and Convair 990 Coronado, which claimed 155 lives in Spain. However this year's total death count of 1,212, including those presumed dead on board the missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 - which led to it being named the safest year in aviation since the end of the Second World War. Scroll down for videos. Deadly: The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,158 even before the Air Asia plane (pictured) vanished. Fatal: Two incidents involving Malaysia Airlines planes - one over eastern Ukraine (pictured) and the other in the Indian Ocean - led to the deaths of 537 people. Surprising: Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949. 2014 has been a horrific year for Malaysia-based airlines, with 537 people dying on Malaysia Airlines planes, and a further 162 people missing and feared dead in this week's Air Asia incident. In total more than half the people killed in aviation incidents this year had been flying on board Malaysia-registered planes. In January a total of 12 people lost their lives in five separate incidents, while the same number of crashes in February killed 107. There were only three fatal incidents in March, but the still-unexplained incident</td>
-      <td>Including Air Asia plane, 1,212 people were killed in air crashes in 2014.\nIncidents involving Malaysia-based airlines  led to total of 699 fatalities.\nIn 2013 just 265 people were killed worldwide as a result of plane crashes.\nThat made last year the safest  in aviation since the Second World War.\nBut despite 2014's very high death toll, there were only 111 plane crashes.\nThat is the lowest number since commercial jet flights began in 1949.</td>
-      <td>&lt;s&gt;. Alger plane vanished carrying,212,, killed in 2014 crashes in 2014. But idents involving Malaysia Airlinesregistered airlines</td>
-    </tr>
-  </tbody>
-</table>
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/fastai2/learner.py</span> in <span class="ansi-cyan-fg">show_results</span><span class="ansi-blue-fg">(self, ds_idx, dl, max_n, shuffle, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    261</span>         b <span class="ansi-blue-fg">=</span> dl<span class="ansi-blue-fg">.</span>one_batch<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    262</span>         _<span class="ansi-blue-fg">,</span>_<span class="ansi-blue-fg">,</span>preds <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>get_preds<span class="ansi-blue-fg">(</span>dl<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span>b<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> with_decoded<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 263</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>dls<span class="ansi-blue-fg">.</span>show_results<span class="ansi-blue-fg">(</span>b<span class="ansi-blue-fg">,</span> preds<span class="ansi-blue-fg">,</span> max_n<span class="ansi-blue-fg">=</span>max_n<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    264</span> 
+<span class="ansi-green-intense-fg ansi-bold">    265</span>     <span class="ansi-green-fg">def</span> show_training_loop<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/fastai2/data/core.py</span> in <span class="ansi-cyan-fg">show_results</span><span class="ansi-blue-fg">(self, b, out, max_n, ctxs, show, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    109</span>         res <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span>x1<span class="ansi-blue-fg">,</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">if</span> its <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">else</span> <span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> its<span class="ansi-blue-fg">,</span> outs<span class="ansi-blue-fg">.</span>itemgot<span class="ansi-blue-fg">(</span>slice<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>n_inp<span class="ansi-blue-fg">,</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    110</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> show<span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">return</span> res
+<span class="ansi-green-fg">--&gt; 111</span><span class="ansi-red-fg">         </span>show_results<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>res<span class="ansi-blue-fg">,</span> ctxs<span class="ansi-blue-fg">=</span>ctxs<span class="ansi-blue-fg">,</span> max_n<span class="ansi-blue-fg">=</span>max_n<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    112</span> 
+<span class="ansi-green-intense-fg ansi-bold">    113</span>     <span class="ansi-blue-fg">@</span>property
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/fastcore/dispatch.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     97</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> f<span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">return</span> args<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">     98</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>inst <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span> f <span class="ansi-blue-fg">=</span> MethodType<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>inst<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">---&gt; 99</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    100</span> 
+<span class="ansi-green-intense-fg ansi-bold">    101</span>     <span class="ansi-green-fg">def</span> __get__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> inst<span class="ansi-blue-fg">,</span> owner<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/blurr/modeling/text_generation.py</span> in <span class="ansi-cyan-fg">show_results</span><span class="ansi-blue-fg">(x, y, samples, outs, learner, ctxs, max_n, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    163</span> <span class="ansi-blue-fg">@</span>typedispatch
+<span class="ansi-green-intense-fg ansi-bold">    164</span> <span class="ansi-green-fg">def</span> show_results<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">:</span>HF_TextGenerationInput<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> samples<span class="ansi-blue-fg">,</span> outs<span class="ansi-blue-fg">,</span> learner<span class="ansi-blue-fg">,</span> ctxs<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> max_n<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">6</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 165</span><span class="ansi-red-fg">     </span>gen_text_txts <span class="ansi-blue-fg">=</span> learn<span class="ansi-blue-fg">.</span>generate_text<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    166</span>     res <span class="ansi-blue-fg">=</span> L<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span> <span class="ansi-blue-fg">(</span>sample<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> sample<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> gen_txt<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> sample<span class="ansi-blue-fg">,</span> gen_txt <span class="ansi-green-fg">in</span> zip<span class="ansi-blue-fg">(</span>samples<span class="ansi-blue-fg">,</span> gen_text_txts<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    167</span> 
+
+<span class="ansi-red-fg">NameError</span>: name &#39;learn&#39; is not defined</pre>
 </div>
-
 </div>
 
 </div>
@@ -861,28 +1034,6 @@ window.onload = wrap_img;
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>=== Prediction 1 ===
-The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies.
-
-=== Prediction 2 ===
-The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. But total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949.
-
-=== Prediction 3 ===
-The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft.
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     
 
@@ -922,22 +1073,6 @@ The past 12 months have been the worst for aviation fatalities so far this decad
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;The past 12 months have been the worst for aviation fatalities so far this decade. Total of number of people killed if airline crashes reached 1,050 even before Air Asia plane vanished. Two incidents involving Malaysia Airlines planes led to the deaths of 537 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies.&#39;]</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
