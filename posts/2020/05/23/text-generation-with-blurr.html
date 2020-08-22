@@ -108,7 +108,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      29 min read
+      23 min read
     
 </span></p>
 
@@ -182,154 +182,11 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># only run this cell if you are in collab</span>
-<span class="o">!</span>pip install ohmeow-blurr
-<span class="o">!</span>pip install nlp
+<span class="c1"># !pip install ohmeow-blurr</span>
+<span class="c1"># !pip install nlp</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Collecting ohmeow-blurr
-  Downloading https://files.pythonhosted.org/packages/78/47/1a232b725ed98d63c4a78d902b336b892261f11f004ad1dc90f1962d7131/ohmeow_blurr-0.0.11-py3-none-any.whl
-Collecting nlp
-  Downloading https://files.pythonhosted.org/packages/09/e3/bcdc59f3434b224040c1047769c47b82705feca2b89ebbc28311e3764782/nlp-0.4.0-py3-none-any.whl (1.7MB)
-     |████████████████████████████████| 1.7MB 10.8MB/s 
-Collecting seqeval
-  Downloading https://files.pythonhosted.org/packages/34/91/068aca8d60ce56dd9ba4506850e876aba5e66a6f2f29aa223224b50df0de/seqeval-0.0.12.tar.gz
-Requirement already satisfied: ipykernel in /usr/local/lib/python3.6/dist-packages (from ohmeow-blurr) (4.10.1)
-Collecting fastai&gt;=2.0.0
-  Downloading https://files.pythonhosted.org/packages/a2/a3/dc9b0ada3b6b920d6b786110ac3b2ff8a592b7dd08fc9e90045d07e5736c/fastai-2.0.0-py3-none-any.whl (350kB)
-     |████████████████████████████████| 358kB 53.2MB/s 
-Collecting transformers&gt;=3.0.2
-  Downloading https://files.pythonhosted.org/packages/27/3c/91ed8f5c4e7ef3227b4119200fc0ed4b4fd965b1f0172021c25701087825/transformers-3.0.2-py3-none-any.whl (769kB)
-     |████████████████████████████████| 778kB 52.3MB/s 
-Collecting rouge-score
-  Downloading https://files.pythonhosted.org/packages/1f/56/a81022436c08b9405a5247b71635394d44fe7e1dbedc4b28c740e09c2840/rouge_score-0.0.4-py2.py3-none-any.whl
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (3.0.12)
-Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (0.3.2)
-Requirement already satisfied: requests&gt;=2.19.0 in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (2.23.0)
-Requirement already satisfied: dataclasses; python_version &lt; &#34;3.7&#34; in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (0.7)
-Collecting xxhash
-  Downloading https://files.pythonhosted.org/packages/f7/73/826b19f3594756cb1c6c23d2fbd8ca6a77a9cd3b650c9dec5acc85004c38/xxhash-2.0.0-cp36-cp36m-manylinux2010_x86_64.whl (242kB)
-     |████████████████████████████████| 245kB 57.7MB/s 
-Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (1.0.5)
-Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (4.41.1)
-Collecting pyarrow&gt;=0.16.0
-  Downloading https://files.pythonhosted.org/packages/f3/99/0a605f016121ca314d1469dc9069e4978395bc46fda40f73099d90ad3ba4/pyarrow-1.0.1-cp36-cp36m-manylinux2014_x86_64.whl (17.3MB)
-     |████████████████████████████████| 17.3MB 193kB/s 
-Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from nlp-&gt;ohmeow-blurr) (1.18.5)
-Requirement already satisfied: Keras&gt;=2.2.4 in /usr/local/lib/python3.6/dist-packages (from seqeval-&gt;ohmeow-blurr) (2.4.3)
-Requirement already satisfied: jupyter-client in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.3.5)
-Requirement already satisfied: tornado&gt;=4.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.1.1)
-Requirement already satisfied: traitlets&gt;=4.1.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (4.3.3)
-Requirement already satisfied: ipython&gt;=4.0.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;ohmeow-blurr) (5.5.0)
-Requirement already satisfied: pillow in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (7.0.0)
-Collecting fastcore&gt;=1.0.0
-  Downloading https://files.pythonhosted.org/packages/cc/92/233661d730b5613b4daf473cd28005bf2294fb1a858ce0bac57fbb7fa5ec/fastcore-1.0.0-py3-none-any.whl
-Requirement already satisfied: spacy in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (2.2.4)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.22.2.post1)
-Requirement already satisfied: fastprogress&gt;=0.2.4 in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.2.5)
-Requirement already satisfied: torch&gt;=1.6.0 in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.6.0+cu101)
-Requirement already satisfied: torchvision&gt;=0.7 in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.7.0+cu101)
-Requirement already satisfied: pip in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (19.3.1)
-Requirement already satisfied: pyyaml in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (3.13)
-Requirement already satisfied: packaging in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (20.4)
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (3.2.2)
-Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.4.1)
-Collecting tokenizers==0.8.1.rc1
-  Downloading https://files.pythonhosted.org/packages/40/d0/30d5f8d221a0ed981a186c8eb986ce1c94e3a6e87f994eae9f4aa5250217/tokenizers-0.8.1rc1-cp36-cp36m-manylinux1_x86_64.whl (3.0MB)
-     |████████████████████████████████| 3.0MB 57.0MB/s 
-Collecting sacremoses
-  Downloading https://files.pythonhosted.org/packages/7d/34/09d19aff26edcc8eb2a01bed8e98f13a1537005d31e95233fd48216eed10/sacremoses-0.0.43.tar.gz (883kB)
-     |████████████████████████████████| 890kB 53.3MB/s 
-Collecting sentencepiece!=0.1.92
-  Downloading https://files.pythonhosted.org/packages/d4/a4/d0a884c4300004a78cca907a6ff9a5e9fe4f090f5d95ab341c53d28cbc58/sentencepiece-0.1.91-cp36-cp36m-manylinux1_x86_64.whl (1.1MB)
-     |████████████████████████████████| 1.1MB 33.3MB/s 
-Requirement already satisfied: regex!=2019.12.17 in /usr/local/lib/python3.6/dist-packages (from transformers&gt;=3.0.2-&gt;ohmeow-blurr) (2019.12.20)
-Requirement already satisfied: absl-py in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (0.9.0)
-Requirement already satisfied: six&gt;=1.14.0 in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (1.15.0)
-Requirement already satisfied: nltk in /usr/local/lib/python3.6/dist-packages (from rouge-score-&gt;ohmeow-blurr) (3.2.5)
-Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (2.10)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (2020.6.20)
-Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (3.0.4)
-Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp-&gt;ohmeow-blurr) (1.24.3)
-Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp-&gt;ohmeow-blurr) (2018.9)
-Requirement already satisfied: python-dateutil&gt;=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp-&gt;ohmeow-blurr) (2.8.1)
-Requirement already satisfied: h5py in /usr/local/lib/python3.6/dist-packages (from Keras&gt;=2.2.4-&gt;seqeval-&gt;ohmeow-blurr) (2.10.0)
-Requirement already satisfied: pyzmq&gt;=13 in /usr/local/lib/python3.6/dist-packages (from jupyter-client-&gt;ipykernel-&gt;ohmeow-blurr) (19.0.2)
-Requirement already satisfied: jupyter-core&gt;=4.6.0 in /usr/local/lib/python3.6/dist-packages (from jupyter-client-&gt;ipykernel-&gt;ohmeow-blurr) (4.6.3)
-Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.6/dist-packages (from traitlets&gt;=4.1.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.2.0)
-Requirement already satisfied: decorator in /usr/local/lib/python3.6/dist-packages (from traitlets&gt;=4.1.0-&gt;ipykernel-&gt;ohmeow-blurr) (4.4.2)
-Requirement already satisfied: pickleshare in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.7.5)
-Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.4 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (1.0.18)
-Requirement already satisfied: pexpect; sys_platform != &#34;win32&#34; in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (4.8.0)
-Requirement already satisfied: setuptools&gt;=18.5 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (49.2.0)
-Requirement already satisfied: simplegeneric&gt;0.8 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.8.1)
-Requirement already satisfied: pygments in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (2.1.3)
-Requirement already satisfied: wheel in /usr/local/lib/python3.6/dist-packages (from fastcore&gt;=1.0.0-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.34.2)
-Requirement already satisfied: plac&lt;1.2.0,&gt;=0.9.6 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.1.3)
-Requirement already satisfied: preshed&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (3.0.2)
-Requirement already satisfied: catalogue&lt;1.1.0,&gt;=0.0.7 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.0.0)
-Requirement already satisfied: cymem&lt;2.1.0,&gt;=2.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (2.0.3)
-Requirement already satisfied: blis&lt;0.5.0,&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.4.1)
-Requirement already satisfied: thinc==7.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (7.4.0)
-Requirement already satisfied: wasabi&lt;1.1.0,&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.7.1)
-Requirement already satisfied: srsly&lt;1.1.0,&gt;=1.0.2 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.0.2)
-Requirement already satisfied: murmurhash&lt;1.1.0,&gt;=0.28.0 in /usr/local/lib/python3.6/dist-packages (from spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.0.2)
-Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.6/dist-packages (from scikit-learn-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.16.0)
-Requirement already satisfied: future in /usr/local/lib/python3.6/dist-packages (from torch&gt;=1.6.0-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.16.0)
-Requirement already satisfied: pyparsing&gt;=2.0.2 in /usr/local/lib/python3.6/dist-packages (from packaging-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (2.4.7)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.2.0)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (0.10.0)
-Requirement already satisfied: click in /usr/local/lib/python3.6/dist-packages (from sacremoses-&gt;transformers&gt;=3.0.2-&gt;ohmeow-blurr) (7.1.2)
-Requirement already satisfied: wcwidth in /usr/local/lib/python3.6/dist-packages (from prompt-toolkit&lt;2.0.0,&gt;=1.0.4-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.2.5)
-Requirement already satisfied: ptyprocess&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from pexpect; sys_platform != &#34;win32&#34;-&gt;ipython&gt;=4.0.0-&gt;ipykernel-&gt;ohmeow-blurr) (0.6.0)
-Requirement already satisfied: importlib-metadata&gt;=0.20; python_version &lt; &#34;3.8&#34; in /usr/local/lib/python3.6/dist-packages (from catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (1.7.0)
-Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.6/dist-packages (from importlib-metadata&gt;=0.20; python_version &lt; &#34;3.8&#34;-&gt;catalogue&lt;1.1.0,&gt;=0.0.7-&gt;spacy-&gt;fastai&gt;=2.0.0-&gt;ohmeow-blurr) (3.1.0)
-Building wheels for collected packages: seqeval, sacremoses
-  Building wheel for seqeval (setup.py) ... done
-  Created wheel for seqeval: filename=seqeval-0.0.12-cp36-none-any.whl size=7424 sha256=8072f33978848ec8798231d65fa2c3310cf1edea26015de5a69bb31b8c069ba1
-  Stored in directory: /root/.cache/pip/wheels/4f/32/0a/df3b340a82583566975377d65e724895b3fad101a3fb729f68
-  Building wheel for sacremoses (setup.py) ... done
-  Created wheel for sacremoses: filename=sacremoses-0.0.43-cp36-none-any.whl size=893260 sha256=c04ca02f1fc4fe653a2750b5122f129cbf537775880a67d2cb9325336d543648
-  Stored in directory: /root/.cache/pip/wheels/29/3c/fd/7ce5c3f0666dab31a50123635e6fb5e19ceb42ce38d4e58f45
-Successfully built seqeval sacremoses
-Installing collected packages: xxhash, pyarrow, nlp, seqeval, fastcore, fastai, tokenizers, sacremoses, sentencepiece, transformers, rouge-score, ohmeow-blurr
-  Found existing installation: pyarrow 0.14.1
-    Uninstalling pyarrow-0.14.1:
-      Successfully uninstalled pyarrow-0.14.1
-  Found existing installation: fastai 1.0.61
-    Uninstalling fastai-1.0.61:
-      Successfully uninstalled fastai-1.0.61
-Successfully installed fastai-2.0.0 fastcore-1.0.0 nlp-0.4.0 ohmeow-blurr-0.0.11 pyarrow-1.0.1 rouge-score-0.0.4 sacremoses-0.0.43 sentencepiece-0.1.91 seqeval-0.0.12 tokenizers-0.8.1rc1 transformers-3.0.2 xxhash-2.0.0
-Requirement already satisfied: nlp in /usr/local/lib/python3.6/dist-packages (0.4.0)
-Requirement already satisfied: tqdm&gt;=4.27 in /usr/local/lib/python3.6/dist-packages (from nlp) (4.41.1)
-Requirement already satisfied: requests&gt;=2.19.0 in /usr/local/lib/python3.6/dist-packages (from nlp) (2.23.0)
-Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from nlp) (0.3.2)
-Requirement already satisfied: pyarrow&gt;=0.16.0 in /usr/local/lib/python3.6/dist-packages (from nlp) (1.0.1)
-Requirement already satisfied: xxhash in /usr/local/lib/python3.6/dist-packages (from nlp) (2.0.0)
-Requirement already satisfied: dataclasses; python_version &lt; &#34;3.7&#34; in /usr/local/lib/python3.6/dist-packages (from nlp) (0.7)
-Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from nlp) (1.0.5)
-Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from nlp) (1.18.5)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from nlp) (3.0.12)
-Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,&lt;1.26,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (1.24.3)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (2020.6.20)
-Requirement already satisfied: idna&lt;3,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (2.10)
-Requirement already satisfied: chardet&lt;4,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.19.0-&gt;nlp) (3.0.4)
-Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp) (2018.9)
-Requirement already satisfied: python-dateutil&gt;=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas-&gt;nlp) (2.8.1)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil&gt;=2.6.1-&gt;pandas-&gt;nlp) (1.15.0)
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
