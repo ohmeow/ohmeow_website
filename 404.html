@@ -2,7 +2,8 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary" /><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>ohmeow | A full-stack web application and ML development company.</title>
 <meta name="generator" content="Jekyll v4.0.0" />
 <meta property="og:title" content="ohmeow" />
@@ -13,7 +14,7 @@
 <meta property="og:url" content="https://ohmeow.com/404.html" />
 <meta property="og:site_name" content="ohmeow" />
 <script type="application/ld+json">
-{"headline":"ohmeow","description":"A full-stack web application and ML development company.","@type":"WebPage","url":"https://ohmeow.com/404.html","@context":"https://schema.org"}</script>
+{"description":"A full-stack web application and ML development company.","@type":"WebPage","headline":"ohmeow","url":"https://ohmeow.com/404.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -32,7 +33,7 @@
 <meta property="og:url" content="https://ohmeow.com/404.html" />
 <meta property="og:site_name" content="ohmeow" />
 <script type="application/ld+json">
-{"headline":"ohmeow","description":"A full-stack web application and ML development company.","@type":"WebPage","url":"https://ohmeow.com/404.html","@context":"https://schema.org"}</script>
+{"description":"A full-stack web application and ML development company.","@type":"WebPage","headline":"ohmeow","url":"https://ohmeow.com/404.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -49,7 +50,7 @@ function wrap_img(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
         var elements = document.querySelectorAll(".post img");
         Array.prototype.forEach.call(elements, function(el, i) {
-            if (el.getAttribute("title")) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
                 const caption = document.createElement('figcaption');
                 var node = document.createTextNode(el.getAttribute("title"));
                 caption.appendChild(node);
@@ -73,7 +74,8 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
-</head><body><header class="site-header">
+</head>
+<body><header class="site-header">
 
     <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
           <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -85,7 +87,7 @@ window.onload = wrap_img;
             </span>
           </label>
   
-          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
+          <div class="trigger"><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
         </nav></div>
   </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
