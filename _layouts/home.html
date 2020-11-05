@@ -51,7 +51,7 @@ layout: default
       {%- for post in posts -%}
       <li>
         {%- if site.show_image -%}
-            {%- include post_list_image_card.html -%}
+            {%- include custom-post_list_image_card.html -%}
         {% else %}
             {%- include post_list.html -%}
         {%- endif -%}
