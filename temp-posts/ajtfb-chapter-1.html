@@ -134,7 +134,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Cervantes once wrote that "the journey is better than the inn", but I rather like to think that the journey <em>is</em> the inn.</p>
-<p>It means that the journey, irrespective its difficulties (and likely because of them), is what you look back on with fondness at its end rather than the end itself.  It's why I enjoy reading "The Lord of the Rings" every five years or so, where as I age and experience the hand life has dealt me, I find myself appreciating different aspects of the story from the time before and gaining new insights into what I value and want to be. I find my journey with deep learning to be roughly analgous to that.</p>
+<p>It means that the journey, irrespective to its difficulties (and likely because of them), is what you look back on with fondness at its end rather than the end itself.  It's why I enjoy reading "The Lord of the Rings" every five years or so, where as I age and experience the hand life has dealt me, I find myself appreciating different aspects of the story from the time before and gaining new insights into what I value and want to be as a human being. I find my journey with deep learning to be roughly analgous to that.</p>
 <p>I've been a part of <a href="https://forums.fast.ai/u/wgpubs/summary">the fast.ai community</a> for several years. I've been through <a href="https://course.fast.ai/">the course</a> multiple times (since it was using theano back in the old days), I've contributed to the library, and use it as the basis for one of <a href="https://ohmeow.github.io/blurr/">my own</a>.  And as with each course, with a re-reading of the book I find myself deriving new insights and appreciating different ideas than those I had before.</p>
 <p>And so, while your journey may bring you different revelations, here are the meandering thoughts of one 49 year old married father of 3 living in San Diego, California, USA, as I embark upon the first chapter in what I consider "The Lord of the Rings" of deep learning.</p>
 <h2 id="Chapter-1">Chapter 1<a class="anchor-link" href="#Chapter-1"> </a></h2><hr />
@@ -260,16 +260,18 @@ you will see in the future.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h2 id="Q-&amp;-A-&amp;-Best-Practices">Q &amp; A &amp; Best Practices<a class="anchor-link" href="#Q-&amp;-A-&amp;-Best-Practices"> </a></h2><h3 id="Why-do-we-make-images-224x224-pixels?">Why do we make images 224x224 pixels?<a class="anchor-link" href="#Why-do-we-make-images-224x224-pixels?"> </a></h3><blockquote><p>This is the standard size for historical reasons (old pretrained models require this size exactly) ...
-If you increase the size, you'll often get a model with better results since it will be able to focus
-on more details.</p>
-<p>Important:Train on progressively larger image sizes using the weights trained on smaller sizes as a kind of pretrained model.</p>
-<h3 id="What-is-a-Transform">What is a <code>Transform</code><a class="anchor-link" href="#What-is-a-Transform"> </a></h3><p>A <strong>Transform</strong> conatins code that is applied automatically during training. There are two kinds ...</p>
+<h2 id="Q-&amp;-A-&amp;-Best-Practices">Q &amp; A &amp; Best Practices<a class="anchor-link" href="#Q-&amp;-A-&amp;-Best-Practices"> </a></h2><h3 id="What-is-a-Transform">What is a <code>Transform</code><a class="anchor-link" href="#What-is-a-Transform"> </a></h3><blockquote><p>A <strong>Transform</strong> conatins code that is applied automatically during training. There are two kinds ...</p>
 <ol>
 <li><code>item_tfms</code>:Applied to each item2. <code>batch_tfms</code>: Applied to a <em>batch</em> of items at a time <em>using the GPU</em></li>
 </ol>
 </blockquote>
-<h3 id="What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?">What is a ResNet &amp; Why use it for computer vision tasks?<a class="anchor-link" href="#What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?"> </a></h3><p>A <strong>ResNet</strong> is a model architecture that has proven to work well in CV tasks. Several variants exist with different numbers of layers with the larger architectures taking longer to train and more prone to overfitting especially with smaller datasets.
+<h3 id="Why-do-we-make-images-224x224-pixels?">Why do we make images 224x224 pixels?<a class="anchor-link" href="#Why-do-we-make-images-224x224-pixels?"> </a></h3><blockquote><p>This is the standard size for historical reasons (old pretrained models require this size exactly) ...
+If you increase the size, you'll often get a model with better results since it will be able to focus
+on more details.</p>
+<p>Important:Train on progressively larger image sizes using the weights trained on smaller sizes as a kind of pretrained model.</p>
+<h3 id="What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?">What is a ResNet &amp; Why use it for computer vision tasks?<a class="anchor-link" href="#What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?"> </a></h3>
+</blockquote>
+<p>A <strong>ResNet</strong> is a model architecture that has proven to work well in CV tasks. Several variants exist with different numbers of layers with the larger architectures taking longer to train and more prone to overfitting especially with smaller datasets.
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>Start with a smaller ResNet (like 18 or 34) and move up as needed.
