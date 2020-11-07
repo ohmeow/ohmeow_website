@@ -221,11 +221,28 @@ particular kind of data [and task]</p>
 of that kind of item, and not because the model has been shaped by <em>actually having seen that particular
 item</em>.</p>
 </blockquote>
+<h3 id="Why-do-we-need-a-validation-set?">Why do we need a validation set?<a class="anchor-link" href="#Why-do-we-need-a-validation-set?"> </a></h3><blockquote><p>[because] what we care about is how well our model works on <em>previously unseen images</em> ... the longer
+you train for, the better your accuracy will get on the training set ... as the model starts to memorize
+the training set rather than finding generalizable underlying patterns in the data = <strong>overfitting</strong></p>
+</blockquote>
 <p><strong><em>Overfitting</em></strong> happens when the model "remembers specific features of the input data, rather than generalizing well to data not seen during training."</p>
-<p><strong>[Best Practice]</strong>:Your models should always overfit before anything else.  It is your training loss gets better while your validation loss gets worse ... in other words, if you're validation loss is improving, even if not to the extent of your training loss, you are <em>not</em> overfitting
-The validation set informs us how we may change the  <strong><em>hyperparamters</em></strong> (e.g., model architecture, learning rates, data augmentation, etc...) to improve results.  These parameters are NOT learned ... they are choices WE make that affect the learning of the model parameters.</p>
-<h3 id="What-is-a-test-set?">What is a test set?<a class="anchor-link" href="#What-is-a-test-set?"> </a></h3><p>A <strong><em>test set</em></strong> ensures that we aren't overfitting our hyperparameter choices; it is held back even from ourselves and used to evaulate the model at the very end.</p>
-<p><strong>[Best Practice]</strong>: If evaluating 3rd party solutions know how to create a good test set and how to create a good baseline model.  Hold these out from the potential consultants and use them to fairly evaluate their work.</p>
+<blockquote><p>Important:Your models should always overfit before anything else.  It is your training loss gets better while your validation loss gets worse ... in other words, if you're validation loss is improving, even if not to the extent of your training loss, you are <em>not</em> overfitting<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>ALWAYS include a validation set.
+</div><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>ALWAYS measure your accuracy (or any metrics) on the validation set.
+</div><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Set the <code>seed</code> parameter so that you "get the same validation set every time" so that "if we change our model and retrain it, we know any differences are due to the changes to the model, not due to having a different random validation set."
+</div>
+The validation set also informs us how we may change the  <strong><em>hyperparamters</em></strong> (e.g., model architecture, learning rates, data augmentation, etc...) to improve results.  These parameters are NOT learned ... they are choices WE make that affect the learning of the model parameters.</p>
+</blockquote>
+<h3 id="What-is-a-test-set?">What is a test set?<a class="anchor-link" href="#What-is-a-test-set?"> </a></h3><p>A <strong><em>test set</em></strong> ensures that we aren't overfitting our hyperparameter choices; it is held back even from ourselves and used to evaulate the model at the very end.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>If evaluating 3rd party solutions know how to create a good test set and how to create a good baseline model.  Hold these out from the potential consultants and use them to fairly evaluate their work.
+</div></p>
 <h3 id="How-do-you-define-a-good-validation-and-test-sets?">How do you define a good validation and test sets?<a class="anchor-link" href="#How-do-you-define-a-good-validation-and-test-sets?"> </a></h3><p>See pp.50-54 ...</p>
 <blockquote><p>A key property of the validation and test sets is that they must be representative of the new data
 you will see in the future.</p>
@@ -242,32 +259,35 @@ you will see in the future.</p>
 <h2 id="Q-&amp;-A-&amp;-Best-Practices">Q &amp; A &amp; Best Practices<a class="anchor-link" href="#Q-&amp;-A-&amp;-Best-Practices"> </a></h2><h3 id="Why-do-we-make-images-224x224-pixels?">Why do we make images 224x224 pixels?<a class="anchor-link" href="#Why-do-we-make-images-224x224-pixels?"> </a></h3><blockquote><p>This is the standard size for historical reasons (old pretrained models require this size exactly) ...
 If you increase the size, you'll often get a model with better results since it will be able to focus
 on more details.</p>
-</blockquote>
-<p><strong>[Best Practice]</strong>:Train on progressively larger image sizes using the weights trained on smaller sizes as a kind of pretrained model.</p>
-<h3 id="What-is-a-Transform">What is a <code>Transform</code><a class="anchor-link" href="#What-is-a-Transform"> </a></h3><blockquote><p>A <strong>Transform</strong> conatins code that is applied automatically during training. There are two kinds ...</p>
+<p>Important:Train on progressively larger image sizes using the weights trained on smaller sizes as a kind of pretrained model.</p>
+<h3 id="What-is-a-Transform">What is a <code>Transform</code><a class="anchor-link" href="#What-is-a-Transform"> </a></h3><p>A <strong>Transform</strong> conatins code that is applied automatically during training. There are two kinds ...</p>
 <ol>
 <li><code>item_tfms</code>:Applied to each item2. <code>batch_tfms</code>: Applied to a <em>batch</em> of items at a time <em>using the GPU</em></li>
 </ol>
 </blockquote>
-<h3 id="Why-do-we-need-a-validation-set?">Why do we need a validation set?<a class="anchor-link" href="#Why-do-we-need-a-validation-set?"> </a></h3><blockquote><p>[because] what we care about is how well our model works on <em>previously unseen images</em> ... the longer
-you train for, the better your accuracy will get on the training set ... as the model starts to memorize
-the training set rather than finding generalizable underlying patterns in the data = <strong>overfitting</strong></p>
-</blockquote>
-<p><strong>[Best Practice]</strong>:ALWAYS include a validation set.
-<strong>[Best Practice]</strong>: ALWAYS measure your accuracy (or any metrics) on the validation set.</p>
-<p><strong>[Best Practice]</strong>: Set the <code>seed</code> parameter so that you "get the same validation set every time" so that "if we change our model and retrain it, we know any differences are due to the changes to the model, not due to having a different random validation set."</p>
-<h3 id="What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?">What is a ResNet &amp; Why use it for computer vision tasks?<a class="anchor-link" href="#What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?"> </a></h3><p>A <strong>ResNet</strong> is a model architecture that has proven to work well in CV tasks. Several variants exist with different numbers of layers with the larger architectures taking longer to train and more prone to overfitting especially with smaller datasets.</p>
-<p><strong>[Best Practice]</strong>: Start with a smaller ResNet (like 18 or 34) and move up as needed.</p>
-<p><strong>[Best Practice]</strong>: If you have a lot of data, the bigger resnets will likely give you better results.</p>
-<p>And what other things can use images recognizers for besides image tasks? Sound, time series, malware classification ...</p>
+<h3 id="What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?">What is a ResNet &amp; Why use it for computer vision tasks?<a class="anchor-link" href="#What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?"> </a></h3><p>A <strong>ResNet</strong> is a model architecture that has proven to work well in CV tasks. Several variants exist with different numbers of layers with the larger architectures taking longer to train and more prone to overfitting especially with smaller datasets.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Start with a smaller ResNet (like 18 or 34) and move up as needed.
+</div><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>If you have a lot of data, the bigger resnets will likely give you better results.
+</div>
+And what other things can use images recognizers for besides image tasks? Sound, time series, malware classification ...</p>
 <blockquote><p>... a good rule of thumb for converting a dataset into an image representation:if the human eye can recognize categories from the images, then a deep learning model should be able to do so too.
 See pp.36-39</p>
 </blockquote>
-<h3 id="How-can-we-see-what-our-NN's-are-actually-learning/doing?">How can we see what our NN's are actually learning/doing?<a class="anchor-link" href="#How-can-we-see-what-our-NN's-are-actually-learning/doing?"> </a></h3><p>See pp.33-36. Being able to inspect what your NN is doing (e.g., looking at the activations and the gradients) is one of the most important things you can learn as they are often the key to improving results.</p>
-<p><strong>[Best Practice]</strong>: Learn how to visualize and understand your activations and gradients!</p>
+<h3 id="How-can-we-see-what-our-NN's-are-actually-learning/doing?">How can we see what our NN's are actually learning/doing?<a class="anchor-link" href="#How-can-we-see-what-our-NN's-are-actually-learning/doing?"> </a></h3><p>See pp.33-36. Being able to inspect what your NN is doing (e.g., looking at the activations and the gradients) is one of the most important things you can learn as they are often the key to improving results.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Learn how to visualize and understand your activations and gradients!
+</div></p>
 <h3 id="What-is-the-difference-between-categorical-and-continuous-datatypes?">What is the difference between categorical and continuous datatypes?<a class="anchor-link" href="#What-is-the-difference-between-categorical-and-continuous-datatypes?"> </a></h3><p><strong><em>Categorical</em></strong> data "contains values taht are one of a discrete set of choice" such as gender, occupation, day of week, etc...</p>
-<p><strong><em>Continuous</em></strong> data is numerical that represents a quantity such as age, salary, prices, etc...</p>
-<p><strong>[Best Practice]</strong>: For tasks that predict a continuous number, consider using <code>y_range</code> to constrain the network to predicting a value in the known range of valid values. (see p.47)</p>
+<p><strong><em>Continuous</em></strong> data is numerical that represents a quantity such as age, salary, prices, etc...
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>For tasks that predict a continuous number, consider using <code>y_range</code> to constrain the network to predicting a value in the known range of valid values. (see p.47)
+</div></p>
 
 </div>
 </div>
@@ -278,10 +298,13 @@ See pp.36-39</p>
 <h2 id="Resources">Resources<a class="anchor-link" href="#Resources"> </a></h2><ol>
 <li><p><a href="https://book.fast.ai">https://book.fast.ai</a> - The book's website; it's updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc...</p>
 </li>
-<li><p><a href="https://course.fast.ai/datasets">https://course.fast.ai/datasets</a> - A variety of slimmed down datasets you can use for various DL tasks that support "rapid prototyping and experimentation."</p>
+<li><p><a href="https://course.fast.ai/datasets">https://course.fast.ai/datasets</a> - A variety of slimmed down datasets you can use for various DL tasks that support "rapid prototyping and experimentation." 
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Start with a smaller dataset and scale up to full size to accelerate modeling!
+</div></p>
 </li>
 </ol>
-<p><strong>[Best Practice]</strong>: Start with a smaller dataset and scale up to full size to accelerate modeling!</p>
 
 </div>
 </div>
