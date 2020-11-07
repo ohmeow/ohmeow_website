@@ -86,7 +86,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      9 min read
+      13 min read
     
 </span></p>
 
@@ -133,13 +133,6 @@ window.onload = wrap_img;
         
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://colab.research.google.com/github/ohmeow/ohmeow_website/blob/master/_notebooks/2020_11_06_ajtfb_chapter_1.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Cervantes once wrote that "the journey is better than the inn", but I rather like to think that the journey <em>is</em> the inn.</p>
 <p>It means that the journey, irrespective its difficulties (and likely because of them), is what you look back on with fondness at its end rather than the end itself.  It's why I enjoy reading "The Lord of the Rings" every five years or so, where as I age and experience the hand life has dealt me, I find myself appreciating different aspects of the story from the time before and gaining new insights into what I value and want to be. I find my journey with deep learning to be roughly analgous to that.</p>
 <p>I've been a part of the fast.ai community for several years. I've been through the course multiple times (since it was using theano back in the old days), I've contributed to the library, and use it as the basis for one of my own.  And as with each course, with a re-reading of the book I find myself deriving new insights and appreciating different ideas than those I had before.</p>
@@ -173,13 +166,22 @@ variables. [Weights] are generally referred to as model <strong><em>parameters</
 reserved for a particular type of model parameter.</p>
 <ul>
 <li>The functional form of the <em>model</em> is called its <strong><em>architecture</em></strong>.</li>
+</ul>
+</blockquote>
+<p>It is "the <em>template</em> of the model that we're trying to fit; i.e., the actual mathematical function that we're passing the input data and parameters to" ... whereas the <strong><em>model</em></strong> is a particular set of parameters + the architecture.</p>
+<blockquote><ul>
 <li>The <em>weights</em> are called <strong><em>parameters</em></strong>.</li>
+</ul>
+</blockquote>
+<p>These are the things that are "learnt"; the values that can change</p>
+<blockquote><ul>
 <li>The predictions are calculated from your <strong><em>indpendent variables</em></strong> [your <code>X</code>]</li>
 <li>The [model's] measure of performance is called the <strong><em>loss</em></strong> ... [which depends on how well your model
 is able to predict] the correct <strong><em>labels</em></strong> (also known as <strong><em>targets</em></strong> or 
 the <strong><em>dependent variable</em></strong>) [your <code>y</code>] ... [given the independent variables as input].</li>
 </ul>
 </blockquote>
+<p>The <strong><em>loss</em></strong> is a measure of model performance that SGD can use to make your model better. A good loss function provides good gradients (slopes) that can be used to make even very minor changes to your weights so as to improve things. Visually, you want gentle rolling hills rather than abrupt steps or jagged peaks.</p>
 <p><strong>Transfer learning</strong> is the process of taking a <strong>"pretrained model"</strong> that has been trained on a very large dataset with proven SOTA results, and <strong>"fine tuning"</strong> it for your specific task, which while likely similar to the task the pretrained model was trained for to one degree or another, is not the necesarily the same.</p>
 <p>What does this mean?</p>
 <ol>
@@ -187,6 +189,10 @@ the <strong><em>dependent variable</em></strong>) [your <code>y</code>] ... [giv
 <li>The degree to which your weights of the pretrained model will need to be updated is proportional to how similar your data is to the data it was trained on. The more dissimilar, the more the weights will need to be changed.</li>
 <li>Your model will only be as good as the data it was trained on, so make sure what you have is representative of what it will see in the real world. It "can learn to operate on only the patterns seen in the input data used to train it."</li>
 </ol>
+<blockquote><p>The process of <em>training</em> (or <em>fitting</em>) the model is the process of finding a set of <em>parameter values</em> 
+(or <em>weights</em>) that specialize that general architecture into a model that works well for our 
+particular kind of data [and task]</p>
+</blockquote>
 <p>fastai's <code>fine_tune</code> method uses proven tricks and hyperparameters for various DL tasks that the author's have found works well and works most of the time. See p.33 for more info on what it does.</p>
 <blockquote><p>... once the model is trained - that is, once we've chosen our final weight assignments - then we can think of the weights as being <em>part of the model</em> since we're not varying them anymore.</p>
 </blockquote>
@@ -198,7 +204,7 @@ the <strong><em>dependent variable</em></strong>) [your <code>y</code>] ... [giv
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Metrics">Metrics<a class="anchor-link" href="#Metrics"> </a></h3><p><strong>Metrics</strong> are a human-understandable measures of model quality whereas the <strong>loss</strong> is the machine's.  They are based on your validation set and are what you really care about, whereas the loss is "a 1measure of performance' that the training system can use to update weights automatically.</p>
+<h3 id="Metrics">Metrics<a class="anchor-link" href="#Metrics"> </a></h3><p><strong>Metrics</strong> are a human-understandable measures of model quality whereas the <strong>loss</strong> is the machine's.  They are based on your validation set and are what you really care about, whereas the loss is "a measure of performance" that the training system can use to update weights automatically.</p>
 <p>A good choice for loss is a function "that is easy for <strong><em>stochastic gradient descent (SGD)</em></strong> to use, whereas a good choies for your metrics are functions that your business users will care about. Seldom are they the same because most metrics don't provide smooth gradients that SGD can use to update your model's weights.</p>
 <p>Examples of common metrics:</p>
 <p><strong>error rate</strong> = "the proportion of images that were incorrectly identified.</p>
@@ -210,7 +216,22 @@ the <strong><em>dependent variable</em></strong>) [your <code>y</code>] ... [giv
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h2 id="Validation-&amp;-Test-Sets">Validation &amp; Test Sets<a class="anchor-link" href="#Validation-&amp;-Test-Sets"> </a></h2><p>asdfasdf</p>
+<h2 id="Validation-&amp;-Test-Sets">Validation &amp; Test Sets<a class="anchor-link" href="#Validation-&amp;-Test-Sets"> </a></h2><h3 id="What-is-a-validation-set?">What is a validation set?<a class="anchor-link" href="#What-is-a-validation-set?"> </a></h3><p>A <strong><em>validation set</em></strong> (also know as the "development set") does not include any data from the <strong><em>training set</em></strong>.  It's purpose to is gauge the generalization prowess of your model and also ensure you are neight overfitting or underfitting.</p>
+<blockquote><p>If [the model] makes an accurate prediction for a data item, that should be because it has learned characteristics
+of that kind of item, and not because the model has been shaped by <em>actually having seen that particular
+item</em>.</p>
+</blockquote>
+<p><strong><em>Overfitting</em></strong> happens when the model "remembers specific features of the input data, rather than generalizing well to data not seen during training."</p>
+<p><strong>[Best Practice]</strong>:Your models should always overfit before anything else.  It is your training loss gets better while your validation loss gets worse ... in other words, if you're validation loss is improving, even if not to the extent of your training loss, you are <em>not</em> overfitting
+The validation set informs us how we may change the  <strong><em>hyperparamters</em></strong> (e.g., model architecture, learning rates, data augmentation, etc...) to improve results.  These parameters are NOT learned ... they are choices WE make that affect the learning of the model parameters.</p>
+<h3 id="What-is-a-test-set?">What is a test set?<a class="anchor-link" href="#What-is-a-test-set?"> </a></h3><p>A <strong><em>test set</em></strong> ensures that we aren't overfitting our hyperparameter choices; it is held back even from ourselves and used to evaulate the model at the very end.</p>
+<p><strong>[Best Practice]</strong>: If evaluating 3rd party solutions know how to create a good test set and how to create a good baseline model.  Hold these out from the potential consultants and use them to fairly evaluate their work.</p>
+<h3 id="How-do-you-define-a-good-validation-and-test-sets?">How do you define a good validation and test sets?<a class="anchor-link" href="#How-do-you-define-a-good-validation-and-test-sets?"> </a></h3><p>See pp.50-54 ...</p>
+<blockquote><p>A key property of the validation and test sets is that they must be representative of the new data
+you will see in the future.</p>
+</blockquote>
+<p>For time series, that means you'll likely want to make your validation set a continuous section with the latest dates.</p>
+<p>You'll also want to make sure your model isn't learning particular ancillary features of particular things in your images (e.g., you want to see how your model performs on a person or boat it hasn't seen before ... see pp.53-54 for examples).</p>
 
 </div>
 </div>
@@ -243,6 +264,10 @@ the training set rather than finding generalizable underlying patterns in the da
 See pp.36-39</p>
 </blockquote>
 <h3 id="How-can-we-see-what-our-NN's-are-actually-learning/doing?">How can we see what our NN's are actually learning/doing?<a class="anchor-link" href="#How-can-we-see-what-our-NN's-are-actually-learning/doing?"> </a></h3><p>See pp.33-36. Being able to inspect what your NN is doing (e.g., looking at the activations and the gradients) is one of the most important things you can learn as they are often the key to improving results.</p>
+<p><strong>[Best Practice]</strong>: Learn how to visualize and understand your activations and gradients!</p>
+<h3 id="What-is-the-difference-between-categorical-and-continuous-datatypes?">What is the difference between categorical and continuous datatypes?<a class="anchor-link" href="#What-is-the-difference-between-categorical-and-continuous-datatypes?"> </a></h3><p><strong><em>Categorical</em></strong> data "contains values taht are one of a discrete set of choice" such as gender, occupation, day of week, etc...</p>
+<p><strong><em>Continuous</em></strong> data is numerical that represents a quantity such as age, salary, prices, etc...</p>
+<p><strong>[Best Practice]</strong>: For tasks that predict a continuous number, consider using <code>y_range</code> to constrain the network to predicting a value in the known range of valid values. (see p.47)</p>
 
 </div>
 </div>
@@ -253,9 +278,10 @@ See pp.36-39</p>
 <h2 id="Resources">Resources<a class="anchor-link" href="#Resources"> </a></h2><ol>
 <li><p><a href="https://book.fast.ai">https://book.fast.ai</a> - The book's website; it's updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc...</p>
 </li>
-<li><p><a href="https://course.fast.ai/datasets">https://course.fast.ai/datasets</a> - A variety of datasets you can use for various DL tasks</p>
+<li><p><a href="https://course.fast.ai/datasets">https://course.fast.ai/datasets</a> - A variety of slimmed down datasets you can use for various DL tasks that support "rapid prototyping and experimentation."</p>
 </li>
 </ol>
+<p><strong>[Best Practice]</strong>: Start with a smaller dataset and scale up to full size to accelerate modeling!</p>
 
 </div>
 </div>
