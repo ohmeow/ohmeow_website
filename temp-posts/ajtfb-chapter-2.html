@@ -86,7 +86,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      13 min read
+      7 min read
     
 </span></p>
 
@@ -133,26 +133,15 @@ window.onload = wrap_img;
         
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Cervantes once wrote that "the journey is better than the inn", but I rather like to think that the journey <em>is</em> the inn.</p>
-<p>It means that the journey, irrespective to its difficulties (and likely because of them), is what you look back on with fondness at its end rather than the end itself.  It's why I enjoy reading "The Lord of the Rings" every five years or so, where as I age and experience the hand life has dealt me, I find myself appreciating different aspects of the story from the time before and gaining new insights into what I value and want to be as a human being. I find my journey with deep learning to be roughly analgous to that.</p>
-<p>I've been a part of <a href="https://forums.fast.ai/u/wgpubs/summary">the fast.ai community</a> for several years. I've been through <a href="https://course.fast.ai/">the course</a> multiple times (since it was using theano back in the old days), I've contributed to the library, and use it as the basis for one of <a href="https://ohmeow.github.io/blurr/">my own</a>.  And as with each course, with a re-reading of the book I find myself deriving new insights and appreciating different ideas than those I had before.</p>
-<p>And so, while your journey may bring you different revelations, here are the meandering thoughts of one 49 year old married father of 3 living in San Diego, California, USA, as I embark upon the first chapter in what I consider "The Lord of the Rings" of deep learning.</p>
-<h2 id="Chapter-1">Chapter 1<a class="anchor-link" href="#Chapter-1"> </a></h2><hr />
-<h3 id="How-to-Learn-Deep-Learning">How to Learn Deep Learning<a class="anchor-link" href="#How-to-Learn-Deep-Learning"> </a></h3><h4 id="You-can-do-this!">You can do this!<a class="anchor-link" href="#You-can-do-this!"> </a></h4><blockquote><p>Hi, everybody; I'm Jeremy ... I do not have any formal technical education ... didn't have great grades.
-I was much more interested in doing real projects.</p>
+<p>Other posts in this series:
+<a href="https://ohmeow.com/posts/2020/11/06/_11_06_ajtfb_chapter_1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a></p>
+<h2 id="Chapter-2">Chapter 2<a class="anchor-link" href="#Chapter-2"> </a></h2><hr />
+<h3 id="Starting-Your-Project">Starting Your Project<a class="anchor-link" href="#Starting-Your-Project"> </a></h3><h4 id="Things-to-think-about-when-deciding-on-project-feasibility">Things to think about when deciding on project feasibility<a class="anchor-link" href="#Things-to-think-about-when-deciding-on-project-feasibility"> </a></h4><blockquote><p>... the most important consideration is data availability</p>
 </blockquote>
-<p>This is meaningful to me as someone with a BA in History and a MA in Theology. It's a reminder that if you want something, it's within your grasp to make it happen if you are willing to put in the work. It's also a reminder that key to getting there is actually doing something!  If find too many people thinking that if they just get into that school, or if they can just take that class, then they'll be a good software enginner or deep learning practitioner.  The reality is that the <em>only</em> way you get there is by doing it ... just like pull-ups (which aren't much fun when you're starting out and/or you're 49 and overweight).</p>
-<h4 id="The-problem-with-traditional-education">The problem with traditional education<a class="anchor-link" href="#The-problem-with-traditional-education"> </a></h4><blockquote><p>... how math is taught - we require students to spend years doing rote memorization and learning dry
-disconnected <em>fundatmentals</em> that we claim will pay off later, long after most of them quit the subject.</p>
+<p>If you don't have enough quality data and/or the means to create it ... good luck.</p>
+<blockquote><p>Important:<strong>Data augmentation</strong> can alleviate both the need for more manual labelling and also protect you from problems with <em>out-of-domain</em> data (e.g. "when unexpected image types arise in the data when the model is being used in production") by synthetically creating more data likely to be seen that may not be in your dataset as is.&gt; ... iterate from end to end in your project:don't spend months fine-tuning your model, or&gt; polishing the perfect GUI, or labeling the perfect dataset.</p>
 </blockquote>
-<p>This also is the problem with higher education in general, where young people spend at least four to five years learning things they already learned in High School or else things they don't really care about and will be forgotten right after finals, spending in excess of $100,000 for the privilege of it and likely going into debt in the tens of thousands of dollars, all with this idea that having done it they will be prepared for the real world.  Unfortunately, that's not how it works. Whether you are in a university of even go to university, what matter is what you do ... not what classes you took or what your GPA is.</p>
-<h4 id="Deep-Learning-(and-coding-in-general)-is-an-art-maybe-more-so-than-a-science">Deep Learning (and coding in general) is an art maybe more so than a science<a class="anchor-link" href="#Deep-Learning-(and-coding-in-general)-is-an-art-maybe-more-so-than-a-science"> </a></h4><blockquote><p>The hardest part of deep learning is artisanal.</p>
-</blockquote>
-<p>I remember going to an iOS conference way back in the day and a conference speaker asking how many folks in the session I was sitting in had a background in music. 80-90% of the audience raised their hands.  Sure, there is math and stats and a science to deep learning, but like any coding enterprise, it's an art ... with some artists being better than others along with room for improvement regardless of whether you're Van Gough or painting by the numbers.</p>
-<h4 id="Doing-is-how-you-learn,-and-what-you've-done-is-what-matters">Doing is how you learn, and what you've done is what matters<a class="anchor-link" href="#Doing-is-how-you-learn,-and-what-you've-done-is-what-matters"> </a></h4><blockquote><p>... focus on your hobbies and passions ... Common character traits in the people who do well at deep learning include playfulness and curiosity.</p>
-<p>at Tesla .. CEO Elon Musk says 'A PhD is definitely not required. All that matters is a deep understanding of AI &amp; ability to implement NNs in a way that is actually useful .... Don't care if you even graduated High School.'</p>
-<p>... the most important thing for learning deep learning is writing code and experimenting."</p>
-</blockquote>
+<p>In other words, fail early and fail often. If you don't, you're likely to only uncover critical problems much later than you would have before, and even worse, you're likely to not produce anything at all! In the world of deep learning there are a number of tools, that while helpful, can really get you so bogged down that you never deploy something usable (e.g., experiment tracking tools, hyperparameter optimization libraries, etc...). Also, remember that getting something in production is a different task from winning a kaggle competition, where the later may require use of some of those aforementioned tools and the ensembling of dozens of models. For production, something better than human is often good enough to get out there and through refactoring, improve.</p>
 
 </div>
 </div>
@@ -160,45 +149,8 @@ disconnected <em>fundatmentals</em> that we claim will pay off later, long after
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h2 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started"> </a></h2><p><img src="https://github.com/ohmeow/ohmeow_website/blob/master/_notebooks/images/ajtfb-ch-1-deep_learning_overview.png?raw=1" alt="" /></p>
-<h3 id="Training-&amp;-Transfer-Learning">Training &amp; Transfer Learning<a class="anchor-link" href="#Training-&amp;-Transfer-Learning"> </a></h3><blockquote><p>... a <strong><em>model</em></strong> is a special kind of program:it's one that can do <em>many different things</em>, depending &gt; on the <strong><em>weights</em></strong>.</p>
-<p><strong>Weights</strong> are just variables, and a <strong>weight assignment</strong> is a particuarl choice of values for those 
-variables. [Weights] are generally referred to as model <strong><em>parameters</em></strong> ... the term <em>weights</em> being
-reserved for a particular type of model parameter.</p>
-<ul>
-<li>The functional form of the <em>model</em> is called its <strong><em>architecture</em></strong>.</li>
-</ul>
-</blockquote>
-<p>It is "the <em>template</em> of the model that we're trying to fit; i.e., the actual mathematical function that we're passing the input data and parameters to" ... whereas the <strong><em>model</em></strong> is a particular set of parameters + the architecture.</p>
-<blockquote><ul>
-<li>The <em>weights</em> are called <strong><em>parameters</em></strong>.</li>
-</ul>
-</blockquote>
-<p>These are the things that are "learnt"; the values that can change</p>
-<blockquote><ul>
-<li>The predictions are calculated from your <strong><em>indpendent variables</em></strong> [your <code>X</code>]</li>
-<li>The [model's] measure of performance is called the <strong><em>loss</em></strong> ... [which depends on how well your model
-is able to predict] the correct <strong><em>labels</em></strong> (also known as <strong><em>targets</em></strong> or 
-the <strong><em>dependent variable</em></strong>) [your <code>y</code>] ... [given the independent variables as input].</li>
-</ul>
-</blockquote>
-<p>The <strong><em>loss</em></strong> is a measure of model performance that SGD can use to make your model better. A good loss function provides good gradients (slopes) that can be used to make even very minor changes to your weights so as to improve things. Visually, you want gentle rolling hills rather than abrupt steps or jagged peaks.</p>
-<p><strong>Transfer learning</strong> is the process of taking a <strong>"pretrained model"</strong> that has been trained on a very large dataset with proven SOTA results, and <strong>"fine tuning"</strong> it for your specific task, which while likely similar to the task the pretrained model was trained for to one degree or another, is not the necesarily the same.</p>
-<p>What does this mean?</p>
-<ol>
-<li>The <strong>head</strong> of your model (the newly added part specific to your dataset/task) should be trained first since it is the only one with completely random weights. </li>
-<li>The degree to which your weights of the pretrained model will need to be updated is proportional to how similar your data is to the data it was trained on. The more dissimilar, the more the weights will need to be changed.</li>
-<li>Your model will only be as good as the data it was trained on, so make sure what you have is representative of what it will see in the real world. It "can learn to operate on only the patterns seen in the input data used to train it."</li>
-</ol>
-<blockquote><p>The process of <em>training</em> (or <em>fitting</em>) the model is the process of finding a set of <em>parameter values</em> 
-(or <em>weights</em>) that specialize that general architecture into a model that works well for our 
-particular kind of data [and task]</p>
-</blockquote>
-<p>fastai's <code>fine_tune</code> method uses proven tricks and hyperparameters for various DL tasks that the author's have found works well and works most of the time. See p.33 for more info on what it does.</p>
-<blockquote><p>... once the model is trained - that is, once we've chosen our final weight assignments - then we can think of the weights as being <em>part of the model</em> since we're not varying them anymore.</p>
-</blockquote>
-<p>This means a trained model can be treated like a typical function.</p>
-
+<h2 id="The-Drivetrain-Approach">The Drivetrain Approach<a class="anchor-link" href="#The-Drivetrain-Approach"> </a></h2><p><img src="https://raw.githubusercontent.com/fastai/fastbook/41a60e44d588139a03452f1907359fc2322f8d5f/images/drivetrain-approach.png" alt="" /></p>
+<h3 id="Steps-1-3">Steps 1-3<a class="anchor-link" href="#Steps-1-3"> </a></h3><h3 id="Step-4">Step 4<a class="anchor-link" href="#Step-4"> </a></h3>
 </div>
 </div>
 </div>
