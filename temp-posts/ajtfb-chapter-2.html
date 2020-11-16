@@ -16,9 +16,9 @@
 <meta property="og:site_name" content="ohmeow" />
 <meta property="og:image" content="https://ohmeow.com/images/articles/fastbook.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-11-12T00:00:00-06:00" />
+<meta property="article:published_time" content="2020-11-15T00:00:00-06:00" />
 <script type="application/ld+json">
-{"url":"https://ohmeow.com/temp-posts/ajtfb-chapter-2","headline":"A Journey Through Fastbook (AJTFB) - Chapter 2","dateModified":"2020-11-12T00:00:00-06:00","datePublished":"2020-11-12T00:00:00-06:00","image":"https://ohmeow.com/images/articles/fastbook.jpg","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/temp-posts/ajtfb-chapter-2"},"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"The second in a weekly-ish series where I revisit the fast.ai book, “Deep Learning for Coders with fastai &amp; PyTorch”, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!","@context":"https://schema.org"}</script>
+{"url":"https://ohmeow.com/temp-posts/ajtfb-chapter-2","headline":"A Journey Through Fastbook (AJTFB) - Chapter 2","dateModified":"2020-11-15T00:00:00-06:00","datePublished":"2020-11-15T00:00:00-06:00","image":"https://ohmeow.com/images/articles/fastbook.jpg","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/temp-posts/ajtfb-chapter-2"},"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"The second in a weekly-ish series where I revisit the fast.ai book, “Deep Learning for Coders with fastai &amp; PyTorch”, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -78,15 +78,15 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">A Journey Through Fastbook (AJTFB) - Chapter 2</h1><p class="page-description">The second in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-11-12T00:00:00-06:00" itemprop="datePublished">
-        Nov 12, 2020
+    <h1 class="post-title p-name" itemprop="name headline">A Journey Through Fastbook (AJTFB) - Chapter 2</h1><p class="page-description">The second in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-11-15T00:00:00-06:00" itemprop="datePublished">
+        Nov 15, 2020
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Wayde Gilliam</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
-      10 min read
+      9 min read
     
 </span></p>
 
@@ -300,54 +300,67 @@ failed.map(Path.unlink)</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Metrics">Metrics<a class="anchor-link" href="#Metrics"> </a></h3><p><strong>Metrics</strong> are a human-understandable measures of model quality whereas the <strong>loss</strong> is the machine's.  They are based on your validation set and are what you really care about, whereas the loss is "a measure of performance" that the training system can use to update weights automatically.</p>
-<p>A good choice for loss is a function "that is easy for <strong><em>stochastic gradient descent (SGD)</em></strong> to use, whereas a good choies for your metrics are functions that your business users will care about. Seldom are they the same because most metrics don't provide smooth gradients that SGD can use to update your model's weights.</p>
-<p>Examples of common metrics:</p>
-<p><strong>error rate</strong> = "the proportion of images that were incorrectly identified.</p>
-<p><strong>accuracy</strong> = the proportation of images that were correctly identified (<code>1 - error rate</code>)</p>
+<h3 id="DataBlock-API-Basics">DataBlock API Basics<a class="anchor-link" href="#DataBlock-API-Basics"> </a></h3><p>In order to make your data "modelable" (via <code>DataLoader</code>s, you need to tell fastai 4 things:</p>
+<ol>
+<li>What kind of data you are working with</li>
+<li>How to get the data</li>
+<li>How to label the data</li>
+<li>How to create a validation set</li>
+</ol>
+<p>Here's an example of how this is done with the <code>DataBlock API</code>:</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-<h2 id="Validation-&amp;-Test-Sets">Validation &amp; Test Sets<a class="anchor-link" href="#Validation-&amp;-Test-Sets"> </a></h2><h3 id="What-is-a-validation-set?">What is a validation set?<a class="anchor-link" href="#What-is-a-validation-set?"> </a></h3><p>A <strong><em>validation set</em></strong> (also know as the "development set") does not include any data from the <strong><em>training set</em></strong>.  It's purpose to is gauge the generalization prowess of your model and also ensure you are neight overfitting or underfitting.</p>
-<blockquote><p>If [the model] makes an accurate prediction for a data item, that should be because it has learned characteristics
-of that kind of item, and not because the model has been shaped by <em>actually having seen that particular
-item</em>.</p>
-</blockquote>
-<h3 id="Why-do-we-need-a-validation-set?">Why do we need a validation set?<a class="anchor-link" href="#Why-do-we-need-a-validation-set?"> </a></h3><blockquote><p>[because] what we care about is how well our model works on <em>previously unseen images</em> ... the longer
-you train for, the better your accuracy will get on the training set ... as the model starts to memorize
-the training set rather than finding generalizable underlying patterns in the data = <strong>overfitting</strong></p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/fastai/fastbook/41a60e44d588139a03452f1907359fc2322f8d5f/images/att_00000.png" alt="" />
-<strong><em>Overfitting</em></strong> happens when the model "remembers specific features of the input data, rather than generalizing well to data not seen during training."
-<div class="flash flash-warn">
+<pre><code>d_block = DataBlock(
+  blocks=(ImageBlock, CategoryBlock),              #=&gt; our independent and dependent variable datatypes
+  get_items=get_image_files,                       #=&gt; how to get our data
+  splitter=RandomSplitter(valid_pct=0.2, seed=42), #=&gt; how to create the validation set
+  get_y=parent_label,                              #=&gt; how to label our data
+  item_tfms=Resize(128)                            #=&gt; code that runs against each item as it is fetched</code></pre>
+<p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Your models should always overfit before anything else.  It is your training loss gets better while your validation loss gets worse ... in other words, if you&#8217;re validation loss is improving, even if not to the extent of your training loss, you are <em>not</em> overfitting
-</div><div class="flash flash-warn">
+    <strong>Important: </strong>Use the <code>seed</code> argument to ensure you get the same training/validation set each time you run that code; else you won&#8217;t be able to know if, as you change hyperparameter values, your model performance changed because of those values and/or because of difference in your training/validation sets!
+</div>&gt; ... a <code>DataBlock object</code> ... is like a template for creating a <code>DataLoaders</code> object</p>
+<p>For more detailed discussion of the DataBlock API, see the following resources:1. My article <a href="https://ohmeow.com/posts/2020/04/11/finding-datablock-nirvana-part-1.html">"Finding DataBlock Nirvana with fast.ai v2 - Part 1"</a>2. The <a href="https://forums.fast.ai/t/a-walk-with-fastai2-vision-study-group-and-online-lectures-megathread/59929">"Walk with fastai2" videos</a></p>
+<ol>
+<li>The <a href="https://docs.fast.ai/data.block">fastai docs</a> and the <a href="https://docs.fast.ai/tutorial.datablock">DataBlock Tutorials</a></li>
+</ol>
+<p>Once you've defined your blueprint for how to get your modelable data (i.e., your <code>DataLoaders</code>), you need to pass it the "actual source" of your data, which can be a path or a DataFrame or whatever.</p>
+
+<pre><code>dls = d_block.dataloaders(path)</code></pre>
+<p>Use <code>dls.show_batch(...)</code> or <code>dls.valid.show_batch(...)</code> to visualize your training/validation data.
+<div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>ALWAYS include a validation set.
-</div><div class="flash flash-warn">
+    <strong>Important: </strong>You can change the transforms in your DataBlock by reusing the existing DataBlock using <code>d_block.new</code>
+</div></p>
+
+<pre><code>d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.squish))
+dls = d_block.dataloaders(path)
+...
+d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeroes'))
+dls = d_block.dataloaders(path)
+...</code></pre>
+<p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>ALWAYS measure your accuracy (or any metrics) on the validation set.
-</div><div class="flash flash-warn">
+    <strong>Important: </strong>For resizing ... "what we normally do in practice is to randomly select part of the image and then crop to just that part. On each epoch ... we randomly select a different part of each image. This means that our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways."  This is done using the <strong>RandomResizedCrop</strong> transform.
+</div></p>
+
+<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3))</code></pre>
+<p><code>min_scale</code>: "how much of the image to select at minimum each time." 0.5 = select 50% of the image at minimum.
+<div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Set the <code>seed</code> parameter so that you "get the same validation set every time" so that "if we change our model and retrain it, we know any differences are due to the changes to the model, not due to having a different random validation set."
+    <strong>Important: </strong>Pass <code>unique=True</code> to your <code>show_batch</code> functions "to have the same image repeated with different versions" of the transforms you&#8217;ve defined.
 </div>
-The validation set also informs us how we may change the  <strong><em>hyperparamters</em></strong> (e.g., model architecture, learning rates, data augmentation, etc...) to improve results.  These parameters are NOT learned ... they are choices WE make that affect the learning of the model parameters.</p>
-<h3 id="What-is-a-test-set?">What is a test set?<a class="anchor-link" href="#What-is-a-test-set?"> </a></h3><p>A <strong><em>test set</em></strong> ensures that we aren't overfitting our hyperparameter choices; it is held back even from ourselves and used to evaulate the model at the very end.
+<strong>Data augmentation</strong> transorms (e.g., rotation, flipping, perspective warping, brightness changes, contrast changes, etc...) are defined as <strong>batch transforms</strong> and run on the GPU.
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>If evaluating 3rd party solutions know how to create a good test set and how to create a good baseline model.  Hold these out from the potential consultants and use them to fairly evaluate their work.
+    <strong>Important: </strong>Item Transforms are applied to an item from your dataset when it is fetched, Batch Transforms are applied to a collection of items on the GPU <em>after</em> they have been collated into the same shape.
 </div></p>
-<h3 id="How-do-you-define-a-good-validation-and-test-sets?">How do you define a good validation and test sets?<a class="anchor-link" href="#How-do-you-define-a-good-validation-and-test-sets?"> </a></h3><p>See pp.50-54 ...</p>
-<blockquote><p>A key property of the validation and test sets is that they must be representative of the new data
-you will see in the future.</p>
-</blockquote>
-<p>For time series, that means you'll likely want to make your validation set a continuous section with the latest dates.</p>
-<p>You'll also want to make sure your model isn't learning particular ancillary features of particular things in your images (e.g., you want to see how your model performs on a person or boat it hasn't seen before ... see pp.53-54 for examples).</p>
+
+<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3), batch_tfms=aug_transforms(mult=2))</code></pre>
+<p><code>batch_tfms</code>: Your batch transforms, or more correctly your <em>after batch</em> transforms
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong><code>aug_transforms</code> are "a standard set of augmentations that we have found work pretty well"
+</div></p>
 
 </div>
 </div>
@@ -355,40 +368,63 @@ you will see in the future.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h2 id="Q-&amp;-A-&amp;-Best-Practices">Q &amp; A &amp; Best Practices<a class="anchor-link" href="#Q-&amp;-A-&amp;-Best-Practices"> </a></h2><h3 id="What-is-a-Transform">What is a <code>Transform</code><a class="anchor-link" href="#What-is-a-Transform"> </a></h3><blockquote><p>A <strong>Transform</strong> conatins code that is applied automatically during training. There are two kinds ...</p>
-<ol>
-<li><code>item_tfms</code>:Applied to each item2. <code>batch_tfms</code>: Applied to a <em>batch</em> of items at a time <em>using the GPU</em></li>
-</ol>
-</blockquote>
-<h3 id="Why-do-we-make-images-224x224-pixels?">Why do we make images 224x224 pixels?<a class="anchor-link" href="#Why-do-we-make-images-224x224-pixels?"> </a></h3><blockquote><p>This is the standard size for historical reasons (old pretrained models require this size exactly) ...
-If you increase the size, you'll often get a model with better results since it will be able to focus
-on more details.</p>
-<p>Important:Train on progressively larger image sizes using the weights trained on smaller sizes as a kind of pretrained model.</p>
-<h3 id="What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?">What is a ResNet &amp; Why use it for computer vision tasks?<a class="anchor-link" href="#What-is-a-ResNet-&amp;-Why-use-it-for-computer-vision-tasks?"> </a></h3>
-</blockquote>
-<p>A <strong>ResNet</strong> is a model architecture that has proven to work well in CV tasks. Several variants exist with different numbers of layers with the larger architectures taking longer to train and more prone to overfitting especially with smaller datasets.
-<div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Start with a smaller ResNet (like 18 or 34) and move up as needed.
-</div><div class="flash flash-warn">
+<h3 id="Cleaning-your-model-through-training">Cleaning your model through training<a class="anchor-link" href="#Cleaning-your-model-through-training"> </a></h3><p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>If you have a lot of data, the bigger resnets will likely give you better results.
-</div>
-And what other things can use images recognizers for besides image tasks? Sound, time series, malware classification ...</p>
-<blockquote><p>... a good rule of thumb for converting a dataset into an image representation:if the human eye can recognize categories from the images, then a deep learning model should be able to do so too.
-See pp.36-39</p>
-</blockquote>
-<h3 id="How-can-we-see-what-our-NN's-are-actually-learning/doing?">How can we see what our NN's are actually learning/doing?<a class="anchor-link" href="#How-can-we-see-what-our-NN's-are-actually-learning/doing?"> </a></h3><p>See pp.33-36. Being able to inspect what your NN is doing (e.g., looking at the activations and the gradients) is one of the most important things you can learn as they are often the key to improving results.
-<div class="flash flash-warn">
+    <strong>Important: </strong>"It&#8217;s helpful to see where exactly our errors are occuring, to see whether they&#8217;re due to a dataset problem ... or a model problem" using <code>plot_top_losses</code>
+</div></p>
+
+<pre><code>interp = ClassificationInterpretation.from_learner(learn)
+interp.plot_top_losses(5, nrows=1) #&gt; show the 5 examples with the highest loss</code></pre>
+<p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Learn how to visualize and understand your activations and gradients!
+    <strong>Important: </strong>A "model can help you find data issues more quickly ... so we normally prefer to train a quick and simple model first, and then use it to help with data cleaning."
 </div></p>
-<h3 id="What-is-the-difference-between-categorical-and-continuous-datatypes?">What is the difference between categorical and continuous datatypes?<a class="anchor-link" href="#What-is-the-difference-between-categorical-and-continuous-datatypes?"> </a></h3><p><strong><em>Categorical</em></strong> data "contains values taht are one of a discrete set of choice" such as gender, occupation, day of week, etc...</p>
-<p><strong><em>Continuous</em></strong> data is numerical that represents a quantity such as age, salary, prices, etc...
-<div class="flash flash-warn">
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Inference">Inference<a class="anchor-link" href="#Inference"> </a></h3><blockquote><p>"a model consists of two parts:the <em>architecture</em> and the trained <em>parameters</em>."  You can use it just like any other function</p>
+
+<pre><code>#saves the architecture, the trained parameters, and the definintion of how to create your DataLoaders
+learn.export()</code></pre>
+<p>"fastai ... uses your validation set <code>DataLoader</code> for inference by default, so your data augmentation 
+will not be applied.</p>
+</blockquote>
+<p>To get predictions:```inf_learn = load_learner(path/'export.pkl')
+inf_learn.predict('images/grizzly.jpg')</p>
+
+<pre><code>
+To view possible classification categories/labels:</code></pre>
+<p>inf_learn.dls.vocab
+```</p>
+<p>For options on how to deploy your app, see the <a href="https://course.fast.ai/">Deployment section</a> in the course website. I personally like to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> and there is a good <a href="https://forums.fast.ai/t/fastai2-fastapi-starter-template/69373?u=wgpubs">starter template here</a> for that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="How-to-Avoid-Disaster">How to Avoid Disaster<a class="anchor-link" href="#How-to-Avoid-Disaster"> </a></h3><p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>For tasks that predict a continuous number, consider using <code>y_range</code> to constrain the network to predicting a value in the known range of valid values. (see p.47)
-</div></p>
+    <strong>Important: </strong>Your model is only as good as the data it was trained on
+</div>
+Two problems to watch out for:</p>
+<ol>
+<li><strong>out-of-domain data</strong>: "data that our model sees in production that is very different to wath it saw during training.</li>
+<li><strong>domain shift</strong>: "whereby the type of data that our model sees changes over time."</li>
+</ol>
+<p>Mitigation steps:</p>
+<p><img src="https://github.com/fastai/fastbook/raw/41a60e44d588139a03452f1907359fc2322f8d5f/images/att_00061.png" alt="" /></p>
+<blockquote><p>Where possible, the <strong>first step</strong> is to use an entirely manual process with your model running in 
+parallel and not being used to directly drive any actions.</p>
+<p>The <strong>second step</strong> is to try and limit the scop of the model.</p>
+<p>The <strong>third step</strong> is to gradually increase the scope of your rollout.</p>
+<p>Important:"Try to think about all the ways in which your system could go wrong, and then think about what measure or report or picture could reflect that problem, and ensure that your regular reporting includes that information."</p>
+</blockquote>
 
 </div>
 </div>
