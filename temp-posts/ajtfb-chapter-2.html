@@ -319,9 +319,12 @@ failed.map(Path.unlink)</code></pre>
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>Use the <code>seed</code> argument to ensure you get the same training/validation set each time you run that code; else you won&#8217;t be able to know if, as you change hyperparameter values, your model performance changed because of those values and/or because of difference in your training/validation sets!
 </div>&gt; ... a <code>DataBlock object</code> ... is like a template for creating a <code>DataLoaders</code> object</p>
-<p>For more detailed discussion of the DataBlock API, see the following resources:1. My article <a href="https://ohmeow.com/posts/2020/04/11/finding-datablock-nirvana-part-1.html">"Finding DataBlock Nirvana with fast.ai v2 - Part 1"</a>2. The <a href="https://forums.fast.ai/t/a-walk-with-fastai2-vision-study-group-and-online-lectures-megathread/59929">"Walk with fastai2" videos</a></p>
+<p>For more detailed discussion of the DataBlock API, see the following resources:1. My article <a href="https://ohmeow.com/posts/2020/04/11/finding-datablock-nirvana-part-1.html">"Finding DataBlock Nirvana with fast.ai v2 - Part 1"</a></p>
 <ol>
-<li>The <a href="https://docs.fast.ai/data.block">fastai docs</a> and the <a href="https://docs.fast.ai/tutorial.datablock">DataBlock Tutorials</a></li>
+<li><p>The <a href="https://forums.fast.ai/t/a-walk-with-fastai2-vision-study-group-and-online-lectures-megathread/59929">"Walk with fastai2" videos</a></p>
+</li>
+<li><p>The <a href="https://docs.fast.ai/data.block">fastai docs</a> and the <a href="https://docs.fast.ai/tutorial.datablock">DataBlock Tutorials</a></p>
+</li>
 </ol>
 <p>Once you've defined your blueprint for how to get your modelable data (i.e., your <code>DataLoaders</code>), you need to pass it the "actual source" of your data, which can be a path or a DataFrame or whatever.</p>
 
@@ -348,8 +351,8 @@ dls = d_block.dataloaders(path)
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>Pass <code>unique=True</code> to your <code>show_batch</code> functions "to have the same image repeated with different versions" of the transforms you&#8217;ve defined.
-</div>
-<strong>Data augmentation</strong> transorms (e.g., rotation, flipping, perspective warping, brightness changes, contrast changes, etc...) are defined as <strong>batch transforms</strong> and run on the GPU.
+</div></p>
+<p><strong>Data augmentation</strong> transorms (e.g., rotation, flipping, perspective warping, brightness changes, contrast changes, etc...) are defined as <strong>batch transforms</strong> and run on the GPU.
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>Item Transforms are applied to an item from your dataset when it is fetched, Batch Transforms are applied to a collection of items on the GPU <em>after</em> they have been collated into the same shape.
@@ -411,8 +414,8 @@ To view possible classification categories/labels:</code></pre>
 <h3 id="How-to-Avoid-Disaster">How to Avoid Disaster<a class="anchor-link" href="#How-to-Avoid-Disaster"> </a></h3><p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>Your model is only as good as the data it was trained on
-</div>
-Two problems to watch out for:</p>
+</div></p>
+<p>Two problems to watch out for:</p>
 <ol>
 <li><strong>out-of-domain data</strong>: "data that our model sees in production that is very different to wath it saw during training.</li>
 <li><strong>domain shift</strong>: "whereby the type of data that our model sees changes over time."</li>
