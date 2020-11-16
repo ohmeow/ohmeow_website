@@ -397,9 +397,10 @@ learn.export()</code></pre>
 <blockquote><p>fastai ... uses your validation set <code>DataLoader</code> for inference by default, so your data augmentation 
 will not be applied.</p>
 </blockquote>
-<p>To get prediction:<code>inf_learn = load_learner(path/'export.pkl')
+
+<pre><code>inf_learn = load_learner(path/'export.pkl')
 inf_learn.predict('images/grizzly.jpg')
-inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</code></p>
+inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</code></pre>
 <p>For options on how to deploy your app, see the <a href="https://course.fast.ai/">Deployment section</a> in the course website. I personally like to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> and there is a good <a href="https://forums.fast.ai/t/fastai2-fastapi-starter-template/69373?u=wgpubs">starter template here</a> for that.</p>
 
 </div>
