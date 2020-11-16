@@ -394,13 +394,14 @@ interp.plot_top_losses(5, nrows=1) #&gt; show the 5 examples with the highest lo
 
 <pre><code>#saves the architecture, the trained parameters, and the definintion of how to create your DataLoaders
 learn.export()</code></pre>
-<blockquote><p>"fastai ... uses your validation set <code>DataLoader</code> for inference by default, so your data augmentation 
+<blockquote><p>fastai ... uses your validation set <code>DataLoader</code> for inference by default, so your data augmentation 
 will not be applied.</p>
 </blockquote>
-<p>To get predictions:```inf_learn = load_learner(path/'export.pkl')
+<p>To get prediction:```inf_learn = load_learner(path/'export.pkl')
 inf_learn.predict('images/grizzly.jpg')</p>
 
 <pre><code>
+
 To view possible classification categories/labels:</code></pre>
 <p>inf_learn.dls.vocab
 ```</p>
