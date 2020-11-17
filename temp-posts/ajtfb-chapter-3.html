@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>A Journey Through Fastbook (AJTFB) - Chapter 3 | ohmeow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 3" />
+<meta name="author" content="Wayde Gilliam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The third in a weekly-ish series where I revisit the fast.ai book, “Deep Learning for Coders with fastai &amp; PyTorch”, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!" />
+<meta property="og:description" content="The third in a weekly-ish series where I revisit the fast.ai book, “Deep Learning for Coders with fastai &amp; PyTorch”, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!" />
+<link rel="canonical" href="https://ohmeow.com/temp-posts/ajtfb-chapter-3" />
+<meta property="og:url" content="https://ohmeow.com/temp-posts/ajtfb-chapter-3" />
+<meta property="og:site_name" content="ohmeow" />
+<meta property="og:image" content="https://ohmeow.com/images/articles/fastbook.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-22T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://ohmeow.com/temp-posts/ajtfb-chapter-3","headline":"A Journey Through Fastbook (AJTFB) - Chapter 3","dateModified":"2020-11-22T00:00:00-06:00","datePublished":"2020-11-22T00:00:00-06:00","image":"https://ohmeow.com/images/articles/fastbook.jpg","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/temp-posts/ajtfb-chapter-3"},"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"The third in a weekly-ish series where I revisit the fast.ai book, “Deep Learning for Coders with fastai &amp; PyTorch”, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-163296836-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
+        </nav></div>
+  </header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">A Journey Through Fastbook (AJTFB) - Chapter 3</h1><p class="page-description">The third in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-11-22T00:00:00-06:00" itemprop="datePublished">
+        Nov 22, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Wayde Gilliam</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#fastai">fastai</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#fastbook">fastbook</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/ohmeow/ohmeow_website/tree/master/_notebooks/2020-11-22-ajtfb-chapter-3.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ohmeow/ohmeow_website/blob/master/_notebooks/2020-11-22-ajtfb-chapter-3.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-11-22-ajtfb-chapter-3.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Other posts in this series:<br />
+<a href="https://ohmeow.com/posts/2020/11/06/_11_06_ajtfb_chapter_1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br />
+<a href="https://ohmeow.com/posts/2020/11/16/ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a></p>
+<h2 id="Chapter-2">Chapter 2<a class="anchor-link" href="#Chapter-2"> </a></h2><hr />
+<h3 id="Starting-Your-Project">Starting Your Project<a class="anchor-link" href="#Starting-Your-Project"> </a></h3><h4 id="Things-to-think-about-when-deciding-on-project-feasibility">Things to think about when deciding on project feasibility<a class="anchor-link" href="#Things-to-think-about-when-deciding-on-project-feasibility"> </a></h4><blockquote><p>When selecting a project, the most important consideration is data availability</p>
+</blockquote>
+<p>If you don't have enough quality data ... good luck :)<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Consider that <strong>data augmentation</strong> can alleviate both the need for more manual labelling and also protect you from problems with <em>out-of-domain</em> data (e.g. when unexpected image types arise in the data when the model is being used in production) by synthetically creating more data likely to be seen that may not be in your dataset as is.
+</div></p>
+<blockquote><p>... iterate from end to end in your project; don't spend months fine-tuning your model, or polishing the perfect GUI, or labeling the perfect dataset</p>
+</blockquote>
+<p>This is good advice for <em>any</em> software project ...<strong><em>fail early and fail often</em></strong>. If you don't, you're likely to only uncover critical problems much later than you would have before, and even worse, you're likely to not produce anything at all! In the world of deep learning there are a number of tools, that while helpful, can really get you so bogged down that you never deploy something usable (e.g., experiment tracking tools, hyperparameter optimization libraries, etc...). Also, remember that getting something in production is a different task from winning a kaggle competition, where the later may require use of some of those aforementioned tools and the ensembling of dozens of models. For production, something better than human is often good enough to get out there and through refactoring, improve.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h2 id="The-Drivetrain-Approach">The Drivetrain Approach<a class="anchor-link" href="#The-Drivetrain-Approach"> </a></h2><p><img src="https://raw.githubusercontent.com/fastai/fastbook/41a60e44d588139a03452f1907359fc2322f8d5f/images/drivetrain-approach.png" alt="" /></p>
+<h3 id="Four-Steps">Four Steps<a class="anchor-link" href="#Four-Steps"> </a></h3><h4 id="Step-1:-Define-your-objective(s)">Step 1: Define your objective(s)<a class="anchor-link" href="#Step-1:-Define-your-objective(s)"> </a></h4><p>It's amazing how in my 20+ years as a developer, how rare it is that a customer is able to clearly define what they want! In my experience, more than not, it is the developers that end up defining the goals. Not having a clear objective is likely to waste time, energy, and money to produce something that won't even see the light of day.  You can't gauge the completion or quality of any software project without clear objective(s).</p>
+<p>Ex.1: Show most relevant search results.<br />
+Ex.2: Drive additional sales by recommending to customers items to purchase they otherwise wouldn't</p>
+<h4 id="Step-2:-What-actions-can-you-take-to-achieve-those-objective(s)?">Step 2: What actions can you take to achieve those objective(s)?<a class="anchor-link" href="#Step-2:-What-actions-can-you-take-to-achieve-those-objective(s)?"> </a></h4><p>What things can make your goals a reality. Pretty simple.</p>
+<p>Ex.1: Ranking the search results will help show the most relevants ones first.<br />
+Ex.2: Ranking the recommendations will help.</p>
+<h4 id="Step-3:-What-data-is-needed-to-take-those-actions?">Step 3: What data is needed to take those actions?<a class="anchor-link" href="#Step-3:-What-data-is-needed-to-take-those-actions?"> </a></h4><p>If you don't have the data, you'll need to get it ... because the data pulls the levers which get you closer to your objective(s).</p>
+<p>Ex.1: Seeing what how pages linked to other pages.<br />
+Ex.2: Collecting data on what customers purchased, what was recommended, and what they did with that info.</p>
+<h4 id="Step-4:-Build-models">Step 4: Build models<a class="anchor-link" href="#Step-4:-Build-models"> </a></h4><p>Only once you have the data and know what actions you want to be able to take based on the information within it, do you being modeling ... first, defining what models you can even build with that data and second, what data you need to collect for models you can't.</p>
+<p>Ex.1: A model that takes the page relation data and predicts a ranking given a query.<br />
+Ex.2: Two models that predict the purchasing proabilities conditional on seeing or not seeing a recommendation.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> pip install fastai -q
+<span class="kn">from</span> <span class="nn">fastai.vision</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Downloading-images,-getting-the-downloaded-images,-&amp;-removing-those-that-are-corrupt">Downloading images, getting the downloaded images, &amp; removing those that are corrupt<a class="anchor-link" href="#Downloading-images,-getting-the-downloaded-images,-&amp;-removing-those-that-are-corrupt"> </a></h3><ol>
+<li>Use <code>download_images</code> listed as URLs in a text file <code>urls</code> to download the actual images locally.  </li>
+<li>Get the file path to the images via <code>get_image_files</code> in an <code>L</code> object.  </li>
+<li>Get rid of the corrupt images using <code>verify_images</code> and <code>Path.unlink</code>.</li>
+</ol>
+
+<pre><code>path = Path('bears/grizzly')
+download_images(path, urls=image_urls.txt)
+
+file_paths = get_image_files(path)
+failed = verify_images(file_paths)
+failed.map(Path.unlink)</code></pre>
+<p>Notice how <code>L</code>'s <code>map</code> method is used to apply the <code>Path.unlink</code> function to each item in-place.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Getting-help">Getting help<a class="anchor-link" href="#Getting-help"> </a></h3><p>A few of ways ...</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>download_images<span class="o">?</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>download_images<span class="o">??</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span><span class="p">(</span><span class="n">download_images</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also use <code>pdb.set_trace</code> (in code) or  <code>%debug</code>(in a new cell following the one with the error) to step through your code.  I use the former all the time ... its a great way to debug and also learn what the code is doing and why.  For example, I use it to look at the shape of things as the travel through and out of different layers in my NNs.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+<span class="k">def</span> <span class="nf">div_by_zero</span><span class="p">():</span>
+  <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;here&#39;</span><span class="p">)</span>
+
+<span class="c1"># uncomment this to see what I&#39;m talking about ...</span>
+<span class="c1"># div_by_zero()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="DataBlock-API-Basics">DataBlock API Basics<a class="anchor-link" href="#DataBlock-API-Basics"> </a></h3><p>In order to make your data "modelable" (via <code>DataLoader</code>s, you need to tell fastai 4 things:</p>
+<ol>
+<li>What kind of data you are working with</li>
+<li>How to get the data</li>
+<li>How to label the data</li>
+<li>How to create a validation set</li>
+</ol>
+<p>Here's an example of how this is done with the <code>DataBlock API</code>:</p>
+
+<pre><code>d_block = DataBlock(
+  blocks=(ImageBlock, CategoryBlock),              #=&gt; our independent and dependent variable datatypes
+  get_items=get_image_files,                       #=&gt; how to get our data
+  splitter=RandomSplitter(valid_pct=0.2, seed=42), #=&gt; how to create the validation set
+  get_y=parent_label,                              #=&gt; how to label our data
+  item_tfms=Resize(128)                            #=&gt; code that runs against each item as it is fetched</code></pre>
+<p><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Use the <code>seed</code> argument to ensure you get the same training/validation set each time you run that code; else you won&#8217;t be able to know if, as you change hyperparameter values, your model performance changed because of those values and/or because of difference in your training/validation sets!
+</div>&gt; ... a <code>DataBlock object</code> ... is like a template for creating a <code>DataLoaders</code> object</p>
+<p>For more detailed discussion of the DataBlock API, see the following resources:1. My article <a href="https://ohmeow.com/posts/2020/04/11/finding-datablock-nirvana-part-1.html">"Finding DataBlock Nirvana with fast.ai v2 - Part 1"</a></p>
+<ol>
+<li><p>The <a href="https://forums.fast.ai/t/a-walk-with-fastai2-vision-study-group-and-online-lectures-megathread/59929">"Walk with fastai2" videos</a></p>
+</li>
+<li><p>The <a href="https://docs.fast.ai/data.block">fastai docs</a> and the <a href="https://docs.fast.ai/tutorial.datablock">DataBlock Tutorials</a></p>
+</li>
+</ol>
+<p>Once you've defined your blueprint for how to get your modelable data (i.e., your <code>DataLoaders</code>), you need to pass it the "actual source" of your data, which can be a path or a DataFrame or whatever.</p>
+
+<pre><code>dls = d_block.dataloaders(path)</code></pre>
+<p>Use <code>dls.show_batch(...)</code> or <code>dls.valid.show_batch(...)</code> to visualize your training/validation data.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>You can change the transforms in your DataBlock by reusing the existing DataBlock using <code>d_block.new</code>
+</div></p>
+
+<pre><code>d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.squish))
+dls = d_block.dataloaders(path)
+...
+d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeroes'))
+dls = d_block.dataloaders(path)
+...</code></pre>
+<p><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>For resizing ... "what we normally do in practice is to randomly select part of the image and then crop to just that part. On each epoch ... we randomly select a different part of each image. This means that our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways."  This is done using the <strong>RandomResizedCrop</strong> transform.
+</div></p>
+
+<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3))</code></pre>
+<p><code>min_scale</code>: "how much of the image to select at minimum each time." 0.5 = select 50% of the image at minimum.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Pass <code>unique=True</code> to your <code>show_batch</code> functions "to have the same image repeated with different versions" of the transforms you&#8217;ve defined.
+</div></p>
+<p><strong>Data augmentation</strong> transorms (e.g., rotation, flipping, perspective warping, brightness changes, contrast changes, etc...) are defined as <strong>batch transforms</strong> and run on the GPU.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Item Transforms are applied to an item from your dataset when it is fetched, Batch Transforms are applied to a collection of items on the GPU <em>after</em> they have been collated into the same shape.
+</div></p>
+
+<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3), batch_tfms=aug_transforms(mult=2))</code></pre>
+<p><code>batch_tfms</code>: Your batch transforms, or more correctly your <em>after batch</em> transforms
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong><code>aug_transforms</code> are "a standard set of augmentations that we have found work pretty well"
+</div></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Cleaning-your-model-through-training">Cleaning your model through training<a class="anchor-link" href="#Cleaning-your-model-through-training"> </a></h3><p><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>"It&#8217;s helpful to see where exactly our errors are occuring, to see whether they&#8217;re due to a dataset problem ... or a model problem" using <code>plot_top_losses</code>
+</div></p>
+
+<pre><code>interp = ClassificationInterpretation.from_learner(learn)
+interp.plot_top_losses(5, nrows=1) #&gt; show the 5 examples with the highest loss</code></pre>
+<p><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>A "model can help you find data issues more quickly ... so we normally prefer to train a quick and simple model first, and then use it to help with data cleaning."
+</div></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Inference">Inference<a class="anchor-link" href="#Inference"> </a></h3><blockquote><p>"a model consists of two parts:the <em>architecture</em> and the trained <em>parameters</em>."  You can use it just like any other function</p>
+</blockquote>
+
+<pre><code>#saves the architecture, the trained parameters, and the definintion of how to create your DataLoaders
+learn.export()</code></pre>
+<blockquote><p>fastai ... uses your validation set <code>DataLoader</code> for inference by default, so your data augmentation 
+will not be applied.</p>
+</blockquote>
+
+<pre><code>inf_learn = load_learner(path/'export.pkl')
+inf_learn.predict('images/grizzly.jpg')
+inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</code></pre>
+<p>For options on how to deploy your app, see the <a href="https://course.fast.ai/">Deployment section</a> in the course website. I personally like to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> and there is a good <a href="https://forums.fast.ai/t/fastai2-fastapi-starter-template/69373?u=wgpubs">starter template here</a> for that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="How-to-Avoid-Disaster">How to Avoid Disaster<a class="anchor-link" href="#How-to-Avoid-Disaster"> </a></h3><p><div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>Your model is only as good as the data it was trained on
+</div></p>
+<p>Two problems to watch out for:</p>
+<ol>
+<li><strong>out-of-domain data</strong>: "data that our model sees in production that is very different to wath it saw during training.</li>
+<li><strong>domain shift</strong>: "whereby the type of data that our model sees changes over time."</li>
+</ol>
+<p>Mitigation steps:</p>
+<p><img src="https://github.com/fastai/fastbook/raw/41a60e44d588139a03452f1907359fc2322f8d5f/images/att_00061.png" alt="" /></p>
+<blockquote><p>Where possible, the <strong>first step</strong> is to use an entirely manual process with your model running in 
+parallel and not being used to directly drive any actions.</p>
+<p>The <strong>second step</strong> is to try and limit the scop of the model.</p>
+<p>The <strong>third step</strong> is to gradually increase the scope of your rollout.</p>
+<p>Important:"Try to think about all the ways in which your system could go wrong, and then think about what measure or report or picture could reflect that problem, and ensure that your regular reporting includes that information."</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h2 id="Resources">Resources<a class="anchor-link" href="#Resources"> </a></h2><ol>
+<li><p><a href="https://book.fast.ai">https://book.fast.ai</a> - The book's website; it's updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc...</p>
+</li>
+<li><p><a href="https://docs.fast.ai/">https://docs.fast.ai/</a> - The library's documentation; includes tutorials and other tips for development.</p>
+</li>
+<li><p><a href="https://forums.fast.ai/">https://forums.fast.ai/</a> - If you're not part of the community yet, you should be. Before posting a question, search to see if it has been answered already (95% of the time, it has).</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ohmeow/ohmeow_website"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/temp-posts/ajtfb-chapter-3" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p>A full-stack web application and ML development company.</p>
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div>
+
+  </div>
+
+</footer></body>
+
+</html>
