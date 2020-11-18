@@ -86,7 +86,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      9 min read
+      8 min read
     
 </span></p>
 
@@ -136,235 +136,68 @@ window.onload = wrap_img;
 <p>Other posts in this series:<br />
 <a href="https://ohmeow.com/posts/2020/11/06/_11_06_ajtfb_chapter_1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br />
 <a href="https://ohmeow.com/posts/2020/11/16/ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a></p>
-<h2 id="Chapter-2">Chapter 2<a class="anchor-link" href="#Chapter-2"> </a></h2><hr />
-<h3 id="Starting-Your-Project">Starting Your Project<a class="anchor-link" href="#Starting-Your-Project"> </a></h3><h4 id="Things-to-think-about-when-deciding-on-project-feasibility">Things to think about when deciding on project feasibility<a class="anchor-link" href="#Things-to-think-about-when-deciding-on-project-feasibility"> </a></h4><blockquote><p>When selecting a project, the most important consideration is data availability</p>
+<h2 id="Chapter-3">Chapter 3<a class="anchor-link" href="#Chapter-3"> </a></h2><hr />
+<h3 id="Data-Ethics">Data Ethics<a class="anchor-link" href="#Data-Ethics"> </a></h3><blockquote><p>... sometimes machine learning models can go wrong. They can have bugs. They can be presented with data that they haven't seen before and behave in ways we don't expect. Or ... they can be used for something that we would much prefer they were never, ever used for.</p>
+<p>... no one really agrees on what right and wrong are, whether they exist, how to spot them, which people are good and which bad, or pretty much anything else.</p>
 </blockquote>
-<p>If you don't have enough quality data ... good luck :)<div class="flash flash-warn">
+<p>If anything, this is a call to humility, self-examination, and thoughtful dialog. Though we are increasingly living in a polarized world where one is judged by what particular slogans they choose, what party they belong too, who they follow on Facebook, and so on, we have the choice to not be such human beings. But in my experience that is easier said than done. It's too easy to shout at, rather than talk with, the "other" side because we can in blissful ignorance continue believing we got it right without ever being challenged. It's hard to really reason out our world views and argue with those who don't agree. If we did, we have find we have more in common that imagined and make further progress as a society into figuring these things out ... things like right and wrong, good and evil, justice and injustice, and how we can get along with each other despite our differences.</p>
+<p><strong><em>The point of this chapter is simple:The goal of ML isn't to find the model with the lowest loss ... it is to build a model that drives the right kind of actions</em></strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Recourse-and-accountability">Recourse and accountability<a class="anchor-link" href="#Recourse-and-accountability"> </a></h3><blockquote><p>In a complex system, it is easy for no one person to feel responsible for outcomes.</p>
+</blockquote>
+<p>As deep learning practioniers, we have better insight than most into what kind of actions will be made as a result of our model's results. Therefore, if we care about people in general, we'll care about those outcomes as much as our model's validation loss.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Feedback-Loops">Feedback Loops<a class="anchor-link" href="#Feedback-Loops"> </a></h3><blockquote><p>Feedback loops can occur when your model is controlling the next round of data you get.</p>
+<p>... an algorithm can interact with its environment to create a feedback loop, making predictions that reinforce actions taken in the real world, which lead to predictions even more pronounced in the same direction.</p>
+<p>Part of the problem here is the centrality of metrics in driving a financially important system.</p>
+</blockquote>
+<p>See the "Meetup" example on p.105</p>
+<blockquote><p>Once people join a single conspiracy-minded [Facebook] group, they are algorithmically routed to a plethora of others. Join an anti-vaccine group, and your suggestions will include anit-GMO, chemtrail watch, falt Earther (yes, really), and "curing cancer naturallay" groups. Rather than pulling a user out of the rabbit hole, the recommendation engine pushes them farther in.</p>
+</blockquote>
+<p>FYI, I think most social media has a net-negative effect on us as humain beings. In particular, I try to avoid Facebook, Instagram, TikTok, and Snapchat while doing my best to limit my only social media account, a Twitter account, to things relevant to data science and public health (and that ain't easy).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h3 id="Bias">Bias<a class="anchor-link" href="#Bias"> </a></h3><p>There are different kinds of "data ethics" bias, here are 4 types:</p>
+<h4 id="Historical-Bias">Historical Bias<a class="anchor-link" href="#Historical-Bias"> </a></h4><blockquote><p>... comes from the fact that people are biased, processes are biased, and society is biased. [It] is a fundamental, structural issue with the first step of data generation process and can exist even given perfect sampling and feature selection.</p>
+<p>Any dataset involving human can have this kind of bias:medical data, sales data, housing data, political data, and so on.<div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Consider that <strong>data augmentation</strong> can alleviate both the need for more manual labelling and also protect you from problems with <em>out-of-domain</em> data (e.g. when unexpected image types arise in the data when the model is being used in production) by synthetically creating more data likely to be seen that may not be in your dataset as is.
-</div></p>
-<blockquote><p>... iterate from end to end in your project; don't spend months fine-tuning your model, or polishing the perfect GUI, or labeling the perfect dataset</p>
-</blockquote>
-<p>This is good advice for <em>any</em> software project ...<strong><em>fail early and fail often</em></strong>. If you don't, you're likely to only uncover critical problems much later than you would have before, and even worse, you're likely to not produce anything at all! In the world of deep learning there are a number of tools, that while helpful, can really get you so bogged down that you never deploy something usable (e.g., experiment tracking tools, hyperparameter optimization libraries, etc...). Also, remember that getting something in production is a different task from winning a kaggle competition, where the later may require use of some of those aforementioned tools and the ensembling of dozens of models. For production, something better than human is often good enough to get out there and through refactoring, improve.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-<h2 id="The-Drivetrain-Approach">The Drivetrain Approach<a class="anchor-link" href="#The-Drivetrain-Approach"> </a></h2><p><img src="https://raw.githubusercontent.com/fastai/fastbook/41a60e44d588139a03452f1907359fc2322f8d5f/images/drivetrain-approach.png" alt="" /></p>
-<h3 id="Four-Steps">Four Steps<a class="anchor-link" href="#Four-Steps"> </a></h3><h4 id="Step-1:-Define-your-objective(s)">Step 1: Define your objective(s)<a class="anchor-link" href="#Step-1:-Define-your-objective(s)"> </a></h4><p>It's amazing how in my 20+ years as a developer, how rare it is that a customer is able to clearly define what they want! In my experience, more than not, it is the developers that end up defining the goals. Not having a clear objective is likely to waste time, energy, and money to produce something that won't even see the light of day.  You can't gauge the completion or quality of any software project without clear objective(s).</p>
-<p>Ex.1: Show most relevant search results.<br />
-Ex.2: Drive additional sales by recommending to customers items to purchase they otherwise wouldn't</p>
-<h4 id="Step-2:-What-actions-can-you-take-to-achieve-those-objective(s)?">Step 2: What actions can you take to achieve those objective(s)?<a class="anchor-link" href="#Step-2:-What-actions-can-you-take-to-achieve-those-objective(s)?"> </a></h4><p>What things can make your goals a reality. Pretty simple.</p>
-<p>Ex.1: Ranking the search results will help show the most relevants ones first.<br />
-Ex.2: Ranking the recommendations will help.</p>
-<h4 id="Step-3:-What-data-is-needed-to-take-those-actions?">Step 3: What data is needed to take those actions?<a class="anchor-link" href="#Step-3:-What-data-is-needed-to-take-those-actions?"> </a></h4><p>If you don't have the data, you'll need to get it ... because the data pulls the levers which get you closer to your objective(s).</p>
-<p>Ex.1: Seeing what how pages linked to other pages.<br />
-Ex.2: Collecting data on what customers purchased, what was recommended, and what they did with that info.</p>
-<h4 id="Step-4:-Build-models">Step 4: Build models<a class="anchor-link" href="#Step-4:-Build-models"> </a></h4><p>Only once you have the data and know what actions you want to be able to take based on the information within it, do you being modeling ... first, defining what models you can even build with that data and second, what data you need to collect for models you can't.</p>
-<p>Ex.1: A model that takes the page relation data and predicts a ranking given a query.<br />
-Ex.2: Two models that predict the purchasing proabilities conditional on seeing or not seeing a recommendation.</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> pip install fastai -q
-<span class="kn">from</span> <span class="nn">fastai.vision</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-<h3 id="Downloading-images,-getting-the-downloaded-images,-&amp;-removing-those-that-are-corrupt">Downloading images, getting the downloaded images, &amp; removing those that are corrupt<a class="anchor-link" href="#Downloading-images,-getting-the-downloaded-images,-&amp;-removing-those-that-are-corrupt"> </a></h3><ol>
-<li>Use <code>download_images</code> listed as URLs in a text file <code>urls</code> to download the actual images locally.  </li>
-<li>Get the file path to the images via <code>get_image_files</code> in an <code>L</code> object.  </li>
-<li>Get rid of the corrupt images using <code>verify_images</code> and <code>Path.unlink</code>.</li>
-</ol>
-
-<pre><code>path = Path('bears/grizzly')
-download_images(path, urls=image_urls.txt)
-
-file_paths = get_image_files(path)
-failed = verify_images(file_paths)
-failed.map(Path.unlink)</code></pre>
-<p>Notice how <code>L</code>'s <code>map</code> method is used to apply the <code>Path.unlink</code> function to each item in-place.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-<h3 id="Getting-help">Getting help<a class="anchor-link" href="#Getting-help"> </a></h3><p>A few of ways ...</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>download_images<span class="o">?</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>download_images<span class="o">??</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc</span><span class="p">(</span><span class="n">download_images</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can also use <code>pdb.set_trace</code> (in code) or  <code>%debug</code>(in a new cell following the one with the error) to step through your code.  I use the former all the time ... its a great way to debug and also learn what the code is doing and why.  For example, I use it to look at the shape of things as the travel through and out of different layers in my NNs.</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pdb</span>
-<span class="k">def</span> <span class="nf">div_by_zero</span><span class="p">():</span>
-  <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
-  <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;here&#39;</span><span class="p">)</span>
-
-<span class="c1"># uncomment this to see what I&#39;m talking about ...</span>
-<span class="c1"># div_by_zero()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-<h3 id="DataBlock-API-Basics">DataBlock API Basics<a class="anchor-link" href="#DataBlock-API-Basics"> </a></h3><p>In order to make your data "modelable" (via <code>DataLoader</code>s, you need to tell fastai 4 things:</p>
-<ol>
-<li>What kind of data you are working with</li>
-<li>How to get the data</li>
-<li>How to label the data</li>
-<li>How to create a validation set</li>
-</ol>
-<p>Here's an example of how this is done with the <code>DataBlock API</code>:</p>
-
-<pre><code>d_block = DataBlock(
-  blocks=(ImageBlock, CategoryBlock),              #=&gt; our independent and dependent variable datatypes
-  get_items=get_image_files,                       #=&gt; how to get our data
-  splitter=RandomSplitter(valid_pct=0.2, seed=42), #=&gt; how to create the validation set
-  get_y=parent_label,                              #=&gt; how to label our data
-  item_tfms=Resize(128)                            #=&gt; code that runs against each item as it is fetched</code></pre>
-<p><div class="flash flash-warn">
+    <strong>Important: </strong>Maybe the best way to understand historical biase in your dataset is by spending time looking at both the outcomes and how they might be used???
+</div><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Use the <code>seed</code> argument to ensure you get the same training/validation set each time you run that code; else you won&#8217;t be able to know if, as you change hyperparameter values, your model performance changed because of those values and/or because of difference in your training/validation sets!
-</div>&gt; ... a <code>DataBlock object</code> ... is like a template for creating a <code>DataLoaders</code> object</p>
-<p>For more detailed discussion of the DataBlock API, see the following resources:1. My article <a href="https://ohmeow.com/posts/2020/04/11/finding-datablock-nirvana-part-1.html">"Finding DataBlock Nirvana with fast.ai v2 - Part 1"</a></p>
-<ol>
-<li><p>The <a href="https://forums.fast.ai/t/a-walk-with-fastai2-vision-study-group-and-online-lectures-megathread/59929">"Walk with fastai2" videos</a></p>
-</li>
-<li><p>The <a href="https://docs.fast.ai/data.block">fastai docs</a> and the <a href="https://docs.fast.ai/tutorial.datablock">DataBlock Tutorials</a></p>
-</li>
-</ol>
-<p>Once you've defined your blueprint for how to get your modelable data (i.e., your <code>DataLoaders</code>), you need to pass it the "actual source" of your data, which can be a path or a DataFrame or whatever.</p>
-
-<pre><code>dls = d_block.dataloaders(path)</code></pre>
-<p>Use <code>dls.show_batch(...)</code> or <code>dls.valid.show_batch(...)</code> to visualize your training/validation data.
-<div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>You can change the transforms in your DataBlock by reusing the existing DataBlock using <code>d_block.new</code>
+    <strong>Important: </strong>Make sure your data is representative of what your model will see and to evaluate any automatic "labeling" features in your system. (see gorillas example on pp.107-108).
 </div></p>
-
-<pre><code>d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.squish))
-dls = d_block.dataloaders(path)
-...
-d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeroes'))
-dls = d_block.dataloaders(path)
-...</code></pre>
-<p><div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>For resizing ... "what we normally do in practice is to randomly select part of the image and then crop to just that part. On each epoch ... we randomly select a different part of each image. This means that our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways."  This is done using the <strong>RandomResizedCrop</strong> transform.
-</div></p>
-
-<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3))</code></pre>
-<p><code>min_scale</code>: "how much of the image to select at minimum each time." 0.5 = select 50% of the image at minimum.
-<div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Pass <code>unique=True</code> to your <code>show_batch</code> functions "to have the same image repeated with different versions" of the transforms you&#8217;ve defined.
-</div></p>
-<p><strong>Data augmentation</strong> transorms (e.g., rotation, flipping, perspective warping, brightness changes, contrast changes, etc...) are defined as <strong>batch transforms</strong> and run on the GPU.
-<div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Item Transforms are applied to an item from your dataset when it is fetched, Batch Transforms are applied to a collection of items on the GPU <em>after</em> they have been collated into the same shape.
-</div></p>
-
-<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3), batch_tfms=aug_transforms(mult=2))</code></pre>
-<p><code>batch_tfms</code>: Your batch transforms, or more correctly your <em>after batch</em> transforms
-<div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong><code>aug_transforms</code> are "a standard set of augmentations that we have found work pretty well"
-</div></p>
+<p>So what this showed is that the developers failed to utilize datasets containing enough darker faces, or test their product with darker faces.</p>
+</blockquote>
+<p>A good reminder that your model will only be as good as the data you trained it on! Sound familiar?</p>
+<blockquote><p>... the vast majority of AI researches and developers are young white men. Most projects that we have seen do most user testing using friends and families of the immediate product development group. Given this, the kinds of problems we just discussed should not be suprising.</p>
+</blockquote>
+<p>I think at the very least, we need to be forthright about our dataset as much as on model performance. That way, expectations can be managed and a confidence level assigned to the results.  A threshold perhaps that could trigger human intervention.</p>
+<h4 id="Measurement-bias">Measurement bias<a class="anchor-link" href="#Measurement-bias"> </a></h4><blockquote><p>... occurs when our models make mistakes because we are measuring the wrong thing, or measuring it the wrong way, or incorporating that measurement into the model inappropriately.</p>
+</blockquote>
+<p>Not sure why, but this is perhaps the most insidious bias because I think its the hardest to figure out.</p>
+<h4 id="Aggregation-bias">Aggregation bias<a class="anchor-link" href="#Aggregation-bias"> </a></h4><blockquote><p>... occurs when models do not aggregate data in a way that incorporates all of the appropriate factors, or when a model does not include the necessary interaction terms, nonlineraities, or so forth.</p>
+</blockquote>
+<p>These are features that are not included though they would actually improve model performance if they were.</p>
+<h4 id="Representation-bias">Representation bias<a class="anchor-link" href="#Representation-bias"> </a></h4><blockquote><p>When there is a clear, easy-to-see underlying relationship, a simple model will often assume that this relationship holds all the time.</p>
+</blockquote>
+<p>Essentially models can see this real imbalance and make it bigger than it is.</p>
 
 </div>
 </div>
@@ -372,17 +205,15 @@ dls = d_block.dataloaders(path)
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Cleaning-your-model-through-training">Cleaning your model through training<a class="anchor-link" href="#Cleaning-your-model-through-training"> </a></h3><p><div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>"It&#8217;s helpful to see where exactly our errors are occuring, to see whether they&#8217;re due to a dataset problem ... or a model problem" using <code>plot_top_losses</code>
-</div></p>
-
-<pre><code>interp = ClassificationInterpretation.from_learner(learn)
-interp.plot_top_losses(5, nrows=1) #&gt; show the 5 examples with the highest loss</code></pre>
-<p><div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>A "model can help you find data issues more quickly ... so we normally prefer to train a quick and simple model first, and then use it to help with data cleaning."
-</div></p>
+<h3 id="Disinformation">Disinformation<a class="anchor-link" href="#Disinformation"> </a></h3><blockquote><p>It is not necessarily about getting someone to belive something false, but rather often used to sow disharmony and uncertainty, and to get people to give up on seeking the truth. Receiving conflicting accounts can lead people to assume that they can never know whom or what to trust.</p>
+</blockquote>
+<p>Disinformation will unfotunately be one of the greatest legacies of President Trump. A step backwards for American society. A culture that will back if you if you tell them what they want to hear, even if you're a compulsive liar and base your statements on "gut feel" rather than facts and logic.</p>
+<blockquote><p>While most of us like to think of ourselves as independent-minded, in reality we evolved to be influenced by others in our in-group, and in opposition to those in our out-group. Online discussions can influence our viewpoints, or alter the range of what we consider acceptable viewpoints. Humans are social animals, and as social animals, we are extremely influenced by the people around us. Increasingly, radicalization occurs in online environments; so influence is coming from people in the virtual space of online forums and social networks.</p>
+</blockquote>
+<p>The biggest take here is that I am not as independently minded as I think I am. Knowing thyself is perhaps the best preventative of being swallowed up by disinformation. Limiting social media is another.</p>
+<blockquote><p>Disinformation through autogenerated text is a particularly significant issue</p>
+</blockquote>
+<p>As an NLP guy, this one scares me since part of my work is to summarize text. Knowing this, the first step I've taken is to let all business owners know the risk of text generation algorithms generating text that is either false and/or not necessarily reflective of the inputs, as in the case of abstract summarization.  The second step I took was to introduce human beings into the process and a workflow that has them look at at least the most potentially wrong summarizations before reports go out.</p>
 
 </div>
 </div>
@@ -390,43 +221,23 @@ interp.plot_top_losses(5, nrows=1) #&gt; show the 5 examples with the highest lo
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Inference">Inference<a class="anchor-link" href="#Inference"> </a></h3><blockquote><p>"a model consists of two parts:the <em>architecture</em> and the trained <em>parameters</em>."  You can use it just like any other function</p>
+<h3 id="What-to-do???">What to do???<a class="anchor-link" href="#What-to-do???"> </a></h3><blockquote><p>You must assuem that any personal data that Facebook or Android keeps are data that governments around the world will try to get or that thieves will try to steal.</p>
 </blockquote>
-
-<pre><code>#saves the architecture, the trained parameters, and the definintion of how to create your DataLoaders
-learn.export()</code></pre>
-<blockquote><p>fastai ... uses your validation set <code>DataLoader</code> for inference by default, so your data augmentation 
-will not be applied.</p>
+<p>Data use and storage are things you need to think about.</p>
+<p>I think these are good questions to ask/answer in any project to ensure good outcomes:&gt; * Whose interests, desires, skills, experiences, and values have we simply assumed rather than&gt; actually consulted?</p>
+<blockquote><ul>
+<li>Who are all the stakeholders who will be directly affected by our product? How have their interests
+been protected? How do we know what their interests really are - have we asked?</li>
+<li>Whowhich groups and individuals will be indirectly affected in signficant ways?</li>
+<li>Who might use this product that we didn't expect to use it, or for purposes we didn't initially
+intend?</li>
+</ul>
 </blockquote>
-
-<pre><code>inf_learn = load_learner(path/'export.pkl')
-inf_learn.predict('images/grizzly.jpg')
-inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</code></pre>
-<p>For options on how to deploy your app, see the <a href="https://course.fast.ai/">Deployment section</a> in the course website. I personally like to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> and there is a good <a href="https://forums.fast.ai/t/fastai2-fastapi-starter-template/69373?u=wgpubs">starter template here</a> for that.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr />
-<h3 id="How-to-Avoid-Disaster">How to Avoid Disaster<a class="anchor-link" href="#How-to-Avoid-Disaster"> </a></h3><p><div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>Your model is only as good as the data it was trained on
-</div></p>
-<p>Two problems to watch out for:</p>
-<ol>
-<li><strong>out-of-domain data</strong>: "data that our model sees in production that is very different to wath it saw during training.</li>
-<li><strong>domain shift</strong>: "whereby the type of data that our model sees changes over time."</li>
-</ol>
-<p>Mitigation steps:</p>
-<p><img src="https://github.com/fastai/fastbook/raw/41a60e44d588139a03452f1907359fc2322f8d5f/images/att_00061.png" alt="" /></p>
-<blockquote><p>Where possible, the <strong>first step</strong> is to use an entirely manual process with your model running in 
-parallel and not being used to directly drive any actions.</p>
-<p>The <strong>second step</strong> is to try and limit the scop of the model.</p>
-<p>The <strong>third step</strong> is to gradually increase the scope of your rollout.</p>
-<p>Important:"Try to think about all the ways in which your system could go wrong, and then think about what measure or report or picture could reflect that problem, and ensure that your regular reporting includes that information."</p>
+<p>See pp.119-120 for a bunch of good questions to put into your practice!</p>
+<blockquote><p>When everybody on a team has similar backgrounds, they are likely to have similar blind spots around ethical tasks.</p>
+<p>... first come up with a process, definition, set of questions etc., which is designed to resolve a problem. Then try to come up with an example in which the apparent solution results in a proposal that no one would consider acceptable. This can then lead to further refinement of the solution.</p>
 </blockquote>
+<p>Thinking about all these things may lead one to analysis paralysis or even worse, complete apathy.  We need to start with something and be okay with criticism and refactoring. Additionally, we need to be thoughtful in even spot on criticism of others' systems. I don't think most folks try to make something racist or mysoginistic or whatever, so instead of calling them a "Hitler" on Twitter when we taste something that looks to us like fasicism, maybe a phone call and one-on-one chat is the better and more productive move.</p>
 
 </div>
 </div>
@@ -437,9 +248,7 @@ parallel and not being used to directly drive any actions.</p>
 <h2 id="Resources">Resources<a class="anchor-link" href="#Resources"> </a></h2><ol>
 <li><p><a href="https://book.fast.ai">https://book.fast.ai</a> - The book's website; it's updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc...</p>
 </li>
-<li><p><a href="https://docs.fast.ai/">https://docs.fast.ai/</a> - The library's documentation; includes tutorials and other tips for development.</p>
-</li>
-<li><p><a href="https://forums.fast.ai/">https://forums.fast.ai/</a> - If you're not part of the community yet, you should be. Before posting a question, search to see if it has been answered already (95% of the time, it has).</p>
+<li><p><a href="https://forums.fast.ai/c/data-ethics/47">https://forums.fast.ai/c/data-ethics/47</a> - Forum subcategory for all things "data ethics".</p>
 </li>
 </ol>
 
