@@ -86,7 +86,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      8 min read
+      10 min read
     
 </span></p>
 
@@ -232,7 +232,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="What-is-a-baseline-model">What is a baseline model<a class="anchor-link" href="#What-is-a-baseline-model"> </a></h3><blockquote><p>A simple model that you are confident should perform reasonably well. It should be
+<h3 id="What-is-a-baseline-model-and-why-do-you-want-one?">What is a baseline model and why do you want one?<a class="anchor-link" href="#What-is-a-baseline-model-and-why-do-you-want-one?"> </a></h3><blockquote><p>A simple model that you are confident should perform reasonably well. It should be
 simple to implement and easy to test</p>
 </blockquote>
 <p><strong>Why do you want to start with a baseline model?</strong></p>
@@ -248,7 +248,7 @@ simple to implement and easy to test</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
 <h3 id="Tensors">Tensors<a class="anchor-link" href="#Tensors"> </a></h3><p><strong>What is a "Tensor"?</strong></p>
-<p>Like a numpy array, but with GPU support.  The data it contains must be of the <em>same type</em> and must conform in <em>rectangular shape</em>.
+<p>Like a numpy array, but with GPU support.  The data it contains must be of the <strong><em>same type</em></strong> and must conform in <strong><em>rectangular shape</em></strong>.
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>"try to avoid as much as possible writing loops, and replace them by commands that work directly on arrays or tensors"
@@ -314,7 +314,7 @@ Let's take a look ..</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Important information about tensors include:</p>
+<p>Important information about tensors include its <code>shape</code>, <code>rank</code>, and <code>type</code>:</p>
 
 </div>
 </div>
@@ -352,7 +352,14 @@ Let's take a look ..</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Stochastic-Gradient-Descent---How-to-train-a-model">Stochastic Gradient Descent - How to train a model<a class="anchor-link" href="#Stochastic-Gradient-Descent---How-to-train-a-model"> </a></h3><ol>
+<h3 id="Stochastic-Gradient-Descent---How-to-train-a-model">Stochastic Gradient Descent - How to train a model<a class="anchor-link" href="#Stochastic-Gradient-Descent---How-to-train-a-model"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here are the steps:</p>
+<ol>
 <li><p><strong>INITIALIZE</strong> the weights = initializing parameters to random values</p>
 </li>
 <li><p>For each image, <strong>PREDICT</strong> whether it is a 3 or 7</p>
@@ -368,24 +375,23 @@ Let's take a look ..</p>
 <li><p><strong>STOP</strong> when you don't want to train any longer or the model is good enough</p>
 </li>
 </ol>
+<p>Below, we'll delve deeper into steps 4 and 5 since how they work are likely the most foreign. We'll do this by getting a big more into the sample code beginning on p.150 ...</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Gradients</strong>
-<div class="flash flash-warn">
+<h3 id="Step-4:-Calculating-the-gradients">Step 4: Calculating the gradients<a class="anchor-link" href="#Step-4:-Calculating-the-gradients"> </a></h3><p><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>"the gradients tell us how much we have to change each weight to make our model better ... allows us to more quickly calculate whether our loss will go up or down we we make those adjustments"
+    <strong>Important: </strong>"the gradients <strong><em>tell us how much we have to change each weight</em></strong> to make our model better ... allows us to more quickly calculate whether our loss will go up or down we we make those adjustments"
 </div><div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
-    <strong>Important: </strong>"The gradients tell us only the slope of our function; they don&#8217;t tell us exactly how far to adjust the parameters. But they do give us some idea of how far" (large slope = bigger adjustments needed whereas a small slope suggests we are close to the optimal value)
-</div>
-"The <strong><em>derivative</em></strong> of a function tells you how much a change in its parameters will change its result"</p>
+    <strong>Important: </strong>"The gradients <strong><em>tell us only the slope of our function</em></strong>; they don&#8217;t tell us exactly how far to adjust the parameters. But they do give us some idea of how far" (large slope = bigger adjustments needed whereas a small slope suggests we are close to the optimal value)
+</div></p>
+<p>"The <strong><em>derivative</em></strong> of a function tells you how much a change in its parameters will change its result"</p>
 <p>Remember: We are calculating a gradient for <em>EVERY</em> weight so we know how to adjust it to make our model better (i.e., lower the LOSS)</p>
 <p><code>requires_grad</code> tells PyTorch "that we want to calculate gradients with respect to that variable at that value"</p>
-<p><code>t = tensor(3.).requires_grad_()</code></p>
 
 </div>
 </div>
@@ -397,7 +403,13 @@ Let's take a look ..</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="mf">3.</span><span class="p">)</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">();</span> <span class="n">t</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_function</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ty</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">tx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ty</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ty</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -409,7 +421,7 @@ Let's take a look ..</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now when we apply operations to that tensor, PyTorch will include a gradient function it will use to calculate our gradients when needed.</p>
+<p>Here we pretend that the below is our <strong>loss function</strong>.  Running a number through it, our <strong>weight</strong> will produce a result, an <strong>activation</strong> ... in this case, our <strong>loss</strong> (which again is a value telling us how good or bad our model is; smaller = good)</p>
 
 </div>
 </div>
@@ -421,9 +433,29 @@ Let's take a look ..</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">num</span><span class="p">):</span> <span class="k">return</span> <span class="n">num</span><span class="o">**</span><span class="mi">2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xt</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">();</span> <span class="n">xt</span>
+</pre></div>
 
-<span class="n">yt</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">);</span> <span class="n">yt</span>
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
+
+<span class="n">plot_function</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;x**2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xt</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss: &#39;</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -435,9 +467,7 @@ Let's take a look ..</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Calling <code>backward</code> will calculate those gradients.</p>
-<blockquote><p>Remember:"This is called the <em>backward pass</em> of the network, as opposed to the <em>forward pass</em>, which is where the activations are calculated!</p>
-</blockquote>
+<p>So if our parameter is <code>-1.5</code> we get a loss = <code>2.25</code>. Since the direction of our slope is downward (negative), by changing its value to be a bit more positive, we get closer to achieving our goal of <em>minimizing our loss</em></p>
 
 </div>
 </div>
@@ -449,8 +479,13 @@ Let's take a look ..</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yt</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="n">t</span><span class="o">.</span><span class="n">grad</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xt</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">();</span> <span class="n">xt</span>
+
+<span class="n">loss</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
+
+<span class="n">plot_function</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;x**2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xt</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss: &#39;</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -460,12 +495,117 @@ Let's take a look ..</p>
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And yes, our loss has improved!  If the direction of our slope were upwards (positive), we would conversely want <code>x</code> to be smaller.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>BUT</em></strong> now ... imagine having to figure all this out for a million parameters.  Obviously, we wouldn't want to try doing this manually as we did before, and thanks to PyTorch, we don't have too :)</p>
+<p>Remember that by utilizing the <code>requires_grad_()</code> function, we have told PyTorch to keep track of how to compute the gradients based on the other calucations we perform, like running it through our loss function above.  Let's see what that looks like.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xt</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">();</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
+
+<span class="n">loss</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That <code>&lt;PowBackward0&gt;</code> is the gradient function it will use to calculate the gradients when needed.  And when we need it, we call the <code>backward</code> method to do so.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">xt</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And the calcuated gradient is exactly what we expected given that to calculate the derivate of <code>x**2</code> is <code>2x</code> ... <code>2*-1 = -2</code>.</p>
+<p>Again, the gradient tells us <strong><em>the slope of our function</em></strong>.  Here have a a negative/downward slope and so at the very least, we know what moving in that direction will get us closer to the minimum.</p>
+<p>The question is now, <strong>How far do we move in that direction?</strong></p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Learning-Rate">Learning Rate<a class="anchor-link" href="#Learning-Rate"> </a></h3><p>The <strong>learning rate</strong> (or LR) tells us how much to change our weights by multiplying the gradient by it (usually a small number like 1e-3 or 0.1).</p>
+<h3 id="Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-&quot;Learning-Rate&quot;">Step 5: Change all the weights based on the gradient using a "Learning Rate"<a class="anchor-link" href="#Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-&quot;Learning-Rate&quot;"> </a></h3><p>The <strong>learning rate</strong> (or LR) is a number (usually a small number like 1e-3 or 0.1) that we multiply the gradient by to get a better parameter value.  For a given parameter/weight <code>w</code>, the calculation looks like this:</p>
 <p><code>w -= w.grad * lr</code></p>
-<p>This is also called the <strong>optimization step</strong></p>
+<p>Notice we take the negative of the grad * lr operation because we want to move in the opposite direction.
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>We do this in a <code>with torch.no_grad()</code> so that we don&#8217;t calculate the gradient for the gradient calculating operation
+</div></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+ <span class="n">xt</span> <span class="o">-=</span> <span class="n">xt</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+
+ <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;New value for xt: &#39;</span><span class="p">,</span> <span class="n">xt</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;New loss: &#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xt</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can see the loss get smaller which is exactly what we want!</p>
+<p>The above operation is also called the <strong>optimization step</strong></p>
 <p>See pp.156-157 for examples of what using a too small or too large LR might look like when training.  This could help you troubleshoot things if yours looks wonky.</p>
 
 </div>
@@ -479,7 +619,7 @@ Let's take a look ..</p>
 <p><code>l1_loss = (tensor_a - tensor_b).abs().mean()</code></p>
 <p><strong>L2 norm</strong> (or root mean squared error, RMSE): Take the square root of the mean of the square differences. The squaring of differences makes everything positive and the square root undoes the squaring.
 <div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>"... the latter will penalize bigger mistakes more heavily than the former (and be more lenient with small mistakes)"
 </div>
 <code>l2_loss = ((tensor_a - tensor_b) ** 2).sqrt()</code></p>
