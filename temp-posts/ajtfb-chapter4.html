@@ -774,15 +774,129 @@ loss = F.mse_loss(preds, targs)</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr />
-<h3 id="Disinformation">Disinformation<a class="anchor-link" href="#Disinformation"> </a></h3><blockquote><p>It is not necessarily about getting someone to belive something false, but rather often used to sow disharmony and uncertainty, and to get people to give up on seeking the truth. Receiving conflicting accounts can lead people to assume that they can never know whom or what to trust.</p>
+<h3 id="Important-PyTorch-Modules">Important PyTorch Modules<a class="anchor-link" href="#Important-PyTorch-Modules"> </a></h3><p>A <strong>module</strong> is a class that inherits from PyTorch's <code>nn.Module</code> class. "Every PyTorch module knows that <strong>parameters</strong> it has that can be trained."</p>
+<p>Here are some key ones ...</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>nn.Linear</strong>: Initializes its parameters and performs a linear operation.  It contains both the weights and biases in a single class</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lin1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># the trainable parameters</span>
+<span class="n">weights</span><span class="p">,</span> <span class="n">bias</span> <span class="o">=</span> <span class="n">lin1</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">bias</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>nn.ReLU</strong>: Allows us to add a non-linearity between linear classifiers.  Simply put, it ensures that all activations passed to it are a positive number with every negative number replaced with a 0.</p>
+<p>Notice below that it has no trainable parameters!</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_function</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">non_lin1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">non_lin1</span><span class="o">.</span><span class="n">parameters</span><span class="p">()))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;using nn.ReLU: &#39;</span><span class="p">,</span> <span class="n">non_lin1</span><span class="p">(</span><span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">non_lin1</span><span class="p">(</span><span class="n">tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;using max()&#39;</span><span class="p">,</span> <span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)),</span> <span class="n">tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Why do you want to have non-linearities?</strong></p>
+<blockquote><p>Because "there's no point in just putting one linear layout directly after another one, because when we multiply things together and then add them up multiple times, that could be replaced by multiplying different things together and adding them up just once .... BUT if we put a non-linear between them ... this is no longer true. <strong><em>Now each linear layer is somewhat decoupled from the other ones and can do its own useful work</em></strong>."</p>
 </blockquote>
-<p>Disinformation will unfotunately be one of the greatest legacies of President Trump. A step backwards for American society. A culture that will back if you if you tell them what they want to hear, even if you're a compulsive liar and base your statements on "gut feel" rather than facts and logic.</p>
-<blockquote><p>While most of us like to think of ourselves as independent-minded, in reality we evolved to be influenced by others in our in-group, and in opposition to those in our out-group. Online discussions can influence our viewpoints, or alter the range of what we consider acceptable viewpoints. Humans are social animals, and as social animals, we are extremely influenced by the people around us. Increasingly, radicalization occurs in online environments; so influence is coming from people in the virtual space of online forums and social networks.</p>
-</blockquote>
-<p>The biggest take here is that I am not as independently minded as I think I am. Knowing thyself is perhaps the best preventative of being swallowed up by disinformation. Limiting social media is another.</p>
-<blockquote><p>Disinformation through autogenerated text is a particularly significant issue</p>
-</blockquote>
-<p>As an NLP guy, this one scares me since part of my work is to summarize text. Knowing this, the first step I've taken is to let all business owners know the risk of text generation algorithms generating text that is either false and/or not necessarily reflective of the inputs, as in the case of abstract summarization.  The second step I took was to introduce human beings into the process and a workflow that has them look at at least the most potentially wrong summarizations before reports go out.</p>
+<p>These kind of functions are also called <strong>"activation functions"</strong>, because the only operate and produce activations ... there are no trainable parameters.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>nn.Sequential</strong>: A module that can be passed modules, which when called, calls each of those layers in turn.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lin2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">seq_model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">lin1</span><span class="p">,</span> <span class="n">non_lin1</span><span class="p">,</span> <span class="n">lin2</span><span class="p">)</span>
+
+<span class="n">seq_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">seq_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq_params</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">seq_params</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Why <code>4</code>?  Simple, remember that each <code>nn.Linear</code> above has two trainable parameters (the weights and bias), 2+2 = 4.</p>
 
 </div>
 </div>
