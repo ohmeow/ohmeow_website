@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Contributing to fastai: Setup your local development environment &amp; submit a PR | ohmeow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Contributing to fastai: Setup your local development environment &amp; submit a PR" />
+<meta name="author" content="Wayde Gilliam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn’t quite remember all the steps required to do so. Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all). So for all you developers looking to contribute to fastai, or really any open source project, here’s everything you need to know to setup your local development environment and submit PRs to fastai. Enjoy!" />
+<meta property="og:description" content="A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn’t quite remember all the steps required to do so. Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all). So for all you developers looking to contribute to fastai, or really any open source project, here’s everything you need to know to setup your local development environment and submit PRs to fastai. Enjoy!" />
+<link rel="canonical" href="https://ohmeow.com/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html" />
+<meta property="og:url" content="https://ohmeow.com/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html" />
+<meta property="og:site_name" content="ohmeow" />
+<meta property="og:image" content="https://ohmeow.com/images/articles/thumbs_up_kid.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-02T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://ohmeow.com/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html","@type":"BlogPosting","headline":"Contributing to fastai: Setup your local development environment &amp; submit a PR","dateModified":"2021-06-02T00:00:00-05:00","datePublished":"2021-06-02T00:00:00-05:00","image":"https://ohmeow.com/images/articles/thumbs_up_kid.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html"},"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn’t quite remember all the steps required to do so. Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all). So for all you developers looking to contribute to fastai, or really any open source project, here’s everything you need to know to setup your local development environment and submit PRs to fastai. Enjoy!","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-163296836-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
+        </nav></div>
+  </header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Contributing to fastai: Setup your local development environment &amp; submit a PR</h1><p class="page-description">A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn't quite remember all the steps required to do so.  Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all).  So for all you developers looking to contribute to fastai, or really any open source project, here's everything you need to know to setup your local development environment and submit PRs to fastai.  Enjoy!</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-06-02T00:00:00-05:00" itemprop="datePublished">
+        Jun 2, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Wayde Gilliam</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#fastai">fastai</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#github">github</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#open source">open source</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#pull requests">pull requests</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/ohmeow/ohmeow_website/tree/master/_notebooks/2021-06-02-how-to-submit-a-pr-to-fastai.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ohmeow/ohmeow_website/blob/master/_notebooks/2021-06-02-how-to-submit-a-pr-to-fastai.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-06-02-how-to-submit-a-pr-to-fastai.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Steps">Steps<a class="anchor-link" href="#Steps"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Configure-your-local-development-environment">Configure your local development environment<a class="anchor-link" href="#Configure-your-local-development-environment"> </a></h3><ol>
+<li><p>Install the github CLI, <code>gh</code>.  Instructions for all the OS flavor are <a href="https://github.com/cli/cli">here</a>!</p>
+<p>The CLI makes it trivial to work on open source projects.  In particular, it really shines when making a PR as you'll see below.  Here's the link to the cli's<a href="https://cli.github.com/manual/">excellent documentation</a> which you'll likely be referring to again and again (so keep it handy).</p>
+</li>
+<li><p>Clone the fastai repo locally</p>
+
+<pre><code>gh repo clone https://github.com/fastai/fastai.git
+cd ./fastai</code></pre>
+</li>
+<li><p>Build your conda environment (I'm using <a href="https://mamba.readthedocs.io/en/latest/">mamba</a> based on Jeremy Howard's recommendation)</p>
+<p>Mamba is a makes issuing conda commands faster! Basically just replace <code>conda</code> with <code>mamba</code> whenever you are working with packages in your environment.</p>
+
+<pre><code>mamba env create -f environment.yml</code></pre>
+</li>
+<li>Activate the environment (you want to make sure you're in the <code>fastai</code> environment going forward)
+<pre><code>conda activate fastai</code></pre>
+</li>
+<li>Install Jupyter and extensions <em>into your fastai environment</em> (I do this all the time because it leads to less problems when trying to use a base install of jupyter notebook for everything)
+<pre><code>mamba install -c conda-forge notebook
+mamba install -c conda-forge jupyter_contrib_nbextensions</code></pre>
+</li>
+<li>Install nbdev and run the <code>nbdev_install_git_hooks</code> script per the fastai docs
+<pre><code>mamba install -c fastai nbdev
+nbdev_install_git_hooks</code></pre>
+</li>
+<li>Create a symlink from <code>/nbs/fastai</code> to <code>fastai</code> to make sure the notebooks can find the fastai library which is up one level from the notebooks
+<pre><code>cd ./nbs
+ln -s ../fastai fastai
+cd ..</code></pre>
+</li>
+</ol>
+<p><strong>At this point your local development environment is good to go!</strong>  Run <code>jupyter notebook</code>, open your browser, and head over to the <code>/nbs</code> folder to begin.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Submit-a-PR">Submit a PR<a class="anchor-link" href="#Submit-a-PR"> </a></h3><p>With the github CLI, its amazingly easy! Once you've made your changes and added your unit tests all you have to do is:</p>
+<ol>
+<li><p>Make sure you're local repo is up-to-date <strong><em>BEFORE</em></strong> you start working.  In fact, this is a good command to run periodically so you don't have to deal with any conflicts once you make your PR.</p>
+
+<pre><code>git pull</code></pre>
+</li>
+<li><p>Commit your changes to git</p>
+
+<pre><code>git commit -am 'My amazing addition to fastai here'</code></pre>
+</li>
+<li><p>Submit a PR using <code>gh</code></p>
+
+<pre><code>gh pr create --title "My amaizing change" --body "Here's what you need to know about it!"</code></pre>
+<p>There are actually a few ways to issue the pr, but the above is the easiest.  Check out the <a href="https://cli.github.com/manual/gh_pr_create">gh pr create docs</a> for more options.</p>
+<p>Once you do this, you'll be asked some questions about where to push the branch and offer an option to fork the base repository under your own account.  Easy peasy friends.</p>
+</li>
+</ol>
+<p><strong>Congrats!  You're a contributor now.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">Summary<a class="anchor-link" href="#Summary"> </a></h2><p>But that's not all!  There are all kinds of cool things you can do using the github CLI including monitoring the status of your PRs and also fixing them (which you'll likely have to do when the base repo owners ask you to make changes of one sort or another).  It's all in the docs and it's all fairly straightforward!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ohmeow/ohmeow_website"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p>A full-stack web application and ML development company.</p>
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div>
+
+  </div>
+
+</footer></body>
+
+</html>
