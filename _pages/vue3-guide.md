@@ -8,7 +8,7 @@ permalink: /guides/vue3
 
 ### Watchers / WatchEffect
 
-#### How to define asynchronous watcher?
+#### How to I define an asynchronous watcher or watchEffect?
 ```
 import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
@@ -17,11 +17,16 @@ export default {
   setup() {
     const route = useRoute()
     ...
+    // watch
     watch(route, async (nv, ov) => {
       const { data } = await api.get(`get-something/blah`)
       console.log(data)
     })
-
+    
+    // watchEffect
+    const stateChanged = watchEffect(async () => {
+     })
+     ...
 ```
 #### When should I use `watch` or `watchEffect`?
 
