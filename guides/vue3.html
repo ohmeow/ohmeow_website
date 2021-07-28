@@ -82,7 +82,7 @@ window.onload = wrap_img;
 
 <h3 id="watchers--watcheffect">Watchers / WatchEffect</h3>
 
-<h4 id="how-to-define-asynchronous-watcher">How to define asynchronous watcher?</h4>
+<h4 id="how-to-i-define-an-asynchronous-watcher-or-watcheffect">How to I define an asynchronous watcher or watchEffect?</h4>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -90,11 +90,16 @@ export default {
   setup() {
     const route = useRoute()
     ...
+    // watch
     watch(route, async (nv, ov) =&gt; {
       const { data } = await api.get(`get-something/blah`)
       console.log(data)
     })
-
+    
+    // watchEffect
+    const stateChanged = watchEffect(async () =&gt; {
+     })
+     ...
 </code></pre></div></div>
 <h4 id="when-should-i-use-watch-or-watcheffect">When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</h4>
 
