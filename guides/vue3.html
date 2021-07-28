@@ -98,6 +98,8 @@ export default {
     
     // watchEffect
     const stateChanged = watchEffect(async () =&gt; {
+      const { data } = await api.get(`get-something/blah`)
+      console.log(data)
      })
      ...
 </code></pre></div></div>
