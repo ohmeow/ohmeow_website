@@ -78,9 +78,41 @@ window.onload = wrap_img;
   </header>
 
   <div class="post-content">
-    <h1 id="vue-3-guide">Vue 3 Guide</h1>
+    <h2 id="core">Core</h2>
 
-<h2 id="watchers--watcheffect">Watchers / WatchEffect</h2>
+<h3 id="watchers--watcheffect">Watchers / WatchEffect</h3>
+
+<h4 id="how-to-define-asynchronous-watcher">How to define asynchronous watcher?</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import { ref, watch, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+
+export default {
+  setup() {
+    const route = useRoute()
+    ...
+    watch(route, async (nv, ov) =&gt; {
+      const { data } = await api.get(`get-something/blah`)
+      console.log(data)
+    })
+
+</code></pre></div></div>
+<h4 id="when-should-i-use-watch-or-watcheffect">When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</h4>
+
+<p>Use <code class="language-plaintext highlighter-rouge">watch</code> when …</p>
+<ol>
+  <li>You want to do something with one or more specific reactive objects changes</li>
+  <li>You need both the old value and the new value</li>
+  <li>You need it to be called lazily</li>
+</ol>
+
+<p>Use <code class="language-plaintext highlighter-rouge">watchEffect</code> when …</p>
+<ol>
+  <li>You want to do something whenever the state changes for any of your reactive objects</li>
+  <li>You don’t care about the old value(s)</li>
+  <li>You need it to run immediately when reactive dependencies change</li>
+</ol>
+
+<p>See also:<a href="https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect">Vue 3 Composition API - watch and watchEffect</a></p>
 
 
   </div>
