@@ -164,6 +164,17 @@
   
 
   
+      ,"page7": {
+          "title": "Vue 3 Guide",
+          "content": "Vue 3 Guide . Watchers / WatchEffect .",
+          "url": "https://ohmeow.com/guides/vue3",
+          "relUrl": "/guides/vue3",
+          "date": ""
+      }
+      
+  
+
+  
 
   
   
@@ -175,7 +186,7 @@
   
 
   
-      ,"page11": {
+      ,"page12": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://ohmeow.com/robots.txt",
