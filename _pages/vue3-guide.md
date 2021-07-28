@@ -25,6 +25,8 @@ export default {
     
     // watchEffect
     const stateChanged = watchEffect(async () => {
+      const { data } = await api.get(`get-something/blah`)
+      console.log(data)
      })
      ...
 ```
