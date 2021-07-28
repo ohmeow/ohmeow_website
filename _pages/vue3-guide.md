@@ -2,6 +2,7 @@
 layout: page
 title: Vue 3 Guide
 permalink: /guides/vue3
+exclude_from_header: true
 ---
 
 ## Core
