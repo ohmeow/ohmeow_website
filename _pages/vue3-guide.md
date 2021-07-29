@@ -6,7 +6,7 @@ exclude_from_header: true
 ---
 
 ## Core
-
+- - -
 ### Watchers / WatchEffect
 
 #### How to I define an asynchronous watcher or watchEffect?
@@ -43,10 +43,11 @@ Use `watchEffect` when ...
 2. You don't care about the old value(s)
 3. You need it to run immediately when reactive dependencies change
 
-See: 
-
-[Vue 3 Composition API - watch and watchEffect](https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect)
+See: \
+[Vue 3 Composition API - watch and watchEffect](https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect) \
 [How to use Vue Watch and Vue watchEffect](https://learnvue.co/2019/12/a-simple-vue-watcher-tutorial-for-beginners/)
+
+- - -
 
 ### Routes
 
@@ -58,6 +59,5 @@ Simply add the data to your `params` attribute:
 Go to my page
 </router-link>
 ```
-See:
-
+See: \
 [Vue, is there a way to pass data between routes without URL params?](https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params)
