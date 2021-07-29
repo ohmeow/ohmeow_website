@@ -83,7 +83,7 @@ window.onload = wrap_img;
 <hr />
 <h3 id="watchers--watcheffect">Watchers / WatchEffect</h3>
 
-<h4 id="how-to-i-define-an-asynchronous-watcher-or-watcheffect"><strong>How to I define an asynchronous watcher or watchEffect?</strong></h4>
+<h4 id="pushpin-how-to-i-define-an-asynchronous-watcher-or-watcheffect"><strong>:pushpin: How to I define an asynchronous watcher or watchEffect?</strong></h4>
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span><span class="p">,</span> <span class="nx">watch</span><span class="p">,</span> <span class="nx">watchEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">useRoute</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span>
 
@@ -104,7 +104,7 @@ window.onload = wrap_img;
      <span class="p">})</span>
      <span class="p">...</span>
 </code></pre></div></div>
-<h4 id="when-should-i-use-watch-or-watcheffect">When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</h4>
+<h4 id="pushpin-when-should-i-use-watch-or-watcheffect"><strong>:pushpin: When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</strong></h4>
 
 <p>Use <code class="language-plaintext highlighter-rouge">watch</code> when …</p>
 <ol>
@@ -128,13 +128,13 @@ window.onload = wrap_img;
 
 <h3 id="routes">Routes</h3>
 
-<h4 id="how-can-i-pass-data-between-routes-using-params">How can I pass data between routes using <code class="language-plaintext highlighter-rouge">params</code>?</h4>
+<h4 id="pushpin-how-can-i-pass-data-between-routes-using-params"><strong>:pushpin: How can I pass data between routes using <code class="language-plaintext highlighter-rouge">params</code>?</strong></h4>
 
 <p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;router-link :to="{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }"&gt;
-Go to my page
-&lt;/router-link&gt;
-</code></pre></div></div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">router</span><span class="o">-</span><span class="nx">link</span> <span class="p">:</span><span class="nx">to</span><span class="o">=</span><span class="dl">"</span><span class="s2">{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }</span><span class="dl">"</span><span class="o">&gt;</span>
+<span class="nx">Go</span> <span class="nx">to</span> <span class="nx">my</span> <span class="nx">page</span>
+<span class="o">&lt;</span><span class="sr">/router-link</span><span class="err">&gt;
+</span></code></pre></div></div>
 <p>See: <br />
 <a href="https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params">Vue, is there a way to pass data between routes without URL params?</a></p>
 
