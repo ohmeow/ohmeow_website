@@ -9,7 +9,8 @@ exclude_from_header: true
 - - -
 ### Watchers / WatchEffect
 
-#### **:pushpin: How to I define an asynchronous watcher or watchEffect?**
+#### ** How to I define an asynchronous watcher or watchEffect?**
+:pushpin:
 ```javascript
 import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
