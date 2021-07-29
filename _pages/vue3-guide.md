@@ -43,5 +43,21 @@ Use `watchEffect` when ...
 2. You don't care about the old value(s)
 3. You need it to run immediately when reactive dependencies change
 
-See also:[Vue 3 Composition API - watch and watchEffect](https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect)
+See: 
 
+[Vue 3 Composition API - watch and watchEffect](https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect)
+[How to use Vue Watch and Vue watchEffect](https://learnvue.co/2019/12/a-simple-vue-watcher-tutorial-for-beginners/)
+
+### Routes
+
+#### How can I pass data between routes using `params`?
+
+Simply add the data to your `params` attribute:
+```
+<router-link :to="{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }">
+Go to my page
+</router-link>
+```
+See:
+
+[Vue, is there a way to pass data between routes without URL params?](https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params)
