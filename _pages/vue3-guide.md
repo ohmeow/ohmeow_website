@@ -9,8 +9,8 @@ exclude_from_header: true
 - - -
 ### Watchers / WatchEffect
 
-#### How to I define an asynchronous watcher or watchEffect?
-```
+#### **How to I define an asynchronous watcher or watchEffect?**
+```javascript
 import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
