@@ -83,26 +83,26 @@ window.onload = wrap_img;
 <hr />
 <h3 id="watchers--watcheffect">Watchers / WatchEffect</h3>
 
-<h4 id="how-to-i-define-an-asynchronous-watcher-or-watcheffect">How to I define an asynchronous watcher or watchEffect?</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import { ref, watch, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+<h4 id="how-to-i-define-an-asynchronous-watcher-or-watcheffect"><strong>How to I define an asynchronous watcher or watchEffect?</strong></h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span><span class="p">,</span> <span class="nx">watch</span><span class="p">,</span> <span class="nx">watchEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useRoute</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span>
 
-export default {
-  setup() {
-    const route = useRoute()
-    ...
-    // watch
-    watch(route, async (nv, ov) =&gt; {
-      const { data } = await api.get(`get-something/blah`)
-      console.log(data)
-    })
+<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">route</span> <span class="o">=</span> <span class="nx">useRoute</span><span class="p">()</span>
+    <span class="p">...</span>
+    <span class="c1">// watch</span>
+    <span class="nx">watch</span><span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="nx">nv</span><span class="p">,</span> <span class="nx">ov</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="p">{</span> <span class="nx">data</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`get-something/blah`</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+    <span class="p">})</span>
     
-    // watchEffect
-    const stateChanged = watchEffect(async () =&gt; {
-      const { data } = await api.get(`get-something/blah`)
-      console.log(data)
-     })
-     ...
+    <span class="c1">// watchEffect</span>
+    <span class="kd">const</span> <span class="nx">stateChanged</span> <span class="o">=</span> <span class="nx">watchEffect</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="p">{</span> <span class="nx">data</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`get-something/blah`</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+     <span class="p">})</span>
+     <span class="p">...</span>
 </code></pre></div></div>
 <h4 id="when-should-i-use-watch-or-watcheffect">When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</h4>
 
