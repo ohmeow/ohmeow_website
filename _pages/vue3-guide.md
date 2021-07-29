@@ -8,9 +8,7 @@ exclude_from_header: true
 ## Core
 - - -
 ### Watchers / WatchEffect
-
-#### **:+1: How to I define an asynchronous watcher or watchEffect?**
-:pushpin:
+#### > How to I define an asynchronous watcher or watchEffect?**
 ```javascript
 import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
@@ -32,7 +30,7 @@ export default {
      })
      ...
 ```
-#### **:pushpin: When should I use `watch` or `watchEffect`?**
+#### **> When should I use `watch` or `watchEffect`?**
 
 Use `watch` when ...
 1. You want to do something with one or more specific reactive objects changes
@@ -52,7 +50,7 @@ See: \
 
 ### Routes
 
-#### **:pushpin: How can I pass data between routes using `params`?**
+#### **> How can I pass data between routes using `params`?**
 
 Simply add the data to your `params` attribute:
 ```javascript
