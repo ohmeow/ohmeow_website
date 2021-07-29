@@ -120,8 +120,23 @@ export default {
   <li>You need it to run immediately when reactive dependencies change</li>
 </ol>
 
-<p>See also:<a href="https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect">Vue 3 Composition API - watch and watchEffect</a></p>
+<p>See:</p>
 
+<p><a href="https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect">Vue 3 Composition API - watch and watchEffect</a>
+<a href="https://learnvue.co/2019/12/a-simple-vue-watcher-tutorial-for-beginners/">How to use Vue Watch and Vue watchEffect</a></p>
+
+<h3 id="routes">Routes</h3>
+
+<h4 id="how-can-i-pass-data-between-routes-using-params">How can I pass data between routes using <code class="language-plaintext highlighter-rouge">params</code>?</h4>
+
+<p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;router-link :to="{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }"&gt;
+Go to my page
+&lt;/router-link&gt;
+</code></pre></div></div>
+<p>See:</p>
+
+<p><a href="https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params">Vue, is there a way to pass data between routes without URL params?</a></p>
 
   </div>
 
