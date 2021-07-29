@@ -9,7 +9,7 @@ exclude_from_header: true
 - - -
 ### Watchers / WatchEffect
 
-#### **How to I define an asynchronous watcher or watchEffect?**
+#### **:pushpin: How to I define an asynchronous watcher or watchEffect?**
 ```javascript
 import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
@@ -31,7 +31,7 @@ export default {
      })
      ...
 ```
-#### When should I use `watch` or `watchEffect`?
+#### **:pushpin: When should I use `watch` or `watchEffect`?**
 
 Use `watch` when ...
 1. You want to do something with one or more specific reactive objects changes
@@ -51,10 +51,10 @@ See: \
 
 ### Routes
 
-#### How can I pass data between routes using `params`?
+#### **:pushpin: How can I pass data between routes using `params`?**
 
 Simply add the data to your `params` attribute:
-```
+```javascript
 <router-link :to="{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }">
 Go to my page
 </router-link>
