@@ -165,7 +165,7 @@
   
       ,"page3": {
           "title": "Guides",
-          "content": "Full-stack web application . Vue / Quasar . FastAPI . PostgreSQL . Coming Soon . Deployment . Coming Soon . . Machine Learning / Deep Learning . Coming Soon .",
+          "content": "Full-stack web application . Vue / Quasar . FastAPI . PostgreSQL . Deployment . . Machine Learning / Deep Learning . Coming Soon .",
           "url": "https://ohmeow.com/guides/",
           "relUrl": "/guides/",
           "date": ""
