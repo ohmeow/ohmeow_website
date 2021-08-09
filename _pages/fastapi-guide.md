@@ -24,7 +24,7 @@ See: \
 It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
 keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I'm using 
 `BackgroundTasks` or a depency injected argument somewhere, for example:
-```
+```python
 @app.get("/")
 def get_username(*, db: Session = Depends(get_db), user_id: int) -> str:
     return db.query(User).get(user_id).username
