@@ -90,6 +90,29 @@ window.onload = wrap_img;
   <div class="post-content">
     <h2 id="core">Core</h2>
 <hr />
+<h3 id="computed-properties">Computed properties</h3>
+<h4 id="-how-to-i-define-a-computed-property-using-the-composition-api"><strong>&gt; How to I define a computed property using the Composition API?</strong></h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// just a getter</span>
+<span class="kd">const</span> <span class="nx">userEmail</span> <span class="o">=</span> <span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">$store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">userEmail</span>
+<span class="p">})</span>
+
+<span class="p">...</span>
+
+<span class="c1">// a getter and setter</span>
+<span class="kd">const</span> <span class="nx">selectedUserClientId</span> <span class="o">=</span> <span class="nx">computed</span><span class="p">({</span>
+  <span class="na">get</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">selectedUserClientId</span>
+  <span class="p">},</span>
+  <span class="na">set</span><span class="p">:</span> <span class="p">(</span><span class="nx">newVal</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">$store</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="dl">'</span><span class="s1">setSelectedUserClientId</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">client_id</span><span class="p">:</span> <span class="nx">newVal</span> <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/a/64281689">How to type a computed property in the new composition API?</a> <br />
+<a href="https://forum.vuejs.org/t/how-to-call-setter-for-object-in-computed-properties/29177">How to call setter for object in computed properties</a> \</p>
+
 <h3 id="watchers--watcheffect">Watchers / WatchEffect</h3>
 <h4 id="-how-to-i-define-an-asynchronous-watcher-or-watcheffect"><strong>&gt; How to I define an asynchronous watcher or watchEffect?</strong></h4>
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span><span class="p">,</span> <span class="nx">watch</span><span class="p">,</span> <span class="nx">watchEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
@@ -145,6 +168,87 @@ window.onload = wrap_img;
 </span></code></pre></div></div>
 <p>See: <br />
 <a href="https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params">Vue, is there a way to pass data between routes without URL params?</a></p>
+
+<hr />
+
+<h3 id="vuex">Vuex</h3>
+
+<h4 id="-how-can-i-watch-for-changes-in-the-stores-values"><strong>&gt; How can I watch for changes in the store’s values?</strong></h4>
+
+<p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">setup</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kd">const</span> <span class="nx">store</span> <span class="o">=</span> <span class="nx">useStore</span><span class="p">();</span>
+
+   <span class="nx">watch</span><span class="p">(()</span><span class="o">=&gt;</span><span class="nx">store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">myvalue</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">value changes detected</span><span class="dl">'</span><span class="p">);</span>
+   <span class="p">});</span>
+
+   <span class="k">return</span> <span class="p">{</span>
+      <span class="na">myvalue</span><span class="p">:</span> <span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">myvalue</span><span class="p">)</span>
+   <span class="p">}</span>
+<span class="p">},</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/a/67776890">Vue3 composition api watch store value</a> \</p>
+
+<h4 id="-how-can-i-watch-for-changes-in-the-stores-values-across-browser-tabs-and-windows"><strong>&gt; How can I watch for changes in the store’s values <em>across browser tabs and windows</em>?</strong></h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="na">el</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#app</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">''</span>
+  <span class="p">},</span>
+  <span class="na">methods</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nx">onStorageUpdate</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">newValue</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">mounted</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">storage</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">onStorageUpdate</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">beforeDestroy</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">storage</span><span class="dl">"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">onStorageUpdate</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="na">watch</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="p">(</span><span class="nx">newName</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">localStorage</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">newName</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/a/52782774">Reactive localStorage object across browser tabs using Vue.js</a> \</p>
+
+<h4 id="-how-can-i-store-complex-objects-like-arrays-and-dictionaries-in-localstorage"><strong>&gt; How can I store complex objects like arrays and dictionaries in localStorage?</strong></h4>
+<p>By using <code class="language-plaintext highlighter-rouge">JSON.stringfy(X)</code> when storing the data and <code class="language-plaintext highlighter-rouge">JSON.parse(X)</code> when you fetch the data</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="dl">"</span><span class="s2">New member name?</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="dl">"</span><span class="s2">names</span><span class="dl">"</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">names</span><span class="p">));</span>
+<span class="kd">var</span> <span class="nx">storedNames</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="dl">"</span><span class="s2">names</span><span class="dl">"</span><span class="p">));</span>
+
+<span class="c1">// ... or ...</span>
+<span class="nx">localstorage</span><span class="p">.</span><span class="nx">names</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">names</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">storedNames</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">names</span><span class="p">);</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/questions/3357553/how-do-i-store-an-array-in-localstorage">How do I store an array in localStorage? </a> \</p>
+
+<hr />
+
+<h2 id="quasar">Quasar</h2>
+<hr />
+<h3 id="working-with-q-table">Working with <code class="language-plaintext highlighter-rouge">q-table</code></h3>
+<h4 id="-how-can-i-create-grid-for-crud-operations-using-a-modal-form-for-insertsupserts-with-filtering-sorting-etc"><strong>&gt; How can I create grid for CRUD operations using a modal form for inserts/upserts with filtering, sorting, etc…?</strong></h4>
+
+<p>See: <br />
+<a href="https://codepen.io/metalsadman/pen/ZgKexK?editors=1010">QTable with Action Buttons</a> <br />
+<a href="https://codepen.io/mickey58/pen/eYYVqWv?editors=1010">Quasar QTable: Editing with QPopupEdits and QButtons to add/delete/update rows</a> <br />
+<a href="https://codepen.io/b0otable/pen/PozWLYR">Quasar - q-table with toggle filters and text search</a> \</p>
+
 
   </div>
 
