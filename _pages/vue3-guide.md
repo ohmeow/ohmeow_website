@@ -31,6 +31,8 @@ See: \
 [How to type a computed property in the new composition API?](https://stackoverflow.com/a/64281689) \
 [How to call setter for object in computed properties](https://forum.vuejs.org/t/how-to-call-setter-for-object-in-computed-properties/29177) 
 
+---
+
 ### Watchers / WatchEffect
 #### **> How to I define an asynchronous watcher or watchEffect?**
 ```javascript
