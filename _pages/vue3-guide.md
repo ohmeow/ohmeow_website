@@ -29,7 +29,7 @@ const selectedUserClientId = computed({
 ```
 See: \
 [How to type a computed property in the new composition API?](https://stackoverflow.com/a/64281689) \
-[How to call setter for object in computed properties](https://forum.vuejs.org/t/how-to-call-setter-for-object-in-computed-properties/29177) \
+[How to call setter for object in computed properties](https://forum.vuejs.org/t/how-to-call-setter-for-object-in-computed-properties/29177) 
 
 ### Watchers / WatchEffect
 #### **> How to I define an asynchronous watcher or watchEffect?**
@@ -106,7 +106,7 @@ setup(props) {
 },
 ```
 See: \
-[Vue3 composition api watch store value](https://stackoverflow.com/a/67776890) \
+[Vue3 composition api watch store value](https://stackoverflow.com/a/67776890) 
 
 #### **> How can I watch for changes in the store's values *across browser tabs and windows*?**
 ```javascript
@@ -139,7 +139,7 @@ const app = new Vue({
 });
 ```
 See: \
-[Reactive localStorage object across browser tabs using Vue.js](https://stackoverflow.com/a/52782774) \
+[Reactive localStorage object across browser tabs using Vue.js](https://stackoverflow.com/a/52782774) 
 
 #### **> How can I store complex objects like arrays and dictionaries in localStorage?**
 By using `JSON.stringfy(X)` when storing the data and `JSON.parse(X)` when you fetch the data
@@ -154,7 +154,7 @@ localstorage.names = JSON.stringify(names);
 var storedNames = JSON.parse(localStorage.names);
 ```
 See: \
-[How do I store an array in localStorage? ](https://stackoverflow.com/questions/3357553/how-do-i-store-an-array-in-localstorage) \
+[How do I store an array in localStorage? ](https://stackoverflow.com/questions/3357553/how-do-i-store-an-array-in-localstorage) 
 
 - - -
 
@@ -166,5 +166,5 @@ See: \
 See: \
 [QTable with Action Buttons](https://codepen.io/metalsadman/pen/ZgKexK?editors=1010) \
 [Quasar QTable: Editing with QPopupEdits and QButtons to add/delete/update rows](https://codepen.io/mickey58/pen/eYYVqWv?editors=1010) \
-[Quasar - q-table with toggle filters and text search](https://codepen.io/b0otable/pen/PozWLYR) \
+[Quasar - q-table with toggle filters and text search](https://codepen.io/b0otable/pen/PozWLYR) 
 
