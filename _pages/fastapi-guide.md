@@ -35,6 +35,15 @@ See: \
 
 ---
 
+## Dockerizing a FastAPI application
+- - -
+#### **> How can I Dockerize my app?**
+See: \
+[How to Dockerize a Python App with FastAPI](https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/) \
+[An Extremely Simple Docker, Traefik, and Python FastAPI Example](https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/)
+
+---
+
 ## Dealing with common errors
 - - -
 #### **> I get an Unprocessable Entity (422) error when I post/put to my API**
