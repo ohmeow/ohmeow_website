@@ -7,10 +7,8 @@ permalink: /guides/
 ## Full-stack web application
 ### [Vue / Quasar](https://ohmeow.com/guides/vue3) 
 ### [FastAPI](https://ohmeow.com/guides/fastapi) 
-### PostgreSQL
-*Coming Soon*
-### Deployment
-*Coming Soon*
+### [PostgreSQL](https://ohmeow.com/guides/postgresql) 
+### [Deployment](https://ohmeow.com/guides/deployment) 
 
 ---
 
