@@ -107,9 +107,9 @@ window.onload = wrap_img;
 <p>It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
 keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I’m using 
 <code class="language-plaintext highlighter-rouge">BackgroundTasks</code> or a depency injected argument somewhere, for example:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@app.get("/")
-def get_username(*, db: Session = Depends(get_db), user_id: int) -&gt; str:
-    return db.query(User).get(user_id).username
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">),</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">db</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">User</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="p">).</span><span class="n">username</span>
 </code></pre></div></div>
 <p>See: <br />
 <a href="https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896">What does a star(*) mean in a method parameter?</a> <br />
