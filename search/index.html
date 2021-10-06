@@ -120,8 +120,11 @@ window.onload = wrap_img;
 
 <script>
   function goToNote(elId) {
-      window.focus();
-      window.scrollTo(0, document.getElementById(elId).offsetHeight + 110)
+    const el = document.getElementById(elId);
+    const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop;
+      
+    window.focus();
+    window.scrollTo(0, elPos - 90);
   }
   </script></body>
 
