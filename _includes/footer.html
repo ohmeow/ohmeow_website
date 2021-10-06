@@ -35,6 +35,7 @@
 </footer>
 
 <script>
+  // method will ensure the floating header isn't covering the note header
   function goToNote(elId) {
     const el = document.getElementById(elId);
     const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop;
@@ -43,12 +44,19 @@
     window.scrollTo(0, elPos - 90);
   }
 
+  // ensure target note shows below floating header on # change
   window.addEventListener("hashchange", (ev) => { 
     const hash = ev.target.location.hash
     if (hash) {
-      goToNote(hash)
+      goToNote(hash.substring(1))
     }
   });
 
-  window.addEventListener("load", (ev) => { console.log(ev)});
+  // onload, ensure note shows below floating header
+  window.addEventListener("load", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
 </script>
