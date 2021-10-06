@@ -7,7 +7,7 @@ exclude_from_header: true
 
 ### Designing your API
 ---
-<span id="good-ref-archs"></span>
+<div id="good-ref-archs"></div>
 <div class="flash">
   {% octicon bookmark %} <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong>
 </div>
