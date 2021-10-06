@@ -6,8 +6,8 @@
 .wrapper { width: 90% !important; max-width: 90% !important; }
 a, a:visited {color: #ca6328 !important; }
 a.nostyle, a.nostyle:hover, a.nostyle:focus, a.nostyle:active {
-    text-decoration: none;
-    color: inherit;
+    text-decoration: none !important;
+    color: inherit !important;
 }
 
 // header
