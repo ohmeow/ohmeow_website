@@ -1552,45 +1552,14 @@ For example, when running on a colab GPU I kept getting CUDA OOM even with a bat
       
     window.focus();
     window.scrollTo(0, elPos - 90);
+    return false
   }
 
-  // function locationHashChanged() {
-  //   console.log('here');
-  // }
+  function locationHashChanged() {
+    console.log('here');
+  }
 
-  // window.onhashchange = locationHashChanged;
-
-  var oldHref = document.location.href;
-
-window.onload = function() {
-
-    var
-         bodyList = document.querySelector("body")
-
-        ,observer = new MutationObserver(function(mutations) {
-
-            mutations.forEach(function(mutation) {
-
-                if (oldHref != document.location.href) {
-
-                    oldHref = document.location.href;
-
-                    console.log(oldHref);
-
-                }
-
-            });
-
-        });
-
-    var config = {
-        childList: true,
-        subtree: true
-    };
-
-    observer.observe(bodyList, config);
-
-};
+  window.onhashchange = locationHashChanged;
 </script></body>
 
 </html>
