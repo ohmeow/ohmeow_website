@@ -43,4 +43,9 @@
     window.scrollTo(0, elPos - 90);
     return false;
   }
+
+  function onHashChange() {
+    console.log('here');
+  }
+  window.addEventListener("hashchange", onHashChange, false);
   </script>
