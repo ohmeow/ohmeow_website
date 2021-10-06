@@ -8,7 +8,12 @@ exclude_from_header: true
 ### Designing your API
 ---
 <div id="good-ref-archs" class="flash">
-  {% octicon bookmark %} <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong>
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="" onclick="window.focus();window.scrollTo(0,$('#good-ref-archs').offsetHeight + 110)">
+      What are some good reference architectures?
+    </a>
+  </strong>
 </div>
 See: \
 [Using FastAPI to Build Python Web APIs](https://realpython.com/fastapi-python-web-apis/) \
