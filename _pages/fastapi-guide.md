@@ -101,12 +101,8 @@ See the following resources: \
 - - -
 
 <script>
-$(function(){
-
-  function doSomething() {
+function doSomething() {
     window.focus();
-    window.scrollTo(0,$('#good-ref-archs').offsetHeight + 110)
-  }
-
-});
+    window.scrollTo(0, document.getElementById('good-ref-archs').offsetHeight + 110)
+}
 </script>
