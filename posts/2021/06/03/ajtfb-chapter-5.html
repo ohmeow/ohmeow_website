@@ -1676,10 +1676,11 @@ Callbacks:
     window.scrollTo(0, elPos - 90);
   }
 
-  function onHashChange() {
+  function locationHashChanged() {
     console.log('here');
   }
-  window.addEventListener("hashchange", onHashChange, false);
-  </script></body>
+
+  window.onhashchange = locationHashChanged;
+</script></body>
 
 </html>
