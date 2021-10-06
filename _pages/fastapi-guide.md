@@ -99,10 +99,3 @@ See the following resources: \
 [Ajax Product Filter does not work in https - Fixed](https://support.yithemes.com/hc/en-us/articles/115002851847-Ajax-Product-Filter-does-not-work-in-https-Fixed) 
 
 - - -
-
-<script>
-function goToNote(elId) {
-    window.focus();
-    window.scrollTo(0, document.getElementById(elId).offsetHeight + 110)
-}
-</script>
