@@ -10,7 +10,7 @@ exclude_from_header: true
 <div id="good-ref-archs" class="flash">
   {% octicon bookmark %} 
   <strong>
-    <a class="nostyle" href="" onclick="window.focus();window.scrollTo(0,$('#good-ref-archs').offsetHeight + 110)">
+    <a class="nostyle" href="javascript:void(0)" onclick="doSomething()">
       What are some good reference architectures?
     </a>
   </strong>
@@ -99,3 +99,10 @@ See the following resources: \
 [Ajax Product Filter does not work in https - Fixed](https://support.yithemes.com/hc/en-us/articles/115002851847-Ajax-Product-Filter-does-not-work-in-https-Fixed) 
 
 - - -
+
+<script>
+function doSomething() {
+    window.focus();
+    window.scrollTo(0,$('#good-ref-archs').offsetHeight + 110)
+}
+</script>
