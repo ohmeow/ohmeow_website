@@ -20,7 +20,6 @@ See: \
 [Full Stack FastAPI and PostgreSQL - Base Project Generator](https://github.com/tiangolo/full-stack-fastapi-postgresql) \
 [Up and running with fastapi series](https://www.jeffastor.com/blog/refactoring-our-react-ui-into-composable-hooks-part-ii)
 
-#### **> How do I do e-mail verification, password resets, etc... with fastapi?**
 <div id="user-reg-auth" class="flash">
   {% octicon bookmark %} 
   <strong>
@@ -35,7 +34,6 @@ See: \
 [Flask Rest API -Part:5- Password Reset](https://dev.to/paurakhsharma/flask-rest-api-part-5-password-reset-2f2e) \
 [E-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail](https://www.youtube.com/watch?v=gdKBn5cp3TM)
 
-#### **> What does a star(*) mean in a method parameter?**
 <div id="star-in-method" class="flash">
   {% octicon bookmark %} 
   <strong>
@@ -118,6 +116,7 @@ See: [Support for RETURNING](https://github.com/encode/databases/issues/98#issue
     </a>
   </strong>
 </div>
+
 ```
 Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
 XMLHttpRequest endpoint 'http://page.com?filter=xxxx'. 
