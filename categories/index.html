@@ -445,13 +445,12 @@ window.onload = wrap_img;
     return false
   }
 
-  function locationHashChanged() {
-    console.log('hash change');
-  }
+  window.addEventListener("hashchange", (ev) => { 
+    console.log('hashchange')
+    console.log(ev);
+  });
 
-  window.onhashchange = locationHashChanged;
-
-  window.addEventListener("load", () => { console.log('load')})
+  window.addEventListener("load", () => { console.log('load')});
 </script></body>
 
 </html>
