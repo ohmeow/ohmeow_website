@@ -7,10 +7,7 @@ exclude_from_header: true
 
 ### Designing your API
 ---
-<div class="flash">
-    {% octicon info %}
-    <strong>What are some good reference architectures?</strong>
-</div>
+<div class="flash">{% octicon question-16 %} <strong>What are some good reference architectures?</strong></div>
 See: \
 [Using FastAPI to Build Python Web APIs](https://realpython.com/fastapi-python-web-apis/) \
 [Full Stack FastAPI and PostgreSQL - Base Project Generator](https://github.com/tiangolo/full-stack-fastapi-postgresql) \
