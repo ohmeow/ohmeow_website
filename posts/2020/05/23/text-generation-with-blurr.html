@@ -1207,15 +1207,16 @@ More than half the people killed in aviation incidents this year had been flying
       
     window.focus();
     window.scrollTo(0, elPos - 90);
-    return false
   }
 
   window.addEventListener("hashchange", (ev) => { 
-    console.log('hashchange')
-    console.log(ev);
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash)
+    }
   });
 
-  window.addEventListener("load", () => { console.log('load')});
+  window.addEventListener("load", (ev) => { console.log(ev)});
 </script></body>
 
 </html>
