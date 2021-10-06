@@ -7,7 +7,7 @@ exclude_from_header: true
 
 ### Designing your API
 ---
-{% include info.html text="What are some good reference architectures?" %}
+{% include note.html text="What are some good reference architectures?" %}
 See: \
 [Using FastAPI to Build Python Web APIs](https://realpython.com/fastapi-python-web-apis/) \
 [Full Stack FastAPI and PostgreSQL - Base Project Generator](https://github.com/tiangolo/full-stack-fastapi-postgresql) \
