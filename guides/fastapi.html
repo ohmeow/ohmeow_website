@@ -111,7 +111,7 @@ window.onload = wrap_img;
 
 <div id="star-in-method" class="flash">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
-  <strong><a class="nostyle" href="star-in-method">What does a star(*) mean in a method parameter?</a></strong>
+  <strong><a class="nostyle" href="#star-in-method">What does a star(*) mean in a method parameter?</a></strong>
 </div>
 <p>It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
 keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I’m using 
@@ -128,7 +128,7 @@ keyword arguments are used everywhere (which may or may not be desirable when re
 <hr />
 <div id="how-to-dockerize" class="flash">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
-  <strong><a class="nostyle" href="how-to-dockerize">How can I Dockerize my app?</a></strong>
+  <strong><a class="nostyle" href="#how-to-dockerize">How can I Dockerize my app?</a></strong>
 </div>
 <p>See: <br />
 <a href="https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/">How to Dockerize a Python App with FastAPI</a> <br />
@@ -138,7 +138,7 @@ keyword arguments are used everywhere (which may or may not be desirable when re
 <hr />
 <div id="error-unprocessable-entity-422" class="flash flash-error">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
-  <strong><a class="nostyle" href="error-unprocessable-entity-422">I get an Unprocessable Entity (422) error when I post/put to my API</a></strong>
+  <strong><a class="nostyle" href="#error-unprocessable-entity-422">I get an Unprocessable Entity (422) error when I post/put to my API</a></strong>
 </div>
 <p>It usually means the body of your request doesn’t mesh with what your API method is expected.  Make sure that the object your passing in matches what you’ve
 specified, including using the <code class="language-plaintext highlighter-rouge">Body(...[,embed=True])</code> types correctly</p>
@@ -149,20 +149,20 @@ specified, including using the <code class="language-plaintext highlighter-rouge
 
 <div id="error-coroutine-has-no-attribute" class="flash flash-error">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
-  <strong><a class="nostyle" href="error-coroutine-has-no-attribute">AttributeError: 'coroutine' object has no attribute 'X'</a></strong>
+  <strong><a class="nostyle" href="#error-coroutine-has-no-attribute">AttributeError: 'coroutine' object has no attribute 'X'</a></strong>
 </div>
 <p>Usually means you are missing “await” from async method (fastapi/python)</p>
 
 <div id="error-postgresql-returning-nada" class="flash flash-error">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
-  <strong><a class="nostyle" href="error-postgresql-returning-nada">I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify</a></strong>
+  <strong><a class="nostyle" href="#error-postgresql-returning-nada">I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify</a></strong>
 </div>
 <p><code class="language-plaintext highlighter-rouge">RETURNING</code> statements work okay with <code class="language-plaintext highlighter-rouge">fetch_one</code>/<code class="language-plaintext highlighter-rouge">fetch_all</code>.  If you are using <code class="language-plaintext highlighter-rouge">execute</code>, it won’t work <br />
 See: <a href="https://github.com/encode/databases/issues/98#issuecomment-499875112">Support for RETURNING</a></p>
 
 <div id="error-nginx-reverse-proxy-https" class="flash flash-error">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
-  <strong><a class="nostyle" href="error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong>
+  <strong><a class="nostyle" href="#error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong>
 </div>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
