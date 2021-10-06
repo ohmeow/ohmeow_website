@@ -9,7 +9,7 @@ exclude_from_header: true
 ---
 <span id="good-ref-archs"></span>
 <div class="flash">
-  {% octicon bookmark %} <strong><a href="#good-ref-archs">What are some good reference architectures?</a></strong>
+  {% octicon bookmark %} <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong>
 </div>
 See: \
 [Using FastAPI to Build Python Web APIs](https://realpython.com/fastapi-python-web-apis/) \
