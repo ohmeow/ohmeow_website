@@ -33,6 +33,7 @@ See: \
 It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
 keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I'm using 
 `BackgroundTasks` or a depency injected argument somewhere, for example:
+
 ```python
 @app.get("/")
 def get_username(*, db: Session = Depends(get_db), user_id: int) -> str:
@@ -41,6 +42,18 @@ def get_username(*, db: Session = Depends(get_db), user_id: int) -> str:
 See: \
 [What does a star(*) mean in a method parameter?](https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896) \
 [Order the parameters as you need, tricks](https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/#order-the-parameters-as-you-need-tricks)
+
+
+### Working with Pydantic objects
+---
+<div id="pydantic-cast" class="flash">
+  {% octicon bookmark %} 
+  <strong><a class="nostyle" href="#pydantic-cast">How to cast one pydantic object into another?</a></strong>
+</div>
+
+```python
+MyModel(**my_model_from.dict())
+```
 
 
 ## Dockerizing a FastAPI application
