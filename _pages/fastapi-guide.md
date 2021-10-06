@@ -10,7 +10,7 @@ exclude_from_header: true
 <div id="good-ref-archs" class="flash">
   {% octicon bookmark %} 
   <strong>
-    <a class="nostyle" href="#good-ref-archs" onclick="return goToNote('good-ref-archs')">
+    <a class="nostyle" href="#good-ref-archs">
       What are some good reference architectures?
     </a>
   </strong>
@@ -23,7 +23,7 @@ See: \
 <div id="user-reg-auth" class="flash">
   {% octicon bookmark %} 
   <strong>
-    <a class="nostyle" href="#user-reg-auth" onclick="return goToNote('user-reg-auth')">
+    <a class="nostyle" href="#user-reg-auth">
       How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?
     </a>
   </strong>
