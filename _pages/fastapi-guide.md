@@ -98,6 +98,7 @@ See: [Support for RETURNING](https://github.com/encode/databases/issues/98#issue
   <strong><a class="nostyle" href="#error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong>
 </div>
 
+
 ```
 Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
 XMLHttpRequest endpoint 'http://page.com?filter=xxxx'. 
