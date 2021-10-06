@@ -93,7 +93,7 @@ window.onload = wrap_img;
 <div id="good-ref-archs" class="flash">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
   <strong>
-    <a class="nostyle" href="#good-ref-archs" onclick="goToNote('good-ref-archs')">
+    <a class="nostyle" href="#good-ref-archs">
       What are some good reference architectures?
     </a>
   </strong>
@@ -106,7 +106,7 @@ window.onload = wrap_img;
 <div id="user-reg-auth" class="flash">
   <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
   <strong>
-    <a class="nostyle" href="#user-reg-auth" onclick="goToNote('user-reg-auth')">
+    <a class="nostyle" href="#user-reg-auth">
       How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?
     </a>
   </strong>
@@ -261,7 +261,6 @@ server {
       
     window.focus();
     window.scrollTo(0, elPos - 90);
-    return false;
   }
 
   function onHashChange() {
