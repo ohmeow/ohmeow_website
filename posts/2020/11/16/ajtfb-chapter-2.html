@@ -505,10 +505,12 @@ parallel and not being used to directly drive any actions.</p>
   }
 
   function locationHashChanged() {
-    console.log('here');
+    console.log('hash change');
   }
 
   window.onhashchange = locationHashChanged;
+
+  window.addEventListener("load", () => { console.log('load')})
 </script></body>
 
 </html>

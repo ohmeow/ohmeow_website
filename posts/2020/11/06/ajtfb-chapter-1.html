@@ -377,10 +377,12 @@ See pp.36-39</p>
   }
 
   function locationHashChanged() {
-    console.log('here');
+    console.log('hash change');
   }
 
   window.onhashchange = locationHashChanged;
+
+  window.addEventListener("load", () => { console.log('load')})
 </script></body>
 
 </html>

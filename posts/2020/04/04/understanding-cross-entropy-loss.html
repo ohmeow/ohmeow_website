@@ -861,10 +861,12 @@ As a result, <strong>a very small change in the value of a weight will often not
   }
 
   function locationHashChanged() {
-    console.log('here');
+    console.log('hash change');
   }
 
   window.onhashchange = locationHashChanged;
+
+  window.addEventListener("load", () => { console.log('load')})
 </script></body>
 
 </html>

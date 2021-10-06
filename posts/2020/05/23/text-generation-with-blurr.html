@@ -1211,10 +1211,12 @@ More than half the people killed in aviation incidents this year had been flying
   }
 
   function locationHashChanged() {
-    console.log('here');
+    console.log('hash change');
   }
 
   window.onhashchange = locationHashChanged;
+
+  window.addEventListener("load", () => { console.log('load')})
 </script></body>
 
 </html>

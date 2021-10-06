@@ -1824,10 +1824,12 @@ pascal = DataBlock.from_columns(blocks=(ImageBlock, MultiCategoryBlock),
   }
 
   function locationHashChanged() {
-    console.log('here');
+    console.log('hash change');
   }
 
   window.onhashchange = locationHashChanged;
+
+  window.addEventListener("load", () => { console.log('load')})
 </script></body>
 
 </html>
