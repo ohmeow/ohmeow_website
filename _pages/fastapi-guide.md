@@ -103,6 +103,6 @@ See the following resources: \
 <script>
 function goToNote(elId) {
     window.focus();
-    window.scrollTo(0, document.getElementById(`#${elId}`).offsetHeight + 110)
+    window.scrollTo(0, document.getElementById(elId).offsetHeight + 110)
 }
 </script>
