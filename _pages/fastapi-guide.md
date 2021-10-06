@@ -10,7 +10,7 @@ exclude_from_header: true
 <div id="good-ref-archs" class="flash">
   {% octicon bookmark %} 
   <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="doSomething()">
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('good-ref-archs')">
       What are some good reference architectures?
     </a>
   </strong>
@@ -101,8 +101,8 @@ See the following resources: \
 - - -
 
 <script>
-function doSomething() {
+function goToNote(elId) {
     window.focus();
-    window.scrollTo(0, document.getElementById('good-ref-archs').offsetHeight + 110)
+    window.scrollTo(0, document.getElementById(`#${elId}`).offsetHeight + 110)
 }
 </script>
