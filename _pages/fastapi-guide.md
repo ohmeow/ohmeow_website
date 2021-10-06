@@ -9,11 +9,7 @@ exclude_from_header: true
 ---
 <div id="good-ref-archs" class="flash">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="#good-ref-archs">
-      What are some good reference architectures?
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong>
 </div>
 See: \
 [Using FastAPI to Build Python Web APIs](https://realpython.com/fastapi-python-web-apis/) \
@@ -22,11 +18,7 @@ See: \
 
 <div id="user-reg-auth" class="flash">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="#user-reg-auth">
-      How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="#user-reg-auth">How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?</a></strong>
 </div>
 See: \
 [Handle Registration in FastAPI and Tortoise ORM](https://levelup.gitconnected.com/handle-registration-in-fastapi-and-tortoise-orm-a661162d27f1) \
@@ -36,11 +28,7 @@ See: \
 
 <div id="star-in-method" class="flash">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('star-in-method')">
-      What does a star(*) mean in a method parameter?
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="star-in-method">What does a star(*) mean in a method parameter?</a></strong>
 </div>
 It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
 keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I'm using 
@@ -59,11 +47,7 @@ See: \
 - - -
 <div id="how-to-dockerize" class="flash">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('how-to-dockerize')">
-      How can I Dockerize my app?
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="how-to-dockerize">How can I Dockerize my app?</a></strong>
 </div>
 See: \
 [How to Dockerize a Python App with FastAPI](https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/) \
@@ -74,11 +58,7 @@ See: \
 - - -
 <div id="error-unprocessable-entity-422" class="flash flash-error">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-unprocessable-entity-422')">
-      I get an Unprocessable Entity (422) error when I post/put to my API
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="error-unprocessable-entity-422">I get an Unprocessable Entity (422) error when I post/put to my API</a></strong>
 </div>
 It usually means the body of your request doesn't mesh with what your API method is expected.  Make sure that the object your passing in matches what you've
 specified, including using the `Body(...[,embed=True])` types correctly
@@ -89,32 +69,20 @@ See: \
 
 <div id="error-coroutine-has-no-attribute" class="flash flash-error">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-coroutine-has-no-attribute')">
-      AttributeError: 'coroutine' object has no attribute 'X'
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="error-coroutine-has-no-attribute">AttributeError: 'coroutine' object has no attribute 'X'</a></strong>
 </div>
 Usually means you are missing “await” from async method (fastapi/python)
 
 <div id="error-postgresql-returning-nada" class="flash flash-error">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-postgresql-returning-nada')">
-      I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="error-postgresql-returning-nada">I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify</a></strong>
 </div>
 `RETURNING` statements work okay with `fetch_one`/`fetch_all`.  If you are using `execute`, it won't work \
 See: [Support for RETURNING](https://github.com/encode/databases/issues/98#issuecomment-499875112) 
 
 <div id="error-nginx-reverse-proxy-https" class="flash flash-error">
   {% octicon bookmark %} 
-  <strong>
-    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-nginx-reverse-proxy-https')">
-      When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...
-    </a>
-  </strong>
+  <strong><a class="nostyle" href="error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong>
 </div>
 
 ```
