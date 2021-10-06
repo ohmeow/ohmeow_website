@@ -21,6 +21,14 @@ See: \
 [Up and running with fastapi series](https://www.jeffastor.com/blog/refactoring-our-react-ui-into-composable-hooks-part-ii)
 
 #### **> How do I do e-mail verification, password resets, etc... with fastapi?**
+<div id="user-reg-auth" class="flash">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('user-reg-auth')">
+      How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?
+    </a>
+  </strong>
+</div>
 See: \
 [Handle Registration in FastAPI and Tortoise ORM](https://levelup.gitconnected.com/handle-registration-in-fastapi-and-tortoise-orm-a661162d27f1) \
 [Handling Email Confirmation During Registration in Flask](https://realpython.com/handling-email-confirmation-in-flask/#models) \
@@ -28,6 +36,14 @@ See: \
 [E-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail](https://www.youtube.com/watch?v=gdKBn5cp3TM)
 
 #### **> What does a star(*) mean in a method parameter?**
+<div id="star-in-method" class="flash">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('star-in-method')">
+      What does a star(*) mean in a method parameter?
+    </a>
+  </strong>
+</div>
 It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
 keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I'm using 
 `BackgroundTasks` or a depency injected argument somewhere, for example:
@@ -40,20 +56,32 @@ See: \
 [What does a star(*) mean in a method parameter?](https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896) \
 [Order the parameters as you need, tricks](https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/#order-the-parameters-as-you-need-tricks)
 
----
 
 ## Dockerizing a FastAPI application
 - - -
-#### **> How can I Dockerize my app?**
+<div id="how-to-dockerize" class="flash">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('how-to-dockerize')">
+      How can I Dockerize my app?
+    </a>
+  </strong>
+</div>
 See: \
 [How to Dockerize a Python App with FastAPI](https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/) \
 [An Extremely Simple Docker, Traefik, and Python FastAPI Example](https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/)
 
----
 
 ## Dealing with common errors
 - - -
-#### **> I get an Unprocessable Entity (422) error when I post/put to my API**
+<div id="error-unprocessable-entity-422" class="flash flash-error">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-unprocessable-entity-422')">
+      I get an Unprocessable Entity (422) error when I post/put to my API
+    </a>
+  </strong>
+</div>
 It usually means the body of your request doesn't mesh with what your API method is expected.  Make sure that the object your passing in matches what you've
 specified, including using the `Body(...[,embed=True])` types correctly
 
@@ -61,15 +89,35 @@ See: \
 [Body - Multiple Parameters](https://fastapi.tiangolo.com/tutorial/body-multiple-params/?h=embed) \
 [Python: FastApi (Unprocessable Entity) error](https://stackoverflow.com/questions/62384392/python-fastapi-unprocessable-entity-error)
 
-
-#### **> AttributeError: 'coroutine' object has no attribute 'X'** 
+<div id="error-coroutine-has-no-attribute" class="flash flash-error">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-coroutine-has-no-attribute')">
+      AttributeError: 'coroutine' object has no attribute 'X'
+    </a>
+  </strong>
+</div>
 Usually means you are missing “await” from async method (fastapi/python)
 
-#### **> I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify** 
+<div id="error-postgresql-returning-nada" class="flash flash-error">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-postgresql-returning-nada')">
+      I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify
+    </a>
+  </strong>
+</div>
 `RETURNING` statements work okay with `fetch_one`/`fetch_all`.  If you are using `execute`, it won't work \
 See: [Support for RETURNING](https://github.com/encode/databases/issues/98#issuecomment-499875112) 
 
-#### **> When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...** 
+<div id="error-nginx-reverse-proxy-https" class="flash flash-error">
+  {% octicon bookmark %} 
+  <strong>
+    <a class="nostyle" href="javascript:void(0)" onclick="goToNote('error-nginx-reverse-proxy-https')">
+      When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...
+    </a>
+  </strong>
+</div>
 ```
 Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
 XMLHttpRequest endpoint 'http://page.com?filter=xxxx'. 
