@@ -56,7 +56,7 @@ MyModel(**my_model_from.dict())
 ```
 
 
-## Dockerizing a FastAPI application
+### Dockerizing a FastAPI application
 - - -
 <div id="how-to-dockerize" class="flash">
   {% octicon bookmark %} 
@@ -67,7 +67,7 @@ See: \
 [An Extremely Simple Docker, Traefik, and Python FastAPI Example](https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/)
 
 
-## Dealing with common errors
+### Dealing with common errors
 - - -
 <div id="error-unprocessable-entity-422" class="flash flash-error">
   {% octicon bookmark %} 
