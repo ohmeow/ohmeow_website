@@ -46,7 +46,7 @@ See: \
 
 ### Working with Pydantic objects
 ---
-<div id="pydantic-cast" class="flash">
+<div id="pydantic-cast" class="flash" style="margin-bottom:5px;">
   {% octicon bookmark %} 
   <strong><a class="nostyle" href="#pydantic-cast">How to cast one pydantic object into another?</a></strong>
 </div>
@@ -93,12 +93,10 @@ Usually means you are missing “await” from async method (fastapi/python)
 `RETURNING` statements work okay with `fetch_one`/`fetch_all`.  If you are using `execute`, it won't work \
 See: [Support for RETURNING](https://github.com/encode/databases/issues/98#issuecomment-499875112) 
 
-<div id="error-nginx-reverse-proxy-https" class="flash flash-error">
+<div id="error-nginx-reverse-proxy-https" class="flash flash-error" style="margin-bottom:5px;">
   {% octicon bookmark %} 
   <strong><a class="nostyle" href="#error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong>
 </div>
-
-
 ```
 Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
 XMLHttpRequest endpoint 'http://page.com?filter=xxxx'. 
