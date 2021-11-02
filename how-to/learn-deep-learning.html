@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How to learn (deep learning) | ohmeow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="How to learn (deep learning)" />
+<meta name="author" content="Wayde Gilliam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world" />
+<meta property="og:description" content="Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world" />
+<link rel="canonical" href="https://ohmeow.com/how-to/learn-deep-learning" />
+<meta property="og:url" content="https://ohmeow.com/how-to/learn-deep-learning" />
+<meta property="og:site_name" content="ohmeow" />
+<meta property="og:image" content="https://ohmeow.com/images/articles/thumbs_up_kid.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://ohmeow.com/how-to/learn-deep-learning","@type":"BlogPosting","headline":"How to learn (deep learning)","dateModified":"2021-11-01T00:00:00-05:00","datePublished":"2021-11-01T00:00:00-05:00","image":"https://ohmeow.com/images/articles/thumbs_up_kid.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/how-to/learn-deep-learning"},"author":{"@type":"Person","name":"Wayde Gilliam"},"description":"Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163296836-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163296836-1');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/guides/"><span class="top-menu-text">Guides</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
+        </nav></div>
+  </header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How to learn (deep learning)</h1><p class="page-description">Insights from <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a> and from around the world</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-11-01T00:00:00-05:00" itemprop="datePublished">
+        Nov 1, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Wayde Gilliam</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#fastai">fastai</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#fastbook">fastbook</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#how-to">how-to</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/ohmeow/ohmeow_website/tree/master/_notebooks/how-to-learn-deep-learning.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ohmeow/ohmeow_website/blob/master/_notebooks/how-to-learn-deep-learning.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/how-to-learn-deep-learning.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Cervantes once wrote that "the journey is better than the inn", but I rather like to think that the journey <em>is</em> the inn.</p>
+<p>It means that irrespective to its difficulties (and likely because of them), your adventures is what you look back on with fondness at its end rather than the end itself.  It's why I enjoy reading "The Lord of the Rings" every five years or so, where as I age and experience the hand life has dealt me, I find myself appreciating different aspects of the story and gaining new insights into what I value and into what I want to be as a human being. I find my journey with deep learning to be roughly analgous to that.</p>
+<p>I've been a part of <a href="https://forums.fast.ai/u/wgpubs/summary">the fast.ai community</a> for several years. I've been through <a href="https://course.fast.ai/">the course</a> multiple times (since it was using theano back in the old days), I've contributed to the library, and use it as the basis for one of <a href="https://ohmeow.github.io/blurr/">my own</a>.  And as with each course, a re-reading of the book brings new insights, ideas, and revelations.</p>
+<p>And so here I begin with my meandering thoughts and reflections from yet another reading of what I consider "The Lord of the Rings" of deep learning. As such, it makes sense to being with the most foundational topic in fastbook, <strong>"How do you learn Deep Learning?"</strong></p>
+<hr />
+<h2 id="You-can-do-this!">You can do this!<a class="anchor-link" href="#You-can-do-this!"> </a></h2><blockquote><p>Hi, everybody; I'm Jeremy ... I do not have any formal technical education ... didn't have great grades.
+I was much more interested in doing real projects.</p>
+</blockquote>
+<p>This is meaningful to me as someone with a BA in History and a MA in Theology. It's a reminder that if you want something, it's within your grasp to make it happen if you are willing to put in the work. It's also a reminder that key to getting there is actually doing something!  If find too many people thinking that if they just get into that school, or if they can just take that class, then they'll be a good software enginner or deep learning practitioner.  The reality is that the <em>only</em> way you get there is by doing it ... just like pull-ups (which aren't much fun when you're starting out and/or you're 49 and overweight).</p>
+<h2 id="The-problem-with-traditional-education">The problem with traditional education<a class="anchor-link" href="#The-problem-with-traditional-education"> </a></h2><blockquote><p>... how math is taught - we require students to spend years doing rote memorization and learning dry
+disconnected <em>fundatmentals</em> that we claim will pay off later, long after most of them quit the subject.</p>
+</blockquote>
+<p>This also is the problem with higher education in general, where young people spend at least four to five years learning things they already learned in High School or else things they don't really care about and will be forgotten right after finals, spending in excess of $100,000 for the privilege of it and likely going into debt in the tens of thousands of dollars, all with this idea that having done it they will be prepared for the real world.  Unfortunately, that's not how it works. Whether you are in a university of even go to university, what matter is what you do ... not what classes you took or what your GPA is.</p>
+<h2 id="Deep-Learning-(and-coding-in-general)-is-an-art-maybe-more-so-than-a-science">Deep Learning (and coding in general) is an art maybe more so than a science<a class="anchor-link" href="#Deep-Learning-(and-coding-in-general)-is-an-art-maybe-more-so-than-a-science"> </a></h2><blockquote><p>The hardest part of deep learning is artisanal.</p>
+</blockquote>
+<p>I remember going to an iOS conference way back in the day and a conference speaker asking how many folks in the session I was sitting in had a background in music. 80-90% of the audience raised their hands.  Sure, there is math and stats and a science to deep learning, but like any coding enterprise, it's an art ... with some artists being better than others along with room for improvement regardless of whether you're Van Gough or painting by the numbers.</p>
+<h2 id="Doing-is-how-you-learn,-and-what-you've-done-is-what-matters">Doing is how you learn, and what you've done is what matters<a class="anchor-link" href="#Doing-is-how-you-learn,-and-what-you've-done-is-what-matters"> </a></h2><blockquote><p>... focus on your hobbies and passions ... Common character traits in the people who do well at deep learning include playfulness and curiosity.</p>
+<p>at Tesla .. CEO Elon Musk says 'A PhD is definitely not required. All that matters is a deep understanding of AI &amp; ability to implement NNs in a way that is actually useful .... Don't care if you even graduated High School.'</p>
+<p>... the most important thing for learning deep learning is writing code and experimenting."</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h2 id="Folks-to-follow">Folks to follow<a class="anchor-link" href="#Folks-to-follow"> </a></h2><p>It's always helpful to have some role models; folks who practice the lessons learned above and can help you along your journey.</p>
+<p>For starters, consider this image of the top 12 users based on most likes in the fast.ai forums:
+<img src="https://github.com/ohmeow/ohmeow_website/blob/master/images/articles/20211102-fastai-forums-top-12.png?raw=1" alt="" /></p>
+<p>Aside from the founders of <a href="https://www.fast.ai/">fast.ai</a> and a bunch of them working for noteable ML companies like <a href="https://huggingface.co/">Hugging Face</a> and <a href="https://wandb.ai/site">Weights &amp; Biases</a>, I can think of at least <strong><em>FOUR</em></strong> things these folks have in common:</p>
+<ol>
+<li><p>They are <strong>fearless in asking what they may have even considered, dumb questions</strong>.</p>
+</li>
+<li><p>They are <strong>active in researching the answers to their own questions</strong>, as well as, those asked by others.</p>
+</li>
+<li><p>They are <strong>active in teaching</strong> other through blogs, books, open source libraries, study groups, and podcasts.</p>
+</li>
+<li><p><strong>They build</strong> ML solutions, that is, they all have experience building models and making them usable via deployed applications and/or in kaggle compeititions.</p>
+</li>
+</ol>
+<p>These trait aren't just key to learning deep learning; they are key to learning anything!  Practice them and you guarantee success in learning anything you've set your mind on learning.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+<h2 id="What-if-I-can-only-follow-three?">What if I can only follow three?<a class="anchor-link" href="#What-if-I-can-only-follow-three?"> </a></h2><p>Aside from Jeremy, who's a given, if I could only follow three people who have mastered to art of learning deep learning, they would be ...</p>
+<p><strong>Radek Osmulsk</strong>: (twitter: <a href="https://twitter.com/radekosmulski">@radekosmulski</a>)
+
+<center>
+    <div class="jekyll-twitter-plugin"><blockquote class="twitter-tweet"><p lang="en" dir="ltr">If you found this of value, you might be interested in a book on learning deep learning that I wrote<br /><br />check it out here &gt;&gt;&gt; <a href="https://t.co/ApKlm8BRmy">https://t.co/ApKlm8BRmy</a></p>&mdash; Radek Osmulski (@radekosmulski) <a href="https://twitter.com/radekosmulski/status/1455527697661169664?ref_src=twsrc%5Etfw">November 2, 2021</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</center>
+
+<strong>Zach Mueller</strong>: (twitter: <a href="https://twitter.com/TheZachMueller">@TheZachMueller</a>)
+
+<center>
+    <div class="jekyll-twitter-plugin"><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Four underrated <a href="https://twitter.com/fastdotai?ref_src=twsrc%5Etfw">@fastdotai</a> resources:<br /><br />- Community: <a href="https://t.co/7stbNAyYrB">https://t.co/7stbNAyYrB</a><br /><br />- Walk with Fastai by <a href="https://twitter.com/TheZachMueller?ref_src=twsrc%5Etfw">@TheZachMueller</a>: <a href="https://t.co/fADzbzBwJO">https://t.co/fADzbzBwJO</a><br /><br />- Fastai Discord<br /><br />- AI Quizzes by <a href="https://twitter.com/radekosmulski?ref_src=twsrc%5Etfw">@radekosmulski</a>: <a href="https://t.co/faACQbdJdY">https://t.co/faACQbdJdY</a></p>&mdash; Sanyam Bhutani (@bhutanisanyam1) <a href="https://twitter.com/bhutanisanyam1/status/1373694884071149571?ref_src=twsrc%5Etfw">March 21, 2021</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</center>
+
+<strong>Sanyam Bhutani</strong>: (twitter: <a href="https://twitter.com/bhutanisanyam1">@bhutanisanyam1</a>)
+
+<center>
+    <div class="jekyll-twitter-plugin"><blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a href="https://twitter.com/PyTorch?ref_src=twsrc%5Etfw">@PyTorch</a> book reading group <a href="https://twitter.com/weights_biases?ref_src=twsrc%5Etfw">@weights_biases</a> comes to an end🙏<br /><br />We had an incredible 10 weeks of learning!<br /><br />As a group wanted to extend our gratitude to the incredible authors: Eli, <a href="https://twitter.com/lantiga?ref_src=twsrc%5Etfw">@lantiga</a> &amp; <a href="https://twitter.com/ThomasViehmann?ref_src=twsrc%5Etfw">@ThomasViehmann</a> <br /><br />A few words from our community:<a href="https://t.co/3ODz6J1vad">https://t.co/3ODz6J1vad</a></p>&mdash; Sanyam Bhutani (@bhutanisanyam1) <a href="https://twitter.com/bhutanisanyam1/status/1452599997493481472?ref_src=twsrc%5Etfw">October 25, 2021</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+</center>
+
+I follow each of these individuals on twitter and you should too! Though I've never met any of them in person, I consider them all friends and amongst the most helpful in modeling the kind of things folks need to do/be in order to become successful software and ML developers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="What-if-I'm-too-lazy-to-read-any-of-that-stuff-above?">What if I'm too lazy to read any of that stuff above?<a class="anchor-link" href="#What-if-I'm-too-lazy-to-read-any-of-that-stuff-above?"> </a></h2><p>Well, you can watch this video (and then go back and read that stuff anyways) ...
+
+<center class="youtube-iframe-wrapper">
+    <iframe width="730" height="315" src="https://www.youtube.com/embed/_QUEXsHfsA0?t=935" frameborder="0" allowfullscreen=""></iframe>
+</center>
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr />
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ohmeow/ohmeow_website"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/how-to/learn-deep-learning" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p>A full-stack web application and ML development company.</p>
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div>
+
+  </div>
+
+</footer>
+
+<script>
+  // method will ensure the floating header isn't covering the note header
+  function goToNote(elId) {
+    const el = document.getElementById(elId);
+    const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop;
+      
+    window.focus();
+    window.scrollTo(0, elPos - 90);
+  }
+
+  // ensure target note shows below floating header on # change
+  window.addEventListener("hashchange", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
+
+  // onload, ensure note shows below floating header
+  window.addEventListener("load", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
+</script></body>
+
+</html>
