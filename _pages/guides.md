@@ -13,4 +13,4 @@ permalink: /guides/
 ---
 
 ## Machine Learning / Deep Learning
-*Coming Soon*
+[How to learn (Deep Learning)](https://ohmeow.com/how-to/learn-deep-learning)
