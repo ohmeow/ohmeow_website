@@ -192,19 +192,21 @@ window.onload = wrap_img;
 <blockquote>
 <p>... a <strong><em>model</em></strong> is a special kind of program:it's one that can do <em>many different things</em>, depending &gt; on the <strong>weights</strong>. <sup id="fnref-2" class="footnote-ref"><a href="#fn-2">2</a></sup></p>
 <p>The functional form of the <em>model</em> is called its <strong><em>architecture</em></strong>.</p>
-<p>Important:The <strong>architecture</strong> is "the <em>template</em> of the model that we're trying to fit; i.e., the actual mathematical function that we're passing the input data and parameters to" ... whereas the <strong>model</strong> is a particular set of parameters + the architecture.</p>
+<p>Note:The <strong>architecture</strong> is "the <em>template</em> of the model that we're trying to fit; i.e., the actual mathematical function that we're passing the input data and parameters to" ... whereas the <strong>model</strong> is a particular set of parameters + the architecture.</p>
+</blockquote>
 <h3 id="Parameters">
 <a class="anchor" href="#Parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters<a class="anchor-link" href="#Parameters"> </a>
 </h3>
+<blockquote>
 <p><strong>Weights</strong> are just variables, and a <strong>weight assignment</strong> is a particuarl choice of values for those 
 variables. [Weights] are generally referred to as model <strong><em>parameters</em></strong> ... the term <em>weights</em> being
 reserved for a particular type of model parameter. <sup id="fnref-3" class="footnote-ref"><a href="#fn-3">3</a></sup></p>
 <p>The <em>weights</em> are called <strong><em>parameters</em></strong>.</p>
-<p>Important:These parameters are the things that are "learnt"; the values that can be updated, whereas <strong>activations</strong> in a neural network are simply numbers as the result of some calculation.</p>
+<p>Note:These parameters are the things that are "learnt"; the values that can be updated, whereas <strong>activations</strong> in a neural network are simply numbers as the result of some calculation.</p>
+</blockquote>
 <h3 id="Inputs-vs.labels">
 <a class="anchor" href="#Inputs-vs.labels" aria-hidden="true"><span class="octicon octicon-link"></span></a>Inputs vs.labels<a class="anchor-link" href="#Inputs-vs.labels"> </a>
 </h3>
-</blockquote>
 <p>The <strong><em>inputs</em></strong>, also known as your <strong><em>independent variable(s)</em></strong> [your <code>X</code>] is what your model uses to make <strong><em>predictions</em></strong>. <sup id="fnref-4" class="footnote-ref"><a href="#fn-4">4</a></sup></p>
 <p>The <strong><em>labels</em></strong>, also known as your <strong><em>dependent variable(s)</em></strong> [your <code>y</code>] represent the correct target value for your task. <sup id="fnref-5" class="footnote-ref"><a href="#fn-5">5</a></sup></p>
 <blockquote>
@@ -219,7 +221,7 @@ reserved for a particular type of model parameter. <sup id="fnref-3" class="foot
 </blockquote>
 <p>The <strong><em>loss</em></strong> is a measure of model performance that SGD can use to make your model better. A good loss function provides good gradients (slopes) that can be used to make even very minor changes to your weights so as to improve things. Visually, you want gentle rolling hills rather than abrupt steps or jagged peaks.</p>
 <blockquote>
-<p>Important:You can think of the <strong>loss</strong> as the model's <strong>metric</strong>, that is, how it both understands how good it is and can help it improve.</p>
+<p>Note:You can think of the <strong>loss</strong> as the model's <strong>metric</strong>, that is, how it both understands how good it is and can help it improve.</p>
 </blockquote>
 
 </div>
