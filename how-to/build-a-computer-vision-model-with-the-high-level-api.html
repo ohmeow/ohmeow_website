@@ -4,21 +4,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>How to do inference | ohmeow</title>
+<title>How to build a computer vision model with the high-level API | ohmeow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="How to do inference" />
+<meta property="og:title" content="How to build a computer vision model with the high-level API" />
 <meta name="author" content="Wayde Gilliam" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world" />
 <meta property="og:description" content="Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world" />
-<link rel="canonical" href="https://ohmeow.com/how-to/inference" />
-<meta property="og:url" content="https://ohmeow.com/how-to/inference" />
+<link rel="canonical" href="https://ohmeow.com/how-to/build-a-computer-vision-model-with-the-high-level-api" />
+<meta property="og:url" content="https://ohmeow.com/how-to/build-a-computer-vision-model-with-the-high-level-api" />
 <meta property="og:site_name" content="ohmeow" />
 <meta property="og:image" content="https://ohmeow.com/images/articles/inference.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-01-20T00:00:00-06:00" />
 <script type="application/ld+json">
-{"description":"Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/how-to/inference"},"url":"https://ohmeow.com/how-to/inference","@type":"BlogPosting","image":"https://ohmeow.com/images/articles/inference.png","author":{"@type":"Person","name":"Wayde Gilliam"},"headline":"How to do inference","dateModified":"2022-01-20T00:00:00-06:00","datePublished":"2022-01-20T00:00:00-06:00","@context":"https://schema.org"}</script>
+{"description":"Insights from “Deep Learning for Coders with fastai &amp; PyTorch” and from around the world","mainEntityOfPage":{"@type":"WebPage","@id":"https://ohmeow.com/how-to/build-a-computer-vision-model-with-the-high-level-api"},"url":"https://ohmeow.com/how-to/build-a-computer-vision-model-with-the-high-level-api","@type":"BlogPosting","image":"https://ohmeow.com/images/articles/inference.png","author":{"@type":"Person","name":"Wayde Gilliam"},"headline":"How to build a computer vision model with the high-level API","dateModified":"2022-01-20T00:00:00-06:00","datePublished":"2022-01-20T00:00:00-06:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -88,7 +88,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">How to do inference</h1><p class="page-description">Insights from <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a> and from around the world</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-20T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">How to build a computer vision model with the high-level API</h1><p class="page-description">Insights from <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a> and from around the world</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-20T00:00:00-06:00" itemprop="datePublished">
         Jan 20, 2022
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -115,10 +115,10 @@ window.onload = wrap_img;
         <a class="category-tags-link" href="/categories/#how to">how to</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/categories/#data">data</a>
+        <a class="category-tags-link" href="/categories/#train">train</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/categories/#inference">inference</a>
+        <a class="category-tags-link" href="/categories/#computer vision">computer vision</a>
         
       
       </p>
@@ -129,14 +129,14 @@ window.onload = wrap_img;
         <div class="pb-5 d-flex flex-wrap flex-justify-end">
           <div class="px-2">
 
-    <a href="https://github.com/ohmeow/ohmeow_website/tree/master/_notebooks/2022-01-20-how-to-inference.ipynb" role="button" target="_blank">
+    <a href="https://github.com/ohmeow/ohmeow_website/tree/master/_notebooks/2022-01-20-how-to-build-a-computer-vision-model-with-the-high-level-api.ipynb" role="button" target="_blank">
 <img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
     </a>
 </div>
 
           
           <div class="px-2">
-    <a href="https://colab.research.google.com/github/ohmeow/ohmeow_website/blob/master/_notebooks/2022-01-20-how-to-inference.ipynb" target="_blank">
+    <a href="https://colab.research.google.com/github/ohmeow/ohmeow_website/blob/master/_notebooks/2022-01-20-how-to-build-a-computer-vision-model-with-the-high-level-api.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
     </a>
 </div>
@@ -150,7 +150,7 @@ window.onload = wrap_img;
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2022-01-20-how-to-inference.ipynb
+# file to edit: _notebooks/2022-01-20-how-to-build-a-computer-vision-model-with-the-high-level-api.ipynb
 -->
 
 <div class="container" id="notebook-container">
@@ -176,7 +176,7 @@ window.onload = wrap_img;
 learn.export()</code></pre>
 <p></p>
 <div class="flash">
-    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
     <strong>Note: </strong>fastai ... uses your validation set <code>DataLoader</code> for inference by default, <strong><em>so your data augmentation will not be applied.</em></strong>
 </div>
 
@@ -210,7 +210,7 @@ inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</c
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/how-to/inference" hidden></a>
+</script><a class="u-url" href="/how-to/build-a-computer-vision-model-with-the-high-level-api" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
