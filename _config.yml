@@ -93,7 +93,7 @@ plugins:
 paginate: 15
 paginate_path: /page:num/
 
-remote_theme: jekyll/minima
+remote_theme: aterenin/minima-reboot
 
 titles_from_headings:
   enabled:     true

@@ -1,21 +1,14 @@
 ---
-layout: custom_default
+layout: default
 ---
 <div class="row">
-  <div class="col-12" style="font-size:18px;text-align:left;">
-    At <a href="https://ohmeow.com">ohmeow</a>, we're both passionate building full-stack web and ML applications,
-    as well as in helping others learn how to ethically harness the powers of both! If you're looking to apply deep
-    learning/AI in your organization, let's talk!
-  </div>
-
-  <div class="home col-9">
+  <div class="home col col-9" style="float:left;">
     {%- if page.title -%}
     <h1 class="page-heading">{{ page.title }}</h1>
     {%- endif -%}
 
     {{ content | markdownify }}
 
-    <p style="font-size:24px;">Posts</p>
     {% if site.paginate %}
     {% assign rawposts = paginator.posts %}
     {% else %}
@@ -92,7 +85,7 @@ layout: custom_default
     {%- endif -%}
   </div>
 
-  <div class="col-3" style="padding-left:15px;">
+  <div class="col col-3" style="float:right;padding-left:15px;">
     <p style="font-size:24px;">Contact</p>
     <img style="max-width:300px; border-style:solid;border-color: gray;border-width: thin;margin-bottom: 5px;"
       src="https://ohmeow.com/images/me.jpg" />
