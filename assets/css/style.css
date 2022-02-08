@@ -508,4 +508,6 @@ a.nostyle, a.nostyle:hover, a.nostyle:focus, a.nostyle:active { text-decoration:
 
 @media only screen and (max-width: 620px) { /* For mobile phones: */ .mobile-hide { display: none !important; } }
 
+@media only screen and (min-width: 620px) { /* For mobile phones: */ .desktop-hide { display: none !important; } }
+
 /*# sourceMappingURL=style.css.map */
