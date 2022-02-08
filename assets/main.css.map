@@ -3,9 +3,9 @@
 	"file": "main.css",
 	"sources": [
 		"main.scss",
-		"../../tmp/jekyll-remote-theme-20220208-1-sckki5/_sass/minima-reboot.scss",
-		"../../tmp/jekyll-remote-theme-20220208-1-sckki5/_sass/minima-reboot/_layout.scss",
-		"../../tmp/jekyll-remote-theme-20220208-1-sckki5/_sass/minima-reboot/_syntax-highlighting.scss"
+		"../../tmp/jekyll-remote-theme-20220208-1-5w4nqp/_sass/minima-reboot.scss",
+		"../../tmp/jekyll-remote-theme-20220208-1-5w4nqp/_sass/minima-reboot/_layout.scss",
+		"../../tmp/jekyll-remote-theme-20220208-1-5w4nqp/_sass/minima-reboot/_syntax-highlighting.scss"
 	],
 	"sourcesContent": [
 		"@import \"minima-reboot\";\n\n",
