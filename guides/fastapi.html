@@ -1,11 +1,187 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 --> <title>FastAPI Guide | ohmeow</title> <meta name="generator" content="Jekyll v4.1.1" /> <meta property="og:title" content="FastAPI Guide" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="A full-stack web application and ML development company." /> <meta property="og:description" content="A full-stack web application and ML development company." /> <link rel="canonical" href="https://ohmeow.com/guides/fastapi" /> <meta property="og:url" content="https://ohmeow.com/guides/fastapi" /> <meta property="og:site_name" content="ohmeow" /> <script type="application/ld+json"> {"description":"A full-stack web application and ML development company.","url":"https://ohmeow.com/guides/fastapi","@type":"WebPage","headline":"FastAPI Guide","@context":"https://schema.org"}</script> <!-- End Jekyll SEO tag --> <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file --> <!-- Global site tag (gtag.js) - Google Analytics --> <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163296836-1"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-163296836-1'); </script> <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" /> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /> <script> function wrap_img(fn) { if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") { var elements = document.querySelectorAll(".post img"); Array.prototype.forEach.call(elements, function(el, i) { if (el.getAttribute("title") && (el.className != "emoji")) { const caption = document.createElement('figcaption'); var node = document.createTextNode(el.getAttribute("title")); caption.appendChild(node); const wrapper = document.createElement('figure'); wrapper.className = 'image'; el.parentNode.insertBefore(wrapper, el); el.parentNode.removeChild(el); wrapper.appendChild(el); wrapper.appendChild(caption); } }); } else { document.addEventListener('DOMContentLoaded', fn); } } window.onload = wrap_img; </script> <script> document.addEventListener("DOMContentLoaded", function(){ // add link icon to anchor tags var elem = document.querySelectorAll(".anchor-link") elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>')); }); </script> </head> <body> <header class="site-header"> <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav"> <input type="checkbox" id="nav-trigger" class="nav-trigger" /> <label for="nav-trigger"> <span class="menu-icon"> <svg viewBox="0 0 18 15" width="18px" height="15px"> <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/> </svg> </span> </label> <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/guides/"><span class="top-menu-text">Guides</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div> </nav></div> </header> <main aria-label="Content"> <div id="content-container" class="container"> <article> <header class="pt-4 pb-3"> <h1>FastAPI Guide</h1> </header> <div id="content"> <h3 id="designing-your-api">Designing your API</h3> <hr /> <div id="good-ref-archs" class="flash"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong> </div> <p>See: <br /> <a href="https://realpython.com/fastapi-python-web-apis/">Using FastAPI to Build Python Web APIs</a> <br /> <a href="https://github.com/tiangolo/full-stack-fastapi-postgresql">Full Stack FastAPI and PostgreSQL - Base Project Generator</a> <br /> <a href="https://www.jeffastor.com/blog/refactoring-our-react-ui-into-composable-hooks-part-ii">Up and running with fastapi series</a></p> <div id="user-reg-auth" class="flash"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#user-reg-auth">How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?</a></strong> </div> <p>See: <br /> <a href="https://levelup.gitconnected.com/handle-registration-in-fastapi-and-tortoise-orm-a661162d27f1">Handle Registration in FastAPI and Tortoise ORM</a> <br /> <a href="https://realpython.com/handling-email-confirmation-in-flask/#models">Handling Email Confirmation During Registration in Flask</a> <br /> <a href="https://dev.to/paurakhsharma/flask-rest-api-part-5-password-reset-2f2e">Flask Rest API -Part:5- Password Reset</a> <br /> <a href="https://www.youtube.com/watch?v=gdKBn5cp3TM">E-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail</a></p> <div id="star-in-method" class="flash"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#star-in-method">What does a star(*) mean in a method parameter?</a></strong> </div> <p>It simply allows you to order your arguments so those without default values can be placed ahead of those that can. It also ensures that keyword arguments are used everywhere (which may or may not be desirable when refactoring code). I usually find it unnecessary except in places where I’m using <code class="language-plaintext highlighter-rouge">BackgroundTasks</code> or a depency injected argument somewhere, for example:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>FastAPI Guide | ohmeow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="FastAPI Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A full-stack web application and ML development company." />
+<meta property="og:description" content="A full-stack web application and ML development company." />
+<link rel="canonical" href="https://ohmeow.com/guides/fastapi" />
+<meta property="og:url" content="https://ohmeow.com/guides/fastapi" />
+<meta property="og:site_name" content="ohmeow" />
+<script type="application/ld+json">
+{"description":"A full-stack web application and ML development company.","url":"https://ohmeow.com/guides/fastapi","@type":"WebPage","headline":"FastAPI Guide","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163296836-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163296836-1');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/guides/"><span class="top-menu-text">Guides</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
+        </nav></div>
+  </header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">FastAPI Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h3 id="designing-your-api">Designing your API</h3>
+<hr />
+<div id="good-ref-archs" class="flash">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong>
+</div>
+<p>See: <br />
+<a href="https://realpython.com/fastapi-python-web-apis/">Using FastAPI to Build Python Web APIs</a> <br />
+<a href="https://github.com/tiangolo/full-stack-fastapi-postgresql">Full Stack FastAPI and PostgreSQL - Base Project Generator</a> <br />
+<a href="https://www.jeffastor.com/blog/refactoring-our-react-ui-into-composable-hooks-part-ii">Up and running with fastapi series</a></p>
+
+<div id="user-reg-auth" class="flash">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#user-reg-auth">How do I do user registration/login, e-mail verification, password resets, etc... with fastapi?</a></strong>
+</div>
+<p>See: <br />
+<a href="https://levelup.gitconnected.com/handle-registration-in-fastapi-and-tortoise-orm-a661162d27f1">Handle Registration in FastAPI and Tortoise ORM</a> <br />
+<a href="https://realpython.com/handling-email-confirmation-in-flask/#models">Handling Email Confirmation During Registration in Flask</a> <br />
+<a href="https://dev.to/paurakhsharma/flask-rest-api-part-5-password-reset-2f2e">Flask Rest API -Part:5- Password Reset</a> <br />
+<a href="https://www.youtube.com/watch?v=gdKBn5cp3TM">E-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail</a></p>
+
+<div id="star-in-method" class="flash">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#star-in-method">What does a star(*) mean in a method parameter?</a></strong>
+</div>
+<p>It simply allows you to order your arguments so those without default values can be placed ahead of those that can.  It also ensures that 
+keyword arguments are used everywhere (which may or may not be desirable when refactoring code).  I usually find it unnecessary except in places where I’m using 
+<code class="language-plaintext highlighter-rouge">BackgroundTasks</code> or a depency injected argument somewhere, for example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">),</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">db</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">User</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="p">).</span><span class="n">username</span>
-</code></pre></div></div> <p>See: <br /> <a href="https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896">What does a star(*) mean in a method parameter?</a> <br /> <a href="https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/#order-the-parameters-as-you-need-tricks">Order the parameters as you need, tricks</a></p> <h3 id="working-with-pydantic-objects">Working with Pydantic objects</h3> <hr /> <div id="pydantic-cast" class="flash" style="margin-bottom:5px;"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#pydantic-cast">How to cast one pydantic object into another?</a></strong> </div> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MyModel</span><span class="p">(</span><span class="o">**</span><span class="n">my_model_from</span><span class="p">.</span><span class="nb">dict</span><span class="p">())</span>
-</code></pre></div></div> <h3 id="dockerizing-a-fastapi-application">Dockerizing a FastAPI application</h3> <hr /> <div id="how-to-dockerize" class="flash"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#how-to-dockerize">How can I Dockerize my app?</a></strong> </div> <p>See: <br /> <a href="https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/">How to Dockerize a Python App with FastAPI</a> <br /> <a href="https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/">An Extremely Simple Docker, Traefik, and Python FastAPI Example</a></p> <h3 id="dealing-with-common-errors">Dealing with common errors</h3> <hr /> <div id="error-unprocessable-entity-422" class="flash flash-error"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#error-unprocessable-entity-422">I get an Unprocessable Entity (422) error when I post/put to my API</a></strong> </div> <p>It usually means the body of your request doesn’t mesh with what your API method is expected. Make sure that the object your passing in matches what you’ve specified, including using the <code class="language-plaintext highlighter-rouge">Body(...[,embed=True])</code> types correctly</p> <p>See: <br /> <a href="https://fastapi.tiangolo.com/tutorial/body-multiple-params/?h=embed">Body - Multiple Parameters</a> <br /> <a href="https://stackoverflow.com/questions/62384392/python-fastapi-unprocessable-entity-error">Python: FastApi (Unprocessable Entity) error</a></p> <div id="error-coroutine-has-no-attribute" class="flash flash-error"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#error-coroutine-has-no-attribute">AttributeError: 'coroutine' object has no attribute 'X'</a></strong> </div> <p>Usually means you are missing “await” from async method (fastapi/python)</p> <div id="error-postgresql-returning-nada" class="flash flash-error"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#error-postgresql-returning-nada">I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify</a></strong> </div> <p><code class="language-plaintext highlighter-rouge">RETURNING</code> statements work okay with <code class="language-plaintext highlighter-rouge">fetch_one</code>/<code class="language-plaintext highlighter-rouge">fetch_all</code>. If you are using <code class="language-plaintext highlighter-rouge">execute</code>, it won’t work <br /> See: <a href="https://github.com/encode/databases/issues/98#issuecomment-499875112">Support for RETURNING</a></p> <div id="error-nginx-reverse-proxy-https" class="flash flash-error" style="margin-bottom:5px;"> <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> <strong><a class="nostyle" href="#error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong> </div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896">What does a star(*) mean in a method parameter?</a> <br />
+<a href="https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/#order-the-parameters-as-you-need-tricks">Order the parameters as you need, tricks</a></p>
+
+<h3 id="working-with-pydantic-objects">Working with Pydantic objects</h3>
+<hr />
+<div id="pydantic-cast" class="flash" style="margin-bottom:5px;">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#pydantic-cast">How to cast one pydantic object into another?</a></strong>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MyModel</span><span class="p">(</span><span class="o">**</span><span class="n">my_model_from</span><span class="p">.</span><span class="nb">dict</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h3 id="dockerizing-a-fastapi-application">Dockerizing a FastAPI application</h3>
+<hr />
+<div id="how-to-dockerize" class="flash">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#how-to-dockerize">How can I Dockerize my app?</a></strong>
+</div>
+<p>See: <br />
+<a href="https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/">How to Dockerize a Python App with FastAPI</a> <br />
+<a href="https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/">An Extremely Simple Docker, Traefik, and Python FastAPI Example</a></p>
+
+<h3 id="dealing-with-common-errors">Dealing with common errors</h3>
+<hr />
+<div id="error-unprocessable-entity-422" class="flash flash-error">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#error-unprocessable-entity-422">I get an Unprocessable Entity (422) error when I post/put to my API</a></strong>
+</div>
+<p>It usually means the body of your request doesn’t mesh with what your API method is expected.  Make sure that the object your passing in matches what you’ve
+specified, including using the <code class="language-plaintext highlighter-rouge">Body(...[,embed=True])</code> types correctly</p>
+
+<p>See: <br />
+<a href="https://fastapi.tiangolo.com/tutorial/body-multiple-params/?h=embed">Body - Multiple Parameters</a> <br />
+<a href="https://stackoverflow.com/questions/62384392/python-fastapi-unprocessable-entity-error">Python: FastApi (Unprocessable Entity) error</a></p>
+
+<div id="error-coroutine-has-no-attribute" class="flash flash-error">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#error-coroutine-has-no-attribute">AttributeError: 'coroutine' object has no attribute 'X'</a></strong>
+</div>
+<p>Usually means you are missing “await” from async method (fastapi/python)</p>
+
+<div id="error-postgresql-returning-nada" class="flash flash-error">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#error-postgresql-returning-nada">I'm using [Encode Databases](https://github.com/encode/databases) against a postgres database, but my `RETURNING` statements don't return all the columns I specify</a></strong>
+</div>
+<p><code class="language-plaintext highlighter-rouge">RETURNING</code> statements work okay with <code class="language-plaintext highlighter-rouge">fetch_one</code>/<code class="language-plaintext highlighter-rouge">fetch_all</code>.  If you are using <code class="language-plaintext highlighter-rouge">execute</code>, it won’t work <br />
+See: <a href="https://github.com/encode/databases/issues/98#issuecomment-499875112">Support for RETURNING</a></p>
+
+<div id="error-nginx-reverse-proxy-https" class="flash flash-error" style="margin-bottom:5px;">
+  <svg class="octicon octicon-bookmark" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4.75 2.5a.25.25 0 00-.25.25v9.91l3.023-2.489a.75.75 0 01.954 0l3.023 2.49V2.75a.25.25 0 00-.25-.25h-6.5zM3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 01-1.227.579L8 11.722l-3.773 3.107A.75.75 0 013 14.25V2.75z"></path></svg> 
+  <strong><a class="nostyle" href="#error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below...</a></strong>
+</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
 XMLHttpRequest endpoint 'http://page.com?filter=xxxx'. 
 This request has been blocked; the content must be served over HTTPS.
-</code></pre></div></div> <p>If you add a trailing slash (/) in your API requests it will fix the problem <strong><em>BUT</em></strong> a much easier solution is to the correct proxy headers for Uvicorn. They should look something like this:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>upstream api_server {
+</code></pre></div></div>
+<p>If you add a trailing slash (/) in your API requests it will fix the problem <strong><em>BUT</em></strong> a much easier solution is to 
+the correct proxy headers for Uvicorn.  They should look something like this:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>upstream api_server {
     server ${API_HOST}:${API_PORT} fail_timeout=0;
   }
 ...
@@ -18,4 +194,69 @@ server {
     proxy_set_header   X-Forwarded-Host $server_name;
     proxy_pass http://api_server;
   }
-</code></pre></div></div> <p>See the following resources: <br /> <a href="https://github.com/tiangolo/fastapi/issues/2611#issuecomment-755436758">Failure to load any static files when deploying with HTTPS</a> <br /> <a href="https://github.com/vikramgulia/fastapi-react/blob/master/ui/nginx/nginx.conf">fastapi-react nginx.conf</a> <br /> <a href="https://github.com/axios/axios/issues/757">Add option for adding a trailing slash automatically</a> <br /> <a href="https://support.yithemes.com/hc/en-us/articles/115002851847-Ajax-Product-Filter-does-not-work-in-https-Fixed">Ajax Product Filter does not work in https - Fixed</a></p> <hr /> </div> </article> </div> </main> <footer class="site-footer h-card"> <data class="u-url" href="/"></data> <div class="wrapper"> <div class="footer-col-wrapper"> <div class="footer-col"> <p>A full-stack web application and ML development company.</p> <p class="feed-subscribe"> <a href="/feed.xml"> <svg class="svg-icon orange"> <use xlink:href="/assets/minima-social-icons.svg#rss"></use> </svg><span>Subscribe</span> </a> </p> </div> </div> <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div> </div> </footer> <script> // method will ensure the floating header isn't covering the note header function goToNote(elId) { const el = document.getElementById(elId); const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop; window.focus(); window.scrollTo(0, elPos - 90); } // ensure target note shows below floating header on # change window.addEventListener("hashchange", (ev) => { const hash = ev.target.location.hash if (hash) { goToNote(hash.substring(1)) } }); // onload, ensure note shows below floating header window.addEventListener("load", (ev) => { const hash = ev.target.location.hash if (hash) { goToNote(hash.substring(1)) } }); </script> </body> </html>
+</code></pre></div></div>
+<p>See the following resources: <br />
+<a href="https://github.com/tiangolo/fastapi/issues/2611#issuecomment-755436758">Failure to load any static files when deploying with HTTPS</a> <br />
+<a href="https://github.com/vikramgulia/fastapi-react/blob/master/ui/nginx/nginx.conf">fastapi-react nginx.conf</a> <br />
+<a href="https://github.com/axios/axios/issues/757">Add option for adding a trailing slash automatically</a> <br />
+<a href="https://support.yithemes.com/hc/en-us/articles/115002851847-Ajax-Product-Filter-does-not-work-in-https-Fixed">Ajax Product Filter does not work in https - Fixed</a></p>
+
+<hr />
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p>A full-stack web application and ML development company.</p>
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div>
+
+  </div>
+
+</footer>
+
+<script>
+  // method will ensure the floating header isn't covering the note header
+  function goToNote(elId) {
+    const el = document.getElementById(elId);
+    const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop;
+      
+    window.focus();
+    window.scrollTo(0, elPos - 90);
+  }
+
+  // ensure target note shows below floating header on # change
+  window.addEventListener("hashchange", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
+
+  // onload, ensure note shows below floating header
+  window.addEventListener("load", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
+</script></body>
+
+</html>

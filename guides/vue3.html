@@ -1,4 +1,98 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 --> <title>Vue 3 Guide | ohmeow</title> <meta name="generator" content="Jekyll v4.1.1" /> <meta property="og:title" content="Vue 3 Guide" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="A full-stack web application and ML development company." /> <meta property="og:description" content="A full-stack web application and ML development company." /> <link rel="canonical" href="https://ohmeow.com/guides/vue3" /> <meta property="og:url" content="https://ohmeow.com/guides/vue3" /> <meta property="og:site_name" content="ohmeow" /> <script type="application/ld+json"> {"description":"A full-stack web application and ML development company.","url":"https://ohmeow.com/guides/vue3","@type":"WebPage","headline":"Vue 3 Guide","@context":"https://schema.org"}</script> <!-- End Jekyll SEO tag --> <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file --> <!-- Global site tag (gtag.js) - Google Analytics --> <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163296836-1"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-163296836-1'); </script> <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" /> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /> <script> function wrap_img(fn) { if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") { var elements = document.querySelectorAll(".post img"); Array.prototype.forEach.call(elements, function(el, i) { if (el.getAttribute("title") && (el.className != "emoji")) { const caption = document.createElement('figcaption'); var node = document.createTextNode(el.getAttribute("title")); caption.appendChild(node); const wrapper = document.createElement('figure'); wrapper.className = 'image'; el.parentNode.insertBefore(wrapper, el); el.parentNode.removeChild(el); wrapper.appendChild(el); wrapper.appendChild(caption); } }); } else { document.addEventListener('DOMContentLoaded', fn); } } window.onload = wrap_img; </script> <script> document.addEventListener("DOMContentLoaded", function(){ // add link icon to anchor tags var elem = document.querySelectorAll(".anchor-link") elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>')); }); </script> </head> <body> <header class="site-header"> <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav"> <input type="checkbox" id="nav-trigger" class="nav-trigger" /> <label for="nav-trigger"> <span class="menu-icon"> <svg viewBox="0 0 18 15" width="18px" height="15px"> <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/> </svg> </span> </label> <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/guides/"><span class="top-menu-text">Guides</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div> </nav></div> </header> <main aria-label="Content"> <div id="content-container" class="container"> <article> <header class="pt-4 pb-3"> <h1>Vue 3 Guide</h1> </header> <div id="content"> <h2 id="core">Core</h2> <hr /> <h3 id="computed-properties">Computed properties</h3> <h4 id="-how-to-i-define-a-computed-property-using-the-composition-api"><strong>&gt; How to I define a computed property using the Composition API?</strong></h4> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// just a getter</span>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Vue 3 Guide | ohmeow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Vue 3 Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A full-stack web application and ML development company." />
+<meta property="og:description" content="A full-stack web application and ML development company." />
+<link rel="canonical" href="https://ohmeow.com/guides/vue3" />
+<meta property="og:url" content="https://ohmeow.com/guides/vue3" />
+<meta property="og:site_name" content="ohmeow" />
+<script type="application/ld+json">
+{"description":"A full-stack web application and ML development company.","url":"https://ohmeow.com/guides/vue3","@type":"WebPage","headline":"Vue 3 Guide","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163296836-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163296836-1');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+  
+          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/guides/"><span class="top-menu-text">Guides</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
+        </nav></div>
+  </header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Vue 3 Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="core">Core</h2>
+<hr />
+<h3 id="computed-properties">Computed properties</h3>
+<h4 id="-how-to-i-define-a-computed-property-using-the-composition-api"><strong>&gt; How to I define a computed property using the Composition API?</strong></h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// just a getter</span>
 <span class="kd">const</span> <span class="nx">userEmail</span> <span class="o">=</span> <span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">$store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">userEmail</span>
 <span class="p">})</span>
@@ -14,7 +108,16 @@
     <span class="nx">$store</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="dl">'</span><span class="s1">setSelectedUserClientId</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">client_id</span><span class="p">:</span> <span class="nx">newVal</span> <span class="p">})</span>
   <span class="p">}</span>
 <span class="p">})</span>
-</code></pre></div></div> <p>See: <br /> <a href="https://stackoverflow.com/a/64281689">How to type a computed property in the new composition API?</a> <br /> <a href="https://forum.vuejs.org/t/how-to-call-setter-for-object-in-computed-properties/29177">How to call setter for object in computed properties</a></p> <hr /> <h3 id="watchers--watcheffect">Watchers / WatchEffect</h3> <h4 id="-how-to-i-define-an-asynchronous-watcher-or-watcheffect"><strong>&gt; How to I define an asynchronous watcher or watchEffect?</strong></h4> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span><span class="p">,</span> <span class="nx">watch</span><span class="p">,</span> <span class="nx">watchEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/a/64281689">How to type a computed property in the new composition API?</a> <br />
+<a href="https://forum.vuejs.org/t/how-to-call-setter-for-object-in-computed-properties/29177">How to call setter for object in computed properties</a></p>
+
+<hr />
+
+<h3 id="watchers--watcheffect">Watchers / WatchEffect</h3>
+<h4 id="-how-to-i-define-an-asynchronous-watcher-or-watcheffect"><strong>&gt; How to I define an asynchronous watcher or watchEffect?</strong></h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span><span class="p">,</span> <span class="nx">watch</span><span class="p">,</span> <span class="nx">watchEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">useRoute</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
@@ -33,10 +136,49 @@
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
      <span class="p">})</span>
      <span class="p">...</span>
-</code></pre></div></div> <h4 id="-when-should-i-use-watch-or-watcheffect"><strong>&gt; When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</strong></h4> <p>Use <code class="language-plaintext highlighter-rouge">watch</code> when …</p> <ol> <li>You want to do something with one or more specific reactive objects changes</li> <li>You need both the old value and the new value</li> <li>You need it to be called lazily</li> </ol> <p>Use <code class="language-plaintext highlighter-rouge">watchEffect</code> when …</p> <ol> <li>You want to do something whenever the state changes for any of your reactive objects</li> <li>You don’t care about the old value(s)</li> <li>You need it to run immediately when reactive dependencies change</li> </ol> <p>See: <br /> <a href="https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect">Vue 3 Composition API - watch and watchEffect</a> <br /> <a href="https://learnvue.co/2019/12/a-simple-vue-watcher-tutorial-for-beginners/">How to use Vue Watch and Vue watchEffect</a></p> <hr /> <h3 id="routes">Routes</h3> <h4 id="-how-can-i-pass-data-between-routes-using-params"><strong>&gt; How can I pass data between routes using <code class="language-plaintext highlighter-rouge">params</code>?</strong></h4> <p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">router</span><span class="o">-</span><span class="nx">link</span> <span class="p">:</span><span class="nx">to</span><span class="o">=</span><span class="dl">"</span><span class="s2">{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }</span><span class="dl">"</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<h4 id="-when-should-i-use-watch-or-watcheffect"><strong>&gt; When should I use <code class="language-plaintext highlighter-rouge">watch</code> or <code class="language-plaintext highlighter-rouge">watchEffect</code>?</strong></h4>
+
+<p>Use <code class="language-plaintext highlighter-rouge">watch</code> when …</p>
+<ol>
+  <li>You want to do something with one or more specific reactive objects changes</li>
+  <li>You need both the old value and the new value</li>
+  <li>You need it to be called lazily</li>
+</ol>
+
+<p>Use <code class="language-plaintext highlighter-rouge">watchEffect</code> when …</p>
+<ol>
+  <li>You want to do something whenever the state changes for any of your reactive objects</li>
+  <li>You don’t care about the old value(s)</li>
+  <li>You need it to run immediately when reactive dependencies change</li>
+</ol>
+
+<p>See: <br />
+<a href="https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect">Vue 3 Composition API - watch and watchEffect</a> <br />
+<a href="https://learnvue.co/2019/12/a-simple-vue-watcher-tutorial-for-beginners/">How to use Vue Watch and Vue watchEffect</a></p>
+
+<hr />
+
+<h3 id="routes">Routes</h3>
+
+<h4 id="-how-can-i-pass-data-between-routes-using-params"><strong>&gt; How can I pass data between routes using <code class="language-plaintext highlighter-rouge">params</code>?</strong></h4>
+
+<p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">router</span><span class="o">-</span><span class="nx">link</span> <span class="p">:</span><span class="nx">to</span><span class="o">=</span><span class="dl">"</span><span class="s2">{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }</span><span class="dl">"</span><span class="o">&gt;</span>
 <span class="nx">Go</span> <span class="nx">to</span> <span class="nx">my</span> <span class="nx">page</span>
 <span class="o">&lt;</span><span class="sr">/router-link</span><span class="err">&gt;
-</span></code></pre></div></div> <p>See: <br /> <a href="https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params">Vue, is there a way to pass data between routes without URL params?</a></p> <hr /> <h3 id="vuex">Vuex</h3> <h4 id="-how-can-i-watch-for-changes-in-the-stores-values"><strong>&gt; How can I watch for changes in the store’s values?</strong></h4> <p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">setup</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+</span></code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/questions/50998305/vue-is-there-a-way-to-pass-data-between-routes-without-url-params">Vue, is there a way to pass data between routes without URL params?</a></p>
+
+<hr />
+
+<h3 id="vuex">Vuex</h3>
+
+<h4 id="-how-can-i-watch-for-changes-in-the-stores-values"><strong>&gt; How can I watch for changes in the store’s values?</strong></h4>
+
+<p>Simply add the data to your <code class="language-plaintext highlighter-rouge">params</code> attribute:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">setup</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
    <span class="kd">const</span> <span class="nx">store</span> <span class="o">=</span> <span class="nx">useStore</span><span class="p">();</span>
 
    <span class="nx">watch</span><span class="p">(()</span><span class="o">=&gt;</span><span class="nx">store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">myvalue</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -47,7 +189,12 @@
       <span class="na">myvalue</span><span class="p">:</span> <span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">myvalue</span><span class="p">)</span>
    <span class="p">}</span>
 <span class="p">},</span>
-</code></pre></div></div> <p>See: <br /> <a href="https://stackoverflow.com/a/67776890">Vue3 composition api watch store value</a></p> <h4 id="-how-can-i-watch-for-changes-in-the-stores-values-across-browser-tabs-and-windows"><strong>&gt; How can I watch for changes in the store’s values <em>across browser tabs and windows</em>?</strong></h4> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/a/67776890">Vue3 composition api watch store value</a></p>
+
+<h4 id="-how-can-i-watch-for-changes-in-the-stores-values-across-browser-tabs-and-windows"><strong>&gt; How can I watch for changes in the store’s values <em>across browser tabs and windows</em>?</strong></h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
   <span class="na">el</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#app</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">name</span><span class="p">:</span> <span class="dl">''</span>
@@ -74,7 +221,13 @@
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</code></pre></div></div> <p>See: <br /> <a href="https://stackoverflow.com/a/52782774">Reactive localStorage object across browser tabs using Vue.js</a></p> <h4 id="-how-can-i-store-complex-objects-like-arrays-and-dictionaries-in-localstorage"><strong>&gt; How can I store complex objects like arrays and dictionaries in localStorage?</strong></h4> <p>By using <code class="language-plaintext highlighter-rouge">JSON.stringfy(X)</code> when storing the data and <code class="language-plaintext highlighter-rouge">JSON.parse(X)</code> when you fetch the data</p> <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="p">[];</span>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/a/52782774">Reactive localStorage object across browser tabs using Vue.js</a></p>
+
+<h4 id="-how-can-i-store-complex-objects-like-arrays-and-dictionaries-in-localstorage"><strong>&gt; How can I store complex objects like arrays and dictionaries in localStorage?</strong></h4>
+<p>By using <code class="language-plaintext highlighter-rouge">JSON.stringfy(X)</code> when storing the data and <code class="language-plaintext highlighter-rouge">JSON.parse(X)</code> when you fetch the data</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="p">[];</span>
 <span class="nx">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="dl">"</span><span class="s2">New member name?</span><span class="dl">"</span><span class="p">);</span>
 <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="dl">"</span><span class="s2">names</span><span class="dl">"</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">names</span><span class="p">));</span>
 <span class="kd">var</span> <span class="nx">storedNames</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="dl">"</span><span class="s2">names</span><span class="dl">"</span><span class="p">));</span>
@@ -82,4 +235,77 @@
 <span class="c1">// ... or ...</span>
 <span class="nx">localstorage</span><span class="p">.</span><span class="nx">names</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">names</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">storedNames</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">names</span><span class="p">);</span>
-</code></pre></div></div> <p>See: <br /> <a href="https://stackoverflow.com/questions/3357553/how-do-i-store-an-array-in-localstorage">How do I store an array in localStorage? </a></p> <hr /> <h2 id="quasar">Quasar</h2> <hr /> <h3 id="working-with-q-table">Working with <code class="language-plaintext highlighter-rouge">q-table</code></h3> <h4 id="-how-can-i-create-grid-for-crud-operations-using-a-modal-form-for-insertsupserts-with-filtering-sorting-etc"><strong>&gt; How can I create grid for CRUD operations using a modal form for inserts/upserts with filtering, sorting, etc…?</strong></h4> <p>See: <br /> <a href="https://codepen.io/metalsadman/pen/ZgKexK?editors=1010">QTable with Action Buttons</a> <br /> <a href="https://codepen.io/mickey58/pen/eYYVqWv?editors=1010">Quasar QTable: Editing with QPopupEdits and QButtons to add/delete/update rows</a> <br /> <a href="https://codepen.io/b0otable/pen/PozWLYR">Quasar - q-table with toggle filters and text search</a></p> </div> </article> </div> </main> <footer class="site-footer h-card"> <data class="u-url" href="/"></data> <div class="wrapper"> <div class="footer-col-wrapper"> <div class="footer-col"> <p>A full-stack web application and ML development company.</p> <p class="feed-subscribe"> <a href="/feed.xml"> <svg class="svg-icon orange"> <use xlink:href="/assets/minima-social-icons.svg#rss"></use> </svg><span>Subscribe</span> </a> </p> </div> </div> <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div> </div> </footer> <script> // method will ensure the floating header isn't covering the note header function goToNote(elId) { const el = document.getElementById(elId); const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop; window.focus(); window.scrollTo(0, elPos - 90); } // ensure target note shows below floating header on # change window.addEventListener("hashchange", (ev) => { const hash = ev.target.location.hash if (hash) { goToNote(hash.substring(1)) } }); // onload, ensure note shows below floating header window.addEventListener("load", (ev) => { const hash = ev.target.location.hash if (hash) { goToNote(hash.substring(1)) } }); </script> </body> </html>
+</code></pre></div></div>
+<p>See: <br />
+<a href="https://stackoverflow.com/questions/3357553/how-do-i-store-an-array-in-localstorage">How do I store an array in localStorage? </a></p>
+
+<hr />
+
+<h2 id="quasar">Quasar</h2>
+<hr />
+<h3 id="working-with-q-table">Working with <code class="language-plaintext highlighter-rouge">q-table</code></h3>
+<h4 id="-how-can-i-create-grid-for-crud-operations-using-a-modal-form-for-insertsupserts-with-filtering-sorting-etc"><strong>&gt; How can I create grid for CRUD operations using a modal form for inserts/upserts with filtering, sorting, etc…?</strong></h4>
+
+<p>See: <br />
+<a href="https://codepen.io/metalsadman/pen/ZgKexK?editors=1010">QTable with Action Buttons</a> <br />
+<a href="https://codepen.io/mickey58/pen/eYYVqWv?editors=1010">Quasar QTable: Editing with QPopupEdits and QButtons to add/delete/update rows</a> <br />
+<a href="https://codepen.io/b0otable/pen/PozWLYR">Quasar - q-table with toggle filters and text search</a></p>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p>A full-stack web application and ML development company.</p>
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div>
+
+  </div>
+
+</footer>
+
+<script>
+  // method will ensure the floating header isn't covering the note header
+  function goToNote(elId) {
+    const el = document.getElementById(elId);
+    const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop;
+      
+    window.focus();
+    window.scrollTo(0, elPos - 90);
+  }
+
+  // ensure target note shows below floating header on # change
+  window.addEventListener("hashchange", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
+
+  // onload, ensure note shows below floating header
+  window.addEventListener("load", (ev) => { 
+    const hash = ev.target.location.hash
+    if (hash) {
+      goToNote(hash.substring(1))
+    }
+  });
+</script></body>
+
+</html>
