@@ -1,6 +1,11 @@
 ---
 layout: default
 ---
+<div style="font-size:18px;text-align:left;width: 100%;">
+  At <a href="https://ohmeow.com">ohmeow</a>, we're both passionate building full-stack web and ML applications, 
+  as well as in helping others learn how to ethically harness the powers of both! If you're looking to apply deep learning/AI in your organization, let's talk!
+</div>
+
 <div class="home col col-9 om-content-section" style="float:left;">
   {%- if page.title -%}
   <h1 class="page-heading">{{ page.title }}</h1>
@@ -8,6 +13,7 @@ layout: default
 
   {{ content | markdownify }}
 
+  <p style="font-size:24px;">Posts</p>
   {% if site.paginate %}
   {% assign rawposts = paginator.posts %}
   {% else %}
