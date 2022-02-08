@@ -28,10 +28,3 @@ a.nostyle, a.nostyle:hover, a.nostyle:focus, a.nostyle:active {
 .social-media-list li a.fa-icon, .pagination li a.fa-icon { width: 42px; height: 42px; text-align: center; }
 .social-media-list li a.fa-icon i.far, .pagination li a.fa-icon i.far { color: #828282 !important }
 
-@media only screen and (max-width: 620px) {
-    /* For mobile phones: */
-    .col-9 .col-3 {
-        width: 100%;
-    }
-}
-

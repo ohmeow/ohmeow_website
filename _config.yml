@@ -108,3 +108,10 @@ kramdown:
   auto_ids: true
   hard_wrap: false
   syntax_highlighter: rouge
+
+defaults:
+  # _pages
+  - scope:
+    values:
+      layout: single
+      author_profile: true
