@@ -136,11 +136,14 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#How-to-visualize-a-grayscale-image-in-pandas-...">How to visualize a grayscale image in pandas ... </a></li>
 <li class="toc-entry toc-h2"><a href="#What-is-a-baseline-model-and-why-do-you-want-one?">What is a baseline model and why do you want one? </a></li>
 <li class="toc-entry toc-h2"><a href="#Tensors">Tensors </a></li>
-<li class="toc-entry toc-h2"><a href="#Stochastic-Gradient-Descent---How-to-train-a-model">Stochastic Gradient Descent - How to train a model </a></li>
-<li class="toc-entry toc-h2"><a href="#Step-1:-Initializing-weights">Step 1: Initializing weights </a></li>
-<li class="toc-entry toc-h2"><a href="#Step-3:-Calculating-the-loss">Step 3: Calculating the loss </a></li>
-<li class="toc-entry toc-h2"><a href="#Step-4:-Calculating-the-gradients">Step 4: Calculating the gradients </a></li>
-<li class="toc-entry toc-h2"><a href="#Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-"Learning-Rate"">Step 5: Change all the weights based on the gradient using a &quot;Learning Rate&quot; </a></li>
+<li class="toc-entry toc-h2"><a href="#Stochastic-Gradient-Descent---How-to-train-a-model">Stochastic Gradient Descent - How to train a model </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Step-1:-Initializing-weights">Step 1: Initializing weights </a></li>
+<li class="toc-entry toc-h3"><a href="#Step-3:-Calculating-the-loss">Step 3: Calculating the loss </a></li>
+<li class="toc-entry toc-h3"><a href="#Step-4:-Calculating-the-gradients">Step 4: Calculating the gradients </a></li>
+<li class="toc-entry toc-h3"><a href="#Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-"Learning-Rate"">Step 5: Change all the weights based on the gradient using a &quot;Learning Rate&quot; </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#Datasets-&-DataLoaders">Datasets &amp; DataLoaders </a></li>
 <li class="toc-entry toc-h2"><a href="#Measuring-distances">Measuring distances </a></li>
 <li class="toc-entry toc-h2"><a href="#Important-PyTorch-Modules">Important PyTorch Modules </a>
@@ -1030,9 +1033,9 @@ output of where:  tensor(0.4333)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-1:-Initializing-weights">
+<h3 id="Step-1:-Initializing-weights">
 <a class="anchor" href="#Step-1:-Initializing-weights" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: Initializing weights<a class="anchor-link" href="#Step-1:-Initializing-weights"> </a>
-</h2>
+</h3>
 <p>One way is presented on p.164:</p>
 
 <pre><code>def init_params(size, std=1.0) return (torch.randn(size)*std).requires_grad_()
@@ -1045,9 +1048,9 @@ weights = init_params((28*28,1)) #=&gt; raturns a rank 2, 784x1 tensor, with ran
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-3:-Calculating-the-loss">
+<h3 id="Step-3:-Calculating-the-loss">
 <a class="anchor" href="#Step-3:-Calculating-the-loss" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 3: Calculating the loss<a class="anchor-link" href="#Step-3:-Calculating-the-loss"> </a>
-</h2>
+</h3>
 <p></p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
@@ -1093,9 +1096,9 @@ loss = F.mse_loss(preds, targs)</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-4:-Calculating-the-gradients">
+<h3 id="Step-4:-Calculating-the-gradients">
 <a class="anchor" href="#Step-4:-Calculating-the-gradients" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 4: Calculating the gradients<a class="anchor-link" href="#Step-4:-Calculating-the-gradients"> </a>
-</h2>
+</h3>
 <p></p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
@@ -1392,10 +1395,9 @@ tensor(1., grad_fn=&lt;PowBackward0&gt;)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h2 id='Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-"Learning-Rate"'>
+<h3 id='Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-"Learning-Rate"'>
 <a class="anchor" href="#Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-" learning-rate aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 5: Change all the weights based on the gradient using a "Learning Rate"<a class="anchor-link" href="#Step-5:-Change-all-the-weights-based-on-the-gradient-using-a-%22Learning-Rate%22"> </a>
-</h2>
+</h3>
 <p>The <strong>learning rate</strong> (or LR) is a number (usually a small number like 1e-3 or 0.1) that we multiply the gradient by to get a better parameter value.  For a given parameter/weight <code>w</code>, the calculation looks like this:</p>
 <p><code>w -= w.grad * lr</code></p>
 <p>Notice we take the negative of the grad * lr operation because we want to move in the opposite direction.
