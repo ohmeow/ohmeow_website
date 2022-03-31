@@ -262,7 +262,7 @@ window.onload = wrap_img;
 <p></p>
 <div class="flash">
     <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
-    <strong>Note: </strong>we are <strong><em>not</em></strong> using a pretrained model here ... we are training one from scratch.
+    <strong>Note: </strong>we are <strong><em>not</em></strong> using a pretrained model here, we are training one from scratch.
 </div>
 
 </div>
@@ -1163,15 +1163,15 @@ new_targ = t * targ1 + (1-t) * targ2</code></pre>
 <h2 id='Tip-7:-Use-"Label-Smoothing"'>
 <a class="anchor" href="#Tip-7:-Use-" label-smoothing aria-hidden="true"><span class="octicon octicon-link"></span></a>Tip 7: Use "Label Smoothing"<a class="anchor-link" href="#Tip-7:-Use-%22Label-Smoothing%22"> </a>
 </h2>
-<p>"In the theoretical expression of loss, <strong>in classification problems</strong>, our targets are one hot encoded .... That means the model is trained to return 0 for all categories but one, for whith it is trained to return 1.... This encourages overfitting and gives you at inference time a model that is not going to give meaningful probabilities: it will always say 1 for the predicted category <strong>even if it's not too sure</strong>, just because it was trained that way.
+<p>"In the theoretical expression of loss, <strong>in classification problems</strong>, our targets are one hot encoded .... That means the model is trained to return 0 for all categories but one, for which it is trained to return 1.... This encourages overfitting and gives you at inference time a model that is not going to give meaningful probabilities: it will always say 1 for the predicted category <strong>even if it's not too sure</strong>, just because it was trained that way.
 </p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
     <strong>Important: </strong>"This can become very harmful if your data is not perfectly labeled."
 </div>
-<p>"In general, your data will never be perfect.  Even if the labels were manually produced by humans, they could make mistakes, or have differences of opinions on images that are harder to label"</p>
+<p>"In general, your data will never be perfect. Even if the labels were manually produced by humans, they could make mistakes, or have differences of opinions on images that are harder to label"</p>
 <p><strong>What is the solution this this?</strong></p>
-<p>"... we could replace all our 1s with a number a bit less than 1, and our 0s with a number a bit more than 0, and then train" = <strong>Label smoothing</strong>. "By encouraging your model to be a less confident, label smoothing will amek your training more robust, <strong>even if there is mislabeled data [the] result will be a model that generalizes better at inference</strong>"</p>
+<p>"... we could replace all our 1s with a number a bit less than 1, and our 0s with a number a bit more than 0, and then train. This is" = <strong>Label smoothing</strong>. "By encouraging your model to be a less confident, label smoothing will make your training more robust, <strong>even if there is mislabeled data. The result will be a model that generalizes better at inference</strong>."</p>
 <p>See pp.249-251 for a detailed explanation and example of how label smoothing operates. <strong>To use it, we just have to change our loss function.</strong></p>
 
 </div>
@@ -1301,7 +1301,7 @@ new_targ = t * targ1 + (1-t) * targ2</code></pre>
 </h2>
 <ol>
 <li>
-<p><a href="https://book.fast.ai">https://book.fast.ai</a> - The book's website; it's updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc...</p>
+<p><a href="https://course.fast.ai">https://course.fast.ai</a> - The book's website; it's updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc...</p>
 </li>
 <li>
 <p><a href="https://arxiv.org/abs/1812.01187">Bag of Tricks for Image Classification with Convolutional Neural Networks</a> discusses a variety of techniques you can use with CNNs</p>
@@ -1310,7 +1310,7 @@ new_targ = t * targ1 + (1-t) * targ2</code></pre>
 <p><a href="https://myrtle.ai/how-to-train-your-resnet-8-bag-of-tricks/">How to Train Your ResNet 8: Bag of Tricks</a> discusses a variety of techniques you can use to training ResNets.</p>
 </li>
 <li>
-<p><a href="https://airctic.com/0.12.0/">IceVision</a> is a great resource for all things computer vision and a fastai friendly library.  You may want to follow these twitter accounts as well: @ai_fast_track and @Fra_Pochetti (creator of IceVision)</p>
+<p><a href="https://airctic.com/0.12.0/">IceVision</a> is a great resource for all things computer vision and a fastai friendly library.  You may want to follow these twitter accounts as well: <a href="https://twitter.com/ai_fast_track">@ai_fast_track</a> and <a href="https://twitter.com/fra_pochetti">@Fra_Pochetti</a> (creator of IceVision).</p>
 </li>
 </ol>
 
