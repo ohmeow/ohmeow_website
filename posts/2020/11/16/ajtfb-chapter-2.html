@@ -308,14 +308,14 @@ Ex.2: Two models that predict the purchasing proabilities conditional on seeing 
 <p>Two problems to watch out for:</p>
 <ol>
 <li>
-<strong>out-of-domain data</strong>: "data that our model sees in production that is very different to wath it saw during training.</li>
+<strong>out-of-domain data</strong>: "data that our model sees in production that is very different to what it saw during training.</li>
 <li>
 <strong>domain shift</strong>: "whereby the type of data that our model sees changes over time."</li>
 </ol>
 <p>Mitigation steps:</p>
 <p><img src="https://raw.githubusercontent.com/ohmeow/ohmeow_website/master/images/articles/avoid-disaster-steps.png" alt=""></p>
 <p>"Where possible, the <strong>first step</strong> is to use an entirely manual process with your model running in parallel and not being used to directly drive any actions."</p>
-<p>"The <strong>second step</strong> is to try and limit the scop of the model."</p>
+<p>"The <strong>second step</strong> is to try and limit the scope of the model."</p>
 <p>"The <strong>third step</strong> is to gradually increase the scope of your rollout."
 </p>
 <div class="flash flash-success">
@@ -456,7 +456,7 @@ failed.map(Path.unlink)</code></pre>
 <h2 id="DataBlock-API-Basics">
 <a class="anchor" href="#DataBlock-API-Basics" aria-hidden="true"><span class="octicon octicon-link"></span></a>DataBlock API Basics<a class="anchor-link" href="#DataBlock-API-Basics"> </a>
 </h2>
-<p>The <strong>DataBlock API</strong> represents fastai's hig-level approach for building <strong>DataLoader</strong>s from your raw data sources. It is a resuable blueprint for how data is used both during model training and at inference time, and along with the fastai callback system, it represents one of the core pieces of the fastai framework.</p>
+<p>The <strong>DataBlock API</strong> represents fastai's high-level approach for building <strong>DataLoaders</strong> from your raw data sources. It is a reusable blueprint for how data is used both during model training and at inference time, and along with the fastai callback system, it represents one of the core pieces of the fastai framework.</p>
 <p>"<strong>... a <code>DataBlock object</code> ... is like a template for creating a <code>DataLoaders</code> object</strong>"</p>
 <p>"A <code>DataLoader</code> is a class that provides batches of a few items at a time to the GPU"</p>
 <h3 id='Defining-your-"blueprint"-using-the-DataBlock-API'>
@@ -477,7 +477,7 @@ failed.map(Path.unlink)</code></pre>
   get_items=get_image_files,                       #=&gt; how to get our data
   splitter=RandomSplitter(valid_pct=0.2, seed=42), #=&gt; how to create the validation set
   get_y=parent_label,                              #=&gt; how to label our data
-  item_tfms=Resize(128)                            #=&gt; code that runs against each item as it is fetched</code></pre>
+  item_tfms=Resize(128))                           #=&gt; code that runs against each item as it is fetched</code></pre>
 <p></p>
 <div class="flash flash-success">
     <svg class="octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist octicon octicon-checklist" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2.5 1.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v7.736a.75.75 0 101.5 0V1.75A1.75 1.75 0 0011.25 0h-8.5A1.75 1.75 0 001 1.75v11.5c0 .966.784 1.75 1.75 1.75h3.17a.75.75 0 000-1.5H2.75a.25.25 0 01-.25-.25V1.75zM4.75 4a.75.75 0 000 1.5h4.5a.75.75 0 000-1.5h-4.5zM4 7.75A.75.75 0 014.75 7h2a.75.75 0 010 1.5h-2A.75.75 0 014 7.75zm11.774 3.537a.75.75 0 00-1.048-1.074L10.7 14.145 9.281 12.72a.75.75 0 00-1.062 1.058l1.943 1.95a.75.75 0 001.055.008l4.557-4.45z"></path></svg>
