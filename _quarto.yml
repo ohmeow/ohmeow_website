@@ -18,30 +18,34 @@ website:
     collapse-below: lg
     left:
       - text: Guides
+        icon: tools
         menu:
           - text: "Vue3"
-            icon: app
+            icon: box-arrow-up-right
             href: pages/guides/vue3-guide.md
           - text: "Fast API"
-            icon: app
+            icon: box-arrow-up-right
             href: pages/guides/fastapi-guide.md
           - text: "PostgreSQL"
-            icon: app
+            icon: box-arrow-up-right
             href: pages/guides/postgresql-guide.md
           - text: "Deployment"
-            icon: app
+            icon: box-arrow-up-right
             href: pages/guides/deployment-guide.md
       - text: Projects
+        icon: stack
         menu:
           - text: "blurr"
-            icon: app
+            icon: layers
             href: https://ohmeow.github.io/blurr/
       - text: Study Groups
+        icon: book
         menu:
           - text: "fastai x Hugging Face Study Group"
-            icon: book
+            icon: youtube
             href: https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t
       - href: about.qmd
+        icon: person-circle
 
     right:
       - icon: twitter
@@ -55,3 +59,5 @@ format:
       - darkly
       - custom.scss
     page-layout: full
+    link-external-newwindow: true
+    link-external-filter: '^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**'
