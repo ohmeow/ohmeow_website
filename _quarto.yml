@@ -1,0 +1,43 @@
+project:
+  type: website
+
+website:
+  image: images/ohmeow_logo.png
+  favicon: images/ohmeow_favicon.png
+  site-url: "https://ohmeow.com"
+  description: "ohmeow"
+  twitter-card: true
+  open-graph: true
+  comments:
+    utterances:
+      repo: ohmeow/ohmeow_website
+  navbar:
+    logo: images/ohmeow_logo.png
+    logo-alt: ohmeow.com
+    pinned: true
+    collapse-below: lg
+    left:
+      - href: about.qmd
+      - text: Projects
+        menu:
+          - text: "blurr"
+            icon: app
+            href: https://ohmeow.github.io/blurr/
+      - text: Study Groups
+        menu:
+          - text: "fastai x Hugging Face Study Group"
+            icon: book
+            href: https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t
+
+    right:
+      - icon: twitter
+        href: https://twitter.com/waydegilliam
+      - icon: github
+        href: https://github.com/ohmeow
+
+format:
+  html:
+    theme:
+      - darkly
+      - custom.scss
+    page-layout: full
