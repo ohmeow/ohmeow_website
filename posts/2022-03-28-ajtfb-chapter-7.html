@@ -300,8 +300,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Other posts in this series:<br>
-<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<p>Other posts in this series:</p>
+<p><a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
 <a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
 <a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
 <a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
@@ -310,7 +310,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
 <a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
 <a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
-<hr>
 <section id="imagenette" class="level2">
 <h2 class="anchored" data-anchor-id="imagenette">Imagenette</h2>
 <p>The <strong>Imagenette</strong> is a subset of the <strong>ImageNet</strong> dataset that “contains a subset of 10 very different categories from the orginal ImageNet dataset, making for quicker training when we want to experiment”</p>
@@ -331,7 +330,6 @@ Tip
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.IMAGENETTE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 <section id="tip-1-use-the-presizing-trick" class="level2">
 <h2 class="anchored" data-anchor-id="tip-1-use-the-presizing-trick">Tip 1: Use the “presizing trick”</h2>
@@ -349,7 +347,6 @@ Tip
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(path, bs<span class="op">=</span><span class="dv">64</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 <section id="tip-2-create-a-baseline" class="level2">
 <h2 class="anchored" data-anchor-id="tip-2-create-a-baseline">Tip 2: Create a “baseline”</h2>
@@ -437,7 +434,6 @@ Note
 </table>
 </div>
 </div>
-<hr>
 </section>
 <section id="tip-3-normalize-your-data" class="level2">
 <h2 class="anchored" data-anchor-id="tip-3-normalize-your-data">Tip 3: Normalize your data</h2>
@@ -601,7 +597,6 @@ Important
 <p>“… when you distribute a model, you need to also distribute the statistics used for normalization, since anyone using it for inference or transfer learning will need to use the same statistics …. <strong>If you’re using a model that someone else has trained, make sure you find out what normalization statistics they used and match them.</strong>”</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="tip-4-use-progressive-resizing" class="level2">
 <h2 class="anchored" data-anchor-id="tip-4-use-progressive-resizing">Tip 4: Use “progressive resizing”</h2>
@@ -858,7 +853,6 @@ Tip
 <p>If you are unsure, try it!</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="tip-5-use-test-time-augmentation-tta" class="level2">
 <h2 class="anchored" data-anchor-id="tip-5-use-test-time-augmentation-tta">Tip 5: Use Test Time Augmentation (TTA)</h2>
@@ -928,7 +922,6 @@ Important
 </div>
 </div>
 <p>“TTA gives us a good boost in performance, <strong>with no additional training required.</strong></p>
-<hr>
 </section>
 <section id="tip-6-use-mixup" class="level2">
 <h2 class="anchored" data-anchor-id="tip-6-use-mixup">Tip 6: Use <code>MixUp</code></h2>
@@ -943,10 +936,10 @@ Important
 <li>Use #3 to predict #4</li>
 </ol>
 <p>In pseudocode:</p>
-<pre><code>img2, targ2 = dataset[randint(0, len(dataset))]
-t = random_float(0.5, 1.0)
-new_img = t * img1 + (1-t) * img2
-new_targ = t * targ1 + (1-t) * targ2</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>img2, targ2 <span class="op">=</span> dataset[randint(<span class="dv">0</span>, <span class="bu">len</span>(dataset))]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> random_float(<span class="fl">0.5</span>, <span class="fl">1.0</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>new_img <span class="op">=</span> t <span class="op">*</span> img1 <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>t) <span class="op">*</span> img2</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>new_targ <span class="op">=</span> t <span class="op">*</span> targ1 <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>t) <span class="op">*</span> targ2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1071,7 +1064,6 @@ Note
 <p>“… it’s going to be hard to train, because … the model has to predict two labels per image rather than just one …. Overfitting seems less likely to be a problem.”</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="tip-7-use-label-smoothing" class="level2">
 <h2 class="anchored" data-anchor-id="tip-7-use-label-smoothing">Tip 7: Use “Label Smoothing”</h2>
@@ -1177,7 +1169,6 @@ Important
 <p>“As with Mixup, you won’t generally see significant improvements from label smoothing until you train more epochs.”</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="resources" class="level2">
 <h2 class="anchored" data-anchor-id="resources">Resources</h2>

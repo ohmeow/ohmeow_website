@@ -326,8 +326,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.data.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Other posts in this series:<br>
-<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<p>Other posts in this series:</p>
+<p><a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
 <a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
 <a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
 <a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
@@ -336,7 +336,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
 <a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
 <a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
-<hr>
 <section id="starting-your-project" class="level2">
 <h2 class="anchored" data-anchor-id="starting-your-project">Starting Your Project</h2>
 <section id="things-to-think-about-when-deciding-on-project-feasibility" class="level3">
@@ -370,12 +369,11 @@ Note
 </div>
 <p>This is good advice for <em>any</em> software project …<strong><em>fail early and fail often</em></strong>. If you don’t, you’re likely to only uncover critical problems much later than you would have before, and even worse, you’re likely to not produce anything at all! In the world of deep learning there are a number of tools, that while helpful, can really get you so bogged down that you never deploy something usable (e.g., experiment tracking tools, hyperparameter optimization libraries, etc…).</p>
 <p>Also, remember that getting something in production is a different task from winning a kaggle competition, where the later may require use of some of those aforementioned tools and the ensembling of dozens of models. <strong><em>For production, something better than human is often good enough to get out there and through refactoring, improve.</em></strong></p>
-<hr>
 </section>
 </section>
 <section id="the-drivetrain-approach" class="level2">
 <h2 class="anchored" data-anchor-id="the-drivetrain-approach">The Drivetrain Approach</h2>
-<p><img src="https://raw.githubusercontent.com/ohmeow/ohmeow_website/master/images/articles/drivetrain-approach.png" class="img-fluid"></p>
+<p><img src="./images/drivetrain-approach.png" class="img-fluid"></p>
 <section id="four-steps" class="level3">
 <h3 class="anchored" data-anchor-id="four-steps">Four Steps</h3>
 <section id="step-1-define-your-objectives" class="level4">
@@ -401,7 +399,6 @@ Ex.2: Collecting data on what customers purchased, what was recommended, and wha
 <p>Only once you have the data and know what actions you want to be able to take based on the information within it, do you being modeling … first, defining what models you can even build with that data and second, what data you need to collect for models you can’t.</p>
 <p>Ex.1: A model that takes the page relation data and predicts a ranking given a query.<br>
 Ex.2: Two models that predict the purchasing proabilities conditional on seeing or not seeing a recommendation.</p>
-<hr>
 </section>
 </section>
 </section>
@@ -456,7 +453,6 @@ Note
 <p>Defining good validation and tests sets are part of the solution. See my “<a href="https://ohmeow.com/what-is/training-validation-test-sets#How-to-create-good-validation-and-test-sets">How to create good validation and test sets</a>” for more details.</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="getting-help" class="level2">
 <h2 class="anchored" data-anchor-id="getting-help">Getting help</h2>
@@ -484,7 +480,6 @@ Note
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment this to see what I'm talking about ...</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># div_by_zero()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 <section id="getting-and-cleaning-your-images" class="level2">
 <h2 class="anchored" data-anchor-id="getting-and-cleaning-your-images">Getting and cleaning your images</h2>
@@ -502,7 +497,6 @@ file_paths = get_image_files(path)
 failed = verify_images(file_paths)
 failed.map(Path.unlink)</code></pre>
 <p>Notice how <code>L</code>’s <code>map</code> method is used to apply the <code>Path.unlink</code> function to each item in-place.</p>
-<hr>
 </section>
 <section id="datablock-api-basics" class="level2">
 <h2 class="anchored" data-anchor-id="datablock-api-basics">DataBlock API Basics</h2>
@@ -569,7 +563,6 @@ Note
 <p>Use <code>dls.show_batch(...)</code> or <code>dls.valid.show_batch(...)</code> to visualize your training/validation data.</p>
 </div>
 </div>
-<hr>
 </section>
 </section>
 <section id="transforms" class="level2">
@@ -642,13 +635,12 @@ Note
 <section id="changing-your-transforms-without-having-to-redefine-your-datablock-from-scratch" class="level4">
 <h4 class="anchored" data-anchor-id="changing-your-transforms-without-having-to-redefine-your-datablock-from-scratch">1. Changing your transforms without having to redefine your DataBlock from scratch</h4>
 <p>You can change the transforms in your DataBlock by reusing an existing DataBlock via <code>d_block.new</code>.</p>
-<pre><code>d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.squish))
-dls = d_block.dataloaders(path)
-...
-d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeroes'))
-dls = d_block.dataloaders(path)
-...</code></pre>
-<hr>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>d_block <span class="op">=</span> d_block.new(item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>, ResizeMethod.squish))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> d_block.dataloaders(path)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>d_block <span class="op">=</span> d_block.new(item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>, ResizeMethod.Pad, pad_mode<span class="op">=</span><span class="st">'zeroes'</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> d_block.dataloaders(path)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 </section>
@@ -891,7 +883,6 @@ Tip
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>learn_inf.predict(files[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 </section>
 <section id="inference" class="level2">
@@ -915,11 +906,10 @@ Note
 <p>fastai … uses your validation set <code>DataLoader</code> for inference by default, <strong><em>so your data augmentation will not be applied.</em></strong></p>
 </div>
 </div>
-<pre><code>inf_learn = load_learner(path/'export.pkl')
-inf_learn.predict('images/grizzly.jpg')
-inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>inf_learn <span class="op">=</span> load_learner(path<span class="op">/</span><span class="st">'export.pkl'</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>inf_learn.predict(<span class="st">'images/grizzly.jpg'</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>inf_learn.dls.vocab <span class="co"># =&gt; To view possible classification categories/labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For options on how to deploy your app, see the <a href="https://course.fast.ai/">Deployment section</a> in the course website. I personally like to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> and there is a good <a href="https://forums.fast.ai/t/fastai2-fastapi-starter-template/69373?u=wgpubs">starter template here</a> for that.</p>
-<hr>
 </section>
 </section>
 <section id="resources" class="level2">

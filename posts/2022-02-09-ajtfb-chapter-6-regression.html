@@ -301,8 +301,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Other posts in this series:<br>
-<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<p>Other posts in this series:</p>
+<p><a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
 <a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
 <a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
 <a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
@@ -311,12 +311,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
 <a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
 <a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
-<hr>
 <section id="regression" class="level2">
 <h2 class="anchored" data-anchor-id="regression">Regression</h2>
 <p>A <strong>regression</strong> task is all about predicting a <a href="https://ohmeow.com/posts/2020/11/06/ajtfb-chapter-1.html#Continuous-datatypes">continous</a> value rather than a particular cateogry.</p>
 <p>Here we’ll consider a particular type of regression problem called <strong><em>image regression</em></strong>, where the “independent variable is an image, and the dependent variable is one or more float.” Our model is going to be a <strong><em>key point</em></strong> model that aims to predict a point (e.g., 2 labels … the x and y) on the image, which in our example is the center of a person’s face.</p>
-<hr>
 </section>
 <section id="defining-your-datablock" class="level2">
 <h2 class="anchored" data-anchor-id="defining-your-datablock">Defining your DataBlock</h2>
@@ -500,7 +498,6 @@ Tip
  TensorPoint([[0.2772, 0.0728]], device='cuda:0'))</code></pre>
 </div>
 </div>
-<hr>
 </section>
 <section id="train-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="train-a-model">Train a model</h2>
@@ -660,7 +657,6 @@ Tip
 <p><img src="2022-02-09-ajtfb-chapter-6-regression_files/figure-html/cell-19-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<hr>
 </section>
 </section>
 <section id="summary" class="level2">
@@ -669,7 +665,6 @@ Tip
 <p>For single-label classification: <code>nn.CrossEntropyLoss</code> and accuracy, precision, recall, f1, etc…</p>
 <p>For multi-label classification: <code>nn.BCEWithLogitsLoss</code> and accuracy, precision, recall, f1, etc…</p>
 <p>For regression: <code>nn.MSELoss</code> and the square root of the validation loss as the metric</p>
-<hr>
 </section>
 <section id="resources" class="level2">
 <h2 class="anchored" data-anchor-id="resources">Resources</h2>

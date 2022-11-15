@@ -761,12 +761,12 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="getting-the-right-answers" class="level3">
 <h3 class="anchored" data-anchor-id="getting-the-right-answers">Getting the right answers</h3>
 <p>Looking back at our example <code>DataBlock</code> …</p>
-<pre><code>pets = DataBlock(blocks=(ImageBlock, CategoryBlock), 
-                 get_items=get_image_files, 
-                 splitter=RandomSplitter(),
-                 get_y=Pipeline([attrgetter("name"), RegexLabeller(pat = r'^(.*)_\d+.jpg$')]),
-                 item_tfms=Resize(128),
-                 batch_tfms=aug_transforms())</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pets <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files, </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>Pipeline([attrgetter(<span class="st">"name"</span>), RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^(.*)_\d+.jpg$'</span>)]),</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We knew how to construct it as such because:</p>
 <p>1.What are the types of your inputs and targets?<br>
 <strong>Answer</strong>: inputs=pet images | targets=37 categories. So we need an <code>ImageBlock</code> to handle the images and a <code>CategoryBlock</code> to handle the labels. Those <code>blocks</code> will add the needed transforms for each of their respective pieces.</p>
@@ -794,13 +794,13 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="can-i-have-multiple-inputstargets" class="level4">
 <h4 class="anchored" data-anchor-id="can-i-have-multiple-inputstargets">Can I have multiple inputs/targets?</h4>
 <p>Yes! According to the docs … “You can also have more than two blocks (if you have multiple inputs and/or targets), you would just need to pass <code>n_inp</code> to the DataBlock to tell the library how many inputs there are (the rest would be targets) and pass a list of functions to <code>get_x</code> and/or <code>get_y</code> (to explain how to process each item to be ready for his type).”{% fn 9 %} We’ll explore this in Part 2 of this series where I attempt to update my v1 <code>MixedTabluarList</code> object (incorporates tabular + text) into something v2 friendly. In the meantime, here’s a nice example from the docs on setting up a dataset for object detection:</p>
-<pre><code>coco = DataBlock(blocks=(ImageBlock, BBoxBlock, BBoxLblBlock),
-                 get_items=get_image_files,
-                 splitter=RandomSplitter(),
-                 get_y=[lambda o: img2bbox[o.name][0], lambda o: img2bbox[o.name][1]], 
-                 item_tfms=Resize(128),
-                 batch_tfms=aug_transforms(),
-                 n_inp=1)</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>coco <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, BBoxBlock, BBoxLblBlock),</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>[<span class="kw">lambda</span> o: img2bbox[o.name][<span class="dv">0</span>], <span class="kw">lambda</span> o: img2bbox[o.name][<span class="dv">1</span>]], </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms(),</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                 n_inp<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You see that <code>n_inp</code>? It’s saying, “Use the <code>ImageBlock</code> for my inputs (I only have 1), but I’ll need TWO targets this time as I’m trying to predict the location of an object (<code>BBoxBlock</code>) and it’s label (<code>BBoxLblBlock</code>).” Notice also because we are predicting TWO things, our <code>get_y</code> returns a list of, you guessed it, two things. If we didn’t need to do anything special with either of these targets, we’d simply pass <code>noop</code> in it’s place in that list.</p>
 </section>
 <section id="where-can-i-learn-about-the-baked-in-bits-of-the-datablock-api" class="level4">
@@ -814,38 +814,38 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="do-i-need-to-always-use-get_items" class="level4">
 <h4 class="anchored" data-anchor-id="do-i-need-to-always-use-get_items">Do I need to always use <code>get_items</code>?</h4>
 <p>No.&nbsp;For example, if your “source” data is a DataFrame …</p>
-<pre><code>pascal = DataBlock(blocks=(ImageBlock, MultiCategoryBlock),
-                   splitter=ColSplitter(),
-                   get_x=ColReader(0, pref=pascal_source/"train"),
-                   get_y=ColReader(1, label_delim=' '),
-                   item_tfms=Resize(224),
-                   batch_tfms=aug_transforms())
-                   
-dls = pascal.dataloaders(df)</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>pascal <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock),</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>ColSplitter(),</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                   get_x<span class="op">=</span>ColReader(<span class="dv">0</span>, pref<span class="op">=</span>pascal_source<span class="op">/</span><span class="st">"train"</span>),</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>ColReader(<span class="dv">1</span>, label_delim<span class="op">=</span><span class="st">' '</span>),</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms())</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> pascal.dataloaders(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>According to the docs … “we wont have to use a <code>get_items</code> function here because we already have all our data in one place.”{% fn 10 %}</p>
 </section>
 <section id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe" class="level4">
 <h4 class="anchored" data-anchor-id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe">What are different ways I can get my x and y from a DataFrame?</h4>
 <p>Using <code>ColReader</code>:</p>
-<pre><code>get_x=ColReader(0, pref=pascal_source/"train"),
-get_y=ColReader(1, label_delim=' ')</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span>ColReader(<span class="dv">0</span>, pref<span class="op">=</span>pascal_source<span class="op">/</span><span class="st">"train"</span>),</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span>ColReader(<span class="dv">1</span>, label_delim<span class="op">=</span><span class="st">' '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Using <code>lambda</code> functions:</p>
-<pre><code>get_x=lambda x:pascal_source/"train"/f'{x[0]}',
-get_y=lambda x:x[1].split(' '),</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span><span class="kw">lambda</span> x:pascal_source<span class="op">/</span><span class="st">"train"</span><span class="op">/</span><span class="ss">f'</span><span class="sc">{</span>x[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span><span class="kw">lambda</span> x:x[<span class="dv">1</span>].split(<span class="st">' '</span>),</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Using <code>column names</code>:</p>
-<pre><code>get_x=lambda o:f'{pascal_source}/train/'+o.fname,
-get_y=lambda o:o.labels.split(),</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span><span class="kw">lambda</span> o:<span class="ss">f'</span><span class="sc">{</span>pascal_source<span class="sc">}</span><span class="ss">/train/'</span><span class="op">+</span>o.fname,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span><span class="kw">lambda</span> o:o.labels.split(),</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Using <code>from_columns</code>:</p>
-<pre><code>def _pascal_items(x): return (f'{pascal_source}/train/'+x.fname, x.labels.str.split())
-
-valid_idx = df[df['is_valid']].index.values
-
-pascal = DataBlock.from_columns(blocks=(ImageBlock, MultiCategoryBlock),
-                   get_items=_pascal_items,
-                   splitter=IndexSplitter(valid_idx),
-                   item_tfms=Resize(224),
-                   batch_tfms=aug_transforms())
-                  </code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _pascal_items(x): <span class="cf">return</span> (<span class="ss">f'</span><span class="sc">{</span>pascal_source<span class="sc">}</span><span class="ss">/train/'</span><span class="op">+</span>x.fname, x.labels.<span class="bu">str</span>.split())</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>valid_idx <span class="op">=</span> df[df[<span class="st">'is_valid'</span>]].index.values</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>pascal <span class="op">=</span> DataBlock.from_columns(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock),</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                   get_items<span class="op">=</span>_pascal_items,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>IndexSplitter(valid_idx),</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms())</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>According to the docs, this is “the most efficient way (to avoid iterating over the rows of the dataframe, which can take a long time) …. It will use <code>get_items</code> to convert the columns in numpy arrays. The drawback is that since we lose the dataframe after extracting the relevant columns, we can’t use a <code>ColSplitter</code> anymore.”{% fn 11 %}</p>
 </section>
 <section id="what-about-tabular-data" class="level4">

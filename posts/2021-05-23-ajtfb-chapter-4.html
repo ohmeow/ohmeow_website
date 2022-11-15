@@ -307,8 +307,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Other posts in this series:<br>
-<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<p>Other posts in this series:</p>
+<p><a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
 <a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
 <a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
 <a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
@@ -317,7 +317,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
 <a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
 <a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
-<hr>
 <section id="how-to-visualize-a-grayscale-image-in-pandas" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-visualize-a-grayscale-image-in-pandas">How to visualize a grayscale image in pandas …</h2>
 <div class="cell" data-outputid="1409b4e2-9b5c-45dc-a376-0540bc964494">
@@ -779,7 +778,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </tbody></table>
 </div>
 </div>
-<hr>
 </section>
 <section id="what-is-a-baseline-model-and-why-do-you-want-one" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-a-baseline-model-and-why-do-you-want-one">What is a baseline model and why do you want one?</h2>
@@ -789,7 +787,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Why do you want to start with a baseline model?</strong> &gt; … without starting with a sensible baseline, it is difficult to know whether your super-fancy models are any good</p>
 <p><strong>How do you build/find one of these models?</strong></p>
 <p>You can search online for folks that have trained models to solve a problem similar to your’s and/or you can start with one of the high-level examples in the fastai docs against your data. There are a bunch covering core vision, text, tabuluar and colab filtering tasks right <a href="https://docs.fast.ai/tutorial.html">here</a>.</p>
-<hr>
 </section>
 <section id="tensors" class="level2">
 <h2 class="anchored" data-anchor-id="tensors">Tensors</h2>
@@ -873,7 +870,6 @@ output of where:  tensor(0.4333)</code></pre>
 </div>
 <p>For an interactive lesson on matrix multiplication, <a href="http://matrixmultiplication.xyz/">this is the best</a>!</p>
 <p>Check out pp.145-148 to learn about “broadcasting”, a critical piece to understanding how you can and should manipulate tensors or numpy arrays!</p>
-<hr>
 </section>
 <section id="stochastic-gradient-descent---how-to-train-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="stochastic-gradient-descent---how-to-train-a-model">Stochastic Gradient Descent - How to train a model</h2>
@@ -1128,7 +1124,6 @@ New loss:  tensor(0.9604)</code></pre>
 <p>You can see the loss get smaller which is exactly what we want! “The magnitude of the gradient (i.e., the steepness of the slope) [tells] us how big a step to take.”</p>
 <p>The above operation is also called the <strong>optimization step</strong></p>
 <p>See pp.156-157 for examples of what using a too small or too large LR might look like when training. This could help you troubleshoot things if yours looks wonky.</p>
-<hr>
 </section>
 </section>
 <section id="datasets-dataloaders" class="level2">
@@ -1153,7 +1148,6 @@ New loss:  tensor(0.9604)</code></pre>
  (tensor([11,  6]), ('l', 'g'))]</code></pre>
 </div>
 </div>
-<hr>
 </section>
 <section id="measuring-distances" class="level2">
 <h2 class="anchored" data-anchor-id="measuring-distances">Measuring distances</h2>
@@ -1175,7 +1169,6 @@ Important
 </div>
 </div>
 <p><code>l2_loss = ((tensor_a - tensor_b) ** 2).sqrt()</code></p>
-<hr>
 </section>
 <section id="important-pytorch-modules" class="level2">
 <h2 class="anchored" data-anchor-id="important-pytorch-modules">Important PyTorch Modules</h2>
@@ -1243,7 +1236,6 @@ torch.Size([10])</code></pre>
 </div>
 </div>
 <p>Why <code>4</code>? Simple, remember that each <code>nn.Linear</code> above has two trainable parameters (the weights and bias), 2+2 = 4.</p>
-<hr>
 </section>
 </section>
 <section id="summary" class="level2">
@@ -1256,7 +1248,6 @@ torch.Size([10])</code></pre>
 <p><em>Gradient</em>: “The derivative of the loss with respect to some parameter of the model”</p>
 <p><em>Backpropagation</em>: The computing of the gradients “of the loss with respect to all model parameters”</p>
 <p><em>Gradient Descent</em>: “Taking a step in the direction opposite to the gradients to make the model parameters a little bit better”</p>
-<hr>
 </section>
 <section id="resources" class="level2">
 <h2 class="anchored" data-anchor-id="resources">Resources</h2>
