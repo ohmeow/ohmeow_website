@@ -17,7 +17,20 @@ website:
     pinned: true
     collapse-below: lg
     left:
-      - href: about.qmd
+      - text: Guides
+        menu:
+          - text: "Vue3"
+            icon: app
+            href: pages/guides/vue3-guide.md
+          - text: "Fast API"
+            icon: app
+            href: pages/guides/fastapi-guide.md
+          - text: "PostgreSQL"
+            icon: app
+            href: pages/guides/postgresql-guide.md
+          - text: "Deployment"
+            icon: app
+            href: pages/guides/deployment-guide.md
       - text: Projects
         menu:
           - text: "blurr"
@@ -28,6 +41,7 @@ website:
           - text: "fastai x Hugging Face Study Group"
             icon: book
             href: https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t
+      - href: about.qmd
 
     right:
       - icon: twitter
