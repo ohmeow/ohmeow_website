@@ -154,26 +154,28 @@ Up and running with fastapi series">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-tools" role="img">
+</i> 
  <span class="menu-text">Guides</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
         <li>
-    <a class="dropdown-item" href="../../pages/guides/vue3-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/vue3-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">Vue3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../pages/guides/fastapi-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/fastapi-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">Fast API</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../pages/guides/postgresql-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/postgresql-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">PostgreSQL</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../pages/guides/deployment-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/deployment-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">Deployment</span></a>
   </li>  
@@ -181,11 +183,13 @@ Up and running with fastapi series">
   </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-stack" role="img">
+</i> 
  <span class="menu-text">Projects</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
         <li>
-    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-layers" role="img">
 </i> 
  <span class="dropdown-text">blurr</span></a>
   </li>  
@@ -193,18 +197,21 @@ Up and running with fastapi series">
   </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-book" role="img">
+</i> 
  <span class="menu-text">Study Groups</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
         <li>
-    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-youtube" role="img">
 </i> 
  <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html"><i class="bi bi-person-circle" role="img">
+</i> 
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -478,6 +485,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
 });
 </script>
 <script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
