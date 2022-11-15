@@ -40,3 +40,6 @@ $grid-body-maxsize-listing: calc(1200px - #{2 * $grid-screen-inset-padding});
 
 .navbar-dark {background-color: #cc5500 !important;}
 .navbar-logo {max-height: 50px!important;}
+#quarto-margin-sidebar {
+  width: 250px;
+}
