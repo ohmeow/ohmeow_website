@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2020-04-11">
+<meta name="description" content="The path to enlightment begins here!">
+
+<title>Finding DataBlock Nirvana with fast.ai v2 - Part 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="Finding DataBlock Nirvana with fast.ai v2 - Part 1">
+<meta property="og:description" content="The path to enlightment begins here!">
+<meta property="og:image" content="https://ohmeow.com/posts/images/finding-datablock-nirvana-part-1-logo.jpg">
+<meta name="twitter:title" content="Finding DataBlock Nirvana with fast.ai v2 - Part 1">
+<meta name="twitter:description" content="The path to enlightment begins here!">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/finding-datablock-nirvana-part-1-logo.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intoduction" id="toc-intoduction" class="nav-link active" data-scroll-target="#intoduction">Intoduction</a>
+  <ul class="collapse">
+  <li><a href="#flying-at-50000-feet" id="toc-flying-at-50000-feet" class="nav-link" data-scroll-target="#flying-at-50000-feet">Flying at 50,000 feet</a></li>
+  <li><a href="#why-is-thinking-about-our-data-pipeline-important" id="toc-why-is-thinking-about-our-data-pipeline-important" class="nav-link" data-scroll-target="#why-is-thinking-about-our-data-pipeline-important">Why is thinking about our data pipeline important?</a></li>
+  <li><a href="#so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling" id="toc-so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling" class="nav-link" data-scroll-target="#so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling">So how do we do it? How do we prepare our datasets for modeling?</a></li>
+  </ul></li>
+  <li><a href="#what-is-the-datablock-api" id="toc-what-is-the-datablock-api" class="nav-link" data-scroll-target="#what-is-the-datablock-api">What is the DataBlock API?</a>
+  <ul class="collapse">
+  <li><a href="#dropping-down-to-30000-feet-what-is-it" id="toc-dropping-down-to-30000-feet-what-is-it" class="nav-link" data-scroll-target="#dropping-down-to-30000-feet-what-is-it">Dropping down to 30,000 feet … what is it?</a></li>
+  <li><a href="#an-example" id="toc-an-example" class="nav-link" data-scroll-target="#an-example">An example</a></li>
+  </ul></li>
+  <li><a href="#the-basics---pytorch-datasets-dataloaders" id="toc-the-basics---pytorch-datasets-dataloaders" class="nav-link" data-scroll-target="#the-basics---pytorch-datasets-dataloaders">The Basics - PyTorch Datasets &amp; Dataloaders</a>
+  <ul class="collapse">
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#dataloader" id="toc-dataloader" class="nav-link" data-scroll-target="#dataloader">DataLoader</a></li>
+  </ul></li>
+  <li><a href="#using-the-low-level-api---fast.ai-dataloaders" id="toc-using-the-low-level-api---fast.ai-dataloaders" class="nav-link" data-scroll-target="#using-the-low-level-api---fast.ai-dataloaders">Using the Low-Level API - fast.ai DataLoaders</a></li>
+  <li><a href="#using-the-mid-level-api---converting-your-dataset-into-a-transform" id="toc-using-the-mid-level-api---converting-your-dataset-into-a-transform" class="nav-link" data-scroll-target="#using-the-mid-level-api---converting-your-dataset-into-a-transform">Using the Mid-Level API - Converting Your Dataset into a Transform</a></li>
+  <li><a href="#using-the-high-level-api---datablocks" id="toc-using-the-high-level-api---datablocks" class="nav-link" data-scroll-target="#using-the-high-level-api---datablocks">Using the High-Level API - DataBlocks</a>
+  <ul class="collapse">
+  <li><a href="#asking-the-right-questions" id="toc-asking-the-right-questions" class="nav-link" data-scroll-target="#asking-the-right-questions">Asking the right questions</a></li>
+  <li><a href="#getting-the-right-answers" id="toc-getting-the-right-answers" class="nav-link" data-scroll-target="#getting-the-right-answers">Getting the right answers</a></li>
+  </ul></li>
+  <li><a href="#tips-tricks-best-practices-a-bunch-of-good-things-to-know" id="toc-tips-tricks-best-practices-a-bunch-of-good-things-to-know" class="nav-link" data-scroll-target="#tips-tricks-best-practices-a-bunch-of-good-things-to-know">Tips, Tricks, Best Practices, &amp; A Bunch of Good Things to Know</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Finding DataBlock Nirvana with fast.ai v2 - Part 1</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">datablock api</div>
+    <div class="quarto-category">data</div>
+    <div class="quarto-category">pytorch</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    The path to enlightment begins here!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 11, 2020</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only run this cell if you are in collab</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install git+https://github.com/fastai/fastai2 </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install git+https://github.com/fastai/fastcore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai2.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="intoduction" class="level2">
+<h2 class="anchored" data-anchor-id="intoduction">Intoduction</h2>
+<section id="flying-at-50000-feet" class="level3">
+<h3 class="anchored" data-anchor-id="flying-at-50000-feet">Flying at 50,000 feet</h3>
+<p>At a high level, most machine learning and deep learning systems can be summed up as consisting of three primary elements. Data, an architecture/model, and a loss function. It can be visually described as such:</p>
+<p><img src="https://ohmeow.com/images/articles/nn-high-level.png" class="img-fluid"></p>
+<p>The <strong>data</strong> describes the information given to the <strong>model</strong> for learning a specific task, and the <strong>loss function</strong> provides the feedback necessary for the model to improve in that task via a number that tells it how well it is doing.</p>
+</section>
+<section id="why-is-thinking-about-our-data-pipeline-important" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-thinking-about-our-data-pipeline-important">Why is thinking about our data pipeline important?</h3>
+<p>Simple! You can’t have a good model without a good architecture and proper loss function, <strong><em>but you can’t have anything without data</em></strong>. And getting good data that can be transformed into something modelable isn’t necessarily easy. In the slide deck presentation heard throughout the ML world, Andrej Karpathy, Senior Director of Artifical Intelligence at Tesla, put it this way:</p>
+<p><img src="https://ohmeow.com/images/articles/academia-v-irl-data-importance.png" title="Credit: https://electrek.co/2018/06/11/tesla-ai-director-insights-autopilot-computer-vision-neural-net/" class="img-fluid"></p>
+<p>Coming from academia and the utopia of prepared datasets ready of modeling, he found that in the real world, the bread and butter of a deep learning system and where the blood, sweat, and tears would be shed, was in the data. Data acquisition, cleaning, preparation, and the day-to-day management thereof. This same sentiment can as much be inferred from any of you that watched Jeremy Howard’s v2 walk through in late 2019{% fn 1 %}… <em>every single session was about getting your data modelable using the new v2 bits</em>. That should tell you a lot!</p>
+</section>
+<section id="so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling">So how do we do it? How do we prepare our datasets for modeling?</h3>
+<p>While there are many ways, even with fast.ai, most indicators point to it’s DataBlock API as the answer.</p>
+</section>
+</section>
+<section id="what-is-the-datablock-api" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-datablock-api">What is the DataBlock API?</h2>
+<p>The <strong>DataBlock API</strong> is <strong><em>a blueprint for transforming your raw data into something that can fed into a model</em></strong> using the fast.ai framework. It is their high-level data API, one that builds upon their low-level <code>Datasets</code>/<code>DataLoaders</code> API, and also their mid-level <code>Transform</code> based API.</p>
+<p>All three incorporate some new ideas for getting your data good to go, and the choice isn’t necessary one or the other.</p>
+<section id="dropping-down-to-30000-feet-what-is-it" class="level3">
+<h3 class="anchored" data-anchor-id="dropping-down-to-30000-feet-what-is-it">Dropping down to 30,000 feet … what is it?</h3>
+<p><strong>The DataBlock API consists of THREE main components: getters, transforms, and a splitters.</strong></p>
+<ol type="1">
+<li><p><strong>getters</strong> tell it how to “get” the raw data (e.g., from the file system as file paths, a Pandas DataFrame).</p></li>
+<li><p><strong>transforms</strong> tell it how to “transform” that raw data progressively into something that can be fed into a model (e.g., a numeric representation of your inputs and targets).</p></li>
+<li><p><strong>splitters</strong> define various strategies you can implore to create your training and validation datasets.</p></li>
+</ol>
+<p>We’ll be talking a lot about transforms in this article, but one of their most interesting characteristics is that they can be defined to transform your raw data into a numerical representation (as “<strong>block transforms</strong>”), to run on your CPU when an item from your dataset is fetched (as an “<strong>item transform</strong>”) , or on the GPU after a mini-batch of your data has been collated into a square matrix and right before it is ran through your model (as a “<strong>batch transform</strong>”). In fact, there are all kinds of hooks into the data processing pipeline whereby you can apply transforms!</p>
+</section>
+<section id="an-example" class="level3">
+<h3 class="anchored" data-anchor-id="an-example">An example</h3>
+<p>Let’s break down one of the <code>DataBlock</code> examples from the documentation:</p>
+<pre><code>pets = DataBlock(blocks=(ImageBlock, CategoryBlock), 
+                 get_items=get_image_files, 
+                 splitter=RandomSplitter(),
+                 get_y=Pipeline([attrgetter("name"), RegexLabeller(pat = r'^(.*)_\d+.jpg$')]),
+                 item_tfms=Resize(128),
+                 batch_tfms=aug_transforms())</code></pre>
+<p>Your <strong>getters</strong> here are <code>get_items</code> and <code>get_y</code>. The first tells us that our <em>inputs</em> will be coming in the form of filenames returned by the <code>get_image_files</code> function, while the later tells the API to get the <em>labels</em>, or targets, for the inputs by applying a regex to the filename. There is also a <code>get_x</code> method available should you need to apply more specific instructions for defining your input. <code>get_items</code>, <code>get_x</code>, and <code>get_y</code> are all optional. Which you will need to implement depends on your data source and what you need to do to get your inputs/targets.</p>
+<p>The <strong>splitter</strong> parameter tells us that we are going to randomly split this data with 80% for training and 20% for validation. How do I know this? Easy. In your notebook put whatever class/method you are interested followed by two <code>??</code> to see it’s source.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>RandomSplitter??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So we got our data and we defined how we’re going to split it for training/validation … but how do we actually turn that into something we can feed a neural network? That is where <strong>transforms</strong> come into play and there are three primary kinds:</p>
+<ol type="1">
+<li><p>The <strong><em>data transforms</em></strong> defined in the <code>blocks</code> parameter describe how to “transform” your inputs and targets into what you really want to pass in to your model. Here we apply an <code>ImageBlock</code> to our inputs in order to turn the filenames into numerical representations of our images and a <code>CategoryBlock</code> to turn our targets from string labels to a unique set of numerical indexes for each of the possible labels. Essentially what these transforms do is turn your raw data into numbers because your data <em>HAS</em> to be represented numerically to train any kind of ML or DL model.</p></li>
+<li><p>Next we define our <strong><em>item transforms</em></strong> via <code>item_tfms</code>. Our only item transform above will resize all our images to 128x128. We do this here because we’ll need squared matrices to pass our images through our network in <strong>mini-batches</strong> (e.g., a subset of examples), and we can’t create a mini-batch of items until they are all the same shape. These transforms are applied when we fetch an individual item from one of our datasets.</p></li>
+<li><p>Lastly, we define our <strong><em>batch transforms</em></strong> via <code>batch_tfms</code> for transforms that will be applied to a “mini-batch” of data. Above we’re saying, “There’s a bunch of cool data augmentations we want you to apply to the images in each mini-batch right before you send it through the model.” Again, these transforms are applied on the GPU against a mini-batch of items.</p></li>
+</ol>
+<p>You can apply transforms to a variety of places in the data processing loop, but these three will satisfy your needs 90-95% of the time.</p>
+<p><strong>Uh, okay … so where’s the data?</strong></p>
+<p>Remember that the <code>pets</code> DataBlock is just a blueprint, a pipeline for making raw data into modelable data. How do we build something based on this blueprint? Easy. We just call our <code>DataBlock</code>’s <code>dataloaders()</code> method, passing in the one argument our <code>get_items</code> function, <code>get_image_files</code>, needs … the directory path all your images files are under.</p>
+<pre><code>dls = pets.dataloaders(path/"images")</code></pre>
+<p>Once your <code>pets</code> DataBlock knows the “source” of your data, it goes to work. It gets your image filenames, derives each image’s label from that name, creates a training and validation dataset, and then applies the appropirate transforms, at the appropriate time, so that when you pull items from your <code>DataLoaders</code> object (your <code>dls</code> variable), you have something your model understands. This is the object you pass into your <code>Learner</code> to do the actual training.</p>
+<p>Here’s some code you can run yourself in colab:</p>
+<div class="cell" data-outputid="2b1e6a23-e6d7-4611-fd4d-5a9e62eed6de">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.PETS)                        <span class="co"># &lt;-- Download our data; returns the path to that data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pets <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>Pipeline([attrgetter(<span class="st">"name"</span>), RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^(.*)_\d+.jpg$'</span>)]),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms())</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> pets.dataloaders(path<span class="op">/</span><span class="st">"images"</span>)               <span class="co"># &lt;-- Tell our DataBlock where the "source" is and off it goes</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.valid.show_batch()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-basics---pytorch-datasets-dataloaders" class="level2">
+<h2 class="anchored" data-anchor-id="the-basics---pytorch-datasets-dataloaders">The Basics - PyTorch Datasets &amp; Dataloaders</h2>
+<p>Using the DataBlock API seems magical (well, it kinda is). We’ve seen how easy it is to build this <code>DataLoaders</code> object that can be used to train our models, but in order to see what it is <em>actually</em> going on, we need to start at the beginning, we need to see how this is done natively in PyTorch.</p>
+<p>Don’t get confused by the similar concepts and names (e.g., Datasets, DataLoaders, transforms, etc…). Many of these ideas are built into PyTorch and extended to do much more in fast.ai. Just remember … <strong><em>we’re only working with PyTorch right now</em></strong>.</p>
+<p>PyTorch itself provides <code>Dataset</code> and <code>DataLoader</code> classes for getting at our data and being able to iteratively run it through our model via mini-batches. Let’s see how!</p>
+<section id="dataset" class="level3">
+<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
+<p>A Pytorch <code>Dataset</code> (see <code>torch.utils.data.Dataset</code>) is defined as “an abstract class representing a dataset”{% fn 2 %}. That’s just a fancy way to say it represents a collection of our data. We inherit from it and implement two key methods:</p>
+<p><code>__len__</code>: To return the size of our dataset</p>
+<p><code>__getitem__</code>: To get at a particular item in our dataset.</p>
+<p>Let’s start breaking down our DataBlock above by converting the underlying data representation as one of these <code>Dataset</code> classes. We’ll import some new packages that will be using and create a <code>PetCategories</code> class that will allow us to map our target labels with their indexes (and vice-versa).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pdb, re</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> transforms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetCategories():</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, lbl_regex):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># not all things are images</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lbl_regex <span class="op">=</span> re.<span class="bu">compile</span>(lbl_regex)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        fpaths <span class="op">=</span> [ f  <span class="cf">for</span> f <span class="kw">in</span> image_fpaths <span class="cf">if</span> <span class="va">self</span>.lbl_regex .match(f.name) ]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># build our vocab</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.vocab <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">enumerate</span>(<span class="bu">set</span>([<span class="va">self</span>.lbl_regex.match(f.name).groups(<span class="dv">0</span>)[<span class="dv">0</span>]  </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                                         <span class="cf">for</span> f <span class="kw">in</span> fpaths <span class="cf">if</span> <span class="va">self</span>.lbl_regex.match(f.name) ])))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># build a reverse lookup</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.o2i <span class="op">=</span> L(<span class="va">self</span>.vocab.values()).val2idx()</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_label(<span class="va">self</span>, fname):</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.lbl_regex.match(fname).groups(<span class="dv">0</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetsDataset(torch.utils.data.Dataset):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, pet_categories, item_tfms<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># not all things are images</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fpaths <span class="op">=</span> [ f  <span class="cf">for</span> f <span class="kw">in</span> image_fpaths <span class="cf">if</span> f.name.endswith(<span class="st">'.jpg'</span>)]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># our "item transforms"</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tfm_pipeline <span class="op">=</span> item_tfms</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># our labels vocab</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pet_categories <span class="op">=</span> pet_categories</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.fpaths)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        img_fpath <span class="op">=</span> <span class="va">self</span>.fpaths[idx]</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        img_label <span class="op">=</span> <span class="va">self</span>.pet_categories.get_label(img_fpath.name)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># you can think of this as a "block" or an "data transform"</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> Image.<span class="bu">open</span>(img_fpath)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        lbl_idx <span class="op">=</span> <span class="va">self</span>.pet_categories.o2i[img_label]</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.tfm_pipeline: img <span class="op">=</span> <span class="va">self</span>.tfm_pipeline(img)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> img, torch.tensor(lbl_idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There is a lot for you to explore above (step through the code, riddle it with <code>pdb.set_trace</code> statements, change it up and see what happens, etc….), but note the following in particular:</p>
+<ol type="1">
+<li><p><code>__getitem__</code> needs to return an “example”, which is two things … your inputs/targets and they both need to be tensors.</p></li>
+<li><p><code>item_tfms</code> represents the PyTorch (not fast.ai) transforms we need to apply to our inputs/targets. We’re going to use a special class named <code>Compose</code> from <code>torchvision</code> to set these up. For now, these transforms will just make sure our images are resized to the same size and converted to a tensor. Again, there is nothing fast.ai here (with the exception of me using the <code>L</code> class) … we’re just dealing with PyTorch righ now. :)</p></li>
+<li><p>Notice how we have to create our own <code>vocab</code> and <code>o2i</code> method so we can return an integer representing the “category” rather than the category name (e.g.&nbsp;“Maine_Coon”) itself. Everything has to be a number!</p></li>
+</ol>
+<p><strong>TIP</strong>: Run all this code in colab … do it! Make sure you understand what is going on and why. One of the most valuable techniques I use for learning all things Python, PyTorch, and fast.ai, is using <code>pdb.set_trace()</code> to step through and debug code. It’s great way to build inutition by printing out the shapes of tensors, running parts of the code interactively, etc….</p>
+<p><strong>Now</strong> …we’re going to need TWO <code>Dataset</code>s … one for training and one for validation. We’ll split our examples up randomly and set aside 20% for our validation set. There’s many ways to do this (most better and more efficient that below).</p>
+<div class="cell" data-outputid="1202f124-94f8-4671-a8e5-bf4aec92a0f2" data-scrolled="true">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>all_images <span class="op">=</span> (path<span class="op">/</span><span class="st">'images'</span>).ls()<span class="op">;</span> <span class="bu">len</span>(all_images)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>7393</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="1f989ef0-dbe6-4cca-e7fd-9e866b7f38f1">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rnd_idxs <span class="op">=</span> np.random.permutation(<span class="bu">len</span>(all_images))<span class="op">;</span> <span class="bu">len</span>(rnd_idxs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>7393</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="aa669182-bc89-47af-8ad1-8b7889524e9e">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cut <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(rnd_idxs) <span class="op">*</span> <span class="fl">.2</span>)<span class="op">;</span> cut</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>1478</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="10cc521a-6980-4d22-95c9-92265feeac6c">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>train_idxs, valid_idxs <span class="op">=</span> rnd_idxs[cut:], rnd_idxs[:cut]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(train_idxs), <span class="bu">len</span>(valid_idxs), <span class="bu">len</span>(train_idxs) <span class="op">+</span> <span class="bu">len</span>(valid_idxs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5915 1478 7393</code></pre>
+</div>
+</div>
+<p><strong>TIP</strong>: Notice how I print out lengths and shapes of tensors as I go? Doing that provides both a sanity check and ensure you are seeing what you expect before going further down the rabbit hole.</p>
+<p>Now, we can create our training and validation <code>Dataset</code>s.</p>
+<p><strong><em>Again</em></strong>, we are <em>NOT</em> using fast.ai transforms here … these are all built into the <code>torchvision</code> package. They serve the same purpose here as the fast.ai “item transforms”, but for now, we’re doing this all using just the PyTorch bits.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>item_tfms <span class="op">=</span> transforms.Compose([</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    transforms.RandomResizedCrop(<span class="dv">224</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="6a174496-4b7b-48a2-a71a-eb5d1eab5bb6">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> PetCategories(all_images[train_idxs], lbl_regex<span class="op">=</span><span class="vs">r'^(.*)_\d+.jpg$'</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(categories.vocab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>37</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="c786d224-8fa6-4dd1-bf58-8d5f99934fff">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>train_ds <span class="op">=</span> PetsDataset(all_images[train_idxs], pet_categories<span class="op">=</span>categories, item_tfms<span class="op">=</span>item_tfms)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>valid_ds <span class="op">=</span> PetsDataset(all_images[valid_idxs], pet_categories<span class="op">=</span>categories, item_tfms<span class="op">=</span>item_tfms)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(train_ds), <span class="bu">len</span>(valid_ds))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(train_ds[<span class="dv">20</span>][<span class="dv">0</span>].shape, train_ds[<span class="dv">20</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>5913 1477
+torch.Size([3, 224, 224]) tensor(33)</code></pre>
+</div>
+</div>
+</section>
+<section id="dataloader" class="level3">
+<h3 class="anchored" data-anchor-id="dataloader">DataLoader</h3>
+<p>With that we can create a <code>torch.utils.data.DataLoader</code> from each <code>Dataset</code>. The primary reason we need this object is to yield mini-batches of data into our model, but as you can see, it also provides us the ability to do much more (e.g., shuffle data, provide a collate function, etc…). Check out <a href="https://pytorch.org/docs/stable/data.html#module-torch.utils.data">the docs</a> for more info!</p>
+<p><strong><em>Note</em></strong>: fast.ai has it’s own <code>DataLoader</code> class that extends THIS one from PyTorch. Yah, I know it can seem confusing, but just remember for now, we are only working with functionality built-in to PyTorch.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bsz <span class="op">=</span> <span class="dv">64</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>train_dl <span class="op">=</span> torch.utils.data.DataLoader(train_ds, batch_size<span class="op">=</span>bsz, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>valid_dl <span class="op">=</span> torch.utils.data.DataLoader(valid_ds, batch_size<span class="op">=</span>bsz<span class="op">*</span><span class="dv">2</span>, shuffle<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And voila, we can now iterate through our dataset, mini-batch by mini-batch</p>
+<div class="cell" data-outputid="8672ba02-ded2-4e98-c400-00457fb755f9">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(valid_dl))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(b), b[<span class="dv">0</span>].shape, b[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>(2, torch.Size([128, 3, 224, 224]), torch.Size([128]))</code></pre>
+</div>
+</div>
+<p>Wow … that took quite a bit more work than the 6 lines of code to create a <code>DataBlock</code>, and it’s still not as functional. For example, we haven’t built anything that can decode items, show batches, or allow us to easily adjust/extend the objects we created above.</p>
+<p>So let’s keep going. Starting with the low-level API, we can take these PyTorch <code>Dataset</code> and <code>DataLoader</code> objects more friendly for fast.ai <code>Learner</code>s.</p>
+</section>
+</section>
+<section id="using-the-low-level-api---fast.ai-dataloaders" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-low-level-api---fast.ai-dataloaders">Using the Low-Level API - fast.ai DataLoaders</h2>
+<p>It’s actually pretty easy to get your PyTorch <code>Dataset</code> class incorporated into fast.ai and get it to play nicely with fast.ai’s custom <code>DataLoaders</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai2.data.core <span class="im">import</span> DataLoaders</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataLoaders.from_dsets(train_ds, valid_ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="9de25f7e-a887-40ac-d7ff-a0b4ad241d0d">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(b), b[<span class="dv">0</span>].shape, b[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>(2, torch.Size([64, 3, 224, 224]), torch.Size([64]))</code></pre>
+</div>
+</div>
+<p>I told you it was simple, didn’t I?</p>
+<p>Notice that we didn’t have to change anything in our PyTorch <code>Dataset</code> to create a <code>DataLoaders</code> object we can pass to our <code>Learner</code> for training. This is nice because it means, given a standard PyTorch Dataset, you can use all the wonderful fast.ai bits for training in less than 3 lines of code.</p>
+<p><strong>Tip</strong>: If you don’t care about being able to show batches, show results, and this satisfies your needs … STOP! You’re good to go. Don’t overthink you’re problem or over-engineer a solution to a problem that doesn’t necessarily exist. <em>Remember: You don’t have to use the mid-level API or DataBlocks to use fast.ai!</em></p>
+</section>
+<section id="using-the-mid-level-api---converting-your-dataset-into-a-transform" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-mid-level-api---converting-your-dataset-into-a-transform">Using the Mid-Level API - Converting Your Dataset into a Transform</h2>
+<p><strong>BUT</strong> what if we want to apply/change our transforms, or run transforms on the GPU after we have a batch, or be able to visualize our data in our datasets and dataloaders or even our predictions? To begin with, we can convert our <code>Dataset</code> into a <code>Transform</code> by doing <strong>4</strong> things:</p>
+<ol type="1">
+<li><p>Inherit from <code>Transform</code> instead of <code>torch.utils.data.Dataset</code></p></li>
+<li><p>Change your <code>__getitem__</code> into <code>encodes</code>. According to the docs … “a <code>Transform</code> in fastai calls the <code>encodes</code> method when you apply it on an item (a bit like PyTorch modules call forward when applied on something).”{% fn 3 %} Here it will return the numerical representations of our data in the form of tensors.</p></li>
+<li><p>Change your return type to be a tuple and optionally use fastai’s semantic types (here we wrap our image in <code>TensorImage</code> which knows how to show itself). From the docs: “If you then return a tuple (or a subclass of a tuple), and use fastai’s semantic type, you can then apply any other fastai’s transform on your data and it will be dispatched properly.”{% fn 4 %} That simply means we can add on more transforms that know how to work with <code>TensorImage</code> objects and they’ll do the right thing.</p></li>
+<li><p>Get rid of <code>__len__</code></p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetsTransform(Transform):</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, pet_categories, item_tfms<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># not all things are images</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fpaths <span class="op">=</span> [ f  <span class="cf">for</span> f <span class="kw">in</span> all_images <span class="cf">if</span> f.name.endswith(<span class="st">'.jpg'</span>)]</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># our pytorch "item transforms"</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tfm_pipeline <span class="op">=</span> item_tfms</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># our labels vocab</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pet_categories <span class="op">=</span> pet_categories</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.fpaths)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encodes(<span class="va">self</span>, idx):</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        img_fpath <span class="op">=</span> <span class="va">self</span>.fpaths[idx]</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        img_label <span class="op">=</span> <span class="va">self</span>.pet_categories.get_label(img_fpath.name)</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># you can think of this as a "block" or an "data transform"</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> Image.<span class="bu">open</span>(img_fpath)</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>        lbl_idx <span class="op">=</span> <span class="va">self</span>.pet_categories.o2i[img_label]</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.tfm_pipeline: img <span class="op">=</span> <span class="va">self</span>.tfm_pipeline(img)</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (TensorImage(img), torch.tensor(lbl_idx))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we are using a <code>Transform</code>, we have to use a new kind of object to build our dataset: <code>TfmdLists</code></p>
+<p>A <code>TfmdList</code> is “just an object that lazily applies a collection of Transforms on a list.”{% fn 5 %} Think of it as a fancy <code>Dataset</code> object that knows how to work with <code>Transform</code> objects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>train_fpaths <span class="op">=</span> all_images[train_idxs]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>valid_fpaths <span class="op">=</span> all_images[valid_idxs]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>train_tl<span class="op">=</span> TfmdLists(<span class="bu">range</span>(<span class="bu">len</span>(train_idxs)), PetsTransform(train_fpaths, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                                                          pet_categories<span class="op">=</span>categories, </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                                                          item_tfms<span class="op">=</span>item_tfms))</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>valid_tl<span class="op">=</span> TfmdLists(<span class="bu">range</span>(<span class="bu">len</span>(valid_idxs)), PetsTransform(valid_fpaths, </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>                                                          pet_categories<span class="op">=</span>categories, </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                                                          item_tfms<span class="op">=</span>item_tfms))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since this is just another kind of dataset, we can pass these <code>TfmdLists</code> objects to <code>DataLoaders</code> just like before. But notice, we can now add fast.ai transforms to it just like we did in the <code>DataBlock</code> example at the top. We’re already resizing and converting the examples to tensors, so we’ll add some <code>after_batch</code> transforms for normalization and augmentations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataLoaders.from_dsets(train_tl, valid_tl, </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                             after_batch<span class="op">=</span>[Normalize.from_stats(<span class="op">*</span>imagenet_stats), <span class="op">*</span>aug_transforms()])</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dls.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="8ba8376c-3046-4f79-fd0c-1209e44b0671">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(b), b[<span class="dv">0</span>].shape, b[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>(2, torch.Size([64, 3, 224, 224]), torch.Size([64]))</code></pre>
+</div>
+</div>
+<p>Let’s see if we can show a batch of our data. Uncomment the line below, run it, and yah … it throws an exception. But why?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.show_batch()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you guessed it is because <code>show_batch</code> doesn’t know what to do with the target’s numerical index, bingo! You’re right.</p>
+<p>Let’s start to fix that by actually creating <strong><em>our own</em></strong> class that represents our inputs/targets. Notice that besides inheriting from <code>Tuple</code>, all we are providing is a <code>show</code> method that tells a <code>PetImage</code> object how to show itself. According to the docs, “fastai will call [your transforms decodes methods] until it arrives at a type that knows how to show itself, then call the show method on this type.”{% fn 6 %}</p>
+<p>BTW, a lot of this code is just ripped from the “Siamese tutorial” in the docs, so don’t be too impressed. If you want to really do a deep dive and work though all this given a different task, check it out <a href="http://dev.fast.ai/tutorial.siamese">here</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetImage(Tuple):</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> show(<span class="va">self</span>, ctx<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>        img, category_idx <span class="op">=</span> <span class="va">self</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(img, Tensor):</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>            img_tensor <span class="op">=</span> tensor(img)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>            img_tensor <span class="op">=</span> img_tensor.permute(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: </span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>            img_tensor <span class="op">=</span> img</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> show_image(img_tensor, title<span class="op">=</span>categories.vocab[category_idx], ctx<span class="op">=</span>ctx, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>show</code> method knows how to work with tensors or PIL images. The last method is a helper method available in fast.ai to actually show an image and print it’s title above it. If you pass in a <code>ctx</code> it will use that to format and place the images appropriate. A context can be something like a matplotlib axis or a DataFrame … it “represents the object where we will show our thing.”{% fn 7 %}</p>
+<p>Now let’s make some changes to our <code>PetsTransform</code> to make it a bit more fastai’sh.</p>
+<p><strong>First</strong>, we’ll use <code>PILImage.create</code> to create the image in <code>encodes</code>. We do this because that object allows us to apply fast.ai transform liks <code>Resize</code> and <code>ToTensor</code> directly on it.</p>
+<p><strong>Second</strong>, we’re going to move to using fast.ai transforms for everything, so we’ll get rid of the PyTorch transforms!</p>
+<p><strong>Third</strong>, notice our <code>encodes</code> now returns a <code>PetsImage</code>. It’s just a tuple … but because its a particular kind of tuple, we can use the typdispatched <code>show_batch</code> and <code>show_results</code> to actually visualize our data/results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetsTransform2(Transform):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, pet_categories):</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># not all things are images</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fpaths <span class="op">=</span> [ f  <span class="cf">for</span> f <span class="kw">in</span> all_images <span class="cf">if</span> f.name.endswith(<span class="st">'.jpg'</span>)]</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># our labels vocab</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pet_categories <span class="op">=</span> pet_categories</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.fpaths)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encodes(<span class="va">self</span>, img_fpath):</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> PILImage.create(img_fpath)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>        img_label <span class="op">=</span> <span class="va">self</span>.pet_categories.get_label(img_fpath.name)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>        lbl_idx <span class="op">=</span> <span class="va">self</span>.pet_categories.o2i[img_label]</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> PetImage(img, lbl_idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Because of these changes, instead of creating the separate <code>TfmdLists</code> ourselves, we can now further do things the “fast.ai way” by using a <code>splitter</code> to do that for us. Here we’ll use <code>RandomSplitter</code> which gives us that same 80/20 training/validation split.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>splits <span class="op">=</span> RandomSplitter()(all_images)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>tfm <span class="op">=</span> PetsTransform2(all_images, categories)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can get both our datasets in one line of code! When we pass <code>splits</code> to <code>TfmdLists</code>, it takes care of creating our training and validation datasets!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tls <span class="op">=</span> TfmdLists(all_images, tfm, splits<span class="op">=</span>splits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And thanks for our <code>PetImage</code> class, fast.ai can show an item from our dataset.</p>
+<div class="cell" data-outputid="884fb11a-6110-4f8c-cd06-0f3ec9296468" data-scrolled="true">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>show_at(tls.valid, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fee17e84518&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-31-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Even better, we can now specify all our transforms using fast.ai in the call to <code>dataloaders()</code>. And because these are fast.ai <code>DataLoader</code> objects, we can add tranforms at any point in our data processing pipeline (not just <code>after_item</code> and <code>after_batch</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> tls.dataloaders(after_item<span class="op">=</span>[Resize(<span class="dv">224</span>), ToTensor], </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                      after_batch<span class="op">=</span>[IntToFloatTensor, Normalize.from_stats(<span class="op">*</span>imagenet_stats)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the process, notice how we’ve also refactored our code into something much more reusable. For example, if we want to resize our images to something else, its as easy as …</p>
+<div class="cell" data-outputid="8ba8f910-b575-4ea4-a6a2-004b6f2d07ec">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>new_dl <span class="op">=</span> dls.new(after_item<span class="op">=</span>[Resize(<span class="dv">64</span>), ToTensor])</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>new_dl.one_batch()[<span class="dv">0</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>torch.Size([64, 3, 64, 64])</code></pre>
+</div>
+</div>
+<p>And what about showing a batch of data? Unfortunately it still won’t work. <code>show_batch</code> is designed primarily to work with the <code>DataBlock API</code>, but here, we’re returning the whole thing as a single transform.</p>
+<p>The solution is easy: use the <code>@typedispatch</code> mechanism and override <code>show_batch</code> so that our <code>x</code> (our input) is “typed”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="184fb9d4-13c7-4386-a477-bc603ececb3f">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dls._types, <span class="bu">type</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>({__main__.PetImage: [fastai2.torch_core.TensorImage, torch.Tensor]},
+ __main__.PetImage)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_batch(x:PetImage, y, samples, ctxs<span class="op">=</span><span class="va">None</span>, max_n<span class="op">=</span><span class="dv">6</span>, nrows<span class="op">=</span><span class="va">None</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> figsize <span class="kw">is</span> <span class="va">None</span>: figsize <span class="op">=</span> (ncols<span class="op">*</span><span class="dv">6</span>, max_n<span class="op">//</span>ncols <span class="op">*</span> <span class="dv">3</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ctxs <span class="kw">is</span> <span class="va">None</span>: ctxs <span class="op">=</span> get_grid(<span class="bu">min</span>(x[<span class="dv">0</span>].shape[<span class="dv">0</span>], max_n), nrows<span class="op">=</span><span class="va">None</span>, ncols<span class="op">=</span>ncols, figsize<span class="op">=</span>figsize)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i,ctx <span class="kw">in</span> <span class="bu">enumerate</span>(ctxs): </span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>        PetImage(x[<span class="dv">0</span>][i], x[<span class="dv">1</span>][i].item()).show(ctx<span class="op">=</span>ctx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="2876cce7-52f2-4b58-96f8-20c897aff305">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-37-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>When <code>dls.show_batch()</code> runs, it will find the closes matching version of <code>show_batch()</code> available to execute given chat the batch is. We could even write a typedispatched <code>show_results()</code> to look at our predictions alongside our targets using the same technique we applied to <code>show_batch()</code>.</p>
+<p>Using the mid-level API, you not only have a <code>Dataloaders</code> object good to go for training … you have one that you can use to show your data and extend by applying/changing as many transforms to wherever you want in the data processing pipeline.</p>
+<p><strong>What could be better than this?</strong></p>
+<p>Answer: Doing all this with &lt; 10 lines of code using the <code>DataBlock</code> API.</p>
+<p>We’ve already looked at how it works above, now, we’ll look at the questions you need to ask to construct it in accordance with your data and task. Again, if the above gets you where you need to be, you don’t need to use the high-level <code>DataBlock</code> API. There is no right option for every task and there are many ways to get where you need to go.</p>
+</section>
+<section id="using-the-high-level-api---datablocks" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-high-level-api---datablocks">Using the High-Level API - DataBlocks</h2>
+<p>Having looked at the basic data-processing units in PyTorch, then to the low and mid-level APIs available in fast.ai, you’re probably wondering, “Ok, how can I do all that by drawing up a <code>DataBlock</code> blueprint for <em>my</em> task?”</p>
+<p>The path to enlightment comes in the form of answering <strong>7</strong> questions.</p>
+<section id="asking-the-right-questions" class="level3">
+<h3 class="anchored" data-anchor-id="asking-the-right-questions">Asking the right questions</h3>
+<p>Assuming you understand your task and data, once you’ve answered these <strong>7</strong> questions you’ll know everything you need to construct your own <code>DataBlock</code>. These come right out of the <a href="http://dev.fast.ai/tutorial.datablock">DataBlock tutorial</a> so check that for even more details and example implementations!</p>
+<ol type="1">
+<li>What are the types of your inputs and targets? (e.g., images/categories)</li>
+<li>Where is your data? (e.g., filenames in folders, a DataFrame, a database)</li>
+<li>Do we need to do anything special to get our “inputs”? If so, use <code>get_x</code></li>
+<li>Do we need to do anything special to get our “targets”? If yes, use <code>get_y</code></li>
+<li>How do you want to split the data into training and validation sets? Use <code>splitter</code></li>
+<li>Do we need to do anything when we get an item? If yes, define that in <code>item_tfms</code></li>
+<li>Do we need to do anything to a “mini-batch” of data? If yes, define that in <code>batch_tfms</code></li>
+</ol>
+</section>
+<section id="getting-the-right-answers" class="level3">
+<h3 class="anchored" data-anchor-id="getting-the-right-answers">Getting the right answers</h3>
+<p>Looking back at our example <code>DataBlock</code> …</p>
+<pre><code>pets = DataBlock(blocks=(ImageBlock, CategoryBlock), 
+                 get_items=get_image_files, 
+                 splitter=RandomSplitter(),
+                 get_y=Pipeline([attrgetter("name"), RegexLabeller(pat = r'^(.*)_\d+.jpg$')]),
+                 item_tfms=Resize(128),
+                 batch_tfms=aug_transforms())</code></pre>
+<p>We knew how to construct it as such because:</p>
+<p>1.What are the types of your inputs and targets?<br>
+<strong>Answer</strong>: inputs=pet images | targets=37 categories. So we need an <code>ImageBlock</code> to handle the images and a <code>CategoryBlock</code> to handle the labels. Those <code>blocks</code> will add the needed transforms for each of their respective pieces.</p>
+<p>2.Where is your data?<br>
+<strong>Answer</strong>: filenames</p>
+<p>3.Do we need to do anything special to get our “inputs”?<br>
+<strong>Answer</strong>: No, <code>get_items</code> will get our input images.</p>
+<p>4.Do we need to do anything special to get our “targets”?<br>
+<strong>Answer</strong>: Yes, we need to implement a <code>get_y</code> to get our labels from the image file name.</p>
+<p>5.How do you want to split the data into training and validation sets?<br>
+<strong>Answer</strong>: We just want a random 80/20 split, so use <code>RandomSplitter</code></p>
+<p>6.Do we need to do anything when we get an item?<br>
+<strong>Answer</strong>: Yes, we need to resize our images so they are the same shape and can be included together in a mini-batch. Do this in <code>item_tfms</code></p>
+<p>7.Do we need to do anything to a “mini-batch” of data?<br>
+<strong>Answer</strong>: Yes, we’d like to add some randomization to the images by applying data augmentations on the GPU. Do this with <code>batch_tfms</code></p>
+</section>
+</section>
+<section id="tips-tricks-best-practices-a-bunch-of-good-things-to-know" class="level2">
+<h2 class="anchored" data-anchor-id="tips-tricks-best-practices-a-bunch-of-good-things-to-know">Tips, Tricks, Best Practices, &amp; A Bunch of Good Things to Know</h2>
+<p>Below are some of the more important things and best practices to be aware of when working with the <code>DataBlock</code> API. It’s in no way exhaustive, but anything I’ve had to lookup multiple times is listed here.</p>
+<section id="what-happens-if-i-dont-define-how-to-get-my-targets-my-y" class="level4">
+<h4 class="anchored" data-anchor-id="what-happens-if-i-dont-define-how-to-get-my-targets-my-y">What happens if I don’t define how to get my targets (my <code>y</code>)?</h4>
+<p>If you don’t specify your labels, the DataBlock API will assume they are the same as your inputs. This is atypical for most tasks, but not entirely useless. According to the docs, “by default, the data block API assumes we have an input and a target, which is why we see our filename repeated twice” whenever you view the results of your datasets/dataloaders <em>without</em> a <code>y</code> specified.{% fn 8 %}</p>
+</section>
+<section id="can-i-have-multiple-inputstargets" class="level4">
+<h4 class="anchored" data-anchor-id="can-i-have-multiple-inputstargets">Can I have multiple inputs/targets?</h4>
+<p>Yes! According to the docs … “You can also have more than two blocks (if you have multiple inputs and/or targets), you would just need to pass <code>n_inp</code> to the DataBlock to tell the library how many inputs there are (the rest would be targets) and pass a list of functions to <code>get_x</code> and/or <code>get_y</code> (to explain how to process each item to be ready for his type).”{% fn 9 %} We’ll explore this in Part 2 of this series where I attempt to update my v1 <code>MixedTabluarList</code> object (incorporates tabular + text) into something v2 friendly. In the meantime, here’s a nice example from the docs on setting up a dataset for object detection:</p>
+<pre><code>coco = DataBlock(blocks=(ImageBlock, BBoxBlock, BBoxLblBlock),
+                 get_items=get_image_files,
+                 splitter=RandomSplitter(),
+                 get_y=[lambda o: img2bbox[o.name][0], lambda o: img2bbox[o.name][1]], 
+                 item_tfms=Resize(128),
+                 batch_tfms=aug_transforms(),
+                 n_inp=1)</code></pre>
+<p>You see that <code>n_inp</code>? It’s saying, “Use the <code>ImageBlock</code> for my inputs (I only have 1), but I’ll need TWO targets this time as I’m trying to predict the location of an object (<code>BBoxBlock</code>) and it’s label (<code>BBoxLblBlock</code>).” Notice also because we are predicting TWO things, our <code>get_y</code> returns a list of, you guessed it, two things. If we didn’t need to do anything special with either of these targets, we’d simply pass <code>noop</code> in it’s place in that list.</p>
+</section>
+<section id="where-can-i-learn-about-the-baked-in-bits-of-the-datablock-api" class="level4">
+<h4 class="anchored" data-anchor-id="where-can-i-learn-about-the-baked-in-bits-of-the-datablock-api">Where can I learn about the baked in bits of the DataBlock API?</h4>
+<p>The API already has a lot of useful classes and functions suitable for defining your getters, splitter, and transforms across a number of application types. The full list is here: http://dev.fast.ai/data.transforms</p>
+</section>
+<section id="what-if-something-goes-wrong-or-what-if-i-want-to-make-sure-my-datablock-is-doing-what-i-think-it-is" class="level4">
+<h4 class="anchored" data-anchor-id="what-if-something-goes-wrong-or-what-if-i-want-to-make-sure-my-datablock-is-doing-what-i-think-it-is">What if something goes wrong? Or what if I want to make sure my DataBlock is doing what I think it is?</h4>
+<p>Use <code>dblock.summary(path)</code>. If there is an error, this thing will bomb out where it is encountered … else, you’ll be able to verify that all the wonderful things your 5-10 lines of code above does what you expect.</p>
+</section>
+<section id="do-i-need-to-always-use-get_items" class="level4">
+<h4 class="anchored" data-anchor-id="do-i-need-to-always-use-get_items">Do I need to always use <code>get_items</code>?</h4>
+<p>No.&nbsp;For example, if your “source” data is a DataFrame …</p>
+<pre><code>pascal = DataBlock(blocks=(ImageBlock, MultiCategoryBlock),
+                   splitter=ColSplitter(),
+                   get_x=ColReader(0, pref=pascal_source/"train"),
+                   get_y=ColReader(1, label_delim=' '),
+                   item_tfms=Resize(224),
+                   batch_tfms=aug_transforms())
+                   
+dls = pascal.dataloaders(df)</code></pre>
+<p>According to the docs … “we wont have to use a <code>get_items</code> function here because we already have all our data in one place.”{% fn 10 %}</p>
+</section>
+<section id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe" class="level4">
+<h4 class="anchored" data-anchor-id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe">What are different ways I can get my x and y from a DataFrame?</h4>
+<p>Using <code>ColReader</code>:</p>
+<pre><code>get_x=ColReader(0, pref=pascal_source/"train"),
+get_y=ColReader(1, label_delim=' ')</code></pre>
+<p>Using <code>lambda</code> functions:</p>
+<pre><code>get_x=lambda x:pascal_source/"train"/f'{x[0]}',
+get_y=lambda x:x[1].split(' '),</code></pre>
+<p>Using <code>column names</code>:</p>
+<pre><code>get_x=lambda o:f'{pascal_source}/train/'+o.fname,
+get_y=lambda o:o.labels.split(),</code></pre>
+<p>Using <code>from_columns</code>:</p>
+<pre><code>def _pascal_items(x): return (f'{pascal_source}/train/'+x.fname, x.labels.str.split())
+
+valid_idx = df[df['is_valid']].index.values
+
+pascal = DataBlock.from_columns(blocks=(ImageBlock, MultiCategoryBlock),
+                   get_items=_pascal_items,
+                   splitter=IndexSplitter(valid_idx),
+                   item_tfms=Resize(224),
+                   batch_tfms=aug_transforms())
+                  </code></pre>
+<p>According to the docs, this is “the most efficient way (to avoid iterating over the rows of the dataframe, which can take a long time) …. It will use <code>get_items</code> to convert the columns in numpy arrays. The drawback is that since we lose the dataframe after extracting the relevant columns, we can’t use a <code>ColSplitter</code> anymore.”{% fn 11 %}</p>
+</section>
+<section id="what-about-tabular-data" class="level4">
+<h4 class="anchored" data-anchor-id="what-about-tabular-data">What about tabular data?</h4>
+<p>We’ll explore the tabular bits in a later part, but as the docs say, the “tabular data doesn’t really use the data block API as it’s relying on another API with <code>TabularPandas</code> for efficient preprocessing and batching.”{% fn 12 %} Of course, where there is a will, there is a way, and so we’ll see a possible solution in Part 2 or 3 of this series :).</p>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>As the famous song goes, “we’ve only just begun ….” In future installments we’ll dig into more of the particulars of the entire fast.ai data stack, and see how we can use it to solve some “out-of-the-box” tasks.</p>
+<p>In the meantime, the best way for you to get a better handle on what’s what, is to mess around with the many examples found in the v2 documentation <a href="http://dev.fast.ai/index.html">here</a>.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>http://dev.fast.ai/tutorial.datablock</li>
+<li>http://dev.fast.ai/tutorial.siamese</li>
+<li>http://dev.fast.ai/data.block</li>
+<li>http://dev.fast.ai/data.transforms</li>
+<li><a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">fastai v2 walk-thru playlist</a></li>
+<li><a href="https://www.youtube.com/watch?v=bw4PRyxa-y4">Zach Mueller’s “A Guided Walk-through of 2.0”: Lesson 1</a></li>
+</ol>
+<p>{{ ‘See full playlist <a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">here</a>’ | fndetail: 1 }} {{ ‘https://pytorch.org/tutorials/beginner/data_loading_tutorial.html#dataset-class’ | fndetail: 2 }} {{ ‘http://dev.fast.ai/tutorial.siamese#Using-the-mid-level-API’ | fndetail: 3 }} {{ ‘Ibid.’ | fndetail: 4 }} {{ ‘http://dev.fast.ai/tutorial.siamese#Using-the-mid-level-API’ | fndetail: 5 }} {{ ‘http://dev.fast.ai/tutorial.siamese#Making-show-work’ | fndetail: 6 }} {{ ‘Ibid.’ | fndetail: 7 }} {{ ‘http://dev.fast.ai/tutorial.datablock’ | fndetail: 8 }} {{ ‘Ibid.’ | fndetail: 9 }} {{ ‘Ibid.’ | fndetail: 10 }} {{ ‘Ibid.’ | fndetail: 11 }} {{ ‘Ibid.’ | fndetail: 12 }}</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

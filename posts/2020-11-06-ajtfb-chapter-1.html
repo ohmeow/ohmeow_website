@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2020-11-06">
+<meta name="description" content="The first in a weekly-ish series where I revisit the fast.ai book, &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning">
+<meta property="og:description" content="The first in a weekly-ish series where I revisit the fast.ai book, [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning">
+<meta name="twitter:description" content="The first in a weekly-ish series where I revisit the fast.ai book, [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#how-to-learn-deep-learning" id="toc-how-to-learn-deep-learning" class="nav-link active" data-scroll-target="#how-to-learn-deep-learning">How to learn Deep Learning</a>
+  <ul class="collapse">
+  <li><a href="#you-can-do-this" id="toc-you-can-do-this" class="nav-link" data-scroll-target="#you-can-do-this">You can do this!</a></li>
+  <li><a href="#the-problem-with-traditional-education" id="toc-the-problem-with-traditional-education" class="nav-link" data-scroll-target="#the-problem-with-traditional-education">The problem with traditional education</a></li>
+  <li><a href="#deep-learning-and-coding-in-general-is-an-art-maybe-more-so-than-a-science" id="toc-deep-learning-and-coding-in-general-is-an-art-maybe-more-so-than-a-science" class="nav-link" data-scroll-target="#deep-learning-and-coding-in-general-is-an-art-maybe-more-so-than-a-science">Deep Learning (and coding in general) is an art maybe more so than a science</a></li>
+  <li><a href="#doing-is-how-you-learn-and-what-youve-done-is-what-matters" id="toc-doing-is-how-you-learn-and-what-youve-done-is-what-matters" class="nav-link" data-scroll-target="#doing-is-how-you-learn-and-what-youve-done-is-what-matters">Doing is how you learn, and what you’ve done is what matters</a></li>
+  <li><a href="#folks-to-follow" id="toc-folks-to-follow" class="nav-link" data-scroll-target="#folks-to-follow">Folks to follow</a></li>
+  </ul></li>
+  <li><a href="#what-is-machine-learning" id="toc-what-is-machine-learning" class="nav-link" data-scroll-target="#what-is-machine-learning">What is machine learning?</a>
+  <ul class="collapse">
+  <li><a href="#a-picture" id="toc-a-picture" class="nav-link" data-scroll-target="#a-picture">A picture</a></li>
+  <li><a href="#an-explanation" id="toc-an-explanation" class="nav-link" data-scroll-target="#an-explanation">An explanation</a></li>
+  </ul></li>
+  <li><a href="#transfer-learning" id="toc-transfer-learning" class="nav-link" data-scroll-target="#transfer-learning">Transfer learning</a>
+  <ul class="collapse">
+  <li><a href="#how-does-it-work" id="toc-how-does-it-work" class="nav-link" data-scroll-target="#how-does-it-work">How does it work?</a></li>
+  <li><a href="#what-is-the-high-level-approach-in-fastai" id="toc-what-is-the-high-level-approach-in-fastai" class="nav-link" data-scroll-target="#what-is-the-high-level-approach-in-fastai">What is the high-level approach in fastai?</a></li>
+  <li><a href="#what-do-we-have-at-the-end-of-training-or-finetuning" id="toc-what-do-we-have-at-the-end-of-training-or-finetuning" class="nav-link" data-scroll-target="#what-do-we-have-at-the-end-of-training-or-finetuning">What do we have at the end of training (or finetuning)?</a></li>
+  </ul></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a>
+  <ul class="collapse">
+  <li><a href="#a-definition" id="toc-a-definition" class="nav-link" data-scroll-target="#a-definition">A definition</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#metrics-to-use-based-on-task" id="toc-metrics-to-use-based-on-task" class="nav-link" data-scroll-target="#metrics-to-use-based-on-task">Metrics to use based on task</a></li>
+  </ul></li>
+  <li><a href="#training-validation-and-test-datasets" id="toc-training-validation-and-test-datasets" class="nav-link" data-scroll-target="#training-validation-and-test-datasets">Training, validation, and test datasets</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-training-set" id="toc-what-is-a-training-set" class="nav-link" data-scroll-target="#what-is-a-training-set">What is a training set?</a></li>
+  <li><a href="#what-is-a-validation-set" id="toc-what-is-a-validation-set" class="nav-link" data-scroll-target="#what-is-a-validation-set">What is a validation set?</a></li>
+  <li><a href="#what-is-a-test-set" id="toc-what-is-a-test-set" class="nav-link" data-scroll-target="#what-is-a-test-set">What is a test set?</a></li>
+  <li><a href="#how-to-create-good-validation-and-test-sets" id="toc-how-to-create-good-validation-and-test-sets" class="nav-link" data-scroll-target="#how-to-create-good-validation-and-test-sets">How to create good validation and test sets</a></li>
+  </ul></li>
+  <li><a href="#categorical-datatypes" id="toc-categorical-datatypes" class="nav-link" data-scroll-target="#categorical-datatypes">Categorical datatypes</a>
+  <ul class="collapse">
+  <li><a href="#what-if-our-target-is-categorical" id="toc-what-if-our-target-is-categorical" class="nav-link" data-scroll-target="#what-if-our-target-is-categorical">What if our <strong>target</strong> is categorical?</a></li>
+  <li><a href="#what-if-our-input-is-categorical" id="toc-what-if-our-input-is-categorical" class="nav-link" data-scroll-target="#what-if-our-input-is-categorical">What if our <strong>input</strong> is categorical?</a></li>
+  </ul></li>
+  <li><a href="#continuous-datatypes" id="toc-continuous-datatypes" class="nav-link" data-scroll-target="#continuous-datatypes">Continuous datatypes</a>
+  <ul class="collapse">
+  <li><a href="#what-if-our-target-is-continuous" id="toc-what-if-our-target-is-continuous" class="nav-link" data-scroll-target="#what-if-our-target-is-continuous">What if our <strong>target</strong> is continuous?</a></li>
+  <li><a href="#what-if-our-input-is-continuous" id="toc-what-if-our-input-is-continuous" class="nav-link" data-scroll-target="#what-if-our-input-is-continuous">What if our <strong>input</strong> is continuous?</a></li>
+  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization</a></li>
+  </ul></li>
+  <li><a href="#resnets" id="toc-resnets" class="nav-link" data-scroll-target="#resnets">ResNets</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-resnet-why-use-it-for-computer-vision-tasks" id="toc-what-is-a-resnet-why-use-it-for-computer-vision-tasks" class="nav-link" data-scroll-target="#what-is-a-resnet-why-use-it-for-computer-vision-tasks">What is a ResNet &amp; Why use it for computer vision tasks?</a></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices">Best practices</a></li>
+  <li><a href="#an-example" id="toc-an-example" class="nav-link" data-scroll-target="#an-example">An example</a></li>
+  </ul></li>
+  <li><a href="#visualizing-what-a-nn-is-learning" id="toc-visualizing-what-a-nn-is-learning" class="nav-link" data-scroll-target="#visualizing-what-a-nn-is-learning">Visualizing what a NN is learning</a>
+  <ul class="collapse">
+  <li><a href="#why-is-it-important" id="toc-why-is-it-important" class="nav-link" data-scroll-target="#why-is-it-important">Why is it important?</a></li>
+  <li><a href="#computer-vision-models" id="toc-computer-vision-models" class="nav-link" data-scroll-target="#computer-vision-models">Computer vision models</a></li>
+  </ul></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    The first in a weekly-ish series where I revisit the fast.ai book, <a href="https://github.com/fastai/fastbook">"Deep Learning for Coders with fastai &amp; PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 6, 2020</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<p>Cervantes once wrote that “the journey is better than the inn”, but I rather like to think that the journey <em>is</em> the inn.</p>
+<p>It means that the journey, irrespective to its difficulties (and likely because of them), is what you look back on with fondness at its end rather than the end itself. It’s why I enjoy reading “The Lord of the Rings” every five years or so, where as I age and experience the hand life has dealt me, I find myself appreciating different aspects of the story from the time before and gaining new insights into what I value and want to be as a human being. I find my journey with deep learning to be roughly analgous to that.</p>
+<p>I’ve been a part of <a href="https://forums.fast.ai/u/wgpubs/summary">the fast.ai community</a> for several years. I’ve been through <a href="https://course.fast.ai/">the course</a> multiple times (since it was using theano back in the old days), I’ve contributed to the library, and use it as the basis for one of <a href="https://ohmeow.github.io/blurr/">my own</a>. And as with each course, with a re-reading of the book I find myself deriving new insights and appreciating different ideas than those I had before.</p>
+<p>And so, while your journey may bring you different revelations, here are the meandering thoughts of one 49 year old married father of 3 living in San Diego, California, USA, as I embark upon the first chapter in what I consider “The Lord of the Rings” of deep learning.</p>
+<hr>
+<section id="how-to-learn-deep-learning" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-learn-deep-learning">How to learn Deep Learning</h2>
+<section id="you-can-do-this" class="level3">
+<h3 class="anchored" data-anchor-id="you-can-do-this">You can do this!</h3>
+<blockquote class="blockquote">
+<p>Hi, everybody; I’m Jeremy … I do not have any formal technical education … didn’t have great grades. I was much more interested in doing real projects.</p>
+</blockquote>
+<p>This is meaningful to me as someone with a BA in History and a MA in Theology. It’s a reminder that if you want something, it’s within your grasp to make it happen if you are willing to put in the work. It’s also a reminder that key to getting there is actually doing something! I find too many people thinking that if they just get into that school, or if they can just take that class, then they’ll be a good software enginner or deep learning practitioner. The reality is that the <em>only</em> way you get there is by doing it … just like pull-ups (which aren’t much fun when you’re starting out and/or you’re 49 and overweight).</p>
+</section>
+<section id="the-problem-with-traditional-education" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem-with-traditional-education">The problem with traditional education</h3>
+<blockquote class="blockquote">
+<p>… how math is taught - we require students to spend years doing rote memorization and learning dry disconnected <em>fundatmentals</em> that we claim will pay off later, long after most of them quit the subject.</p>
+</blockquote>
+<p>This also is the problem with higher education in general, where young people spend at least four to five years learning things they already learned in High School or else things they don’t really care about and will be forgotten right after finals, spending in excess of $100,000 for the privilege of it and likely going into debt in the tens of thousands of dollars, all with this idea that having done it they will be prepared for the real world. Unfortunately, that’s not how it works. Whether you are in a university of even go to university, what matter is what you do … not what classes you took or what your GPA is.</p>
+</section>
+<section id="deep-learning-and-coding-in-general-is-an-art-maybe-more-so-than-a-science" class="level3">
+<h3 class="anchored" data-anchor-id="deep-learning-and-coding-in-general-is-an-art-maybe-more-so-than-a-science">Deep Learning (and coding in general) is an art maybe more so than a science</h3>
+<blockquote class="blockquote">
+<p>The hardest part of deep learning is artisanal.</p>
+</blockquote>
+<p>I remember going to an iOS conference way back in the day and a conference speaker asking how many folks in the session I was sitting in had a background in music. 80-90% of the audience raised their hands. Sure, there is math and stats and a science to deep learning, but like any coding enterprise, it’s an art … with some artists being better than others along with room for improvement regardless of whether you’re Van Gough or painting by the numbers.</p>
+</section>
+<section id="doing-is-how-you-learn-and-what-youve-done-is-what-matters" class="level3">
+<h3 class="anchored" data-anchor-id="doing-is-how-you-learn-and-what-youve-done-is-what-matters">Doing is how you learn, and what you’ve done is what matters</h3>
+<blockquote class="blockquote">
+<p>… focus on your hobbies and passions … Common character traits in the people who do well at deep learning include playfulness and curiosity.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>at Tesla .. CEO Elon Musk says ‘A PhD is definitely not required. All that matters is a deep understanding of AI &amp; ability to implement NNs in a way that is actually useful …. Don’t care if you even graduated High School.’</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>… the most important thing for learning deep learning is writing code and experimenting.”</p>
+</blockquote>
+</section>
+<section id="folks-to-follow" class="level3">
+<h3 class="anchored" data-anchor-id="folks-to-follow">Folks to follow</h3>
+<p>It’s always helpful to have some role models; folks who practice the lessons learned above and can help you along your journey.</p>
+<p>For starters, consider this image of the top 12 users based on most likes in the fast.ai forums: <img src="https://github.com/ohmeow/ohmeow_website/blob/master/images/articles/20211102-fastai-forums-top-12.png?raw=1" class="img-fluid"></p>
+<p>Aside from the founders of <a href="https://www.fast.ai/">fast.ai</a> and a bunch of them working for noteable ML companies like <a href="https://huggingface.co/">Hugging Face</a> and <a href="https://wandb.ai/site">Weights &amp; Biases</a>, I can think of at least <strong><em>FOUR</em></strong> things these folks have in common:</p>
+<ol type="1">
+<li><p>They are <strong>fearless in asking what they may have even considered, dumb questions</strong>.</p></li>
+<li><p>They are <strong>active in researching the answers to their own questions</strong> (even the dumb ones) and those asked by others.</p></li>
+<li><p>They are <strong>active in teaching</strong> others through blogs, books, open source libraries, study groups, and podcasts.</p></li>
+<li><p><strong>They build</strong> things! That is, they all have experience building models and making them usable via deployed applications and/or in kaggle compeititions. Anyone can bake a half-cooked model in a Jupyter notebook, but few can turn it into something others can use.</p></li>
+</ol>
+<p>These traits aren’t just key to learning deep learning; they are key to learning anything! Practice them and you guarantee yourself success in learning anything you’ve set your mind on.</p>
+<p>If you had to choose just three …</p>
+<p>Aside from Jeremy (<a href="https://twitter.com/jeremyphoward"><span class="citation" data-cites="jeremyphoward">@jeremyphoward</span></a>), who’s a given, if I could only follow three people who have mastered to art of learning deep learning, they would be …</p>
+<p><strong>Radek Osmulsk</strong>: (twitter: <a href="https://twitter.com/radekosmulski"><span class="citation" data-cites="radekosmulski">@radekosmulski</span></a>) &gt; twitter: https://twitter.com/radekosmulski/status/1455527697661169664</p>
+<p><strong>Zach Mueller</strong>: (twitter: <a href="https://twitter.com/TheZachMueller"><span class="citation" data-cites="TheZachMueller">@TheZachMueller</span></a>) &gt; twitter: https://twitter.com/TheZachMueller/status/1451941577841127433</p>
+<p><strong>Sanyam Bhutani</strong>: (twitter: <a href="https://twitter.com/bhutanisanyam1"><span class="citation" data-cites="bhutanisanyam1">@bhutanisanyam1</span></a>) &gt; twitter: https://twitter.com/bhutanisanyam1/status/1452599997493481472</p>
+<p>Personally, I <strong>do</strong> follow each of these individuals on twitter and you should too! Though I’ve never met any of them IRL, I consider the colleagues, friends, and amongst the most helpful for those looking to get started in machine learning.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Twitter is imo the best place to network with fellow ML/DL practioners and stay up-to-date with the latest developments in ML in general</p>
+</div>
+</div>
+<p>Here’s a tl;dr for folks too lazy to read the above …</p>
+<p>youtube: https://youtu.be/_QUEXsHfsA0?t=935</p>
+<hr>
+</section>
+</section>
+<section id="what-is-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-machine-learning">What is machine learning?</h2>
+<p>Here we look at machine learning in general (of which deep learning is a subset) as well as the process of finetuning a pretrained ML model. When you think of deep learning … think neural networks.</p>
+<p><img src="https://raw.githubusercontent.com/ohmeow/ohmeow_website/master/images/articles/what-is-ai-ml-dl.jpg" class="img-fluid"></p>
+<section id="a-picture" class="level3">
+<h3 class="anchored" data-anchor-id="a-picture">A picture</h3>
+<p><img src="https://github.com/ohmeow/ohmeow_website/blob/master/_notebooks/images/ajtfb-ch-1-deep_learning_overview.png?raw=1" title="Credit: Fastbook p.25" class="img-fluid"></p>
+</section>
+<section id="an-explanation" class="level3">
+<h3 class="anchored" data-anchor-id="an-explanation">An explanation</h3>
+<blockquote class="blockquote">
+<p>“Suppose we arrange for some automatic means of testing the effectiveness of any current weight assignment in terms of actual performance and provide a mechanism for altering the weight assignment so as to maximize the performance. We need not go into the details of such a procedure to see that it could be made entirely automatic and to see that a machine so programmed would ‘learn’ from its experince” - Arthur Samuel</p>
+</blockquote>
+<section id="architecture-vs.-model" class="level4">
+<h4 class="anchored" data-anchor-id="architecture-vs.-model">Architecture vs.&nbsp;model</h4>
+<blockquote class="blockquote">
+<p>… a <strong><em>model</em></strong> is a special kind of program: it’s one that can do <em>many different things</em>, depending on the <strong>weights</strong>.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>The functional form of the <em>model</em> is called its <strong><em>architecture</em></strong>.</p>
+</blockquote>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>architecture</strong> is “the <em>template</em> of the model that we’re trying to fit; i.e., the actual mathematical function that we’re passing the input data and parameters to” … whereas the <strong>model</strong> is a particular set of parameters + the architecture.</p>
+</div>
+</div>
+</section>
+<section id="parameters" class="level4">
+<h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
+<blockquote class="blockquote">
+<p><strong>Weights</strong> are just variables, and a <strong>weight assignment</strong> is a particuarl choice of values for those variables. [Weights] are generally referred to as model <strong><em>parameters</em></strong> … the term <em>weights</em> being reserved for a particular type of model parameter.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>The <em>weights</em> are called <strong><em>parameters</em></strong>.</p>
+</blockquote>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These parameters are the things that are “learnt”; the values that can be updated, whereas <strong>activations</strong> in a neural network are simply numbers as the result of some calculation.</p>
+</div>
+</div>
+</section>
+<section id="inputs-vs.labels" class="level4">
+<h4 class="anchored" data-anchor-id="inputs-vs.labels">Inputs vs.labels</h4>
+<p>The <strong><em>inputs</em></strong>, also known as your <strong><em>independent variable(s)</em></strong> [your <code>X</code>] is what your model uses to make <strong><em>predictions</em></strong>.</p>
+<p>The <strong><em>labels</em></strong>, also known as your <strong><em>dependent variable(s)</em></strong> [your <code>y</code>] represent the correct target value for your task.</p>
+</section>
+<section id="loss" class="level4">
+<h4 class="anchored" data-anchor-id="loss">Loss</h4>
+<blockquote class="blockquote">
+<p>The [model’s] measure of performance is called the <strong><em>loss</em></strong> … [the value of which depends on how well your model is able to predict] the correct <strong><em>labels</em></strong>.</p>
+</blockquote>
+<p>The <strong><em>loss</em></strong> is a measure of model performance that SGD can use to make your model better. A good loss function provides good gradients (slopes) that can be used to make even very minor changes to your weights so as to improve things. Visually, you want gentle rolling hills rather than abrupt steps or jagged peaks.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can think of the <strong>loss</strong> as the model’s <strong>metric</strong>, that is, how it both understands how good it is and can help it improve.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="transfer-learning" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-learning">Transfer learning</h2>
+<p><strong><em>Transfer learning</em></strong> is the process of taking a <strong>“pretrained model”</strong> that has been trained on a very large dataset with proven SOTA results, and <strong>“fine tuning”</strong> it for your specific task, which while likely similar to the task the pretrained model was trained for to one degree or another, is not the necesarily the same.</p>
+<section id="how-does-it-work" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-it-work">How does it work?</h3>
+<ol type="1">
+<li>The <strong>head</strong> of your model (the newly added part specific to your dataset/task) should be trained first since it is the only one with completely random weights.</li>
+<li>The degree to which your weights of the pretrained model will need to be updated is proportional to how similar your data is to the data it was trained on. The more dissimilar, the more the weights will need to be changed.</li>
+<li>Your model will only be as good as the data it was trained on, so make sure what you have is representative of what it will see in the real world. It “can learn to operate on only the patterns seen in the input data used to train it.”</li>
+</ol>
+<blockquote class="blockquote">
+<p>The process of <em>training</em> (or <em>fitting</em>) the model is the process of finding a set of <em>parameter values</em> (or <em>weights</em>) that specialize that general architecture into a model that works well for our particular kind of data [and task]</p>
+</blockquote>
+</section>
+<section id="what-is-the-high-level-approach-in-fastai" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-the-high-level-approach-in-fastai">What is the high-level approach in fastai?</h3>
+<p>fastai provides a <code>fine_tune</code> method that uses proven tricks and hyperparameters for various DL tasks that the author’s have found works well most of the time.</p>
+</section>
+<section id="what-do-we-have-at-the-end-of-training-or-finetuning" class="level3">
+<h3 class="anchored" data-anchor-id="what-do-we-have-at-the-end-of-training-or-finetuning">What do we have at the end of training (or finetuning)?</h3>
+<blockquote class="blockquote">
+<p>… once the model is trained - that is, once we’ve chosen our final weight assignments - then we can think of the weights as being <em>part of the model</em> since we’re not varying them anymore.</p>
+</blockquote>
+<p>This means a trained model can be treated like a typical function.</p>
+<hr>
+</section>
+</section>
+<section id="metrics" class="level2">
+<h2 class="anchored" data-anchor-id="metrics">Metrics</h2>
+<section id="a-definition" class="level3">
+<h3 class="anchored" data-anchor-id="a-definition">A definition</h3>
+<p><strong>Metrics</strong> are a human-understandable measures of model quality whereas the <strong>loss</strong> is the machine’s. They are based on your validation set and are what you really care about, whereas the loss is “a measure of performance” that the training system can use to update weights automatically.</p>
+<p>A good choice for loss is a function “that is easy for <strong><em>stochastic gradient descent (SGD)</em></strong> to use, whereas a good choies for your metrics are functions that your business users will care about. Seldom are they the same because most metrics don’t provide smooth gradients that SGD can use to update your model’s weights.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Again, they are based on your validation/test sets (not your training set). Ultimately, we want to have a model that generalizes well to inputs it was <em>not</em> trained on, and this is what our validation/test sets represent. This is how we relay our model quality.</p>
+</div>
+</div>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<p>There are a whole list of metrics built into the fastai library, <a href="https://docs.fast.ai/metrics.html">see here</a>. Below I begin a listing of the most common ones as they come up in the fastbook (and from personal experience).</p>
+<p><strong>error rate</strong> = “the proportion of images that were incorrectly identified.”</p>
+<p><strong>accuracy</strong> = the proportation of images that were correctly identified (<code>1 - error rate</code>)</p>
+</section>
+<section id="metrics-to-use-based-on-task" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-to-use-based-on-task">Metrics to use based on task</h3>
+<div class="cell" data-outputid="a3b9d6b7-2d91-43d2-9486-3104aecaab32" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="cell-output cell-output-display" data-execution_count="2">
+
+
+<table id="T_6f6f8_" class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th class="col_heading level0 col0">Metric</th>
+      <th class="col_heading level0 col1">Multiclass classification</th>
+      <th class="col_heading level0 col2">Multilabel classification</th>
+      <th class="col_heading level0 col3">Regression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_6f6f8_row0_col0" class="data row0 col0">error rate</td>
+      <td id="T_6f6f8_row0_col1" class="data row0 col1">Yes</td>
+      <td id="T_6f6f8_row0_col2" class="data row0 col2">Yes*</td>
+      <td id="T_6f6f8_row0_col3" class="data row0 col3">No</td>
+    </tr>
+    <tr>
+      <td id="T_6f6f8_row1_col0" class="data row1 col0">accuracy</td>
+      <td id="T_6f6f8_row1_col1" class="data row1 col1">Yes</td>
+      <td id="T_6f6f8_row1_col2" class="data row1 col2">Yes*</td>
+      <td id="T_6f6f8_row1_col3" class="data row1 col3">No</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p><code>*</code> indicates that other metrics may be better for the given task.</p>
+<hr>
+</section>
+</section>
+<section id="training-validation-and-test-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="training-validation-and-test-datasets">Training, validation, and test datasets</h2>
+<section id="what-is-a-training-set" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-training-set">What is a training set?</h3>
+<p>A <strong><em>training set</em></strong> consits of the data your model sees during training. These are the inputs and labels your model will use to determine the loss and update it’s parameters in a way that will hopefully lead to a model that works well for its given task.</p>
+<section id="why-do-we-need-a-training-set" class="level5">
+<h5 class="anchored" data-anchor-id="why-do-we-need-a-training-set">Why do we need a training set?</h5>
+<p>Because a model needs something to train on. It should be representative of the data the model will see in the future, and it should be updated if/when you discover that is not the case.</p>
+</section>
+<section id="how-to-use-a-training-set" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-use-a-training-set">How to use a training set?</h4>
+<ol type="1">
+<li><p>To train a model on examples resembling that which the model will seen in the future. More is generally better, but quality is king (e.g., bad data in, bad data out).</p></li>
+<li><p>To provide augmented examples for your model to see so as to increase the number of examples and better reflect what the model may see in the real world.</p></li>
+</ol>
+</section>
+</section>
+<section id="what-is-a-validation-set" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-validation-set">What is a validation set?</h3>
+<p>A <strong><em>validation set</em></strong> (also know as the “development set”) does not include any data from the <strong><em>training set</em></strong>. It’s purpose to is gauge the generalization prowess of your model and also ensure you are neight overfitting or underfitting.</p>
+<blockquote class="blockquote">
+<p>“If [the model] makes an accurate prediction for a data item, that should be because it has learned characteristics of that kind of item, and not because the model has been shaped by <em>actually having seen that particular item</em>.”</p>
+</blockquote>
+<section id="why-do-we-need-a-validation-set" class="level4">
+<h4 class="anchored" data-anchor-id="why-do-we-need-a-validation-set">Why do we need a validation set?</h4>
+<blockquote class="blockquote">
+<p>“[because] what we care about is how well our model works on <em>previously unseen images</em> … the longer you train for, the better your accuracy will get on the training set … as the model starts to memorize the training set rather than finding generalizable underlying patterns in the data = <strong>overfitting</strong>”</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/fastai/fastbook/41a60e44d588139a03452f1907359fc2322f8d5f/images/att_00000.png" class="img-fluid"></p>
+<p><strong><em>Overfitting</em></strong> happens when the model “remembers specific features of the input data, rather than generalizing well to data not seen during training.”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>ALWAYS</strong> overfit before anything else. It is your training loss gets better while your validation loss gets worse … in other words, if you’re validation loss is improving, even if not to the extent of your training loss, you are <em>not</em> overfitting</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>ALWAYS</strong> include a validation set.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>ALWAYS</strong> use the validation set to measure your accuracy (or any metrics).</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>ALWAYS</strong> set the <code>seed</code> parameter so that you “get the same validation set every time” so that “if we change our model and retrain it, we know any differences are due to the changes to the model, not due to having a different random validation set.”</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a good discussion of how to achieve predictable randomness, see <a href="https://forums.fast.ai/t/lesson1-reproducible-results-setting-seed-not-working/37921/5">this discussion</a> on the fast.ai forums. There are actually several seeds you need to set and in several places when using fast.ai to achieve reproducibility.</p>
+</div>
+</div>
+</section>
+<section id="how-to-use-a-validation-set" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-use-a-validation-set">How to use a validation set?</h4>
+<ol type="1">
+<li><p>It gives us a sense of how well our model is doing on examples <em>it hasn’t seen</em>, which makes sense since the ultimate worth of a model is in how well it generalizes to things unseen in the future.</p></li>
+<li><p>The validation set also informs us how we may change the <strong><em>hyperparamters</em></strong> (e.g., model architecture, learning rates, data augmentation, etc…) to improve results. These parameters are NOT learned … they are choices WE make that affect the learning of the model parameters.</p></li>
+</ol>
+</section>
+</section>
+<section id="what-is-a-test-set" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-test-set">What is a test set?</h3>
+<p>A <strong><em>test set</em></strong> ensures that we aren’t overfitting our hyperparameter choices; it is held back even from ourselves and used to evaulate the model at the very end.</p>
+<blockquote class="blockquote">
+<p>“[Since we] are evaluating the model by looking at predictions on the validation data when we decide to explore new hyperparameter values … subsequent version of the model are, indirectly, shaped by us having seen the validation data … [and therefore], we are in danger of overfitting the validation data through human trial and error and exploration.”</p>
+</blockquote>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A key property of the validation and test sets is that they must be representative of the new data you will see in the future.</p>
+</div>
+</div>
+<section id="why-do-we-need-a-test-set" class="level4">
+<h4 class="anchored" data-anchor-id="why-do-we-need-a-test-set">Why do we need a test set?</h4>
+<p>To ensure we aren’t inadvertently causing the model to overfit via our hyperparameter tuning which happens as a result of us looking at the validation set. It is a completely hidden dataset; it isn’t used for training or tuning, only for measuring performance.</p>
+</section>
+<section id="how-to-use-a-test-set" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-use-a-test-set">How to use a test set?</h4>
+<ol type="1">
+<li><p>If evaluating 3rd party solutions. You’ll want to know how to create a good test set and how to create a good baseline model. Hold these out from the potential consultants and use them to fairly evaluate their work.</p></li>
+<li><p>To ensure you aren’t overfitting your model as a result of validation set examination. As with the validation set, a good test set offers further assurance your model isn’t learning particular ancillary features of particular things in your images.</p></li>
+</ol>
+</section>
+</section>
+<section id="how-to-create-good-validation-and-test-sets" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-create-good-validation-and-test-sets">How to create good validation and test sets</h3>
+<p>It isn’t always as easy as randomly shuffling your data!</p>
+<p>Again, what both of these sets should haven in common is that they “must be representative of the new data you will see in the future.” And what this looks like often dependes on your use case and task.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You really need to think about what you need to predict and what you’d look at to make that prediction. You also need to make sure your training data is qualitatively different enough from your real world data (e.g., what the validation and test sets represent) as to learn patterns and not specific examples.</p>
+</div>
+</div>
+<p><strong>First</strong>, consider cases where historical data is required to predict the future, for example of quant traders use “<em>backtesting</em> to check whether their models are predictive of future periods, based on past data”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“For a <strong>time series</strong> … (where you are using historical data to build a model for use in the future … you will want to choose a continuous section with the latest dates as your validation set”</p>
+</div>
+</div>
+<p>“A <strong>second</strong> common case occurs when you can easily anticipate ways the data you will be making predictions for in production may be <em>qualitatively different</em> from the data you have to train your model with.”</p>
+<p>As an example of this, <a href="https://www.kaggle.com/c/state-farm-distracted-driver-detection">the Kaggle distracted driver competition</a> is used. In it, based on pictures of drivers you need to predict categories of distraction. Since the goal of such a model would be to make good predictions against <strong><em>drivers the model hasn’t seen</em></strong>, it would make sense to create a validation and also a test set consiting of specific drivers the training set doesn’t include (in fact, the competition’s test set is exactly that!). “If you used all the people in training your model, your model might be overfitting to the paricipants of those specific people and not just learning the states (texting, eating, etc.).”</p>
+<p>Another example of this is <a href="https://www.kaggle.com/c/the-nature-conservancy-fisheries-monitoring">the Kaggle fisheries competition</a> where the objective is to predict the species of fish caught on fishing boats. As the goal of such a model is to predict the species on other/future boats, it makes sense then that “the test set consisted of images from boats that didn’t appear in the training data, so in this case you’d want your validation set to also include boats that are not in the training set.”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with training a model and let the results guide your EDA!</p>
+</div>
+</div>
+<p>For a stellar example of how this looks in practice, <a href="https://twitter.com/borisdayma/status/1447939363296489473">see this thread from Boris Dayma</a> on an issue he noticed when looking at his results on the training and validation sets. <strong><em>Note how his EDA was directed via training a model</em></strong> … and also make sure to read through all the comments, replies, etc… for other things to pay attention too when seeing unusual results during training (there is a lot of good stuff there). Ultimately, in his case, what he found out was that the dataset was imbalanced and the imbalanced data was getting lumped together in the same batches due to poor shuffling strategy. He documents <a href="https://twitter.com/borisdayma/status/1448355381374242816">his fix in a subsequent thread</a> so check that out too.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Knowing how to read your training/validation results drives EDA and will lead to better train/validation/test splits.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="categorical-datatypes" class="level2">
+<h2 class="anchored" data-anchor-id="categorical-datatypes">Categorical datatypes</h2>
+<p><strong><em>Categorical</em></strong> data “contains values that are one of a discrete set of choice” such as gender, occupation, day of week, etc…</p>
+<section id="what-if-our-target-is-categorical" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-our-target-is-categorical">What if our <strong>target</strong> is categorical?</h3>
+<p>If your target/lables are categorical, then you have either a <strong>multi-classification classification</strong> problem (e.g., you are trying to predict a single class) or a <strong>multi-label classification problem</strong> (e.g., you are trying to predict whether your example belongs to zero or multiple classes).</p>
+<section id="multi-classification-tasks" class="level4">
+<h4 class="anchored" data-anchor-id="multi-classification-tasks">Multi-classification tasks</h4>
+<p>For multi-classification tasks, a sensible loss function would be <a href="https://ohmeow.com/posts/2020/04/04/understanding-cross-entropy-loss.html">cross entropy loss</a> (<code>nn.CrossEntropyLoss</code>) and <a href="https://ohmeow.com/what-is/a-metric#Metrics-to-use-based-on-task">useful metrics</a> are likely to include error rate, accuracy, F1, recall, and/or precision depending on your business objectices and the make up of your dataset. For example, if you’re dealing with a highly imbalanced dataset, choosing accuracy would lead to an inflated sense of model performance since it may be learning to just predict the most common class.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What if you need to predict “None”? This is more real world and covered nicely in Zach Mueller’s <a href="https://walkwithfastai.com/Unknown_Labels">Recognizing Unknown Images (or the Unknown Label problem)</a>.</p>
+</div>
+</div>
+</section>
+<section id="multi-label-tasks" class="level4">
+<h4 class="anchored" data-anchor-id="multi-label-tasks">Multi-label tasks</h4>
+<p>For multi-label tasks, a sensible loss function would be binary cross entropy loss (BCE) (<code>nn.BCEWithLogitsLoss</code>) and useful metrics are likely to include F1, recall, and/or precision depending on your business objectices and the make up of your dataset. Notice that I didn’t include error rate, or its opposite accuracy, as their datasets are generally highly imbalanced.</p>
+</section>
+</section>
+<section id="what-if-our-input-is-categorical" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-our-input-is-categorical">What if our <strong>input</strong> is categorical?</h3>
+<p>Categorical inputs are generally represented by an <strong>embedding</strong> (e.g., a vector of numbers). <strong><em>Why?</em></strong> Mostly because it gives your model the ability to provide a more complex representation of your category than a single numer would.</p>
+<p>For example, imagine that one of your inputs is day of week (e.g., Sunday, Monday, etc.) … what does that mean? When combined with other inputs, its likely that the meaning of it is going to be much more nuanced than a single number can represent, and so we’d like to use multiple learned numbers. This is what an embedding is.</p>
+<hr>
+</section>
+</section>
+<section id="continuous-datatypes" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-datatypes">Continuous datatypes</h2>
+<p><strong><em>Continuous</em></strong> data is numerical that represents a quantity such as age, salary, prices, etc…</p>
+<section id="what-if-our-target-is-continuous" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-our-target-is-continuous">What if our <strong>target</strong> is continuous?</h3>
+<p>If your target/labels are continuous, then you have a regression problem and the most likely loss function you would choose would be mean-square-error loss (MSE) (<code>nn.MSELoss</code>) and your metric MSE as well</p>
+<blockquote class="blockquote">
+<p>“… MSE is already a a useful metric for this task (although its’ probably more interpretable after we take the square root)” … the <strong>RMSE</strong> (% fn 3 %}</p>
+</blockquote>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For tasks that predict a continuous number, consider using <code>y_range</code> to constrain the network to predicting a value in the known range of valid values.</p>
+</div>
+</div>
+</section>
+<section id="what-if-our-input-is-continuous" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-our-input-is-continuous">What if our <strong>input</strong> is continuous?</h3>
+<p>In many cases there isn’t anything special you need to do, in others, it makes sense to scale these numbers so they are in the same range (usually 0 to 1) as the rest of your continuous inputs. This process is called <strong>normalization</strong>. The reason you would want to do this is so continuous values with bigger range of values (say 1000) don’t drown out those with a smaller range (say 5) during model training.</p>
+</section>
+<section id="normalization" class="level3">
+<h3 class="anchored" data-anchor-id="normalization">Normalization</h3>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“When training a model, if helps if your input data is <em>normalizaed</em> - that is, has a mean of 0 and a standard deviation of 1.</p>
+</div>
+</div>
+<p>See <a href="https://towardsdatascience.com/how-to-calculate-the-mean-and-standard-deviation-normalizing-datasets-in-pytorch-704bd7d05f4c">How To Calculate the Mean and Standard Deviation — Normalizing Datasets in Pytorch</a></p>
+<div class="cell" data-outputid="9b747454-1993-4c03-9e16-555fada30af7" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Example 1'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>nums <span class="op">=</span> torch.tensor([<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Some raw values: </span><span class="sc">{</span>nums<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. calculate their mean and standard deviation</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> nums.mean()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> nums.std()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Their mean is </span><span class="sc">{</span>m<span class="sc">}</span><span class="ss"> and their standard deviation is </span><span class="sc">{</span>std<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. normalize their values </span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>normalized <span class="op">=</span> (nums <span class="op">-</span> m) <span class="op">/</span> std</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Here are their values after normalization: </span><span class="sc">{</span>normalized<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Example 2'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>nums <span class="op">=</span> torch.tensor([<span class="dv">0</span>, <span class="dv">5000</span>, <span class="dv">10000</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Some raw values: </span><span class="sc">{</span>nums<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. calculate their mean and standard deviation</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> nums.mean()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>std <span class="op">=</span> nums.std()</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Their mean is </span><span class="sc">{</span>m<span class="sc">}</span><span class="ss"> and their standard deviation is </span><span class="sc">{</span>std<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. normalize their values </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>normalized <span class="op">=</span> (nums <span class="op">-</span> m) <span class="op">/</span> std</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Here are their values after normalization: </span><span class="sc">{</span>normalized<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Example 1
+Some raw values: tensor([  0.,  50., 100.], dtype=torch.float64)
+Their mean is 50.0 and their standard deviation is 50.0
+Here are their values after normalization: tensor([-1.,  0.,  1.], dtype=torch.float64)
+
+Example 2
+Some raw values: tensor([    0.,  5000., 10000.], dtype=torch.float64)
+Their mean is 5000.0 and their standard deviation is 5000.0
+Here are their values after normalization: tensor([-1.,  0.,  1.], dtype=torch.float64)
+</code></pre>
+</div>
+</div>
+<p>fastai supplies a <code>Normalize</code> transform you can use to do this … “it acts on a whole mini-batch at once, so you can add it to the <code>batch_tfms</code> secion of your data block … you need to pass to this transform the mean and standard deviation that you want to use. If you don’t,”fastai will automatically calculate them from a single batch of your data). p.241</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“This means that when you distribute a model, you need to also distribute the statistics used for normalization.” (p.242)</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… if you’re using a model that someon else has trained, make sure you find out what normalization statistics they used and match them.” (p.242)</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="resnets" class="level2">
+<h2 class="anchored" data-anchor-id="resnets">ResNets</h2>
+<section id="what-is-a-resnet-why-use-it-for-computer-vision-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-resnet-why-use-it-for-computer-vision-tasks">What is a ResNet &amp; Why use it for computer vision tasks?</h3>
+<p>A <strong>ResNet</strong> is a model architecture that has proven to work well in CV tasks. Several variants exist with different numbers of layers with the larger architectures taking longer to train and more prone to overfitting especially with smaller datasets.</p>
+<p>The number represents the number of layers in this particular ResNet variant … “(other options are 18, 50, 101, and 152) … model architectures with more layers take longer to train and are more prone to overfitting … on the other hand, when using more data, they can be qite a bit more accurate.”</p>
+<section id="what-other-things-can-use-images-recognizers-for-besides-image-tasks" class="level4">
+<h4 class="anchored" data-anchor-id="what-other-things-can-use-images-recognizers-for-besides-image-tasks">What other things can use images recognizers for besides image tasks?</h4>
+<p>Sound, time series, malware classification … “a good rule of thumb for converting a dataset into an image representation: if the human eye can recognize categories from the images, then a deep learning model should be able to do so too.”</p>
+</section>
+<section id="how-does-it-fare-against-more-recent-architectures-like-vision-transformers" class="level4">
+<h4 class="anchored" data-anchor-id="how-does-it-fare-against-more-recent-architectures-like-vision-transformers">How does it fare against more recent architectures like vision transformers?</h4>
+<p>Pretty well apparently (at least at the time this post was written) …</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/wightmanr/status/1444852719773122565</p>
+</blockquote>
+</section>
+</section>
+<section id="best-practices" class="level3">
+<h3 class="anchored" data-anchor-id="best-practices">Best practices</h3>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with a smaller ResNet (like 18 or 34) and move up as needed.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have a lot of data, the bigger resnets will likely give you better results.</p>
+</div>
+</div>
+</section>
+<section id="an-example" class="level3">
+<h3 class="anchored" data-anchor-id="an-example">An example</h3>
+<section id="step-1-build-our-dataloaders" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-build-our-dataloaders">Step 1: Build our DataLoaders</h4>
+<div class="cell" data-outputid="7c94f250-1dd0-4e44-d946-1a6fd8dcd745" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.PETS)<span class="op">/</span><span class="st">'images'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_cat(x): </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x[<span class="dv">0</span>].isupper()                  <span class="co"># if filename is Capitalized, its a cat image</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> ImageDataLoaders.from_name_func(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    path,                                <span class="co"># where our image are</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    get_image_files(path),               <span class="co"># how to build our inputs (our x)</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    label_func<span class="op">=</span>is_cat,                   <span class="co"># how to build our labels (our y)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    valid_pct<span class="op">=</span><span class="fl">0.2</span>,                       <span class="co"># how to build our validation set</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),               <span class="co"># things we want to do to each image when we fetch it</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>                              <span class="co"># for reproducibility</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Why do we make images 224x224 pixels?</strong></p>
+<p>“This is the standard size for historical reasons (old pretrained models require this size exactly) … If you increase the size, you’ll often get a model with better results since it will be able to focus on more details.”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Train on progressively larger image sizes using the weights trained on smaller sizes as a kind of pretrained model.</p>
+</div>
+</div>
+</section>
+<section id="step-2-build-our-cnn_learner" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-build-our-cnn_learner">Step 2: Build our <code>cnn_learner</code></h4>
+<div class="cell" data-outputid="65ca78ab-9fdd-4283-c8d5-cc3026f24940" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-train" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-train">Step 3: Train</h4>
+<div class="cell" data-outputid="c35f0dd7-aa4b-47ed-e702-668516673ed2" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.149967</td>
+      <td>0.042716</td>
+      <td>0.015562</td>
+      <td>01:16</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.054710</td>
+      <td>0.021014</td>
+      <td>0.008119</td>
+      <td>01:07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="visualizing-what-a-nn-is-learning" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-what-a-nn-is-learning">Visualizing what a NN is learning</h2>
+<section id="why-is-it-important" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-it-important">Why is it important?</h3>
+<p>Because it allows you to know both what your NN is doing/learning and whether it is learning anything at all. The former is helpful because it gives you confidence that your model is learning to look at the right information and insights on how to improve it, the later because a model that isn’t learning anything (e.g., able to update its parameters so as to improve itself) isn’t a helpful or useful model.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn how to visualize and understand your activations and gradients</p>
+</div>
+</div>
+</section>
+<section id="computer-vision-models" class="level3">
+<h3 class="anchored" data-anchor-id="computer-vision-models">Computer vision models</h3>
+<p>The top of this image is a visualization of the weights (what the model is learning), and the one below is a visualization of the activations, in particular, the parts of training images that most strongly match each set of weights above.</p>
+<p><img src="https://github.com/fastai/fastbook/raw/e57e3155824c81a54f915edf9505f64d5ccdad84/images/layer1.png" class="img-fluid"></p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This kind of visualization is particularly helpful in transfer learning as it allows us to infer which layers may require more or less training for our task. For example, the layer above probably requires little to no training as it looks to be identifying edges and gradients, thing likely helpful and necessary for all computer vision tasks.</p>
+</div>
+</div>
+<section id="examples-1" class="level4">
+<h4 class="anchored" data-anchor-id="examples-1">Examples</h4>
+<p><strong>Vectors into 2D grayscale images (MNIST)</strong></p>
+<p>*Courtesy of Abishek Thakur’s, “Approaching (almost) any Machine Learning Problem”</p>
+<div class="cell" data-outputid="06cb9cfc-db2f-4343-a875-ed564c9ab7fc" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs, targets <span class="op">=</span> datasets.fetch_openml(<span class="st">'mnist_784'</span>, version<span class="op">=</span><span class="dv">1</span>, return_X_y<span class="op">=</span><span class="va">True</span>, as_frame<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> targets.astype(<span class="bu">int</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>inputs.shape, targets.shape <span class="co"># always helpful to see the shape of things</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>((70000, 784), (70000,))</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="d8b09f44-1fc4-46b7-a841-ab372d2e0023" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are using a numpy array, but if you're using Pytorch, you could use either .view or .reshape</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># see https://stackoverflow.com/questions/49643225/whats-the-difference-between-reshape-and-view-in-pytorch</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> inputs.reshape((<span class="op">-</span><span class="dv">1</span>,<span class="dv">28</span>,<span class="dv">28</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(images.shape)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(images[<span class="dv">0</span>], cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(70000, 28, 28)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7f9d01b14490&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2020-11-06-ajtfb-chapter-1_files/figure-html/cell-9-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Vectors as clusters (MNIST)</strong></p>
+<p>*Courtesy of Abishek Thakur’s, “Approaching (almost) any Machine Learning Problem”</p>
+<div class="cell" data-outputid="dc76ea93-22b5-4350-9188-45db3ba82be4" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tsne <span class="op">=</span> manifold.TSNE(n_components<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>transformed_data <span class="op">=</span> tsne.fit_transform(inputs[:<span class="dv">1000</span>]) <span class="co"># reduces dimensionality of each vector to 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/usr/local/lib/python3.7/dist-packages/sklearn/manifold/_t_sne.py:783: FutureWarning: The default initialization in TSNE will change from 'random' to 'pca' in 1.2.
+  FutureWarning,
+/usr/local/lib/python3.7/dist-packages/sklearn/manifold/_t_sne.py:793: FutureWarning: The default learning rate in TSNE will change from 200.0 to 'auto' in 1.2.
+  FutureWarning,</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="7c102590-29d8-4d01-f46f-be0e7abd4186" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cluster_data <span class="op">=</span> np.column_stack((transformed_data, targets[:<span class="dv">1000</span>]))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>cluster_data.shape <span class="co"># transformed_data 2 dims (call them x and y) + targets 1 dim = 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>(1000, 3)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="e85efd0a-fe92-46f2-e3f2-00942ebf52d4" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tsne_df <span class="op">=</span> pd.DataFrame(cluster_data, columns<span class="op">=</span>[<span class="st">'x'</span>, <span class="st">'y'</span>, <span class="st">'targets'</span>])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(tsne_df))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>tsne_df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1000</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+
+
+  <div id="df-e67f81c6-d022-4177-a2c5-81373d9c5324">
+    <div class="colab-df-container">
+      <div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+      <th>targets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22.735518</td>
+      <td>14.271368</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>45.913292</td>
+      <td>0.439934</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-e67f81c6-d022-4177-a2c5-81373d9c5324')" title="Convert this dataframe to an interactive table." style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-e67f81c6-d022-4177-a2c5-81373d9c5324 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-e67f81c6-d022-4177-a2c5-81373d9c5324');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
+</div>
+</div>
+<div class="cell" data-outputid="4ee7b553-f4e1-4bfd-ec83-fda51f50d789" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>viz <span class="op">=</span> sns.FacetGrid(tsne_df, hue<span class="op">=</span><span class="st">'targets'</span>, height<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>viz.<span class="bu">map</span>(plt.scatter, <span class="st">'x'</span>, <span class="st">'y'</span>).add_legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>&lt;seaborn.axisgrid.FacetGrid at 0x7f9d01e46190&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2020-11-06-ajtfb-chapter-1_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li><p>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</p></li>
+<li><p>https://course.fast.ai/datasets - A variety of slimmed down datasets you can use for various DL tasks that support “rapid prototyping and experimentation.”</p></li>
+<li><p>https://huggingface.co/docs/datasets/ - Serves a similar purpose to the fastai datasets but for the NLP domain. Includes metrics and full/sub-set datasets that you can use to benchmark your results against the top guns of deep learning.</p></li>
+</ol>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with a smaller dataset and scale up to full size to accelerate modeling!</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"01e2ec817fe54e3e8639cc05b9b22b8e":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_33248d3942c24e4491f25264b6c214d0","placeholder":"​","style":"IPY_MODEL_7c94393337f843169a08ddc363e14855","value":"100%"}},"22595dd953d249939b8538f32a93b02c":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"","description_tooltip":null,"layout":"IPY_MODEL_2c1e5e361fed4651b55de711275b680a","max":46830571,"min":0,"orientation":"horizontal","style":"IPY_MODEL_65c8554c4e2f4439a143c5ec8606e2ae","value":46830571}},"2aee2e985f3447f8ade862d65a7d2fa8":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"2c1e5e361fed4651b55de711275b680a":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"33248d3942c24e4491f25264b6c214d0":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"65c8554c4e2f4439a143c5ec8606e2ae":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":""}},"7c94393337f843169a08ddc363e14855":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"97c21636ea464deb80f0b68d09d082ec":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"df9bf362ea0b4e8595ee7beca100e9f1":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_97c21636ea464deb80f0b68d09d082ec","placeholder":"​","style":"IPY_MODEL_fe052a5dff9a4ad9bcff7ae05ffed502","value":" 44.7M/44.7M [00:02&lt;00:00, 19.7MB/s]"}},"e278b7a922be4f90b87b14b6a4cb2d61":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_01e2ec817fe54e3e8639cc05b9b22b8e","IPY_MODEL_22595dd953d249939b8538f32a93b02c","IPY_MODEL_df9bf362ea0b4e8595ee7beca100e9f1"],"layout":"IPY_MODEL_2aee2e985f3447f8ade862d65a7d2fa8"}},"fe052a5dff9a4ad9bcff7ae05ffed502":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}}}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

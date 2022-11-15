@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2021-05-23">
+<meta name="description" content="The fourth in a weekly-ish series where I revisit the fast.ai book, &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent">
+<meta property="og:description" content="The fourth in a weekly-ish series where I revisit the fast.ai book, [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent">
+<meta name="twitter:description" content="The fourth in a weekly-ish series where I revisit the fast.ai book, [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#how-to-visualize-a-grayscale-image-in-pandas" id="toc-how-to-visualize-a-grayscale-image-in-pandas" class="nav-link active" data-scroll-target="#how-to-visualize-a-grayscale-image-in-pandas">How to visualize a grayscale image in pandas …</a></li>
+  <li><a href="#what-is-a-baseline-model-and-why-do-you-want-one" id="toc-what-is-a-baseline-model-and-why-do-you-want-one" class="nav-link" data-scroll-target="#what-is-a-baseline-model-and-why-do-you-want-one">What is a baseline model and why do you want one?</a></li>
+  <li><a href="#tensors" id="toc-tensors" class="nav-link" data-scroll-target="#tensors">Tensors</a></li>
+  <li><a href="#stochastic-gradient-descent---how-to-train-a-model" id="toc-stochastic-gradient-descent---how-to-train-a-model" class="nav-link" data-scroll-target="#stochastic-gradient-descent---how-to-train-a-model">Stochastic Gradient Descent - How to train a model</a>
+  <ul class="collapse">
+  <li><a href="#step-1-initializing-weights" id="toc-step-1-initializing-weights" class="nav-link" data-scroll-target="#step-1-initializing-weights">Step 1: Initializing weights</a></li>
+  <li><a href="#step-3-calculating-the-loss" id="toc-step-3-calculating-the-loss" class="nav-link" data-scroll-target="#step-3-calculating-the-loss">Step 3: Calculating the loss</a></li>
+  <li><a href="#step-4-calculating-the-gradients" id="toc-step-4-calculating-the-gradients" class="nav-link" data-scroll-target="#step-4-calculating-the-gradients">Step 4: Calculating the gradients</a></li>
+  <li><a href="#step-5-change-all-the-weights-based-on-the-gradient-using-a-learning-rate" id="toc-step-5-change-all-the-weights-based-on-the-gradient-using-a-learning-rate" class="nav-link" data-scroll-target="#step-5-change-all-the-weights-based-on-the-gradient-using-a-learning-rate">Step 5: Change all the weights based on the gradient using a “Learning Rate”</a></li>
+  </ul></li>
+  <li><a href="#datasets-dataloaders" id="toc-datasets-dataloaders" class="nav-link" data-scroll-target="#datasets-dataloaders">Datasets &amp; DataLoaders</a></li>
+  <li><a href="#measuring-distances" id="toc-measuring-distances" class="nav-link" data-scroll-target="#measuring-distances">Measuring distances</a></li>
+  <li><a href="#important-pytorch-modules" id="toc-important-pytorch-modules" class="nav-link" data-scroll-target="#important-pytorch-modules">Important PyTorch Modules</a>
+  <ul class="collapse">
+  <li><a href="#nn.linear" id="toc-nn.linear" class="nav-link" data-scroll-target="#nn.linear"><code>nn.Linear</code></a></li>
+  <li><a href="#nn.relu" id="toc-nn.relu" class="nav-link" data-scroll-target="#nn.relu"><code>nn.ReLU</code></a></li>
+  <li><a href="#nn.sequential" id="toc-nn.sequential" class="nav-link" data-scroll-target="#nn.sequential"><code>nn.Sequential</code></a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    The fourth in a weekly-ish series where I revisit the fast.ai book, <a href="https://github.com/fastai/fastbook">"Deep Learning for Coders with fastai &amp; PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 23, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<hr>
+<section id="how-to-visualize-a-grayscale-image-in-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-visualize-a-grayscale-image-in-pandas">How to visualize a grayscale image in pandas …</h2>
+<div class="cell" data-outputid="1409b4e2-9b5c-45dc-a376-0540bc964494">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mnist_path <span class="op">=</span> untar_data(URLs.MNIST_SAMPLE)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mnist_path.ls()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>(#3) [Path('/root/.fastai/data/mnist_sample/labels.csv'),Path('/root/.fastai/data/mnist_sample/valid'),Path('/root/.fastai/data/mnist_sample/train')]</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="3922a9d8-a6e7-4e21-d6ee-da4ed1cb2717">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sample_3 <span class="op">=</span> Image.<span class="bu">open</span>((mnist_path<span class="op">/</span><span class="st">'train/3'</span>).ls().<span class="bu">sorted</span>()[<span class="dv">1</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sample_3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<p><img src="2021-05-23-ajtfb-chapter-4_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="acbb81b3-9f1f-422f-c014-ad52d60870ef">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sample_3_t <span class="op">=</span> tensor(sample_3)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(sample_3_t[<span class="dv">4</span>:<span class="dv">15</span>, <span class="dv">4</span>:<span class="dv">22</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df.style.set_properties(<span class="op">**</span>{<span class="st">'font-size'</span>:<span class="st">'6pt'</span>}).background_gradient(<span class="st">'Greys'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<style type="text/css">
+#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col5,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col7,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col11,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col12,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col14,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col7,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col5,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col7,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col5,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col7,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col14,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col5,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col14,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col14,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col16,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col17,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col0,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col5,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col17{
+            font-size:  6pt;
+            background-color:  #ffffff;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col5{
+            font-size:  6pt;
+            background-color:  #efefef;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col13{
+            font-size:  6pt;
+            background-color:  #7c7c7c;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col7{
+            font-size:  6pt;
+            background-color:  #4a4a4a;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col5,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col6,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col7,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col11,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col12,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col12,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col1,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col3,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col12,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col12,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col11,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col11,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col11,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col12,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col14,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col15,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col16{
+            font-size:  6pt;
+            background-color:  #000000;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col11{
+            font-size:  6pt;
+            background-color:  #606060;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col12{
+            font-size:  6pt;
+            background-color:  #4d4d4d;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col14{
+            font-size:  6pt;
+            background-color:  #bbbbbb;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col3{
+            font-size:  6pt;
+            background-color:  #e4e4e4;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col6{
+            font-size:  6pt;
+            background-color:  #6b6b6b;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col14,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col14{
+            font-size:  6pt;
+            background-color:  #171717;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col11{
+            font-size:  6pt;
+            background-color:  #4b4b4b;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col10{
+            font-size:  6pt;
+            background-color:  #010101;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col1{
+            font-size:  6pt;
+            background-color:  #272727;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col2{
+            font-size:  6pt;
+            background-color:  #0a0a0a;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col3{
+            font-size:  6pt;
+            background-color:  #050505;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col5{
+            font-size:  6pt;
+            background-color:  #333333;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col6{
+            font-size:  6pt;
+            background-color:  #e6e6e6;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col7,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col10{
+            font-size:  6pt;
+            background-color:  #fafafa;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col8{
+            font-size:  6pt;
+            background-color:  #fbfbfb;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col9{
+            font-size:  6pt;
+            background-color:  #fdfdfd;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col4{
+            font-size:  6pt;
+            background-color:  #1b1b1b;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col5{
+            font-size:  6pt;
+            background-color:  #e0e0e0;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col11{
+            font-size:  6pt;
+            background-color:  #4e4e4e;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col14{
+            font-size:  6pt;
+            background-color:  #767676;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col1{
+            font-size:  6pt;
+            background-color:  #fcfcfc;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col2,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col3{
+            font-size:  6pt;
+            background-color:  #f6f6f6;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col4,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col7{
+            font-size:  6pt;
+            background-color:  #f8f8f8;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col7{
+            font-size:  6pt;
+            background-color:  #e8e8e8;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col11{
+            font-size:  6pt;
+            background-color:  #222222;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col13,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col12{
+            font-size:  6pt;
+            background-color:  #090909;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col14{
+            font-size:  6pt;
+            background-color:  #d0d0d0;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col10,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col11,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col6{
+            font-size:  6pt;
+            background-color:  #060606;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col13{
+            font-size:  6pt;
+            background-color:  #979797;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col8{
+            font-size:  6pt;
+            background-color:  #b6b6b6;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col9{
+            font-size:  6pt;
+            background-color:  #252525;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col12{
+            font-size:  6pt;
+            background-color:  #999999;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col5{
+            font-size:  6pt;
+            background-color:  #f9f9f9;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col7{
+            font-size:  6pt;
+            background-color:  #101010;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col9,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col9{
+            font-size:  6pt;
+            background-color:  #020202;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col11{
+            font-size:  6pt;
+            background-color:  #545454;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col12{
+            font-size:  6pt;
+            background-color:  #f1f1f1;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col5{
+            font-size:  6pt;
+            background-color:  #f7f7f7;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col7{
+            font-size:  6pt;
+            background-color:  #030303;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col12{
+            font-size:  6pt;
+            background-color:  #181818;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col13{
+            font-size:  6pt;
+            background-color:  #303030;
+            color:  #f1f1f1;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col14{
+            font-size:  6pt;
+            background-color:  #a9a9a9;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col15{
+            font-size:  6pt;
+            background-color:  #fefefe;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col8,#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col9{
+            font-size:  6pt;
+            background-color:  #bababa;
+            color:  #000000;
+        }#T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col10{
+            font-size:  6pt;
+            background-color:  #393939;
+            color:  #f1f1f1;
+        }</style><table id="T_09cd021a_bc13_11eb_9210_0242ac1c0002"><thead>    <tr>        <th class="blank level0"></th>        <th class="col_heading level0 col0">0</th>        <th class="col_heading level0 col1">1</th>        <th class="col_heading level0 col2">2</th>        <th class="col_heading level0 col3">3</th>        <th class="col_heading level0 col4">4</th>        <th class="col_heading level0 col5">5</th>        <th class="col_heading level0 col6">6</th>        <th class="col_heading level0 col7">7</th>        <th class="col_heading level0 col8">8</th>        <th class="col_heading level0 col9">9</th>        <th class="col_heading level0 col10">10</th>        <th class="col_heading level0 col11">11</th>        <th class="col_heading level0 col12">12</th>        <th class="col_heading level0 col13">13</th>        <th class="col_heading level0 col14">14</th>        <th class="col_heading level0 col15">15</th>        <th class="col_heading level0 col16">16</th>        <th class="col_heading level0 col17">17</th>    </tr></thead><tbody>
+                <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row0" class="row_heading level0 row0">0</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col0" class="data row0 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col1" class="data row0 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col2" class="data row0 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col3" class="data row0 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col4" class="data row0 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col5" class="data row0 col5">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col6" class="data row0 col6">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col7" class="data row0 col7">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col8" class="data row0 col8">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col9" class="data row0 col9">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col10" class="data row0 col10">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col11" class="data row0 col11">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col12" class="data row0 col12">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col13" class="data row0 col13">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col14" class="data row0 col14">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col15" class="data row0 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col16" class="data row0 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row0_col17" class="data row0 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row1" class="row_heading level0 row1">1</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col0" class="data row1 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col1" class="data row1 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col2" class="data row1 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col3" class="data row1 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col4" class="data row1 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col5" class="data row1 col5">29</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col6" class="data row1 col6">150</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col7" class="data row1 col7">195</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col8" class="data row1 col8">254</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col9" class="data row1 col9">255</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col10" class="data row1 col10">254</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col11" class="data row1 col11">176</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col12" class="data row1 col12">193</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col13" class="data row1 col13">150</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col14" class="data row1 col14">96</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col15" class="data row1 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col16" class="data row1 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row1_col17" class="data row1 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row2" class="row_heading level0 row2">2</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col0" class="data row2 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col1" class="data row2 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col2" class="data row2 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col3" class="data row2 col3">48</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col4" class="data row2 col4">166</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col5" class="data row2 col5">224</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col6" class="data row2 col6">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col7" class="data row2 col7">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col8" class="data row2 col8">234</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col9" class="data row2 col9">196</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col10" class="data row2 col10">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col11" class="data row2 col11">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col12" class="data row2 col12">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col13" class="data row2 col13">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col14" class="data row2 col14">233</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col15" class="data row2 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col16" class="data row2 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row2_col17" class="data row2 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row3" class="row_heading level0 row3">3</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col0" class="data row3 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col1" class="data row3 col1">93</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col2" class="data row3 col2">244</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col3" class="data row3 col3">249</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col4" class="data row3 col4">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col5" class="data row3 col5">187</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col6" class="data row3 col6">46</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col7" class="data row3 col7">10</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col8" class="data row3 col8">8</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col9" class="data row3 col9">4</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col10" class="data row3 col10">10</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col11" class="data row3 col11">194</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col12" class="data row3 col12">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col13" class="data row3 col13">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col14" class="data row3 col14">233</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col15" class="data row3 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col16" class="data row3 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row3_col17" class="data row3 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row4" class="row_heading level0 row4">4</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col0" class="data row4 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col1" class="data row4 col1">107</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col2" class="data row4 col2">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col3" class="data row4 col3">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col4" class="data row4 col4">230</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col5" class="data row4 col5">48</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col6" class="data row4 col6">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col7" class="data row4 col7">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col8" class="data row4 col8">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col9" class="data row4 col9">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col10" class="data row4 col10">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col11" class="data row4 col11">192</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col12" class="data row4 col12">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col13" class="data row4 col13">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col14" class="data row4 col14">156</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col15" class="data row4 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col16" class="data row4 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row4_col17" class="data row4 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row5" class="row_heading level0 row5">5</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col0" class="data row5 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col1" class="data row5 col1">3</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col2" class="data row5 col2">20</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col3" class="data row5 col3">20</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col4" class="data row5 col4">15</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col5" class="data row5 col5">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col6" class="data row5 col6">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col7" class="data row5 col7">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col8" class="data row5 col8">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col9" class="data row5 col9">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col10" class="data row5 col10">43</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col11" class="data row5 col11">224</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col12" class="data row5 col12">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col13" class="data row5 col13">245</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col14" class="data row5 col14">74</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col15" class="data row5 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col16" class="data row5 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row5_col17" class="data row5 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row6" class="row_heading level0 row6">6</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col0" class="data row6 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col1" class="data row6 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col2" class="data row6 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col3" class="data row6 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col4" class="data row6 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col5" class="data row6 col5">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col6" class="data row6 col6">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col7" class="data row6 col7">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col8" class="data row6 col8">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col9" class="data row6 col9">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col10" class="data row6 col10">249</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col11" class="data row6 col11">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col12" class="data row6 col12">245</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col13" class="data row6 col13">126</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col14" class="data row6 col14">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col15" class="data row6 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col16" class="data row6 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row6_col17" class="data row6 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row7" class="row_heading level0 row7">7</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col0" class="data row7 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col1" class="data row7 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col2" class="data row7 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col3" class="data row7 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col4" class="data row7 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col5" class="data row7 col5">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col6" class="data row7 col6">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col7" class="data row7 col7">14</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col8" class="data row7 col8">101</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col9" class="data row7 col9">223</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col10" class="data row7 col10">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col11" class="data row7 col11">248</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col12" class="data row7 col12">124</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col13" class="data row7 col13">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col14" class="data row7 col14">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col15" class="data row7 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col16" class="data row7 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row7_col17" class="data row7 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row8" class="row_heading level0 row8">8</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col0" class="data row8 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col1" class="data row8 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col2" class="data row8 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col3" class="data row8 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col4" class="data row8 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col5" class="data row8 col5">11</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col6" class="data row8 col6">166</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col7" class="data row8 col7">239</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col8" class="data row8 col8">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col9" class="data row8 col9">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col10" class="data row8 col10">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col11" class="data row8 col11">187</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col12" class="data row8 col12">30</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col13" class="data row8 col13">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col14" class="data row8 col14">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col15" class="data row8 col15">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col16" class="data row8 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row8_col17" class="data row8 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row9" class="row_heading level0 row9">9</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col0" class="data row9 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col1" class="data row9 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col2" class="data row9 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col3" class="data row9 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col4" class="data row9 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col5" class="data row9 col5">16</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col6" class="data row9 col6">248</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col7" class="data row9 col7">250</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col8" class="data row9 col8">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col9" class="data row9 col9">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col10" class="data row9 col10">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col11" class="data row9 col11">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col12" class="data row9 col12">232</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col13" class="data row9 col13">213</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col14" class="data row9 col14">111</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col15" class="data row9 col15">2</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col16" class="data row9 col16">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row9_col17" class="data row9 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_09cd021a_bc13_11eb_9210_0242ac1c0002level0_row10" class="row_heading level0 row10">10</th>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col0" class="data row10 col0">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col1" class="data row10 col1">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col2" class="data row10 col2">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col3" class="data row10 col3">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col4" class="data row10 col4">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col5" class="data row10 col5">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col6" class="data row10 col6">0</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col7" class="data row10 col7">43</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col8" class="data row10 col8">98</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col9" class="data row10 col9">98</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col10" class="data row10 col10">208</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col11" class="data row10 col11">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col12" class="data row10 col12">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col13" class="data row10 col13">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col14" class="data row10 col14">253</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col15" class="data row10 col15">187</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col16" class="data row10 col16">22</td>
+                        <td id="T_09cd021a_bc13_11eb_9210_0242ac1c0002row10_col17" class="data row10 col17">0</td>
+            </tr>
+    </tbody></table>
+</div>
+</div>
+<hr>
+</section>
+<section id="what-is-a-baseline-model-and-why-do-you-want-one" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-baseline-model-and-why-do-you-want-one">What is a baseline model and why do you want one?</h2>
+<blockquote class="blockquote">
+<p>A simple model that you are confident should perform reasonably well. It should be simple to implement and easy to test</p>
+</blockquote>
+<p><strong>Why do you want to start with a baseline model?</strong> &gt; … without starting with a sensible baseline, it is difficult to know whether your super-fancy models are any good</p>
+<p><strong>How do you build/find one of these models?</strong></p>
+<p>You can search online for folks that have trained models to solve a problem similar to your’s and/or you can start with one of the high-level examples in the fastai docs against your data. There are a bunch covering core vision, text, tabuluar and colab filtering tasks right <a href="https://docs.fast.ai/tutorial.html">here</a>.</p>
+<hr>
+</section>
+<section id="tensors" class="level2">
+<h2 class="anchored" data-anchor-id="tensors">Tensors</h2>
+<p><strong>What is a “Tensor”?</strong></p>
+<p>Like a numpy array, but with GPU support. The data it contains must be of the <strong><em>same type</em></strong> and must conform in <strong><em>rectangular shape</em></strong>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“try to avoid as much as possible writing loops, and replace them by commands that work directly on arrays or tensors”</p>
+</div>
+</div>
+<p>Let’s take a look ..</p>
+<div class="cell" data-outputid="dabab129-c5de-4d68-8e0e-410fe5beada3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>threes <span class="op">=</span> (mnist_path<span class="op">/</span><span class="st">'train/3'</span>).ls().<span class="bu">sorted</span>()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(threes), threes[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>(6131, Path('/root/.fastai/data/mnist_sample/train/3/10.png'))</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="348eec91-90d7-41d9-b8d8-690f31d8932b">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>all_threes <span class="op">=</span> [ tensor(Image.<span class="bu">open</span>(fp)) <span class="cf">for</span> fp <span class="kw">in</span> threes ]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(all_threes), all_threes[<span class="dv">0</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(6131, torch.Size([28, 28]))</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="a9d31cfe-372d-44a8-e636-5182bf17b860">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stacked_threes <span class="op">=</span> torch.stack(all_threes).<span class="bu">float</span>()<span class="op">/</span><span class="dv">255</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>stacked_threes.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>torch.Size([6131, 28, 28])</code></pre>
+</div>
+</div>
+<p>Important information about tensors include its <code>shape</code>, <code>rank</code>, and <code>type</code>:</p>
+<div class="cell" data-outputid="7dd41606-9def-4baa-c38d-07a060860728">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shape = the length of each axis</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape: '</span>, stacked_threes.shape)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rank = the total number of axes</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'rank: '</span>, stacked_threes.ndim)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># type = the datatype of its contents</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'type: '</span>, stacked_threes.dtype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape:  torch.Size([6131, 28, 28])
+rank:  3
+type:  torch.float32</code></pre>
+</div>
+</div>
+<p>Important things you can do to a tensor, <code>view</code>, <code>@</code>, <code>where</code></p>
+<div class="cell" data-outputid="23294969-8b8e-4c89-86b0-3ff0ac3f58db">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># view = change the shape of a tensor without changing its contents</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>stacked_threes_rank_2 <span class="op">=</span> stacked_threes.view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">28</span><span class="op">*</span><span class="dv">28</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'orig. shape: '</span>, stacked_threes.shape)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'make into a rank 2 tensor'</span>, stacked_threes_rank_2.shape)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># @ = operator for matrix multiplication</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'result of matrix multiplication: '</span>, (stacked_threes <span class="op">@</span> torch.randn((<span class="dv">1</span>,<span class="dv">28</span>,<span class="dv">28</span>))).shape)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># where = torch.where(a,b,c) =&gt; [b[i] if a[i] else c[i] for i in range(len(a))] ... see p.167</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>trgs <span class="op">=</span> tensor([<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>])</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> tensor([<span class="fl">0.9</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>])</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mnist_loss(preds, targs):</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> torch.where(targs <span class="op">==</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">-</span> preds, preds).mean()</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'output of where: '</span>, mnist_loss(preds, trgs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>orig. shape:  torch.Size([6131, 28, 28])
+make into a rank 2 tensor torch.Size([6131, 784])
+result of matrix multiplication:  torch.Size([6131, 28, 28])
+output of where:  tensor(0.4333)</code></pre>
+</div>
+</div>
+<p>For an interactive lesson on matrix multiplication, <a href="http://matrixmultiplication.xyz/">this is the best</a>!</p>
+<p>Check out pp.145-148 to learn about “broadcasting”, a critical piece to understanding how you can and should manipulate tensors or numpy arrays!</p>
+<hr>
+</section>
+<section id="stochastic-gradient-descent---how-to-train-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="stochastic-gradient-descent---how-to-train-a-model">Stochastic Gradient Descent - How to train a model</h2>
+<p>Here are the steps:</p>
+<ol type="1">
+<li><p><strong>INITIALIZE</strong> the weights = initializing parameters to random values</p></li>
+<li><p>For each image, <strong>PREDICT</strong> whether it is a 3 or 7</p></li>
+<li><p>Based on the predictions, calculate how good the model is by calculating its <strong>LOSS</strong> (small is good)</p></li>
+<li><p>Calculate the <strong>GRADIENT</strong>, <strong><em>“which measures for each weight how changing the weight would change the loss”</em></strong></p></li>
+<li><p><strong>STEP</strong>, change all the weights based on the gradient</p></li>
+<li><p>Starting at step 2, <strong>REPEAT</strong></p></li>
+<li><p><strong>STOP</strong> when you don’t want to train any longer or the model is good enough</p></li>
+</ol>
+<p>Below, we’ll delve deeper into these steps. We’ll do this by getting a big more into the sample code beginning on p.150 …</p>
+<section id="step-1-initializing-weights" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-initializing-weights">Step 1: Initializing weights</h3>
+<p>One way is presented on p.164:</p>
+<pre><code>def init_params(size, std=1.0) return (torch.randn(size)*std).requires_grad_()
+
+weights = init_params((28*28,1)) #=&gt; raturns a rank 2, 784x1 tensor, with random values</code></pre>
+</section>
+<section id="step-3-calculating-the-loss" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-calculating-the-loss">Step 3: Calculating the loss</h3>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“For continuous data, it’s common to use <em>mean squared error</em>”. In order to understand how to write this, read it right-to-left (e.g., error -&gt; square -&gt; mean)</p>
+</div>
+</div>
+<pre><code>def mse(preds, targs): return ((preds-targs)**2).mean()
+
+# in PyTorch
+loss = F.mse_loss(preds, targs)</code></pre>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Accuracy is a bad loss function</p>
+</div>
+</div>
+<p><strong>Why is accuracy a poor loss function?</strong></p>
+<blockquote class="blockquote">
+<p>“The gradient of a funciton is its slope, or its steepness … how much the value of the function goes up or down, divided by how much we changed the input <code>(y_new - y_old) / (x_new - x_old)</code> …. The problem with [accuracy] is that a small change in weights from <code>x_old</code> to <code>x_new</code> isn’t likely to cause any prediction to change, so <code>(y_new - y_old)</code> will almost always be 0 … **the gradient is 0 almost everywhere. A very small change in the value of a weight will often not change the accuracy at all</p>
+</blockquote>
+<p>A gradient = 0 will mean that the weights aren’t updated.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“We need a loss function that, when our weights result in slightly better predictions, gives us a slightly better loss”</p>
+</div>
+</div>
+<p><strong>Metrics v. Loss</strong></p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… <strong><em>the metric is to drive human understanding</em></strong> and <strong><em>the loss is to drive automated learning</em></strong>.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… focus on these metrics, rather than the loss, when judging the performance of a model.”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… the loss must be a function that has a meaningful derivative … must be reasonably smooth [so] that [it] would respond to small changes in confidence level.</p>
+</div>
+</div>
+<p>The loss function is one that can be optimized using its gradient!</p>
+</section>
+<section id="step-4-calculating-the-gradients" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-calculating-the-gradients">Step 4: Calculating the gradients</h3>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“the gradients <strong><em>tell us how much we have to change each weight</em></strong> to make our model better … allows us to more quickly calculate whether our loss will go up or down we we make those adjustments”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“The gradients <strong><em>tell us only the slope of our function</em></strong>; they don’t tell us exactly how far to adjust the parameters. But they do give us some idea of how far” (large slope = bigger adjustments needed whereas a small slope suggests we are close to the optimal value)</p>
+</div>
+</div>
+<p>“The <strong><em>derivative</em></strong> of a function tells you how much a change in its parameters will change its result”</p>
+<p>Remember: We are calculating a gradient for <em>EVERY</em> weight so we know how to adjust it to make our model better (i.e., lower the LOSS)</p>
+<p><code>requires_grad</code> tells PyTorch “that we want to calculate gradients with respect to that variable at that value”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_function(f, tx<span class="op">=</span><span class="va">None</span>, ty<span class="op">=</span><span class="va">None</span>, title<span class="op">=</span><span class="va">None</span>, <span class="bu">min</span><span class="op">=-</span><span class="dv">2</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">4</span>)):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> torch.linspace(<span class="bu">min</span>,<span class="bu">max</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    fig,ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>figsize)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    ax.plot(x,f(x))</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> tx <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>: ax.set_xlabel(tx)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ty <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>: ax.set_ylabel(ty)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> title <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>: ax.set_title(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we pretend that the below is our <strong>loss function</strong>. Running a number through it, our <strong>weight</strong> will produce a result, an <strong>activation</strong> … in this case, our <strong>loss</strong> (which again is a value telling us how good or bad our model is; smaller = good)</p>
+<div class="cell" data-outputid="29366394-f913-43f9-afb6-72333886b1aa">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>xt <span class="op">=</span> tensor(<span class="op">-</span><span class="fl">1.5</span>).requires_grad_()<span class="op">;</span> xt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>tensor(-1.5000, requires_grad=True)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="de2424d9-7e70-4cc5-a248-6bb890499716">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x): <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> f(xt)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>plot_function(f, <span class="st">'x'</span>, <span class="st">'x**2'</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(xt.detach().numpy(), loss.detach().numpy(), color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Loss: '</span>, loss.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loss:  2.25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/usr/local/lib/python3.7/dist-packages/ipykernel_launcher.py:2: UserWarning: Not providing a value for linspace's steps is deprecated and will throw a runtime error in a future release. This warning will appear only once per process. (Triggered internally at  /pytorch/aten/src/ATen/native/RangeFactories.cpp:23.)
+  </code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-05-23-ajtfb-chapter-4_files/figure-html/cell-13-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<p>So if our parameter is <code>-1.5</code> we get a loss = <code>2.25</code>. Since the direction of our slope is downward (negative), by changing its value to be a bit more positive, we get closer to achieving our goal of <em>minimizing our loss</em></p>
+<div class="cell" data-outputid="cdfc5b45-dbd6-448f-b1f8-1076b7db3dfc">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>xt <span class="op">=</span> tensor(<span class="op">-</span><span class="fl">1.</span>).requires_grad_()<span class="op">;</span> xt</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> f(xt)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plot_function(f, <span class="st">'x'</span>, <span class="st">'x**2'</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>plt.scatter(xt.detach().numpy(), loss.detach().numpy(), color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Loss: '</span>, loss.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loss:  1.0</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-05-23-ajtfb-chapter-4_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>And yes, our loss has improved! If the direction of our slope were upwards (positive), we would conversely want <code>x</code> to be smaller.</p>
+<p><strong><em>BUT</em></strong> now … imagine having to figure all this out for a million parameters. Obviously, we wouldn’t want to try doing this manually as we did before, and thanks to PyTorch, we don’t have too :)</p>
+<p>Remember that by utilizing the <code>requires_grad_()</code> function, we have told PyTorch to keep track of how to compute the gradients based on the other calucations we perform, like running it through our loss function above. Let’s see what that looks like.</p>
+<div class="cell" data-outputid="ac4db2fb-2de7-4ec1-c5b1-e967f1f9c14d">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>xt <span class="op">=</span> tensor(<span class="op">-</span><span class="fl">1.</span>).requires_grad_()<span class="op">;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xt)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> f(xt)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor(-1., requires_grad=True)
+tensor(1., grad_fn=&lt;PowBackward0&gt;)</code></pre>
+</div>
+</div>
+<p>That <code>&lt;PowBackward0&gt;</code> is the gradient function it will use to calculate the gradients when needed. And when we need it, we call the <code>backward</code> method to do so.</p>
+<div class="cell" data-outputid="912bbbb2-662f-4636-dbd1-ef3935c8f808">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>loss.backward()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(xt.grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor(-2.)</code></pre>
+</div>
+</div>
+<p>And the calcuated gradient is exactly what we expected given that to calculate the derivate of <code>x**2</code> is <code>2x</code> … <code>2*-1 = -2</code>.</p>
+<p>Again, the gradient tells us <strong><em>the slope of our function</em></strong>. Here have a a negative/downward slope and so at the very least, we know what moving in that direction will get us closer to the minimum.</p>
+<p>The question is now, <strong>How far do we move in that direction?</strong></p>
+</section>
+<section id="step-5-change-all-the-weights-based-on-the-gradient-using-a-learning-rate" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-change-all-the-weights-based-on-the-gradient-using-a-learning-rate">Step 5: Change all the weights based on the gradient using a “Learning Rate”</h3>
+<p>The <strong>learning rate</strong> (or LR) is a number (usually a small number like 1e-3 or 0.1) that we multiply the gradient by to get a better parameter value. For a given parameter/weight <code>w</code>, the calculation looks like this:</p>
+<p><code>w -= w.grad * lr</code></p>
+<p>Notice we take the negative of the grad * lr operation because we want to move in the opposite direction.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We do this in a <code>with torch.no_grad()</code> so that we don’t calculate the gradient for the gradient calculating operation</p>
+</div>
+</div>
+<div class="cell" data-outputid="9237bae3-589e-4748-f778-e19ca3460649">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> xt <span class="op">-=</span> xt.grad <span class="op">*</span> lr</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a> <span class="bu">print</span>(<span class="st">'New value for xt: '</span>, xt)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a> <span class="bu">print</span>(<span class="st">'New loss: '</span>, f(xt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>New value for xt:  tensor(-0.9800, requires_grad=True)
+New loss:  tensor(0.9604)</code></pre>
+</div>
+</div>
+<p>You can see the loss get smaller which is exactly what we want! “The magnitude of the gradient (i.e., the steepness of the slope) [tells] us how big a step to take.”</p>
+<p>The above operation is also called the <strong>optimization step</strong></p>
+<p>See pp.156-157 for examples of what using a too small or too large LR might look like when training. This could help you troubleshoot things if yours looks wonky.</p>
+<hr>
+</section>
+</section>
+<section id="datasets-dataloaders" class="level2">
+<h2 class="anchored" data-anchor-id="datasets-dataloaders">Datasets &amp; DataLoaders</h2>
+<p>A <strong>Dataset</strong> contains tuples of independent and dependent variables</p>
+<div class="cell" data-outputid="23986db7-b9a7-4fe8-d071-bd266d826eb5">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> L(<span class="bu">enumerate</span>(string.ascii_lowercase))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>ds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>(#26) [(0, 'a'),(1, 'b'),(2, 'c'),(3, 'd'),(4, 'e'),(5, 'f'),(6, 'g'),(7, 'h'),(8, 'i'),(9, 'j')...]</code></pre>
+</div>
+</div>
+<p>A <strong>DataLoader</strong> receives a dataset and gives us back as many <em>mini-batches</em> are necessary based on the <em>batch size</em> we specify</p>
+<div class="cell" data-outputid="da2e2f86-cfd1-4e37-d1db-e17b4554e21b">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dl <span class="op">=</span> DataLoader(ds, bs<span class="op">=</span><span class="dv">6</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(dl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>[(tensor([17,  5,  9, 22, 18, 21]), ('r', 'f', 'j', 'w', 's', 'v')),
+ (tensor([15,  3, 23,  1,  0, 19]), ('p', 'd', 'x', 'b', 'a', 't')),
+ (tensor([ 4, 10, 16, 25,  8,  2]), ('e', 'k', 'q', 'z', 'i', 'c')),
+ (tensor([24, 14,  7, 20, 13, 12]), ('y', 'o', 'h', 'u', 'n', 'm')),
+ (tensor([11,  6]), ('l', 'g'))]</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="measuring-distances" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-distances">Measuring distances</h2>
+<p>See pp.141-142. There are two main ways to measure distances.</p>
+<p><strong>L1 norm</strong> (or mean absolute difference): Take the mean of the absolute value of differences</p>
+<p><code>l1_loss = (tensor_a - tensor_b).abs().mean()</code></p>
+<p><strong>L2 norm</strong> (or root mean squared error, RMSE): Take the square root of the mean of the square differences. The squaring of differences makes everything positive and the square root undoes the squaring.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… the latter will penalize bigger mistakes more heavily than the former (and be more lenient with small mistakes)”</p>
+</div>
+</div>
+<p><code>l2_loss = ((tensor_a - tensor_b) ** 2).sqrt()</code></p>
+<hr>
+</section>
+<section id="important-pytorch-modules" class="level2">
+<h2 class="anchored" data-anchor-id="important-pytorch-modules">Important PyTorch Modules</h2>
+<p>A <strong>module</strong> is a class that inherits from PyTorch’s <code>nn.Module</code> class. “Every PyTorch module knows that <strong>parameters</strong> it has that can be trained.”</p>
+<p>Here are some key ones …</p>
+<section id="nn.linear" class="level3">
+<h3 class="anchored" data-anchor-id="nn.linear"><code>nn.Linear</code></h3>
+<p>Initializes its parameters and performs a linear operation. It contains both the weights and biases in a single class</p>
+<div class="cell" data-outputid="ad3a236a-c759-4142-a815-167d1a55f02c">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>lin1 <span class="op">=</span> nn.Linear(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, <span class="dv">1</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the trainable parameters</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>weights, bias <span class="op">=</span> lin1.parameters()</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weights.shape, bias.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch.Size([1, 784]) torch.Size([1])</code></pre>
+</div>
+</div>
+</section>
+<section id="nn.relu" class="level3">
+<h3 class="anchored" data-anchor-id="nn.relu"><code>nn.ReLU</code></h3>
+<p>Allows us to add a non-linearity between linear classifiers. Simply put, it ensures that all activations passed to it are a positive number with every negative number replaced with a 0.</p>
+<p>Notice below that it has no trainable parameters!</p>
+<div class="cell" data-outputid="03887384-7944-4094-b567-82977c05544f">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_function(F.relu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-05-23-ajtfb-chapter-4_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="d16af357-b5a4-418a-8d1c-d895cc1134fa">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>non_lin1 <span class="op">=</span> nn.ReLU()</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(non_lin1.parameters()))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'using nn.ReLU: '</span>, non_lin1(tensor(<span class="op">-</span><span class="dv">1</span>)), non_lin1(tensor(<span class="dv">4</span>)))</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'using max()'</span>, tensor(<span class="op">-</span><span class="dv">1</span>).<span class="bu">max</span>(tensor(<span class="fl">0.0</span>)), tensor(<span class="dv">4</span>).<span class="bu">max</span>(tensor(<span class="fl">0.0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[]
+using nn.ReLU:  tensor(0) tensor(4)
+using max() tensor(0.) tensor(4.)</code></pre>
+</div>
+</div>
+<p><strong>Why do you want to have non-linearities?</strong></p>
+<blockquote class="blockquote">
+<p>Because “there’s no point in just putting one linear layout directly after another one, because when we multiply things together and then add them up multiple times, that could be replaced by multiplying different things together and adding them up just once …. BUT if we put a non-linear between them … this is no longer true. <strong><em>Now each linear layer is somewhat decoupled from the other ones and can do its own useful work</em></strong>.”</p>
+</blockquote>
+<p>These kind of functions are also called <strong>“activation functions”</strong>, because the only operate and produce activations … there are no trainable parameters.</p>
+</section>
+<section id="nn.sequential" class="level3">
+<h3 class="anchored" data-anchor-id="nn.sequential"><code>nn.Sequential</code></h3>
+<p>A module that can be passed modules, which when called, calls each of those layers in turn.</p>
+<div class="cell" data-outputid="9f6f0d69-49ea-4939-9cf2-6e91cc431d12">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>lin2 <span class="op">=</span> nn.Linear(<span class="dv">1</span>, <span class="dv">10</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>seq_model <span class="op">=</span> nn.Sequential(lin1, non_lin1, lin2)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>seq_params <span class="op">=</span> <span class="bu">list</span>(seq_model.parameters())</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(seq_params))</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> seq_params: <span class="bu">print</span>(p.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4
+torch.Size([1, 784])
+torch.Size([1])
+torch.Size([10, 1])
+torch.Size([10])</code></pre>
+</div>
+</div>
+<p>Why <code>4</code>? Simple, remember that each <code>nn.Linear</code> above has two trainable parameters (the weights and bias), 2+2 = 4.</p>
+<hr>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This chapter walks you through creating a baseline model to a full blown training loop in PyTorch. <strong><em>Read it, and read it again and again!</em></strong> (I do and have).</p>
+<p><strong>Important Vocb/Concepts</strong></p>
+<p><em>Activations</em>: Numbers that are calculated by both linear and non-linear layers</p>
+<p><em>Parameters</em>: Randomly initialized parameters that can be trained.</p>
+<p><em>Neural Network</em>: A chain of linear and non-linear functions your data runs through to produce a result.</p>
+<p><em>Gradient</em>: “The derivative of the loss with respect to some parameter of the model”</p>
+<p><em>Backpropagation</em>: The computing of the gradients “of the loss with respect to all model parameters”</p>
+<p><em>Gradient Descent</em>: “Taking a step in the direction opposite to the gradients to make the model parameters a little bit better”</p>
+<hr>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

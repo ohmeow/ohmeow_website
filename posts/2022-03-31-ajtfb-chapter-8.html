@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2022-03-31">
+<meta name="description" content="This chapter of “Deep Learning for Coders with fastai &amp; PyTorch” moves us away from computer vision to collaborative filtering (think recommendation systems). We’ll explore building these models using the traditional “dot product” approach and also using a neural network, but we’ll begin by covering the idea of “latent factors,” which are both important for colloborative and tabular models. Lets go!">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering">
+<meta property="og:description" content="This chapter of [&quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;](https://github.com/fastai/fastbook) moves us away from computer vision to collaborative filtering (think recommendation systems).">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering">
+<meta name="twitter:description" content="This chapter of [&quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;](https://github.com/fastai/fastbook) moves us away from computer vision to collaborative filtering (think recommendation systems).">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#collaborative-filtering" id="toc-collaborative-filtering" class="nav-link active" data-scroll-target="#collaborative-filtering">Collaborative Filtering</a></li>
+  <li><a href="#what-are-latent-factors-and-what-is-the-problem-they-solve" id="toc-what-are-latent-factors-and-what-is-the-problem-they-solve" class="nav-link" data-scroll-target="#what-are-latent-factors-and-what-is-the-problem-they-solve">What are “latent factors” and what is the problem they solve?</a></li>
+  <li><a href="#collaborative-filtering-from-scratch-dot-product" id="toc-collaborative-filtering-from-scratch-dot-product" class="nav-link" data-scroll-target="#collaborative-filtering-from-scratch-dot-product">Collaborative Filtering: From Scratch (dot product)</a>
+  <ul class="collapse">
+  <li><a href="#tip-1-constrain-your-range-of-predictions-using-sigmoid_range" id="toc-tip-1-constrain-your-range-of-predictions-using-sigmoid_range" class="nav-link" data-scroll-target="#tip-1-constrain-your-range-of-predictions-using-sigmoid_range">Tip 1: Constrain your range of predictions using <code>sigmoid_range</code></a></li>
+  <li><a href="#tip-2-add-a-bias" id="toc-tip-2-add-a-bias" class="nav-link" data-scroll-target="#tip-2-add-a-bias">Tip 2: Add a “bias”</a></li>
+  <li><a href="#tip-3-add-weight-decay" id="toc-tip-3-add-weight-decay" class="nav-link" data-scroll-target="#tip-3-add-weight-decay">Tip 3: Add “weight decay”</a></li>
+  <li><a href="#creating-our-own-embedding-module" id="toc-creating-our-own-embedding-module" class="nav-link" data-scroll-target="#creating-our-own-embedding-module">Creating our own Embedding Module</a></li>
+  </ul></li>
+  <li><a href="#interpreting-embeddings-and-biases" id="toc-interpreting-embeddings-and-biases" class="nav-link" data-scroll-target="#interpreting-embeddings-and-biases">Interpreting Embeddings and Biases</a></li>
+  <li><a href="#collaborative-filtering-using-fastai.collab" id="toc-collaborative-filtering-using-fastai.collab" class="nav-link" data-scroll-target="#collaborative-filtering-using-fastai.collab">Collaborative Filtering: Using <code>fastai.collab</code></a></li>
+  <li><a href="#embedding-distance" id="toc-embedding-distance" class="nav-link" data-scroll-target="#embedding-distance">Embedding Distance</a></li>
+  <li><a href="#bootstrapping" id="toc-bootstrapping" class="nav-link" data-scroll-target="#bootstrapping">Bootstrapping</a></li>
+  <li><a href="#collaborative-filtering-from-scratch-nn" id="toc-collaborative-filtering-from-scratch-nn" class="nav-link" data-scroll-target="#collaborative-filtering-from-scratch-nn">Collaborative Filtering: From Scratch (NN)</a></li>
+  <li><a href="#kwargs-and-delegates" id="toc-kwargs-and-delegates" class="nav-link" data-scroll-target="#kwargs-and-delegates"><code>kwargs</code> and <code>@delegates</code></a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+    <div class="quarto-category">collaborative filtering</div>
+    <div class="quarto-category">latent factors</div>
+    <div class="quarto-category">embeddings</div>
+    <div class="quarto-category">recommender systems</div>
+    <div class="quarto-category">recsys</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This chapter of <a href="https://github.com/fastai/fastbook">“Deep Learning for Coders with fastai &amp; PyTorch”</a> moves us away from computer vision to collaborative filtering (think recommendation systems). We’ll explore building these models using the traditional “dot product” approach and also using a neural network, but we’ll begin by covering the idea of “latent factors,” which are both important for colloborative and tabular models. Lets go!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 31, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<section id="collaborative-filtering" class="level2">
+<h2 class="anchored" data-anchor-id="collaborative-filtering">Collaborative Filtering</h2>
+<p><strong>What is it?</strong></p>
+<p>Think recommender systems which “look at which products the current user has used or liked, find other users who have used or liked similar products, and then recommend other products that those users have used or liked.”</p>
+<p>The key to making collaborative filtering and tabular models, is the idea of <strong>latent factors</strong>.</p>
+<hr>
+</section>
+<section id="what-are-latent-factors-and-what-is-the-problem-they-solve" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-latent-factors-and-what-is-the-problem-they-solve">What are “latent factors” and what is the problem they solve?</h2>
+<p>Remember that models can only work with numbers, and while something like “price” can be used to accurately reflect the value of a house, how do we represent numerically concepts like the day of week, the make/model of a car, or the job function of an employee?</p>
+<p>The answer is with latent factors.</p>
+<p>In a nutshell, latent factors are numbers associated to a thing (e.g., day of week, model of car, job function, etc…) that are <strong>learnt</strong> during model training. At the end this process, we have numbers that provide a representation of the thing we can use and explore in a variety of ways. These factors are called “latent” because we don’t know what they are beforehand.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The learnt numbers for “a thing” may vary to one degree or another based on the data used during training and your objective. For example, what “Sunday” means may be represented differently when you are trying to forecast how many bottle of scotch will be sold that day than if you were trying to predict the number of options that will be traded for a certain equity.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Latent factors allows us to learn a numerical representation of a thing (especially those for which a single number would not do it justice)</p>
+</div>
+</div>
+<p>If we had something like this …</p>
+<p><img src="https://raw.githubusercontent.com/fastai/fastbook/035016fb0cc826542aef77864f36df88a5055d06/images/att_00040.png" class="img-fluid"></p>
+<p>… how could we predict what users would rate movies they have yet to see? Let’s take a look.</p>
+<div class="cell" data-outputid="a623b75c-6bc4-4dd9-f0c6-1d39b12d5586" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.collab <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.ML_100k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="4931584" class="" max="4924029" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.15% [4931584/4924029 00:00&lt;00:00]
+    </div>
+    
+</div>
+</div>
+<div class="cell" data-outputid="31b36fed-344e-4dfa-93f0-9a62b85554ab" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ratings_df <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">"u.data"</span>, delimiter<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"user"</span>, <span class="st">"movie"</span>, <span class="st">"rating"</span>, <span class="st">"timestamp"</span>])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ratings_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+
+  <div id="df-c1b3a000-7844-4862-8c52-1d63609e0c57">
+    <div class="colab-df-container">
+      <div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user</th>
+      <th>movie</th>
+      <th>rating</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>196</td>
+      <td>242</td>
+      <td>3</td>
+      <td>881250949</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>186</td>
+      <td>302</td>
+      <td>3</td>
+      <td>891717742</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22</td>
+      <td>377</td>
+      <td>1</td>
+      <td>878887116</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>244</td>
+      <td>51</td>
+      <td>2</td>
+      <td>880606923</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>166</td>
+      <td>346</td>
+      <td>1</td>
+      <td>886397596</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-c1b3a000-7844-4862-8c52-1d63609e0c57')" title="Convert this dataframe to an interactive table." style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-c1b3a000-7844-4862-8c52-1d63609e0c57 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-c1b3a000-7844-4862-8c52-1d63609e0c57');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
+</div>
+</div>
+<p>How do we numerically represent user <code>196</code> and movie <code>242</code>? With latent factors we don’t have to know, we can have such a representation learnt using SGD.</p>
+<p><strong>How do we set this up?</strong></p>
+<ol type="1">
+<li><p>“… randomly initialized some parameters [which] will be a set of latent factors for each user and movie.”</p></li>
+<li><p>“… to calculate our predictions [take] the <strong>dot product</strong> of each movie with each user.</p></li>
+<li><p>“… to calculate our loss … let’s pick mean squared error for now, since that is one reasonable way to represent the accuracy of a prediction”</p></li>
+</ol>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>dot product</strong> = element-wise multiplication of two vectors summed up.</p>
+</div>
+</div>
+<p>With this in place, “we can optimize our parameters (the latent factors) using stochastic gradient descent, such as to minimize the loss.” In a picture, it looks like this …</p>
+<p><img src="https://raw.githubusercontent.com/fastai/fastbook/035016fb0cc826542aef77864f36df88a5055d06/images/att_00041.png" class="img-fluid"></p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The parameters we want to optimize <strong><em>are</em></strong> the latent factors!</p>
+</div>
+</div>
+<div class="cell" data-outputid="9f1c3b53-f3c0-4aa1-8642-595c66806f65" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>movies_df <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">"u.item"</span>, delimiter<span class="op">=</span><span class="st">"|"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"movie"</span>, <span class="st">"title"</span>], usecols<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), encoding<span class="op">=</span><span class="st">"latin-1"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>movies_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+
+
+  <div id="df-6bf302d2-df33-49bd-8119-d9f80286a1e0">
+    <div class="colab-df-container">
+      <div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>movie</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Toy Story (1995)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>GoldenEye (1995)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Four Rooms (1995)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Get Shorty (1995)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Copycat (1995)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-6bf302d2-df33-49bd-8119-d9f80286a1e0')" title="Convert this dataframe to an interactive table." style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-6bf302d2-df33-49bd-8119-d9f80286a1e0 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-6bf302d2-df33-49bd-8119-d9f80286a1e0');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
+</div>
+</div>
+<div class="cell" data-outputid="9276de48-07c6-482c-8a48-b5cf5f9c09b4" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ratings_df <span class="op">=</span> ratings_df.merge(movies_df)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ratings_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+
+  <div id="df-c2acc2e3-0500-49b3-8024-c4862062b253">
+    <div class="colab-df-container">
+      <div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user</th>
+      <th>movie</th>
+      <th>rating</th>
+      <th>timestamp</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>196</td>
+      <td>242</td>
+      <td>3</td>
+      <td>881250949</td>
+      <td>Kolya (1996)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>63</td>
+      <td>242</td>
+      <td>3</td>
+      <td>875747190</td>
+      <td>Kolya (1996)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>226</td>
+      <td>242</td>
+      <td>5</td>
+      <td>883888671</td>
+      <td>Kolya (1996)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>154</td>
+      <td>242</td>
+      <td>3</td>
+      <td>879138235</td>
+      <td>Kolya (1996)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>306</td>
+      <td>242</td>
+      <td>5</td>
+      <td>876503793</td>
+      <td>Kolya (1996)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-c2acc2e3-0500-49b3-8024-c4862062b253')" title="Convert this dataframe to an interactive table." style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-c2acc2e3-0500-49b3-8024-c4862062b253 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-c2acc2e3-0500-49b3-8024-c4862062b253');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
+</div>
+</div>
+<div class="cell" data-outputid="6f048f20-1d89-4ae6-ecf8-ccf5920d42f0" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> CollabDataLoaders.from_df(ratings_df, item_name<span class="op">=</span><span class="st">"title"</span>, user_name<span class="op">=</span><span class="st">"user"</span>, rating_name<span class="op">=</span><span class="st">"rating"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user</th>
+      <th>title</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>647</td>
+      <td>Men in Black (1997)</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>823</td>
+      <td>Twelve Monkeys (1995)</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>894</td>
+      <td>Twelve Monkeys (1995)</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>278</td>
+      <td>In &amp; Out (1997)</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>234</td>
+      <td>Pinocchio (1940)</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>823</td>
+      <td>Phenomenon (1996)</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>268</td>
+      <td>Nell (1994)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>293</td>
+      <td>Mrs. Doubtfire (1993)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>699</td>
+      <td>Rock, The (1996)</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>405</td>
+      <td>Best of the Best 3: No Turning Back (1995)</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p><strong>So how do we create these latent factors for our users and movies?</strong></p>
+<p>“We can represent our movie and user latent factor tables as simple matrices” that we can index into. But as looking up in an index is not something our models know how to do, we need to use a special PyTorch layer that will do this for us (and more efficiently than using a one-hot-encoded, OHE, vector to do the same).</p>
+<p>And that layer is called an <strong>embedding</strong>. It “indexes into a vector using an integer, but has its derivative calcuated in such a way that it is identical to what it would have been if it had done a matric multiplication with a one-hot-encoded vector.”</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An embedding is the “thing that you multiply the one-hot-encoded matrix by (or, using the computational shortcut, inex into directly)”</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="collaborative-filtering-from-scratch-dot-product" class="level2">
+<h2 class="anchored" data-anchor-id="collaborative-filtering-from-scratch-dot-product">Collaborative Filtering: From Scratch (dot product)</h2>
+<p>A <strong>dot product</strong> approach</p>
+<div class="cell" data-outputid="937db369-6bd7-4d0d-8627-db77619f72b9" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n_users <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">"user"</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n_movies <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">"title"</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>n_factors <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(n_users, n_movies, n_factors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>944 1665 5</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DotProduct(Module):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_users, n_movies, n_factors):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.users_emb <span class="op">=</span> Embedding(n_users, n_factors)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.movies_emb <span class="op">=</span> Embedding(n_movies, n_factors)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, inp):</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    users <span class="op">=</span> <span class="va">self</span>.users_emb(inp[:,<span class="dv">0</span>])</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    movies <span class="op">=</span> <span class="va">self</span>.movies_emb(inp[:,<span class="dv">1</span>])</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (users <span class="op">*</span> movies).<span class="bu">sum</span>(dim<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="7653f554-3edc-484c-f06e-ed508e3c6506" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> DotProduct(n_users<span class="op">=</span>n_users, n_movies<span class="op">=</span>n_movies, n_factors<span class="op">=</span>n_factors)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>MSELossFlat())</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>4.443892</td>
+      <td>3.739447</td>
+      <td>00:17</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1.088801</td>
+      <td>1.125219</td>
+      <td>00:12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.960021</td>
+      <td>0.994215</td>
+      <td>00:09</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.917181</td>
+      <td>0.959309</td>
+      <td>00:09</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.903602</td>
+      <td>0.957268</td>
+      <td>00:09</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<section id="tip-1-constrain-your-range-of-predictions-using-sigmoid_range" class="level3">
+<h3 class="anchored" data-anchor-id="tip-1-constrain-your-range-of-predictions-using-sigmoid_range">Tip 1: Constrain your range of predictions using <code>sigmoid_range</code></h3>
+<p>“… to make this model a little bit better … force those predictions to be between 0 and 5. <strong>One thing we discovered empirically is that it’s better to have the range go a little bit over 5</strong>, so we use (0, 5.5)”</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DotProduct(Module):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_users, n_movies, n_factors, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">5.5</span>)):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.users_emb <span class="op">=</span> Embedding(n_users, n_factors)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.movies_emb <span class="op">=</span> Embedding(n_movies, n_factors)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.y_range <span class="op">=</span> y_range</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, inp):</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    users <span class="op">=</span> <span class="va">self</span>.users_emb(inp[:,<span class="dv">0</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    movies <span class="op">=</span> <span class="va">self</span>.movies_emb(inp[:,<span class="dv">1</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sigmoid_range((users <span class="op">*</span> movies).<span class="bu">sum</span>(dim<span class="op">=</span><span class="dv">1</span>), <span class="op">*</span><span class="va">self</span>.y_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="ea8ca27d-545e-48bd-906c-a2cf3988f9dc" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> DotProduct(n_users<span class="op">=</span>n_users, n_movies<span class="op">=</span>n_movies, n_factors<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>MSELossFlat())</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.012296</td>
+      <td>0.994128</td>
+      <td>00:09</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.855805</td>
+      <td>0.903300</td>
+      <td>00:09</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.707656</td>
+      <td>0.875159</td>
+      <td>00:09</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.482094</td>
+      <td>0.879115</td>
+      <td>00:09</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.369521</td>
+      <td>0.884585</td>
+      <td>00:09</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="tip-2-add-a-bias" class="level3">
+<h3 class="anchored" data-anchor-id="tip-2-add-a-bias">Tip 2: Add a “bias”</h3>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>bias</strong> allows your model to learn an overall representation of a thing, rather than just a bunch of characteristics.</p>
+</div>
+</div>
+<p>“One obvious missing piece is that some users are just more positive or negative in their recommendations than others, and some movies are just plain better or worse than others. But in our dot product representation, we do not have any way to encode either of these things … **because at this point we have only weights; we don’t have biases”</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DotProduct(Module):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_users, n_movies, n_factors, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">5.5</span>)):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.users_emb <span class="op">=</span> Embedding(n_users, n_factors)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.users_bias <span class="op">=</span> Embedding(n_users, <span class="dv">1</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.movies_emb <span class="op">=</span> Embedding(n_movies, n_factors)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.movies_bias <span class="op">=</span> Embedding(n_movies, <span class="dv">1</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.y_range <span class="op">=</span> y_range</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, inp):</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># embeddings</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    users <span class="op">=</span> <span class="va">self</span>.users_emb(inp[:,<span class="dv">0</span>])</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    movies <span class="op">=</span> <span class="va">self</span>.movies_emb(inp[:,<span class="dv">1</span>])</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calc our dot product and add in biases </span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (important to include "keepdim=True" =&gt; res.shape = (64,1), else will get rid of dims equal to 1 and you just get (64))</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> (users <span class="op">*</span> movies).<span class="bu">sum</span>(dim<span class="op">=</span><span class="dv">1</span>, keepdim<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    res <span class="op">+=</span> <span class="va">self</span>.users_bias(inp[:,<span class="dv">0</span>]) <span class="op">+</span> <span class="va">self</span>.movies_bias(inp[:,<span class="dv">1</span>])</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return our target constrained prediction</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sigmoid_range(res, <span class="op">*</span><span class="va">self</span>.y_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="15b23a24-1404-4788-c7a0-0488ec51fa9a" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> DotProduct(n_users<span class="op">=</span>n_users, n_movies<span class="op">=</span>n_movies, n_factors<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>MSELossFlat())</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.925160</td>
+      <td>0.938387</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.807021</td>
+      <td>0.863466</td>
+      <td>00:11</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.607999</td>
+      <td>0.871146</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.412089</td>
+      <td>0.897263</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.294376</td>
+      <td>0.905192</td>
+      <td>00:10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="tip-3-add-weight-decay" class="level3">
+<h3 class="anchored" data-anchor-id="tip-3-add-weight-decay">Tip 3: Add “weight decay”</h3>
+<p>Adding in bias has made are model more complex and therefore more prone to overfitting (which seems to be happening here).</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Overfitting</strong> is where your validation stops improving and actually starts to get worse.</p>
+</div>
+</div>
+<p><strong>What do you do when your model overfits?</strong></p>
+<p>We can solve this via data augmentation or by including one or more forms of <strong>regularization</strong> (e.g., a means to “encourage the weights to be as small as possible”.</p>
+<p><strong>What is “weight decay” (aka “L2 regularization”)?</strong></p>
+<p>“… consists of adding to your loss function the sum of all the weights squared.”</p>
+<p><strong>Why do that?</strong></p>
+<p>“Because when we compute the gradients, it will add a contribution to them that will encourage the weights to be as small as possible.”</p>
+<p><strong>Why would this prevent overfitting?</strong></p>
+<p>“The idea is that the larger the coefficients are, the sharper canyons we will have in the loss function…. <strong>Letting our model learn high parameters might cause it to fit all the data points in the training set with an overcomplex function that has very sharp changes, which will lead to overfitting</strong>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Limiting our weights from growing too much is going to hinder the training of the model <strong><em>but</em></strong> it will yield a state where it generalizes better”</p>
+</div>
+</div>
+<p><strong>How do we add weight decay into are training?</strong></p>
+<p>“… <code>wd</code> is a parameter that **controls that sum of squares we add to our loss” as such:</p>
+<div class="cell" data-outputid="f59928fa-8df1-4991-98ff-49a61e96a2db" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> DotProduct(n_users<span class="op">=</span>n_users, n_movies<span class="op">=</span>n_movies, n_factors<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>MSELossFlat())</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>, wd<span class="op">=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.934345</td>
+      <td>0.946092</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.862484</td>
+      <td>0.866700</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.715633</td>
+      <td>0.829172</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.597503</td>
+      <td>0.817248</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.473108</td>
+      <td>0.817725</td>
+      <td>00:10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="creating-our-own-embedding-module" class="level3">
+<h3 class="anchored" data-anchor-id="creating-our-own-embedding-module">Creating our own Embedding Module</h3>
+<p>pp.265-267 show how to write your own <code>nn.Module</code> that does what <code>Embedding</code> does. Here are some of the important bits to pay attention too …</p>
+<p>“… optimizers require that they can get all the parameters of a module from the module’s <code>parameters</code> method, so make sure to tell <code>nn.Module</code> that you want to treat a tensor as a parameters using the <code>nn.Parameter</code> class like so:</p>
+<pre><code>class T(Module):
+  def __init__(self):
+    self.a = nn.Parameter(torch.ones(3))</code></pre>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“All PyTorch modules use <code>nn.Parameter</code> for any trainable parameters.</p>
+</div>
+</div>
+<pre><code>class T(Module):
+  def __init__(self):
+    self.a = nn.Liner(1, 3, bias=False)
+
+t = T()
+t.parameters()   #=&gt; will show all the weights of your nn.Linear
+type(t.a.weight) #=&gt; torch.nn.parameter.Parameter</code></pre>
+<p>Now, given a method like this …</p>
+<pre><code>def create_params(size):
+  return nn.Parameter(torch.zeros(*size).normal_(0, 0.01))</code></pre>
+<p>… we can create randomly initialized parameters, included parameters for our latent factors and biases like this:</p>
+<pre><code>self.users_emb = create_params([n_users, n_factors])
+self.users_bias = create_params([n_users])</code></pre>
+<hr>
+</section>
+</section>
+<section id="interpreting-embeddings-and-biases" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-embeddings-and-biases">Interpreting Embeddings and Biases</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… interesting to see what parameters it has discovered … easiest to interpret are the biases”</p>
+</div>
+</div>
+<div class="cell" data-outputid="53fd4723-3c65-497c-8695-d3b6d93bdf33" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>movie_bias <span class="op">=</span> learn.model.movies_bias.weight.squeeze() <span class="co"># =&gt; squeeze will get rid of all the single dimensions</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> movie_bias.argsort()[:<span class="dv">5</span>]                       <span class="co"># =&gt; "argsort()" returns the indices sorted by value</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">"title"</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]               <span class="co"># =&gt; look up the movie title in dls.classes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>['Children of the Corn: The Gathering (1996)',
+ 'Big Bully (1996)',
+ 'Showgirls (1995)',
+ 'Lawnmower Man 2: Beyond Cyberspace (1996)',
+ 'Free Willy 3: The Rescue (1997)']</code></pre>
+</div>
+</div>
+<p>“Think about what this means …. It tells us not just whether a movie is of a kind that people tend not to enjoy watching, but that people tend to not like watching it even if it is of a kind that they would otherwise enjoy!”</p>
+<p>To get the movies by highest bias:</p>
+<div class="cell" data-outputid="fbc198bd-cbd6-4835-a631-386661c1c2bb" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> movie_bias.argsort(descending<span class="op">=</span><span class="va">True</span>)[:<span class="dv">5</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">"title"</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>['Titanic (1997)',
+ "Schindler's List (1993)",
+ 'As Good As It Gets (1997)',
+ 'L.A. Confidential (1997)',
+ 'Shawshank Redemption, The (1994)']</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To visualize embeddings with many factors, you “can pull out the most important underlying directions” using a dimensionality reduction model like <strong>principal components analysis</strong> (PCA).</p>
+</div>
+</div>
+<p>See p.268 and these three StatQuest videos for more on how PCA works (btw, StatQuest is one of my top data science references so consider subscribing to his channel). <a href="https://www.youtube.com/watch?v=HMOI_lkzW08&amp;t=13s">Video 1</a>, <a href="https://www.youtube.com/watch?v=FgakZw6K1QQ">Video 2</a>, and <a href="https://www.youtube.com/watch?v=oRvgq966yZg">Video 3</a></p>
+<hr>
+</section>
+<section id="collaborative-filtering-using-fastai.collab" class="level2">
+<h2 class="anchored" data-anchor-id="collaborative-filtering-using-fastai.collab">Collaborative Filtering: Using <code>fastai.collab</code></h2>
+<div class="cell" data-outputid="ad3802a4-1ebd-4e6f-e782-fc03371cf3dd" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> collab_learner(dls, n_factors<span class="op">=</span><span class="dv">50</span>, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">5.5</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>, wd<span class="op">=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.950606</td>
+      <td>0.930099</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.834664</td>
+      <td>0.870282</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.723968</td>
+      <td>0.833274</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.573679</td>
+      <td>0.819824</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.489258</td>
+      <td>0.820394</td>
+      <td>00:10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-outputid="a1f0b69e-a702-4a17-845b-ce8c42511ccc" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>learn.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>EmbeddingDotBias(
+  (u_weight): Embedding(944, 50)
+  (i_weight): Embedding(1665, 50)
+  (u_bias): Embedding(944, 1)
+  (i_bias): Embedding(1665, 1)
+)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="3dbd8c91-358a-4016-a869-9eda35a10e3a" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>movie_bias <span class="op">=</span> learn.model.i_bias.weight.squeeze() </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> movie_bias.argsort()[:<span class="dv">5</span>]                   </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">"title"</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]              </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>['Children of the Corn: The Gathering (1996)',
+ 'Showgirls (1995)',
+ 'Barb Wire (1996)',
+ 'Island of Dr. Moreau, The (1996)',
+ 'Cable Guy, The (1996)']</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="embedding-distance" class="level2">
+<h2 class="anchored" data-anchor-id="embedding-distance">Embedding Distance</h2>
+<p>“Another thing we can do with these learned embeddings is to look at distance.”</p>
+<p><strong>Why do this?</strong></p>
+<p>“If there were two movies that were nearly identical, their embedding vectors would also have to be nearly identical …. There is a more general idea here: movie similairty can be defined by the similarity of users who like those movies. And that directly means that the distance between two movies’ embedding vectors can define that similarity”</p>
+<div class="cell" data-outputid="2661298b-57cc-4196-94ba-037115d57a3a" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>movie_factors <span class="op">=</span> learn.model.i_weight.weight</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> dls.classes[<span class="st">"title"</span>].o2i[<span class="st">"Silence of the Lambs, The (1991)"</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>dists <span class="op">=</span> nn.CosineSimilarity(dim<span class="op">=</span><span class="dv">1</span>)(movie_factors, movie_factors[idx][<span class="va">None</span>])</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>targ_idx <span class="op">=</span> dists.argsort(descending<span class="op">=</span><span class="va">True</span>)[<span class="dv">1</span>]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>dls.classes[<span class="st">"title"</span>][targ_idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>'Dial M for Murder (1954)'</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="bootstrapping" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrapping">Bootstrapping</h2>
+<p>The <strong>bootstrapping problem</strong> asks how we can make recommendations when we have a new user for which no data exists or a new product/movie for which no reviews have been made?</p>
+<p>The recommended approach “is to <strong>use a tabular model based on user metadata to construct your initial embedding vector.</strong> When a new user signs up, think about what questions you could ask to help you understand their tastes. Then you can create a model in which <strong>the dependent variable is a user’s embedding vector</strong>, and <strong>the independent variables are the results of the questions that you ask them, along with their signup metadata</strong>.”</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Be aware of the “problem of <strong>representation bias</strong>” (e.g., where a few very active users end up skewing the results).</p>
+</div>
+</div>
+<p>See p.271 for more information on how collaborative models may contribute to positive feedback loops and how humans can mitigate by being part of the process.</p>
+<hr>
+</section>
+<section id="collaborative-filtering-from-scratch-nn" class="level2">
+<h2 class="anchored" data-anchor-id="collaborative-filtering-from-scratch-nn">Collaborative Filtering: From Scratch (NN)</h2>
+<p>A <strong>neural network</strong> approach requires we “take the results of the embedding lookup and concatenate those activations together. This gives us a matrix we can then pass through linear layers and nonlinearities…”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because “we’ll be concatenating the embedding matrices, rather than taking their dot product, <strong>the two embedding matrices can have different sizes (different numbers of latent factors)</strong>”</p>
+</div>
+</div>
+<p><strong>How do we determine the number of latent factors a “thing” should have?</strong></p>
+<p>Use <code>get_emb_sz</code> to return “the recommended sizes for embedding matrices for your data, **based on a heuristic that fast.ai has found tends to work well in practice”</p>
+<div class="cell" data-outputid="91767a50-ee06-401a-f137-59511a3f9aaf" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>embs <span class="op">=</span> get_emb_sz(dls)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>embs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>[(944, 74), (1665, 102)]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CollabNN(Module):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, user_sz, item_sz, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), n_act<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.user_factors <span class="op">=</span> Embedding(<span class="op">*</span>user_sz)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.item_factors <span class="op">=</span> Embedding(<span class="op">*</span>item_sz)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential(</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>      nn.Linear(user_sz[<span class="dv">1</span>] <span class="op">+</span> item_sz[<span class="dv">1</span>], n_act),</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>      nn.ReLU(),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>      nn.Linear(n_act, <span class="dv">1</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.y_range <span class="op">=</span> y_range</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    embs <span class="op">=</span> <span class="va">self</span>.user_factors(x[:,<span class="dv">0</span>]), <span class="va">self</span>.item_factors(x[:,<span class="dv">1</span>])</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="va">self</span>.layers(torch.cat(embs, dim<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sigmoid_range(x, <span class="op">*</span><span class="va">self</span>.y_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="21ff26d5-8b5a-4c64-fb8f-b34ed6e0c8d9" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> CollabNN(<span class="op">*</span>embs)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>MSELossFlat())</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>, wd<span class="op">=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>10.594646</td>
+      <td>10.379806</td>
+      <td>00:11</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>10.368298</td>
+      <td>10.379800</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>10.565783</td>
+      <td>10.379800</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>10.439667</td>
+      <td>10.379800</td>
+      <td>00:10</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>10.356900</td>
+      <td>10.379800</td>
+      <td>00:10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>If we use the <code>collab_learner</code>, will will calculate our embedding sizes for us and also give us the option of defining how many more layers we want to tack on via the <code>layers</code> parameter. All we have to do is tell it to <code>use_nn=True</code> to use a NN rather than the default dot-product model.</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> collab_learner(dls, use_nn<span class="op">=</span><span class="va">True</span>, y_range<span class="op">=</span>(<span class="dv">0</span>,<span class="fl">0.5</span>), layers<span class="op">=</span>[<span class="dv">100</span>,<span class="dv">50</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="ec5fa2fe-bb33-486d-a81c-ca1920f034db" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>learn.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>EmbeddingNN(
+  (embeds): ModuleList(
+    (0): Embedding(944, 74)
+    (1): Embedding(1665, 102)
+  )
+  (emb_drop): Dropout(p=0.0, inplace=False)
+  (bn_cont): BatchNorm1d(0, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (layers): Sequential(
+    (0): LinBnDrop(
+      (0): Linear(in_features=176, out_features=100, bias=False)
+      (1): ReLU(inplace=True)
+      (2): BatchNorm1d(100, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): LinBnDrop(
+      (0): Linear(in_features=100, out_features=50, bias=False)
+      (1): ReLU(inplace=True)
+      (2): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): LinBnDrop(
+      (0): Linear(in_features=50, out_features=1, bias=True)
+    )
+    (3): SigmoidRange(low=0, high=0.5)
+  )
+)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="b03e1805-c8b7-4080-ae11-edce84b9d874" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">5e-3</span>, wd<span class="op">=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>10.274985</td>
+      <td>10.379872</td>
+      <td>00:12</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>10.555515</td>
+      <td>10.379800</td>
+      <td>00:12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>10.436097</td>
+      <td>10.379800</td>
+      <td>00:12</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>10.481320</td>
+      <td>10.379800</td>
+      <td>00:12</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>10.400410</td>
+      <td>10.379800</td>
+      <td>00:12</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p><strong>Why use a neural network (NN)?</strong></p>
+<p>Because “we can now directly incorporate other user and movie information, date and time information, or any other information that may be relevant to the recommendation.”</p>
+<p>We’ll see this when we look at <code>TabularModel</code> (of which <code>EmbeddingNN</code> is a subclass with no continuous data [<code>n_cont=0</code>] and an <code>out_sz=1</code>.</p>
+<hr>
+</section>
+<section id="kwargs-and-delegates" class="level2">
+<h2 class="anchored" data-anchor-id="kwargs-and-delegates"><code>kwargs</code> and <code>@delegates</code></h2>
+<p>Some helpful notes for both are included on pp.273-274. In short …</p>
+<p><code>**kwargs</code>:</p>
+<ol type="1">
+<li><code>**kwargs</code> as a <strong>parameter</strong> = “put any additional keyword arguments into a dict called <code>kwargs</code>”</li>
+<li><code>**kwargs</code> passed as an <strong>argument</strong> = “insert all key/value pairs in the <code>kwargs</code> dict as named arguments here.”</li>
+</ol>
+<p><code>@delegates</code>:</p>
+<p>“… fastai resolves [the issue of using <code>**kwargs</code> to avoid having to write out all the arguments of the base class] by providing a special <code>@delegates</code> decorator, which automatically <strong>changes the signature of the class or function</strong> … to insert all of its keyword arguments into the signature.”</p>
+<hr>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

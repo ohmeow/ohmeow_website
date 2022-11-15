@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2021-06-03">
+<meta name="description" content="Its the image classification chapter of &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;! We’ll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model’s predictions. So without further adieu, lets go …">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification">
+<meta property="og:description" content="Its the image classification chapter of [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.com/fastai/fastbook)!">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification">
+<meta name="twitter:description" content="Its the image classification chapter of [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.com/fastai/fastbook)!">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#multiclass-vs-multi-label-classification" id="toc-multiclass-vs-multi-label-classification" class="nav-link active" data-scroll-target="#multiclass-vs-multi-label-classification">Multiclass vs Multi-label classification …</a></li>
+  <li><a href="#defining-your-datablock" id="toc-defining-your-datablock" class="nav-link" data-scroll-target="#defining-your-datablock">Defining your DataBlock</a></li>
+  <li><a href="#train-a-model" id="toc-train-a-model" class="nav-link" data-scroll-target="#train-a-model">Train a model</a>
+  <ul class="collapse">
+  <li><a href="#train-a-model-1" id="toc-train-a-model-1" class="nav-link" data-scroll-target="#train-a-model-1">Train a model</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+    <div class="quarto-category">multiclass classification</div>
+    <div class="quarto-category">computer vision</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Its the image classification chapter of <a href="https://github.com/fastai/fastbook">"Deep Learning for Coders with fastai &amp; PyTorch"</a>! We’ll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model’s predictions. So without further adieu, lets go …
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 3, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<hr>
+<section id="multiclass-vs-multi-label-classification" class="level2">
+<h2 class="anchored" data-anchor-id="multiclass-vs-multi-label-classification">Multiclass vs Multi-label classification …</h2>
+<p>Yah, it can be confusing!</p>
+<p>Anyhow, <strong>multiclass classification</strong> is all about predicting a SINGLE CLASS an object belongs to from a list of two or more classes. It can be a simple as predicting whether an image is a dog or a cat, or as complex as predicting the breed of dog from amongst dozens of potential breeds.</p>
+<p><strong>Multi-label classification</strong> (covered in the next chapter) involves predicting MULTIPLE CLASSES to which an object belongs; it can belong to one, some, all, or even none of those classes. For example, you may be looking at satellite photos from which you need to predict the different kinds of terrain (your classes) each contains.</p>
+<hr>
+</section>
+<section id="defining-your-datablock" class="level2">
+<h2 class="anchored" data-anchor-id="defining-your-datablock">Defining your DataBlock</h2>
+<p>Again, the <code>DataBlock</code> is a blueprint for everything required to turn your raw data (images and labels) into something that can be fed through a neural network (DataLoaders with a numerical representation of both your images and labels). Below is the one presented in this chapter.</p>
+<div class="cell" data-outputid="b42b53e3-16a2-47a2-bad3-bb95a6738f05">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.PETS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                   get_items<span class="op">=</span>get_image_files, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>using_attr(RegexLabeller(<span class="vs">r'(.+)_\d+.jpg$'</span>), <span class="st">'name'</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>RandomSplitter(seed<span class="op">=</span><span class="dv">42</span>),   </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">460</span>), </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms(size<span class="op">=</span><span class="dv">224</span>, min_scale<span class="op">=</span><span class="fl">.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Let’s break down our blueprint</strong>!</p>
+<ol type="1">
+<li>Define the data types for our inputs and targets via the <code>blocks</code> argument.</li>
+</ol>
+<p>This is defined as a tuple, where we tell our <code>DataBlock</code> that the imputs are images and our targets are a single category (or class or label).</p>
+<ol start="2" type="1">
+<li>Define how we’re going to get our raw data via <code>get_items</code>.</li>
+</ol>
+<p>We use <code>get_image_files</code> because we are getting image files from the filesystem. When we kick off the <code>DataBlock</code> to build our <code>DataLoaders</code>, we’ll pass in the path to our images which will in turn be passed to <code>get_image_files</code> to pull the raw data.</p>
+<ol start="3" type="1">
+<li>Define how, from the raw data, we’re going to create our labels (e.g., the classes for each image) via <code>get_y</code>.</li>
+</ol>
+<p>In this case, we don’t need to define a <code>get_x</code> because <code>get_items</code> gets the x’s already. However, since we are working with filenames from which we want to define our labels, we do need this fancy <code>get_y</code> function above. <code>using_attr</code> tells the <code>RegexLabeller</code> what attribute of our data to apply itself too, and since our data is filenames, we tell it to use the <code>.name</code> property of each filename object as the thing the <code>RegexLabeller</code> acts against. That will give us our target class.</p>
+<ol start="4" type="1">
+<li><p>Define how we’re going to create our <a href="https://www.fast.ai/2017/11/13/validation-sets/">validation dataset</a> via <code>splitter</code></p></li>
+<li><p>Define things we want to do for each item via <code>item_tfms</code></p></li>
+</ol>
+<p><code>item_tfms</code> are transforms, or things we want to do, to each input individually! Above we only have one which says, “Resize each image to 460 max width/height” one by one <em>when we grab it</em>. For individual images to be collated into mini-batches, they have to be the same size … thus we do this here and not below.</p>
+<ol start="6" type="1">
+<li>Define things we want to do for each mini-batch of items via <code>batch_tfms</code></li>
+</ol>
+<p><code>batch_tfms</code> are transforms, or things we want to do, <em>to a mini-batch of inputs</em> at once <em>on the GPU</em>. <code>aug_transforms</code> includes a bunch that have proven to be effective in computer vision tasks. With the parameters we’re passing into it above (<code>size=224, min_scale=.75</code>), we’re saying, “Take the mini-batch of images here and randomly crop the 460x460 images to be 224x224 that captures at least 3/4 of the image”. See here for more info on <a href="https://docs.fast.ai/vision.augment.html#RandomResizedCrop"><code>RandomResizedCrop</code></a>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you can describe your <code>DataBlock</code> like I have above, you understand it!</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Verify your <code>DataBlock</code> works as expected, or else troubleshoot it, by running <code>DataBlock.summary(data)</code></p>
+</div>
+</div>
+<div class="cell" data-outputid="3ad230eb-5514-4823-f9ee-60df6e3831ae">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dblock.summary(path<span class="op">/</span><span class="st">'images'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Setting-up type transforms pipelines
+Collecting items from /root/.fastai/data/oxford-iiit-pet/images
+Found 7390 items
+2 datasets of sizes 5912,1478
+Setting up Pipeline: PILBase.create
+Setting up Pipeline: partial -&gt; Categorize -- {'vocab': None, 'sort': True, 'add_na': False}
+
+Building one sample
+  Pipeline: PILBase.create
+    starting from
+      /root/.fastai/data/oxford-iiit-pet/images/Bombay_111.jpg
+    applying PILBase.create gives
+      PILImage mode=RGB size=604x453
+  Pipeline: partial -&gt; Categorize -- {'vocab': None, 'sort': True, 'add_na': False}
+    starting from
+      /root/.fastai/data/oxford-iiit-pet/images/Bombay_111.jpg
+    applying partial gives
+      Bombay
+    applying Categorize -- {'vocab': None, 'sort': True, 'add_na': False} gives
+      TensorCategory(3)
+
+Final sample: (PILImage mode=RGB size=604x453, TensorCategory(3))
+
+
+Collecting items from /root/.fastai/data/oxford-iiit-pet/images
+Found 7390 items
+2 datasets of sizes 5912,1478
+Setting up Pipeline: PILBase.create
+Setting up Pipeline: partial -&gt; Categorize -- {'vocab': None, 'sort': True, 'add_na': False}
+Setting up after_item: Pipeline: Resize -- {'size': (460, 460), 'method': 'crop', 'pad_mode': 'reflection', 'resamples': (2, 0), 'p': 1.0} -&gt; ToTensor
+Setting up before_batch: Pipeline: 
+Setting up after_batch: Pipeline: IntToFloatTensor -- {'div': 255.0, 'div_mask': 1} -&gt; Flip -- {'size': None, 'mode': 'bilinear', 'pad_mode': 'reflection', 'mode_mask': 'nearest', 'align_corners': True, 'p': 0.5} -&gt; RandomResizedCropGPU -- {'size': (224, 224), 'min_scale': 0.75, 'ratio': (1, 1), 'mode': 'bilinear', 'valid_scale': 1.0, 'max_scale': 1.0, 'p': 1.0} -&gt; Brightness -- {'max_lighting': 0.2, 'p': 1.0, 'draw': None, 'batch': False}
+
+Building one batch
+Applying item_tfms to the first sample:
+  Pipeline: Resize -- {'size': (460, 460), 'method': 'crop', 'pad_mode': 'reflection', 'resamples': (2, 0), 'p': 1.0} -&gt; ToTensor
+    starting from
+      (PILImage mode=RGB size=604x453, TensorCategory(3))
+    applying Resize -- {'size': (460, 460), 'method': 'crop', 'pad_mode': 'reflection', 'resamples': (2, 0), 'p': 1.0} gives
+      (PILImage mode=RGB size=460x460, TensorCategory(3))
+    applying ToTensor gives
+      (TensorImage of size 3x460x460, TensorCategory(3))
+
+Adding the next 3 samples
+
+No before_batch transform to apply
+
+Collating items in a batch
+
+Applying batch_tfms to the batch built
+  Pipeline: IntToFloatTensor -- {'div': 255.0, 'div_mask': 1} -&gt; Flip -- {'size': None, 'mode': 'bilinear', 'pad_mode': 'reflection', 'mode_mask': 'nearest', 'align_corners': True, 'p': 0.5} -&gt; RandomResizedCropGPU -- {'size': (224, 224), 'min_scale': 0.75, 'ratio': (1, 1), 'mode': 'bilinear', 'valid_scale': 1.0, 'max_scale': 1.0, 'p': 1.0} -&gt; Brightness -- {'max_lighting': 0.2, 'p': 1.0, 'draw': None, 'batch': False}
+    starting from
+      (TensorImage of size 4x3x460x460, TensorCategory([ 3, 17, 10,  4], device='cuda:0'))
+    applying IntToFloatTensor -- {'div': 255.0, 'div_mask': 1} gives
+      (TensorImage of size 4x3x460x460, TensorCategory([ 3, 17, 10,  4], device='cuda:0'))
+    applying Flip -- {'size': None, 'mode': 'bilinear', 'pad_mode': 'reflection', 'mode_mask': 'nearest', 'align_corners': True, 'p': 0.5} gives
+      (TensorImage of size 4x3x460x460, TensorCategory([ 3, 17, 10,  4], device='cuda:0'))
+    applying RandomResizedCropGPU -- {'size': (224, 224), 'min_scale': 0.75, 'ratio': (1, 1), 'mode': 'bilinear', 'valid_scale': 1.0, 'max_scale': 1.0, 'p': 1.0} gives
+      (TensorImage of size 4x3x224x224, TensorCategory([ 3, 17, 10,  4], device='cuda:0'))
+    applying Brightness -- {'max_lighting': 0.2, 'p': 1.0, 'draw': None, 'batch': False} gives
+      (TensorImage of size 4x3x224x224, TensorCategory([ 3, 17, 10,  4], device='cuda:0'))</code></pre>
+</div>
+</div>
+<p>Now we can create our <code>DataLoaders</code> and take a look at our x’s and y’s, our pet images and their label/class</p>
+<div class="cell" data-outputid="2f8a96a0-5adb-4df7-9f83-548418317abb">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(path<span class="op">/</span><span class="st">'images'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-06-03-ajtfb-chapter-5_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>To get a feel for what our <code>batch_tfms</code> are doing, we can <code>show_batch</code> using a single image as we do below.</p>
+<div class="cell" data-outputid="041b281b-55bb-4e23-a569-bfdb4803956a">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch(unique<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-06-03-ajtfb-chapter-5_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>The combination of what we’re doing in the <code>item_tfms</code> and <code>batch_tfms</code> is known as <strong>presizing</strong>.</p>
+<p>“Presizing is a particular way to do iamge augmentation taht is designed to minimize data destruction while maintaining good performance.” After resizing all the images to a larger dimension that we will train on, we perform all our core augmentations on the GPU. This results in both faster and less destructive transformations of the data.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See pp190-191 for how these augmentations are applied to the training and validation set!</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="train-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="train-a-model">Train a model</h2>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Once you think your data looks right, we generally recommend the next step should be using it to train a simple model” See bottom of p193 for why.</p>
+</div>
+</div>
+<section id="define-your-loss-function" class="level4">
+<h4 class="anchored" data-anchor-id="define-your-loss-function">Define your loss function</h4>
+<p>To train a model we need a good loss function that will allow us to optimize the parameters of our model. For multiclassification tasks where we want to predict a single class/label, to go to is <strong>cross-entropy loss</strong></p>
+<p>To understand how this particular loss function operates and its interesting effects, see my prior article <a href="https://ohmeow.com/posts/2020/04/04/understanding-cross-entropy-loss.html">“Loss Functions: Cross Entropy Loss and You!”</a> It’s all about how it works, why use it over something like accuracy, and so forth. Pages 194-203 is the place to look in fastbook for more details on the ins and outs of this loss function.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cross-entropy loss is the Highlander of loss functions … “there can only be one”</p>
+</div>
+</div>
+<p>“Intuitively, the softmax function <em>really</em> wants to pick one class … so it’s ideal for training a classifier when we know each piecture has a definite label. (Note taht it may be less ideal during inference, as you might want your model to sometimes tell you it doesn’t recognize any of the classes taht is has seen during training, and not pick a class because it has a slightly bigger activation score. In this case, it might be better to train a model using multiple binary output columns, each using a sigmoid activation.)”</p>
+</section>
+<section id="train-a-model-1" class="level3">
+<h3 class="anchored" data-anchor-id="train-a-model-1">Train a model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet34, metrics<span class="op">=</span>error_rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the Learning Rate Finder to determine a good LR to use during the optimization step!</p>
+</div>
+</div>
+<p>“One of the most importatn things we can do when training a model is to make sure that we have the right learning rate. If our learning rate is too low, it can take many, many epochs to train our model … also that we may have problems with overfitting, ceacuse every time we do a complete pass through the data, we give our model a chance to memorize it”</p>
+<p>See p 205-206 for more information on how it works, and also <a href="https://arxiv.org/abs/1506.01186">Leslie Smith’s paper on it here</a>. A must read for fastai developers!!!</p>
+<div class="cell" data-outputid="aab8b884-4698-4cac-ad0b-04554e34a63a">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lr_min, lr_steep <span class="op">=</span> learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-06-03-ajtfb-chapter-5_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="23034e1d-d8f6-4cc4-99db-92e9eb21ee38">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lr_min, lr_steep</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>(0.010000000149011612, 0.0063095735386013985)</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pick either “one order of magnitude less that where the minimum loss was achieved” (<code>lr_min</code> above, which is actually the true minimum, roughly 1e-1 / 10, 0.01 or else 1e-2) -or- “the last point where the loss was clearly decreasing”</p>
+</div>
+</div>
+<p>These two are likely close to one another, and if you’re not sure which to use, try them both!</p>
+<div class="cell" data-outputid="8d5a7c55-1ab0-47a4-b538-750c13241a0c">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">2</span>, base_lr<span class="op">=</span><span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.988194</td>
+      <td>0.477657</td>
+      <td>0.131258</td>
+      <td>01:05</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.990748</td>
+      <td>0.932280</td>
+      <td>0.228687</td>
+      <td>01:09</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.537608</td>
+      <td>0.289773</td>
+      <td>0.089986</td>
+      <td>01:07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>Using <code>fine_tune</code> gives us a nice and quick baseline we can look back at going forward. Nevertheless, we can likely improve our model by taking more control over what parameters are trained (updated), when, and by how much using <code>fit_one_cycle</code>.</p>
+<p>So let’s start again, by defining our <code>Learner</code> and finding a good LR for training ONLY the last layer’s parameters (the idea being that the pretrained model we’re finetuning, our backbone, is already pretty good at understanding images … while the last layer’s parameters are random because they are specific to our task at hand).</p>
+<div class="cell" data-outputid="ab844e71-19f8-4b32-e0d5-2d4efbb6b729">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet34, metrics<span class="op">=</span>error_rate)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>lr_min, lr_steep <span class="op">=</span> learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-06-03-ajtfb-chapter-5_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="17ebf47e-1839-456a-d540-ed33206c6ab5">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">2</span>, lr_max<span class="op">=</span><span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.094374</td>
+      <td>0.674852</td>
+      <td>0.180650</td>
+      <td>01:05</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.645389</td>
+      <td>0.303023</td>
+      <td>0.096752</td>
+      <td>01:03</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>NOW … we’re going to “unfreeze” our model, meaning we’re going to make all the parameters trainable. And then we’re going to apply <strong>discriminative learning rates</strong>, or different base LRs to different parts of our models, with the assumption that earlier layers likely only need to change a little while later layers, especially our classification head, have to change more. This is covered thoroughly in another must read paper, <a href="https://arxiv.org/abs/1801.06146">Universal Language Model Fine-tuning for Text Classification</a></p>
+<p>Look at the bottom of the cell below’s output to see the number of traininable parameters for our currently frozen model.</p>
+<div class="cell" data-outputid="8e8b5899-103a-4ea9-a6ce-a2bbcc58f6be">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>Sequential (Input shape: 64)
+============================================================================
+Layer (type)         Output Shape         Param #    Trainable 
+============================================================================
+                     64 x 64 x 112 x 112 
+Conv2d                                    9408       False     
+BatchNorm2d                               128        True      
+ReLU                                                           
+MaxPool2d                                                      
+Conv2d                                    36864      False     
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      False     
+BatchNorm2d                               128        True      
+Conv2d                                    36864      False     
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      False     
+BatchNorm2d                               128        True      
+Conv2d                                    36864      False     
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      False     
+BatchNorm2d                               128        True      
+____________________________________________________________________________
+                     64 x 128 x 28 x 28  
+Conv2d                                    73728      False     
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+Conv2d                                    8192       False     
+BatchNorm2d                               256        True      
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     False     
+BatchNorm2d                               256        True      
+____________________________________________________________________________
+                     64 x 256 x 14 x 14  
+Conv2d                                    294912     False     
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+Conv2d                                    32768      False     
+BatchNorm2d                               512        True      
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     False     
+BatchNorm2d                               512        True      
+____________________________________________________________________________
+                     64 x 512 x 7 x 7    
+Conv2d                                    1179648    False     
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    False     
+BatchNorm2d                               1024       True      
+Conv2d                                    131072     False     
+BatchNorm2d                               1024       True      
+Conv2d                                    2359296    False     
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    False     
+BatchNorm2d                               1024       True      
+Conv2d                                    2359296    False     
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    False     
+BatchNorm2d                               1024       True      
+____________________________________________________________________________
+                     []                  
+AdaptiveAvgPool2d                                              
+AdaptiveMaxPool2d                                              
+Flatten                                                        
+BatchNorm1d                               2048       True      
+Dropout                                                        
+____________________________________________________________________________
+                     64 x 512            
+Linear                                    524288     True      
+ReLU                                                           
+BatchNorm1d                               1024       True      
+Dropout                                                        
+____________________________________________________________________________
+                     64 x 37             
+Linear                                    18944      True      
+____________________________________________________________________________
+
+Total params: 21,830,976
+Total trainable params: 563,328
+Total non-trainable params: 21,267,648
+
+Optimizer used: &lt;function Adam at 0x7fe0e7fb57a0&gt;
+Loss function: FlattenedLoss of CrossEntropyLoss()
+
+Model frozen up to parameter group #2
+
+Callbacks:
+  - TrainEvalCallback
+  - Recorder
+  - ProgressCallback</code></pre>
+</div>
+</div>
+<p>Let’s unfreeze and look at the same …</p>
+<div class="cell" data-outputid="7982fa17-545a-4549-866e-52e36ac1aa81">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>learn.unfreeze()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>learn.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>Sequential (Input shape: 64)
+============================================================================
+Layer (type)         Output Shape         Param #    Trainable 
+============================================================================
+                     64 x 64 x 112 x 112 
+Conv2d                                    9408       True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+MaxPool2d                                                      
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+____________________________________________________________________________
+                     64 x 128 x 28 x 28  
+Conv2d                                    73728      True      
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+Conv2d                                    8192       True      
+BatchNorm2d                               256        True      
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+____________________________________________________________________________
+                     64 x 256 x 14 x 14  
+Conv2d                                    294912     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+Conv2d                                    32768      True      
+BatchNorm2d                               512        True      
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+____________________________________________________________________________
+                     64 x 512 x 7 x 7    
+Conv2d                                    1179648    True      
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+Conv2d                                    131072     True      
+BatchNorm2d                               1024       True      
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+____________________________________________________________________________
+                     []                  
+AdaptiveAvgPool2d                                              
+AdaptiveMaxPool2d                                              
+Flatten                                                        
+BatchNorm1d                               2048       True      
+Dropout                                                        
+____________________________________________________________________________
+                     64 x 512            
+Linear                                    524288     True      
+ReLU                                                           
+BatchNorm1d                               1024       True      
+Dropout                                                        
+____________________________________________________________________________
+                     64 x 37             
+Linear                                    18944      True      
+____________________________________________________________________________
+
+Total params: 21,830,976
+Total trainable params: 21,830,976
+Total non-trainable params: 0
+
+Optimizer used: &lt;function Adam at 0x7fe0e7fb57a0&gt;
+Loss function: FlattenedLoss of CrossEntropyLoss()
+
+Model unfrozen
+
+Callbacks:
+  - TrainEvalCallback
+  - Recorder
+  - ProgressCallback</code></pre>
+</div>
+</div>
+<p>… and as you can see, we’re training everything!</p>
+<p>Because what parameters were training has changed, we also need to run the LR finder again to get some guidance on how to set our LRs.</p>
+<div class="cell" data-outputid="81b4cc3b-f970-4fcd-da16-68529d2056b8">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lr_min, lr_steep <span class="op">=</span> learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-06-03-ajtfb-chapter-5_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>So lets see how many <strong>parameter/layer groups</strong> we have</p>
+<div class="cell" data-outputid="4eb06849-c367-4b97-9551-5920e1bd98b5">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(learn.opt.param_groups)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>3</code></pre>
+</div>
+</div>
+<p>What we can now do is say, train the first layer group with an LR of 1e-6 … the last with an LR of 1e-4, and “the layers in between will have learning rates that are multiplicatively equidistnat throughout that range.” Since we only have 3, the middle group will be trained with a starting LR of 1e-5</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We usually choose the first number a bit back from where things start to go bad … and the last number 1-2 magnitudes lower than the base LR of the frozen model</p>
+</div>
+</div>
+<div class="cell" data-outputid="ee76a303-850b-4bf2-a93c-3a6dced77e49">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">12</span>, lr_max<span class="op">=</span><span class="bu">slice</span>(<span class="fl">1e-6</span>, <span class="fl">1e-4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.394857</td>
+      <td>0.291812</td>
+      <td>0.091340</td>
+      <td>01:06</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.359788</td>
+      <td>0.266810</td>
+      <td>0.084574</td>
+      <td>01:05</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.315511</td>
+      <td>0.248843</td>
+      <td>0.078484</td>
+      <td>01:05</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.308508</td>
+      <td>0.245649</td>
+      <td>0.081191</td>
+      <td>01:06</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.272639</td>
+      <td>0.231762</td>
+      <td>0.077131</td>
+      <td>01:06</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.231295</td>
+      <td>0.222235</td>
+      <td>0.075778</td>
+      <td>01:06</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.216695</td>
+      <td>0.223222</td>
+      <td>0.077808</td>
+      <td>01:06</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0.207144</td>
+      <td>0.226977</td>
+      <td>0.075778</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.191794</td>
+      <td>0.223768</td>
+      <td>0.075778</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.193688</td>
+      <td>0.222243</td>
+      <td>0.076455</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>0.185064</td>
+      <td>0.219272</td>
+      <td>0.076455</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>0.177980</td>
+      <td>0.221938</td>
+      <td>0.073072</td>
+      <td>01:07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-outputid="1b3ab3ce-6f8c-4ad2-d331-33e8a1eea872">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>learn.recorder.plot_loss()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2021-06-03-ajtfb-chapter-5_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Overfitting does not mean your model isn’t improving!</p>
+</div>
+</div>
+<p>“You will often see that the accuracy continues improving, even as the validation loss gets worse. <strong><em>In the end, what matters is your accuracy [or your chosen metric], not the loss.</em></strong> The loss is just the function we’ve given the computer to help us to optimize”</p>
+<p><strong>How to choose the number of epochs?</strong></p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Your first approach to training should be to simply pick a number of epochs that will train in the amount of time that you are happy to wait for.”</p>
+</div>
+</div>
+<p>If the model is still getting better, then you haven’t trained your model long enough.</p>
+<p>If your metric(s) are getting worse, “if you find that you have overfit, <strong><em>what you should do is retrain your model from scratch, and this time select a total number of epochs based on where your previous best results were found.</em></strong>”</p>
+<p><strong>When to choose a deeper architecture?</strong></p>
+<p>“A larger (more layers and parameters; sometimes described as the <em>capacity</em> of a model) version of ResNet will always be able to give us a better training loss, but it can suffer more from overfitting, because it has more parameters to overfit with. In general, a bigger model has the ability to better capture the real underlying relationships in your data, as well as to capture and memorize the specific details of your individual images.”</p>
+<p>So consider these if … 1. You aren’t getting the results you need. 2. Have time to experiment and a big enough GPU to experiment with</p>
+<p>You may need to reduce the size of your batches with these bigger models, and you can also us <strong>mixed-precision training</strong>, in order to get things to run on your GPU. The later results in faster training and gives you the ability to have bigger batch sizes than you would be able to support otherwise. All you need to do is add <code>to_fp16()</code> to your `Learner.</p>
+<div class="cell" data-outputid="ce0bccbe-8f5b-4b90-87c5-b95b1b0b8a00">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet50, metrics<span class="op">=</span>error_rate).to_fp16()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">6</span>, freeze_epochs<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading: "https://download.pytorch.org/models/resnet50-19c8e357.pth" to /root/.cache/torch/hub/checkpoints/resnet50-19c8e357.pth</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"77aee302acf9450c8bdbfab95fdb1799","version_major":2,"version_minor":0}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.977287</td>
+      <td>0.299639</td>
+      <td>0.100812</td>
+      <td>01:06</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>error_rate</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.371637</td>
+      <td>0.253767</td>
+      <td>0.080514</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.375325</td>
+      <td>0.300937</td>
+      <td>0.079161</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.281241</td>
+      <td>0.309774</td>
+      <td>0.089310</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.149089</td>
+      <td>0.216163</td>
+      <td>0.059540</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.093488</td>
+      <td>0.176675</td>
+      <td>0.054127</td>
+      <td>01:07</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.063744</td>
+      <td>0.169187</td>
+      <td>0.050744</td>
+      <td>01:07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Well, at this point, you know how to train a multiclassification computer vision task. So, go train one for yourself using what you’ve learned!</p>
+<p>Make sure you understand and why we use cross-entropy loss for multiclassification problems. I can’t tell you how many times I’ve responded to questions about why someone’s model wasn’t training only to find out the reason was because they had the wrong loss function. Know it, love it, use it :)</p>
+<p>Also, so much of what fastai incorporates from the LR finder and the <code>fit_one_cycle</code>, comes from Leslie Smith’s research. Checkout the “Resources” section below for some of his more influential papers, all of which I’ve read and encourage the rest of you to read if you want some inside scoop about why fastai works the way it does. I guarantee, reading and studying those papers will make you a better deep learning practioner and a better fastai developer in particular! You may think you’re not ready to start reading academic papers at chapter 5, but believe me, I’ve been there, and you are :)</p>
+<hr>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li><p>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</p></li>
+<li><p><a href="https://arxiv.org/abs/1506.01186">Cyclical Learning Rates for Training Neural Networks</a></p></li>
+<li><p><a href="https://arxiv.org/abs/1708.07120">Super-Convergence: Very Fast Training of Neural Networks Using Large Learning Rates</a></p></li>
+<li><p><a href="https://arxiv.org/abs/1803.09820">A disciplined approach to neural network hyper-parameters: Part 1 – learning rate, batch size, momentum, and weight decay</a></p></li>
+<li><p><a href="https://arxiv.org/abs/1801.06146">Universal Language Model Fine-tuning for Text Classification</a></p></li>
+<li><p><a href="https://arxiv.org/abs/2002.04688">fastai: A Layered API for Deep Learning</a></p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"13a0ab809b1e4985babbbf7b89367051":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_53c85a841b4242828728cfdcc1a4f7ee","placeholder":"​","style":"IPY_MODEL_41336088c292405a98cdc864a42ef81b","value":" 97.8M/97.8M [00:00&lt;00:00, 121MB/s]"}},"41336088c292405a98cdc864a42ef81b":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"515af4017c6c4211b8402d17cdf9beb2":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"100%","description_tooltip":null,"layout":"IPY_MODEL_a4f1246587ce48a2925363fa83b96d59","max":102502400,"min":0,"orientation":"horizontal","style":"IPY_MODEL_56a0f08d5b60454082aa6fc861df5a36","value":102502400}},"53c85a841b4242828728cfdcc1a4f7ee":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"56a0f08d5b60454082aa6fc861df5a36":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":"initial"}},"65903c01d418444fa39be0bae64b47cc":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"77aee302acf9450c8bdbfab95fdb1799":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_515af4017c6c4211b8402d17cdf9beb2","IPY_MODEL_13a0ab809b1e4985babbbf7b89367051"],"layout":"IPY_MODEL_65903c01d418444fa39be0bae64b47cc"}},"a4f1246587ce48a2925363fa83b96d59":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}}}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

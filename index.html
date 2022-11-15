@@ -1,531 +1,1113 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>ohmeow | A full-stack web application and ML development company.</title>
-<meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="ohmeow" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="A full-stack web application and ML development company." />
-<meta property="og:description" content="A full-stack web application and ML development company." />
-<link rel="canonical" href="https://ohmeow.com/" />
-<meta property="og:url" content="https://ohmeow.com/" />
-<meta property="og:site_name" content="ohmeow" />
-<link rel="next" href="https://ohmeow.com/page2/" />
-<script type="application/ld+json">
-{"url":"https://ohmeow.com/","@type":"WebSite","headline":"ohmeow","name":"ohmeow","description":"A full-stack web application and ML development company.","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ohmeow.com/feed.xml" title="ohmeow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163296836-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-163296836-1');
-</script>
-
-
-<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            if (el.getAttribute("title") && (el.className != "emoji")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
+<title>index</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
 }
-window.onload = wrap_img;
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function(){
-    // add link icon to anchor tags
-    var elem = document.querySelectorAll(".anchor-link")
-    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
-    });
-</script>
-</head>
-<body><header class="site-header">
-
-    <div class="wrapper"><a class="site-title" rel="author" href="/"><img style="height: 60px;" src="/images/ohmeow_logo.png" alt="ohmeow.com"></a><nav class="site-nav">
-          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-          <label for="nav-trigger">
-            <span class="menu-icon">
-              <svg viewBox="0 0 18 15" width="18px" height="15px">
-                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-              </svg>
-            </span>
-          </label>
-  
-          <div class="trigger"><a class="page-link" href="/about/"><span class="top-menu-text">About Me</span></a><a class="page-link" href="/guides/"><span class="top-menu-text">Guides</span></a><a class="page-link" href="/search/"><span class="top-menu-text">Search</span></a><a class="page-link" href="/categories/"><span class="top-menu-text">Tags</span></a></div>
-        </nav></div>
-  </header>
-<main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <div class="home col col-12">
-  <p style="font-size:24px;">Posts</p>
+</style>
 
 
-  
-
-  <!-- Hide posts if front matter flag hide:true -->
-  
-  
-
-  <!-- Sort posts by rank, then date -->
-  
-  
-  
-
-
-  
-
-  <!-- Assemble final sorted posts array -->
-  
-  <ul class="post-list"><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2022/04/25/ajtfb-chapter-9.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling
-          </a>
-        </h3>
-        <p class="post-meta-description">In chapter of 8 of <a href='https://github.com/fastai/fastbook) we learned that the neural network version of of collaborative model is in fact built on something called `TabularModel`, and that in fact, an `EmbeddingNN` is nothing but a `TabularModel` *without any continuous (or real'>"Deep Learning for Coders with fastai & PyTorch"</a> numbers*.  "Structured" or "tabular" data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both  categorical and/or real numbers.  Working with such data is the subject of chapter 9, so lets go!</p>
-          <p class="post-meta">Apr 25, 2022</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2022/04/25/ajtfb-chapter-9.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling
-          </a>
-        </h6>
-        <p class="post-meta-description">In chapter of 8 of <a href='https://github.com/fastai/fastbook) we learned that the neural network version of of collaborative model is in fact built on something called `TabularModel`, and that in fact, an `EmbeddingNN` is nothing but a `TabularModel` *without any continuous (or real'>"Deep Learning for Coders with fastai & PyTorch"</a> numbers*.  "Structured" or "tabular" data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both  categorical and/or real numbers.  Working with such data is the subject of chapter 9, so lets go!</p>
-          <p class="post-meta">Apr 25, 2022</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2022/03/31/ajtfb-chapter-8.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering
-          </a>
-        </h3>
-        <p class="post-meta-description">This chapter of <a href='https://github.com/fastai/fastbook) moves us away from computer vision to collaborative filtering (think recommendation systems'>"Deep Learning for Coders with fastai & PyTorch"</a>. We'll explore building these models using the traditional "dot product" approach and also using a neural network, but we'll begin by covering the idea of "latent factors," which are both important for colloborative and tabular models.  Lets go!</p>
-          <p class="post-meta">Mar 31, 2022</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2022/03/31/ajtfb-chapter-8.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering
-          </a>
-        </h6>
-        <p class="post-meta-description">This chapter of <a href='https://github.com/fastai/fastbook) moves us away from computer vision to collaborative filtering (think recommendation systems'>"Deep Learning for Coders with fastai & PyTorch"</a>. We'll explore building these models using the traditional "dot product" approach and also using a neural network, but we'll begin by covering the idea of "latent factors," which are both important for colloborative and tabular models.  Lets go!</p>
-          <p class="post-meta">Mar 31, 2022</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2022/03/28/ajtfb-chapter-7.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models
-          </a>
-        </h3>
-        <p class="post-meta-description">This chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a> details several techniques you can apply to getting SOTA results with your image classification models! It's the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models</p>
-          <p class="post-meta">Mar 28, 2022</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2022/03/28/ajtfb-chapter-7.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models
-          </a>
-        </h6>
-        <p class="post-meta-description">This chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a> details several techniques you can apply to getting SOTA results with your image classification models! It's the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models</p>
-          <p class="post-meta">Mar 28, 2022</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2022/02/09/ajtfb-chapter-6-regression.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 6: Regression
-          </a>
-        </h3>
-        <p class="post-meta-description">Its the more things you can do with computer vision chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>! Having looked at both multiclass and multilable classification, we now turn our attention to regression tasks. In particular, we'll look at key point regression models covered in chapter 6. Soooo lets go!</p>
-          <p class="post-meta">Feb 9, 2022</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2022/02/09/ajtfb-chapter-6-regression.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 6: Regression
-          </a>
-        </h6>
-        <p class="post-meta-description">Its the more things you can do with computer vision chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>! Having looked at both multiclass and multilable classification, we now turn our attention to regression tasks. In particular, we'll look at key point regression models covered in chapter 6. Soooo lets go!</p>
-          <p class="post-meta">Feb 9, 2022</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2021/06/10/ajtfb-chapter-6-multilabel.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification
-          </a>
-        </h3>
-        <p class="post-meta-description">Its the more things you can do with computer vision chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>! We'll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between.  Next post we'll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!</p>
-          <p class="post-meta">Jun 10, 2021</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2021/06/10/ajtfb-chapter-6-multilabel.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification
-          </a>
-        </h6>
-        <p class="post-meta-description">Its the more things you can do with computer vision chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>! We'll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between.  Next post we'll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!</p>
-          <p class="post-meta">Jun 10, 2021</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2021/06/03/ajtfb-chapter-5.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification
-          </a>
-        </h3>
-        <p class="post-meta-description">Its the image classification chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>! We'll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model's predictions.  So without further adieu, lets go ...</p>
-          <p class="post-meta">Jun 3, 2021</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2021/06/03/ajtfb-chapter-5.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification
-          </a>
-        </h6>
-        <p class="post-meta-description">Its the image classification chapter of <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>! We'll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model's predictions.  So without further adieu, lets go ...</p>
-          <p class="post-meta">Jun 3, 2021</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/thumbs_up_kid.jpeg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html">
-            Contributing to fastai: Setup your local development environment &amp; submit a PR
-          </a>
-        </h3>
-        <p class="post-meta-description">A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn't quite remember all the steps required to do so.  Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all).  So for all you developers looking to contribute to fastai, or really any open source project, here's everything you need to know to setup your local development environment and submit PRs to fastai.  Enjoy!</p>
-          <p class="post-meta">Jun 2, 2021</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/thumbs_up_kid.jpeg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2021/06/02/how-to-submit-a-pr-to-fastai.html">
-            Contributing to fastai: Setup your local development environment &amp; submit a PR
-          </a>
-        </h6>
-        <p class="post-meta-description">A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn't quite remember all the steps required to do so.  Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all).  So for all you developers looking to contribute to fastai, or really any open source project, here's everything you need to know to setup your local development environment and submit PRs to fastai.  Enjoy!</p>
-          <p class="post-meta">Jun 2, 2021</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/blurr-logo-small.png" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2021/05/25/mbart-sequence-classification-with-blurr.html">
-            Multilingual Sequence Classifaction with the MBart Family
-          </a>
-        </h3>
-        <p class="post-meta-description">Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models.  Working against the `amazon_reviews_multi` dataset I'll show you how to use the `blurr` library to configure the huggingface objects, build DataLoaders, and train a model that you can use for classifying German text.  I'll throw in a bit of the inference code so that you can see how easy `blurr` makes it to use your trained model to boot.  Let's go ...</p>
-          <p class="post-meta">May 25, 2021</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/blurr-logo-small.png" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2021/05/25/mbart-sequence-classification-with-blurr.html">
-            Multilingual Sequence Classifaction with the MBart Family
-          </a>
-        </h6>
-        <p class="post-meta-description">Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models.  Working against the `amazon_reviews_multi` dataset I'll show you how to use the `blurr` library to configure the huggingface objects, build DataLoaders, and train a model that you can use for classifying German text.  I'll throw in a bit of the inference code so that you can see how easy `blurr` makes it to use your trained model to boot.  Let's go ...</p>
-          <p class="post-meta">May 25, 2021</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2021/05/23/ajtfb-chapter-4.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent
-          </a>
-        </h3>
-        <p class="post-meta-description">The fourth in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">May 23, 2021</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2021/05/23/ajtfb-chapter-4.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent
-          </a>
-        </h6>
-        <p class="post-meta-description">The fourth in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">May 23, 2021</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2020/11/22/ajtfb-chapter-3.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 3: Data Ethics
-          </a>
-        </h3>
-        <p class="post-meta-description">The third in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">Nov 22, 2020</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2020/11/22/ajtfb-chapter-3.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 3: Data Ethics
-          </a>
-        </h6>
-        <p class="post-meta-description">The third in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">Nov 22, 2020</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2020/11/16/ajtfb-chapter-2.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning
-          </a>
-        </h3>
-        <p class="post-meta-description">The second in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">Nov 16, 2020</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2020/11/16/ajtfb-chapter-2.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning
-          </a>
-        </h6>
-        <p class="post-meta-description">The second in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">Nov 16, 2020</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/fastbook.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2020/11/06/ajtfb-chapter-1.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning
-          </a>
-        </h3>
-        <p class="post-meta-description">The first in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">Nov 6, 2020</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/fastbook.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2020/11/06/ajtfb-chapter-1.html">
-            A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning
-          </a>
-        </h6>
-        <p class="post-meta-description">The first in a weekly-ish series where I revisit the fast.ai book, <a href='https://github.com/fastai/fastbook'>"Deep Learning for Coders with fastai & PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter.  So without further adieu, let's go!</p>
-          <p class="post-meta">Nov 6, 2020</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/blurr-logo-small.png" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2020/05/23/text-generation-with-blurr.html">
-            Summarization with blurr
-          </a>
-        </h3>
-        <p class="post-meta-description">blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models.  In this article, I provide a simple example of how to use blurr's new summarization capabilities to train, evaluate, and deploy a BART summarization model.</p>
-          <p class="post-meta">May 23, 2020</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/blurr-logo-small.png" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2020/05/23/text-generation-with-blurr.html">
-            Summarization with blurr
-          </a>
-        </h6>
-        <p class="post-meta-description">blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models.  In this article, I provide a simple example of how to use blurr's new summarization capabilities to train, evaluate, and deploy a BART summarization model.</p>
-          <p class="post-meta">May 23, 2020</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/finding-datablock-nirvana-part-1-logo.jpg" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2020/04/11/finding-datablock-nirvana-part-1.html">
-            Finding DataBlock Nirvana with fast.ai v2 - Part 1
-          </a>
-        </h3>
-        <p class="post-meta-description">The path to enlightment begins here!</p>
-          <p class="post-meta">Apr 11, 2020</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/finding-datablock-nirvana-part-1-logo.jpg" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2020/04/11/finding-datablock-nirvana-part-1.html">
-            Finding DataBlock Nirvana with fast.ai v2 - Part 1
-          </a>
-        </h6>
-        <p class="post-meta-description">The path to enlightment begins here!</p>
-          <p class="post-meta">Apr 11, 2020</p>
-      </div>
-  </div></li><li><div class="Box box-shadow-medium rounded-1 row mobile-hide"><div class="d-table-cell p-3 v-align-middle" style="width:250px;height:auto;">
-        <img class="image-preview" style="max-width:100%; max-height:100%;" src="/images/articles/highlander-there-can-be-only-one.png" />
-      </div><div class="col d-table-cell p-3">
-        <h3>
-          <a class="post-link" href="/posts/2020/04/04/understanding-cross-entropy-loss.html">
-            Loss Functions: Cross Entropy Loss and You!
-          </a>
-        </h3>
-        <p class="post-meta-description">Meet multi-classification's favorite loss function</p>
-          <p class="post-meta">Apr 4, 2020</p>
-      </div>
-  </div>
-
-  <div class="Box box-shadow-medium rounded-1 desktop-hide"><div class="p-3 v-align-middle" style="text-align: center;">
-        <img class="image-preview " style="max-width:250; height:auto;" src="/images/articles/highlander-there-can-be-only-one.png" />
-      </div><div class="p-3">
-        <h6>
-          <a class="post-link" href="/posts/2020/04/04/understanding-cross-entropy-loss.html">
-            Loss Functions: Cross Entropy Loss and You!
-          </a>
-        </h6>
-        <p class="post-meta-description">Meet multi-classification's favorite loss function</p>
-          <p class="post-meta">Apr 4, 2020</p>
-      </div>
-  </div></li></ul>
-
-  
-  <div class="pager">
-    <ul class="pagination">
-      <li>
-        <div class="pager-edge">•</div>
-      </li>
-      <li>
-        <div class="current-page">1</div>
-      </li>
-      <li><a href="/page2/" class="next-page">2</a></li>
-    </ul>
-  </div></div>
-      </div>
-    </main><footer class="site-footer h-card">
-  <data class="u-url" href="/"></data>
-
-  <div class="wrapper">
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col">
-        <p>A full-stack web application and ML development company.</p>
-        <p class="feed-subscribe">
-          <a href="/feed.xml">
-            <svg class="svg-icon orange">
-              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
-            </svg><span>Subscribe</span>
-          </a>
-        </p>
-      </div>
-    </div>
-
-    <div class="social-links"><ul class="social-media-list"><li><a class="fa-icon" rel="me" href="mailto:wgilliam@ohmeow.com" title="wgilliam@ohmeow.com"><i class="far fa-envelope"></i></a></li><li><a rel="me" href="https://github.com/ohmeow" title="ohmeow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/waydegilliam" title="waydegilliam"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul></div>
-
-  </div>
-
-</footer>
-
-<script>
-  // method will ensure the floating header isn't covering the note header
-  function goToNote(elId) {
-    const el = document.getElementById(elId);
-    const elPos = el.getBoundingClientRect().top + document.documentElement.scrollTop;
-      
-    window.focus();
-    window.scrollTo(0, elPos - 90);
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
   }
+}</script>
+<script>
 
-  // ensure target note shows below floating header on # change
-  window.addEventListener("hashchange", (ev) => { 
-    const hash = ev.target.location.hash
-    if (hash) {
-      goToNote(hash.substring(1))
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories','listing-author','listing-reading-time','listing-file-modified',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
     }
   });
 
-  // onload, ensure note shows below floating header
-  window.addEventListener("load", (ev) => { 
-    const hash = ev.target.location.hash
-    if (hash) {
-      goToNote(hash.substring(1))
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(15)</span></div><div class="category" data-category="BCE">BCE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bag of tricks">bag of tricks <span class="quarto-category-count">(1)</span></div><div class="category" data-category="binary cross entropy">binary cross entropy <span class="quarto-category-count">(1)</span></div><div class="category" data-category="blurr">blurr <span class="quarto-category-count">(2)</span></div><div class="category" data-category="boosting">boosting <span class="quarto-category-count">(1)</span></div><div class="category" data-category="categorical variables">categorical variables <span class="quarto-category-count">(1)</span></div><div class="category" data-category="classification">classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="collaborative filtering">collaborative filtering <span class="quarto-category-count">(1)</span></div><div class="category" data-category="computer vision">computer vision <span class="quarto-category-count">(4)</span></div><div class="category" data-category="data">data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="datablock api">datablock api <span class="quarto-category-count">(1)</span></div><div class="category" data-category="decision trees">decision trees <span class="quarto-category-count">(1)</span></div><div class="category" data-category="embeddings">embeddings <span class="quarto-category-count">(2)</span></div><div class="category" data-category="fastai">fastai <span class="quarto-category-count">(14)</span></div><div class="category" data-category="fastbook">fastbook <span class="quarto-category-count">(10)</span></div><div class="category" data-category="gdbt">gdbt <span class="quarto-category-count">(1)</span></div><div class="category" data-category="github">github <span class="quarto-category-count">(1)</span></div><div class="category" data-category="huggingface">huggingface <span class="quarto-category-count">(2)</span></div><div class="category" data-category="key point">key point <span class="quarto-category-count">(1)</span></div><div class="category" data-category="latent factors">latent factors <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multi-label classification">multi-label classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multiclass classification">multiclass classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multilingual">multilingual <span class="quarto-category-count">(1)</span></div><div class="category" data-category="open source">open source <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pull requests">pull requests <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pytorch">pytorch <span class="quarto-category-count">(1)</span></div><div class="category" data-category="random forest">random forest <span class="quarto-category-count">(1)</span></div><div class="category" data-category="recommender systems">recommender systems <span class="quarto-category-count">(1)</span></div><div class="category" data-category="recsys">recsys <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="sequence classification">sequence classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="structured">structured <span class="quarto-category-count">(1)</span></div><div class="category" data-category="summarization">summarization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tabular">tabular <span class="quarto-category-count">(1)</span></div><div class="category" data-category="techniques">techniques <span class="quarto-category-count">(1)</span></div><div class="category" data-category="text generation">text generation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="xgboost">xgboost <span class="quarto-category-count">(1)</span></div></div></div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+
+
+
+
+
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+         <option value="listing-file-modified-sort" data-direction="asc">
+          Modified - Oldest
+        </option>
+         <option value="listing-file-modified-sort" data-direction="desc">
+          Modified - Newest
+        </option>
+     </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="fastai,fastbook,tabular,structured,decision trees,random forest,embeddings,categorical variables,boosting,gdbt,xgboost" data-listing-date-sort="1650870000000" data-listing-file-modified-sort="1668484495947" data-listing-reading-time-sort="20.945">
+<div class="thumbnail">
+<p><a href="./posts/2022-04-25-ajtfb-chapter-9.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('tabular'); return false;">
+tabular
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('structured'); return false;">
+structured
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('decision trees'); return false;">
+decision trees
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('random forest'); return false;">
+random forest
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('embeddings'); return false;">
+embeddings
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('categorical variables'); return false;">
+categorical variables
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('boosting'); return false;">
+boosting
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('gdbt'); return false;">
+gdbt
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('xgboost'); return false;">
+xgboost
+</div>
+</div>
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html">
+<div class="listing-description">
+<p>In chapter of 8 of <span>“Deep Learning for Coders with fastai &amp; PyTorch”</span> we learned that the neural network version of of collaborative model is in fact built on something called <code>TabularModel</code>, and that in fact, an <code>EmbeddingNN</code> is nothing but a <code>TabularModel</code> <em>without any continuous (or real) numbers</em>. “Structured” or “tabular” data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both categorical and/or real numbers. Working with such data is the subject of chapter 9, so lets go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html">
+<div class="listing-date">
+Apr 25, 2022
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+20 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="fastai,fastbook,collaborative filtering,latent factors,embeddings,recommender systems,recsys" data-listing-date-sort="1648710000000" data-listing-file-modified-sort="1668484495938" data-listing-reading-time-sort="9.275">
+<div class="thumbnail">
+<p><a href="./posts/2022-03-31-ajtfb-chapter-8.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('collaborative filtering'); return false;">
+collaborative filtering
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('latent factors'); return false;">
+latent factors
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('embeddings'); return false;">
+embeddings
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('recommender systems'); return false;">
+recommender systems
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('recsys'); return false;">
+recsys
+</div>
+</div>
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html">
+<div class="listing-description">
+<p>This chapter of <span>“Deep Learning for Coders with fastai &amp; PyTorch”</span> moves us away from computer vision to collaborative filtering (think recommendation systems). We’ll explore building these models using the traditional “dot product” approach and also using a neural network, but we’ll begin by covering the idea of “latent factors,” which are both important for colloborative and tabular models. Lets go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html">
+<div class="listing-date">
+Mar 31, 2022
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+9 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="fastai,fastbook,classification,computer vision,techniques,bag of tricks" data-listing-date-sort="1648450800000" data-listing-file-modified-sort="1668484495944" data-listing-reading-time-sort="7.6">
+<div class="thumbnail">
+<p><a href="./posts/2022-03-28-ajtfb-chapter-7.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('classification'); return false;">
+classification
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('computer vision'); return false;">
+computer vision
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('techniques'); return false;">
+techniques
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bag of tricks'); return false;">
+bag of tricks
+</div>
+</div>
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html">
+<div class="listing-description">
+<p>This chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span> details several techniques you can apply to getting SOTA results with your image classification models! It’s the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html">
+<div class="listing-date">
+Mar 28, 2022
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+7 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="fastai,fastbook,regression,computer vision,key point" data-listing-date-sort="1644393600000" data-listing-file-modified-sort="1668484495937" data-listing-reading-time-sort="4.775">
+<div class="thumbnail">
+<p><a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 6: Regression
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
+regression
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('computer vision'); return false;">
+computer vision
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('key point'); return false;">
+key point
+</div>
+</div>
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html">
+<div class="listing-description">
+<p>Its the more things you can do with computer vision chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! Having looked at both multiclass and multilable classification, we now turn our attention to regression tasks. In particular, we’ll look at key point regression models covered in chapter 6. Soooo lets go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html">
+<div class="listing-date">
+Feb 9, 2022
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+4 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="fastai,fastbook,multi-label classification,binary cross entropy,BCE,computer vision" data-listing-date-sort="1623308400000" data-listing-file-modified-sort="1668484495946" data-listing-reading-time-sort="9.1">
+<div class="thumbnail">
+<p><a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('multi-label classification'); return false;">
+multi-label classification
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('binary cross entropy'); return false;">
+binary cross entropy
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('BCE'); return false;">
+BCE
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('computer vision'); return false;">
+computer vision
+</div>
+</div>
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html">
+<div class="listing-description">
+<p>Its the more things you can do with computer vision chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html">
+<div class="listing-date">
+Jun 10, 2021
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+9 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="fastai,fastbook,multiclass classification,computer vision" data-listing-date-sort="1622703600000" data-listing-file-modified-sort="1668484495937" data-listing-reading-time-sort="10.455">
+<div class="thumbnail">
+<p><a href="./posts/2021-06-03-ajtfb-chapter-5.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('multiclass classification'); return false;">
+multiclass classification
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('computer vision'); return false;">
+computer vision
+</div>
+</div>
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html">
+<div class="listing-description">
+<p>Its the image classification chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! We’ll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model’s predictions. So without further adieu, lets go …</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html">
+<div class="listing-date">
+Jun 3, 2021
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+10 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="6" data-categories="fastai,github,open source,pull requests" data-listing-date-sort="1622617200000" data-listing-file-modified-sort="1668484495945" data-listing-reading-time-sort="2.355">
+<div class="thumbnail">
+<p><a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html"> <img src="./posts/images/thumbs_up_kid.jpeg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html">
+<h3 class="no-anchor listing-title">
+Contributing to fastai: Setup your local development environment &amp; submit a PR
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('github'); return false;">
+github
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('open source'); return false;">
+open source
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('pull requests'); return false;">
+pull requests
+</div>
+</div>
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html">
+<div class="listing-description">
+<p>A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn’t quite remember all the steps required to do so. Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all). So for all you developers looking to contribute to fastai, or really any open source project, here’s everything you need to know to setup your local development environment and submit PRs to fastai. Enjoy!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html">
+<div class="listing-date">
+Jun 2, 2021
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+2 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="7" data-categories="blurr,huggingface,fastai,multilingual,sequence classification" data-listing-date-sort="1621926000000" data-listing-file-modified-sort="1668484495944" data-listing-reading-time-sort="1.205">
+<div class="thumbnail">
+<p><a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html"> <img src="./posts/images/blurr-logo-small.png" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html">
+<h3 class="no-anchor listing-title">
+Multilingual Sequence Classifaction with the MBart Family
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('blurr'); return false;">
+blurr
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('huggingface'); return false;">
+huggingface
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('multilingual'); return false;">
+multilingual
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('sequence classification'); return false;">
+sequence classification
+</div>
+</div>
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html">
+<div class="listing-description">
+<p>Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models. Working against the <code>amazon_reviews_multi</code> dataset I’ll show you how to use the <code>blurr</code> library to configure the huggingface objects, build DataLoaders, and train a model that you can use for classifying German text. I’ll throw in a bit of the inference code so that you can see how easy <code>blurr</code> makes it to use your trained model to boot. Let’s go …</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html">
+<div class="listing-date">
+May 25, 2021
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+1 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="8" data-categories="fastai,fastbook" data-listing-date-sort="1621753200000" data-listing-file-modified-sort="1668484495945" data-listing-reading-time-sort="8.905">
+<div class="thumbnail">
+<p><a href="./posts/2021-05-23-ajtfb-chapter-4.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+</div>
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html">
+<div class="listing-description">
+<p>The fourth in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html">
+<div class="listing-date">
+May 23, 2021
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+8 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="9" data-categories="fastai,fastbook" data-listing-date-sort="1606032000000" data-listing-file-modified-sort="1668484495945" data-listing-reading-time-sort="8.325">
+<div class="thumbnail">
+<p><a href="./posts/2020-11-22-ajtfb-chapter-3.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 3: Data Ethics
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+</div>
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html">
+<div class="listing-description">
+<p>The third in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html">
+<div class="listing-date">
+Nov 22, 2020
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+8 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="10" data-categories="fastai,fastbook" data-listing-date-sort="1605513600000" data-listing-file-modified-sort="1668484495945" data-listing-reading-time-sort="15.155">
+<div class="thumbnail">
+<p><a href="./posts/2020-11-16-ajtfb-chapter-2.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+</div>
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html">
+<div class="listing-description">
+<p>The second in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html">
+<div class="listing-date">
+Nov 16, 2020
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+15 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="11" data-categories="fastai,fastbook" data-listing-date-sort="1604649600000" data-listing-file-modified-sort="1668484495946" data-listing-reading-time-sort="23.68">
+<div class="thumbnail">
+<p><a href="./posts/2020-11-06-ajtfb-chapter-1.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html">
+<h3 class="no-anchor listing-title">
+A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fastbook'); return false;">
+fastbook
+</div>
+</div>
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html">
+<div class="listing-description">
+<p>The first in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html">
+<div class="listing-date">
+Nov 6, 2020
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+23 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="12" data-categories="fastai,huggingface,blurr,summarization,text generation" data-listing-date-sort="1590217200000" data-listing-file-modified-sort="1668484495945" data-listing-reading-time-sort="3.355">
+<div class="thumbnail">
+<p><a href="./posts/2020-05-23-text-generation-with-blurr.html"> <img src="./posts/images/blurr-logo-small.png" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2020-05-23-text-generation-with-blurr.html">
+<h3 class="no-anchor listing-title">
+Summarization with blurr
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('huggingface'); return false;">
+huggingface
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('blurr'); return false;">
+blurr
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('summarization'); return false;">
+summarization
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('text generation'); return false;">
+text generation
+</div>
+</div>
+<a href="./posts/2020-05-23-text-generation-with-blurr.html">
+<div class="listing-description">
+<p>blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new summarization capabilities to train, evaluate, and deploy a BART summarization model.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2020-05-23-text-generation-with-blurr.html">
+<div class="listing-date">
+May 23, 2020
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+3 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="13" data-categories="fastai,datablock api,data,pytorch" data-listing-date-sort="1586588400000" data-listing-file-modified-sort="1668484495936" data-listing-reading-time-sort="24.18">
+<div class="thumbnail">
+<p><a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html"> <img src="./posts/images/finding-datablock-nirvana-part-1-logo.jpg" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html">
+<h3 class="no-anchor listing-title">
+Finding DataBlock Nirvana with fast.ai v2 - Part 1
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
+fastai
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('datablock api'); return false;">
+datablock api
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('data'); return false;">
+data
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('pytorch'); return false;">
+pytorch
+</div>
+</div>
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html">
+<div class="listing-description">
+<p>The path to enlightment begins here!</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html">
+<div class="listing-date">
+Apr 11, 2020
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+24 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="14" data-listing-date-sort="1585983600000" data-listing-file-modified-sort="1668484495947" data-listing-reading-time-sort="3.25">
+<div class="thumbnail">
+<p><a href="./posts/2020-04-04-understanding-cross-entropy-loss.html"> <img src="./posts/images/highlander-there-can-be-only-one.png" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html">
+<h3 class="no-anchor listing-title">
+Loss Functions: Cross Entropy Loss and You!
+</h3>
+<div class="listing-subtitle">
+
+</div>
+<div class="listing-description">
+<p>Meet multi-classification’s favorite loss function</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html">
+<div class="listing-date">
+Apr 4, 2020
+</div>
+<div class="listing-author">
+Wayde Gilliam
+</div>
+<div class="listing-reading-time">
+3 min
+</div>
+<div class="metadata-value listing-file-modified">
+11/14/22, 7:54:55 PM
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
-</script></body>
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
 
-</html>
+
+
+</body></html>

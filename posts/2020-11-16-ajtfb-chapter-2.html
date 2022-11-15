@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2020-11-16">
+<meta name="description" content="The second in a weekly-ish series where I revisit the fast.ai book, &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning">
+<meta property="og:description" content="The second in a weekly-ish series where I revisit the fast.ai book, [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning">
+<meta name="twitter:description" content="The second in a weekly-ish series where I revisit the fast.ai book, [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#starting-your-project" id="toc-starting-your-project" class="nav-link active" data-scroll-target="#starting-your-project">Starting Your Project</a>
+  <ul class="collapse">
+  <li><a href="#things-to-think-about-when-deciding-on-project-feasibility" id="toc-things-to-think-about-when-deciding-on-project-feasibility" class="nav-link" data-scroll-target="#things-to-think-about-when-deciding-on-project-feasibility">Things to think about when deciding on project feasibility</a></li>
+  </ul></li>
+  <li><a href="#the-drivetrain-approach" id="toc-the-drivetrain-approach" class="nav-link" data-scroll-target="#the-drivetrain-approach">The Drivetrain Approach</a>
+  <ul class="collapse">
+  <li><a href="#four-steps" id="toc-four-steps" class="nav-link" data-scroll-target="#four-steps">Four Steps</a></li>
+  </ul></li>
+  <li><a href="#how-to-avoid-disaster" id="toc-how-to-avoid-disaster" class="nav-link" data-scroll-target="#how-to-avoid-disaster">How to Avoid Disaster</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting help</a></li>
+  <li><a href="#getting-and-cleaning-your-images" id="toc-getting-and-cleaning-your-images" class="nav-link" data-scroll-target="#getting-and-cleaning-your-images">Getting and cleaning your images</a></li>
+  <li><a href="#datablock-api-basics" id="toc-datablock-api-basics" class="nav-link" data-scroll-target="#datablock-api-basics">DataBlock API Basics</a>
+  <ul class="collapse">
+  <li><a href="#defining-your-blueprint-using-the-datablock-api" id="toc-defining-your-blueprint-using-the-datablock-api" class="nav-link" data-scroll-target="#defining-your-blueprint-using-the-datablock-api">Defining your “blueprint” using the DataBlock API</a></li>
+  <li><a href="#using-your-blueprint-to-build-your-dataloaders" id="toc-using-your-blueprint-to-build-your-dataloaders" class="nav-link" data-scroll-target="#using-your-blueprint-to-build-your-dataloaders">Using your “blueprint” to build your <code>DataLoaders</code></a></li>
+  </ul></li>
+  <li><a href="#transforms" id="toc-transforms" class="nav-link" data-scroll-target="#transforms">Transforms</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-transform" id="toc-what-is-a-transform" class="nav-link" data-scroll-target="#what-is-a-transform">What is a “Transform”?</a></li>
+  <li><a href="#what-kinds-of-transforms-are-there" id="toc-what-kinds-of-transforms-are-there" class="nav-link" data-scroll-target="#what-kinds-of-transforms-are-there">What kinds of transforms are there?</a></li>
+  <li><a href="#when-should-i-use-an-item-transform" id="toc-when-should-i-use-an-item-transform" class="nav-link" data-scroll-target="#when-should-i-use-an-item-transform">When should I use an <strong>item transform</strong>?</a></li>
+  <li><a href="#when-should-i-use-a-batch-transform" id="toc-when-should-i-use-a-batch-transform" class="nav-link" data-scroll-target="#when-should-i-use-a-batch-transform">When should I use a <strong>batch transform</strong>?</a></li>
+  <li><a href="#tips-tricks" id="toc-tips-tricks" class="nav-link" data-scroll-target="#tips-tricks">Tips &amp; Tricks</a></li>
+  </ul></li>
+  <li><a href="#how-to-train-an-image-classification-model-with-the-high-level-api" id="toc-how-to-train-an-image-classification-model-with-the-high-level-api" class="nav-link" data-scroll-target="#how-to-train-an-image-classification-model-with-the-high-level-api">How to train an image classification model with the high-level API</a>
+  <ul class="collapse">
+  <li><a href="#step-1-get-your-data" id="toc-step-1-get-your-data" class="nav-link" data-scroll-target="#step-1-get-your-data">Step 1: Get your data</a></li>
+  <li><a href="#step-2-build-your-datablock" id="toc-step-2-build-your-datablock" class="nav-link" data-scroll-target="#step-2-build-your-datablock">Step 2: Build your <code>DataBlock</code></a></li>
+  <li><a href="#step-3-train-your-model" id="toc-step-3-train-your-model" class="nav-link" data-scroll-target="#step-3-train-your-model">Step 3: Train your model</a></li>
+  <li><a href="#step-4-inference" id="toc-step-4-inference" class="nav-link" data-scroll-target="#step-4-inference">Step 4: Inference</a></li>
+  </ul></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a>
+  <ul class="collapse">
+  <li><a href="#export-and-predict" id="toc-export-and-predict" class="nav-link" data-scroll-target="#export-and-predict"><code>export()</code> and <code>predict()</code></a></li>
+  </ul></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    The second in a weekly-ish series where I revisit the fast.ai book, <a href="https://github.com/fastai/fastbook">"Deep Learning for Coders with fastai &amp; PyTorch"</a>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 16, 2020</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> PIL</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.data.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<hr>
+<section id="starting-your-project" class="level2">
+<h2 class="anchored" data-anchor-id="starting-your-project">Starting Your Project</h2>
+<section id="things-to-think-about-when-deciding-on-project-feasibility" class="level3">
+<h3 class="anchored" data-anchor-id="things-to-think-about-when-deciding-on-project-feasibility">Things to think about when deciding on project feasibility</h3>
+<p>“When selecting a project, the most important consideration is data availability.” If you don’t have enough quality data … good luck :)</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider that <strong>data augmentation</strong> can alleviate both the need for more manual labelling and also protect you from problems with <em>out-of-domain</em> data (e.g.&nbsp;when unexpected image types arise in the data when the model is being used in production) by synthetically creating more data likely to be seen that may not be in your dataset as is.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… iterate from end to end in your project; don’t spend months fine-tuning your model, or polishing the perfect GUI, or labeling the perfect dataset”</p>
+</div>
+</div>
+<p>This is good advice for <em>any</em> software project …<strong><em>fail early and fail often</em></strong>. If you don’t, you’re likely to only uncover critical problems much later than you would have before, and even worse, you’re likely to not produce anything at all! In the world of deep learning there are a number of tools, that while helpful, can really get you so bogged down that you never deploy something usable (e.g., experiment tracking tools, hyperparameter optimization libraries, etc…).</p>
+<p>Also, remember that getting something in production is a different task from winning a kaggle competition, where the later may require use of some of those aforementioned tools and the ensembling of dozens of models. <strong><em>For production, something better than human is often good enough to get out there and through refactoring, improve.</em></strong></p>
+<hr>
+</section>
+</section>
+<section id="the-drivetrain-approach" class="level2">
+<h2 class="anchored" data-anchor-id="the-drivetrain-approach">The Drivetrain Approach</h2>
+<p><img src="https://raw.githubusercontent.com/ohmeow/ohmeow_website/master/images/articles/drivetrain-approach.png" class="img-fluid"></p>
+<section id="four-steps" class="level3">
+<h3 class="anchored" data-anchor-id="four-steps">Four Steps</h3>
+<section id="step-1-define-your-objectives" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-define-your-objectives">Step 1: Define your objective(s)</h4>
+<p>It’s amazing how in my 20+ years as a developer, how rare it is that a customer is able to clearly define what they want! In my experience, more than not, it is the developers that end up defining the goals. Not having a clear objective is likely to waste time, energy, and money to produce something that won’t even see the light of day. <strong><em>You can’t gauge the completion or quality of any software project without clear objective(s).</em></strong></p>
+<p>Ex.1: Show most relevant search results.<br>
+Ex.2: Drive additional sales by recommending to customers items to purchase they otherwise wouldn’t</p>
+</section>
+<section id="step-2-what-actions-can-you-take-to-achieve-those-objectives" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-what-actions-can-you-take-to-achieve-those-objectives">Step 2: What actions can you take to achieve those objective(s)?</h4>
+<p>What things can make your goals a reality. Pretty simple.</p>
+<p>Ex.1: Ranking the search results will help show the most relevants ones first.<br>
+Ex.2: Ranking the recommendations will help.</p>
+</section>
+<section id="step-3-what-data-is-needed-to-take-those-actions" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-what-data-is-needed-to-take-those-actions">Step 3: What data is needed to take those actions?</h4>
+<p>If you don’t have the data, you’ll need to get it … because the data pulls the levers which get you closer to your objective(s).</p>
+<p>Ex.1: Seeing what how pages linked to other pages.<br>
+Ex.2: Collecting data on what customers purchased, what was recommended, and what they did with that info.</p>
+</section>
+<section id="step-4-build-models" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-build-models">Step 4: Build models</h4>
+<p>Only once you have the data and know what actions you want to be able to take based on the information within it, do you being modeling … first, defining what models you can even build with that data and second, what data you need to collect for models you can’t.</p>
+<p>Ex.1: A model that takes the page relation data and predicts a ranking given a query.<br>
+Ex.2: Two models that predict the purchasing proabilities conditional on seeing or not seeing a recommendation.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="how-to-avoid-disaster" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-avoid-disaster">How to Avoid Disaster</h2>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your model is only as good as the data it was trained on</p>
+</div>
+</div>
+<p>Two problems to watch out for:</p>
+<ol type="1">
+<li><strong>out-of-domain data</strong>: “data that our model sees in production that is very different to what it saw during training.</li>
+<li><strong>domain shift</strong>: “whereby the type of data that our model sees changes over time.”</li>
+</ol>
+<p>Mitigation steps:</p>
+<p><img src="https://raw.githubusercontent.com/ohmeow/ohmeow_website/master/images/articles/avoid-disaster-steps.png" class="img-fluid"></p>
+<p>“Where possible, the <strong>first step</strong> is to use an entirely manual process with your model running in parallel and not being used to directly drive any actions.”</p>
+<p>“The <strong>second step</strong> is to try and limit the scope of the model.”</p>
+<p>“The <strong>third step</strong> is to gradually increase the scope of your rollout.”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Try to think about all the ways in which your system could go wrong, and then think about what measure or report or picture could reflect that problem, and ensure that your regular reporting includes that information.”</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Defining good validation and tests sets are part of the solution. See my “<a href="https://ohmeow.com/what-is/training-validation-test-sets#How-to-create-good-validation-and-test-sets">How to create good validation and test sets</a>” for more details.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="getting-help" class="level2">
+<h2 class="anchored" data-anchor-id="getting-help">Getting help</h2>
+<p>A few of ways …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># method signature only</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>download_images?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># full source of method</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>download_images??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get link to fastai docs</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>doc(download_images)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also use <code>pdb.set_trace</code> (in code) or <code>%debug</code>(in a new cell following the one with the error) to step through your code. I use the former all the time … its a great way to debug and also learn what the code is doing and why. For example, I use it to look at the shape of things as the travel through and out of different layers in my NNs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pdb</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> div_by_zero():</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  pdb.set_trace()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">0</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">'here'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment this to see what I'm talking about ...</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># div_by_zero()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="getting-and-cleaning-your-images" class="level2">
+<h2 class="anchored" data-anchor-id="getting-and-cleaning-your-images">Getting and cleaning your images</h2>
+<ol type="1">
+<li>Use <code>download_images</code> listed as URLs in a text file <code>urls</code> to download the actual images locally.<br>
+</li>
+<li>Get the file path to the images via <code>get_image_files</code> in an <code>L</code> object.<br>
+</li>
+<li>Get rid of the corrupt images using <code>verify_images</code> and <code>Path.unlink</code>.</li>
+</ol>
+<pre><code>path = Path('bears/grizzly')
+download_images(path, urls=image_urls.txt)
+
+file_paths = get_image_files(path)
+failed = verify_images(file_paths)
+failed.map(Path.unlink)</code></pre>
+<p>Notice how <code>L</code>’s <code>map</code> method is used to apply the <code>Path.unlink</code> function to each item in-place.</p>
+<hr>
+</section>
+<section id="datablock-api-basics" class="level2">
+<h2 class="anchored" data-anchor-id="datablock-api-basics">DataBlock API Basics</h2>
+<p>The <strong>DataBlock API</strong> represents fastai’s high-level approach for building <strong>DataLoaders</strong> from your raw data sources. It is a reusable blueprint for how data is used both during model training and at inference time, and along with the fastai callback system, it represents one of the core pieces of the fastai framework.</p>
+<p>“<strong>… a <code>DataBlock object</code> … is like a template for creating a <code>DataLoaders</code> object</strong>”</p>
+<p>“A <code>DataLoader</code> is a class that provides batches of a few items at a time to the GPU”</p>
+<section id="defining-your-blueprint-using-the-datablock-api" class="level3">
+<h3 class="anchored" data-anchor-id="defining-your-blueprint-using-the-datablock-api">Defining your “blueprint” using the DataBlock API</h3>
+<p>There are <strong>four</strong> things you need to specify to make your data usable for training (e.g., to build at minimum a training and validation <code>DataLoader</code>).</p>
+<ol type="1">
+<li>What <strong>kind of data</strong> you are working with</li>
+<li>How to <strong>get</strong> the data</li>
+<li>How to <strong>label</strong> the data</li>
+<li>How to <strong>create a validation set</strong></li>
+</ol>
+<p>Here’s an example of how this is done with the <code>DataBlock API</code>:</p>
+<pre><code>d_block = DataBlock(
+  blocks=(ImageBlock, CategoryBlock),              #=&gt; our independent and dependent variable datatypes
+  get_items=get_image_files,                       #=&gt; how to get our data
+  splitter=RandomSplitter(valid_pct=0.2, seed=42), #=&gt; how to create the validation set
+  get_y=parent_label,                              #=&gt; how to label our data
+  item_tfms=Resize(128))                           #=&gt; code that runs against each item as it is fetched</code></pre>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>seed</code> argument to ensure you get the same training/validation set each time you run that code; else you won’t be able to know if, as you change hyperparameter values, your model performance changed because of those values and/or because of difference in your training/validation sets!</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To ensure reproducibility in your fastai training, follow the tips/tricks laid out in the <a href="https://forums.fast.ai/t/solved-reproducibility-where-is-the-randomness-coming-in/31628">Reproducibility: Where is the randomness coming in?</a> forum post.</p>
+</div>
+</div>
+</section>
+<section id="using-your-blueprint-to-build-your-dataloaders" class="level3">
+<h3 class="anchored" data-anchor-id="using-your-blueprint-to-build-your-dataloaders">Using your “blueprint” to build your <code>DataLoaders</code></h3>
+<p>Once you’ve defined your blueprint for how to get your modelable data (i.e., your <code>DataLoaders</code>), you need to pass it the “actual source” of your data, which can be a path or a DataFrame or whatever.</p>
+<pre><code>dls = d_block.dataloaders(path)</code></pre>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>dls.show_batch(...)</code> or <code>dls.valid.show_batch(...)</code> to visualize your training/validation data.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="transforms" class="level2">
+<h2 class="anchored" data-anchor-id="transforms">Transforms</h2>
+<p>The DataBlock API relies heavily on the use of fastai <strong>transforms</strong>. They are used in the <code>blocks</code> you see above as well as inline, as you’ll see below.</p>
+<section id="what-is-a-transform" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-transform">What is a “Transform”?</h3>
+<p>A <strong><em>Transform</em></strong> contains code that is applied automatically during training.</p>
+</section>
+<section id="what-kinds-of-transforms-are-there" class="level3">
+<h3 class="anchored" data-anchor-id="what-kinds-of-transforms-are-there">What kinds of transforms are there?</h3>
+<p>There are <strong>two</strong> kinds of transforms:</p>
+<p><strong>Item Transforms</strong>: Applied to each individual item in your dataset, they are applied to an item from your dataset when it is fetched.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>item_tfms</code> argument to define your batch transforms. It is more technically correct to think of them as your <em>after batch</em> transforms since that is whey they are applied</p>
+</div>
+</div>
+<p><strong>Batch Transforms</strong>: Applied to a <em>batch of items</em> using the GPU, they are applied to a collection of items on the GPU <em>after</em> they have been collated into the same shape.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>batch_tfms</code> argument to define your batch transforms. It is more technically correct to think of them as your <em>after batch</em> transforms since that is whey they are applied</p>
+</div>
+</div>
+<p>An example:</p>
+<pre><code>d_block = d_block.new(item_tfms=RandomResizedCrop(128, min_scale=0.3), batch_tfms=aug_transforms(mult=2))</code></pre>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>aug_transforms</code> are “a standard set of augmentations that we have found work pretty well”</p>
+</div>
+</div>
+</section>
+<section id="when-should-i-use-an-item-transform" class="level3">
+<h3 class="anchored" data-anchor-id="when-should-i-use-an-item-transform">When should I use an <strong>item transform</strong>?</h3>
+<p>TODO</p>
+</section>
+<section id="when-should-i-use-a-batch-transform" class="level3">
+<h3 class="anchored" data-anchor-id="when-should-i-use-a-batch-transform">When should I use a <strong>batch transform</strong>?</h3>
+<section id="data-augmentation" class="level4">
+<h4 class="anchored" data-anchor-id="data-augmentation">Data augmentation</h4>
+<p><strong>Data augmentation</strong> transorms (e.g., rotation, flipping, perspective warping, brightness changes, contrast changes, etc…) are defined as <strong>batch transforms</strong> and run on the GPU.</p>
+</section>
+</section>
+<section id="tips-tricks" class="level3">
+<h3 class="anchored" data-anchor-id="tips-tricks">Tips &amp; Tricks</h3>
+<section id="changing-your-transforms-without-having-to-redefine-your-datablock-from-scratch" class="level4">
+<h4 class="anchored" data-anchor-id="changing-your-transforms-without-having-to-redefine-your-datablock-from-scratch">1. Changing your transforms without having to redefine your DataBlock from scratch</h4>
+<p>You can change the transforms in your DataBlock by reusing an existing DataBlock via <code>d_block.new</code>.</p>
+<pre><code>d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.squish))
+dls = d_block.dataloaders(path)
+...
+d_block = d_block.new(item_tfms=Resize(128, ResizeMethod.Pad, pad_mode='zeroes'))
+dls = d_block.dataloaders(path)
+...</code></pre>
+<hr>
+</section>
+</section>
+</section>
+<section id="how-to-train-an-image-classification-model-with-the-high-level-api" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-train-an-image-classification-model-with-the-high-level-api">How to train an image classification model with the high-level API</h2>
+<section id="step-1-get-your-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-get-your-data">Step 1: Get your data</h3>
+<p>We can grab all kinda of useful datasets via the <a href="https://course.fast.ai/datasets">fast.ai Datasets</a> for various tasks and data types (e.g., images, text, etc…). In this example we’ll work with the <code>Imagnette</code> dataset, a “subset of 10 easily classified classes from Imagenet.”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Working with a representative subset of your full dataset is recommended for experimentation and as a means to verify your data prep and model training.</p>
+</div>
+</div>
+<p>We’ll use <code>untar_data</code> to both download and decompress the dataset. It will return a <code>Pathlib</code> object pointing to where the data has been downloaded</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>raw_data_path <span class="op">=</span> untar_data(URLs.IMAGENETTE)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raw_data_path)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>raw_data_path.ls()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use <code>get_image_files()</code> to grab all the image filepaths in the training set. This method takes a path as an argument and recursively grabs all the images in that path by default.</p>
+<p>We’ll need to know how to infer the class for each image and this can be done by looking at one or more of the actual image filepaths.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> get_image_files(raw_data_path<span class="op">/</span><span class="st">'train'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>files[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we can see that the convention followed for this dataset is having the class Id we want to predict in its parent folder, while each image’s unique name is the class_id followed by a unique identifier: <code>{class_id}/{class_id}_{unique_id}.JPEG</code>.</p>
+<p>We can validate this by ensure we see 10 parent folders …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(raw_data_path<span class="op">/</span><span class="st">'train'</span>).ls()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can even look at one or more of the images using the <code>PIL</code> package</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> PIL.Image.<span class="bu">open</span>(files[<span class="dv">0</span>])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>img</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-2-build-your-datablock" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-build-your-datablock">Step 2: Build your <code>DataBlock</code></h3>
+<p>The objective here is to ultimately be able to build <code>DataLoaders</code> you can feed into your model. There are a variety of ways to do this but the recommended go to is to use the mid-level <code>DataBlock API</code> if you can. A <code>DataBlock</code> represents a blueprint for building <code>DataLoaders</code> from your raw data, whereas the <code>DataLoaders</code> are what allow us to feed our examples into our model a mini-batch (a few) at a time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> DataBlock(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock, CategoryBlock),              <span class="co"># tell the block what are INPUTS/TARGETS are (images and a category/class here)</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    get_items<span class="op">=</span>get_image_files,                       <span class="co"># tell the block HOW TO GET THE DATA (here its files but could also be rows in a .csv, etc...)</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>, seed<span class="op">=</span><span class="dv">42</span>), <span class="co"># tell the block HOW TO BUILD THE VALIDATION SET (here we just randomly select 20% data)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    get_y<span class="op">=</span>parent_label,                              <span class="co"># tell the block WHERE TO GET OUR LABELS (here from the parent folder)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>)                            <span class="co"># tell the block things WE WANT DONE EACH TIME WE GRAB AN ITEM from the dataset</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you’re unsure what any of these classes or methods do, don’t forget about the <code>??</code> syntax you can use in notebooks. For example …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ImageBlock??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We specify <code>Resize(128)</code> as an <strong>item transform</strong> because ultimately we’ll feed the data into our model a <em>mini-batch</em> at a time, and in order to take advantage of the GPU and tensor operations that items we feed in need to be the same size.</p>
+</div>
+</div>
+<p>“<strong><em>Item transforms</em></strong> are pieces of code that run on each individual item, whether it be an image, category, or so forth.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(raw_data_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We <em>implement</em> our blueprint by passing the path to the image files into the <code>DataBlock.dataloaders()</code> method. Whatever we pass in as an argument here, gets passed to the function we specified in <code>get_items</code> above (which is<code>get_image_files</code> in this case). While iterating over each image, <code>get_y</code> will be used to grab the label of the image and our two blocks, <code>ImageBlock</code> and <code>CategoryBlock</code> will provide both the pre and post-processing necessary to work with our images and classes. Finally, our <code>splitter</code> will randomly take 20% of the dataset and set it aside for our validation set.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You want to ensure you get the same validation set each time so you can meaningfully assess the performance of your model(s) as you tweak things. You do this by assigning a <code>seed</code>. If you don’t do this, you won’t know if your model’s performance is due to it seeing different images in the validation set or because of change you’ve made in your hyperparameters, model architecture, etc…</p>
+</div>
+</div>
+<p>Each time we grab an image, regardless of the size, from the dataset, we resize it as a 128x128 tensor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">4</span>, nrows<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use the <code>DataBlock.new()</code> method to modify only parts of our <code>DataBlock</code> defined above, and so create a new instance. Here for example, we can change how the <code>Resize</code> transform resizes images so that it randomly crops the image, keeping at least 30% of the image each time.</p>
+<p>By default, this method crops the images to fit a square (but as you can see here we can also have fastai pad the images with zeroes, squish, or stretch them.).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dblock2 <span class="op">=</span> dblock.new(item_tfms<span class="op">=</span>RandomResizedCrop(<span class="dv">128</span>, min_scale<span class="op">=</span><span class="fl">0.2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock2.dataloaders(raw_data_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dls.valid.show_batch(max_n<span class="op">=</span><span class="dv">4</span>, nrows<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When dealing with data augmentation, its often helpful to see how a <strong><em>single</em></strong> example is augmented.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dls.train.show_batch(max_n<span class="op">=</span><span class="dv">4</span>, nrows<span class="op">=</span><span class="dv">1</span>, unique<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using <code>RandomResizedCrop</code> allows ” our model can learn to focus on, and recognize, different features in our images. It also reflects how images work in the real world: different photos of the same thing may be framed in slightly different ways.”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“…training the neural network with examples of images where the objects are in slightly different places and slightly different sizes helps it to understand the basic concept of what an object is, and how it can be represented in an image.”</p>
+</div>
+</div>
+<p>We can, and should, also use <strong>data augmentation</strong> to create “random variations” that are representative of what our model will see in the wild. “Examples of common data augmentation techniques for images are rotation, flipping, perspective warping, brightness changes and contrast changes.”</p>
+<p>For “natural photos”, fastai provides the <code>aug_tranforms()</code> method that have proven to work well in general.</p>
+<p>In addition, such “data augmentations” are tyically desirable to have run on the GPU since they’ll run much faster. To make this happen, these “transforms” are specified as <code>batch_tfms</code> since them happen on a “mini-batch” at a time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dblock2 <span class="op">=</span> dblock.new(item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>), batch_tfms<span class="op">=</span>aug_transforms(mult<span class="op">=</span><span class="dv">2</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock2.dataloaders(raw_data_path)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>dls.train.show_batch(max_n<span class="op">=</span><span class="dv">8</span>, nrows<span class="op">=</span><span class="dv">2</span>, unique<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using the <code>unique=True</code> argument with our <code>DataLoaders.show_batch()</code> method allows us to see how these augmentations are applied to a single image.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Verify that the augmentations you use are representative of what your model will see in the wild</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use augmentations to artificially provide more images than you do in your raw dataset</p>
+</div>
+</div>
+</section>
+<section id="step-3-train-your-model" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-train-your-model">Step 3: Train your model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> dblock.new(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>RandomResizedCrop(<span class="dv">224</span>, min_scale<span class="op">=</span><span class="fl">0.5</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    batch_tfms<span class="op">=</span>aug_transforms()</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(raw_data_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet18, metrics<span class="op">=</span>error_rate)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>interp <span class="op">=</span> ClassificationInterpretation.from_learner(learn)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>interp.plot_confusion_matrix()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“It’s helpful to see where exactly our errors are occurring, to see whether they’re due to a dataset problem (e.g., images that aren’t bears at all, or are labeled incorrectly, etc.), or a model problem (perhaps it isn’t handling images taken with unusual lighting, or from a different angle, etc.). To do this, we can sort our images by their loss.”</p>
+</div>
+</div>
+<p>For each image shown, <code>ClassificationInterpretation.plot_top_losses()</code> shows four things: the predicted class, the actual class, the loss, and the probability</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>interp.plot_top_losses(<span class="dv">5</span>, nrows<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>” a model can actually help you find data issues more quickly and easily. So, we normally prefer to train a quick and simple model first, and then use it to help us with data cleaning.”</p>
+</div>
+</div>
+<p>fastai includes the <code>ImageClassifierCleaner</code> that can be used to “clean your dataset” (remove or re-label images). See chapter 2 for more information on how to use this utility.</p>
+<hr>
+</section>
+<section id="step-4-inference" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-inference">Step 4: Inference</h3>
+<p>“Remember that a model consists of two parts: the architecture and the trained parameters. The easiest way to save the model is to save both of these, because that way when you load a model you can be sure that you have the matching architecture and parameters.”</p>
+<p>How do we do this? We use <code>Learner.export()</code>.</p>
+<p>By using this method we don’t have to redefine how the data needs to be transformed as the inference learner will know what transforms to apply based on what was applied to your validation <code>DataLoader</code>. For example, it will know <strong><em>not</em></strong> to apply any data augmentation which is only really useful during training.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>learn.export()</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path()</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>path.ls(file_exts<span class="op">=</span><span class="st">'.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>learn_inf <span class="op">=</span> load_learner(path<span class="op">/</span><span class="st">'export.pkl'</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>learn_inf.dls.vocab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Calling <code>Learner.predict()</code> will return the predicated label, the label index in the vocab, and the probabilities assigned to each of our 10 labels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>learn_inf.predict(files[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="inference" class="level2">
+<h2 class="anchored" data-anchor-id="inference">Inference</h2>
+<p><strong>Inference</strong> is about how you used your trained model to get predictions on new data. It is often structured to perform in real-time on a single (or at least a small set of data) item or in the background where large quantities of data can be processed together in batches. For the former, we can use fastai’s <code>Learner.predict()</code> method while for the later we can use either fastai’s <code>Learner.get_preds()</code> or write our own inference loop using PyTorch.</p>
+<section id="export-and-predict" class="level3">
+<h3 class="anchored" data-anchor-id="export-and-predict"><code>export()</code> and <code>predict()</code></h3>
+<p>“a model consists of two parts: the <em>architecture</em> and the trained <em>parameters</em>.” You can use it just like any other function</p>
+<pre><code># saves the architecture, the trained parameters, and the definintion of how to create your DataLoaders
+learn.export() </code></pre>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>fastai … uses your validation set <code>DataLoader</code> for inference by default, <strong><em>so your data augmentation will not be applied.</em></strong></p>
+</div>
+</div>
+<pre><code>inf_learn = load_learner(path/'export.pkl')
+inf_learn.predict('images/grizzly.jpg')
+inf_learn.dls.vocab # =&gt; To view possible classification categories/labels</code></pre>
+<p>For options on how to deploy your app, see the <a href="https://course.fast.ai/">Deployment section</a> in the course website. I personally like to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> and there is a good <a href="https://forums.fast.ai/t/fastai2-fastapi-starter-template/69373?u=wgpubs">starter template here</a> for that.</p>
+<hr>
+</section>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li><p>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</p></li>
+<li><p>https://docs.fast.ai/ - The library’s documentation; includes tutorials and other tips for development.</p></li>
+<li><p>https://forums.fast.ai/ - If you’re not part of the community yet, you should be. Before posting a question, search to see if it has been answered already (95% of the time, it has).</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

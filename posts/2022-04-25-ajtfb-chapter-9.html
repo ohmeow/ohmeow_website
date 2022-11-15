@@ -1,0 +1,3139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2022-04-25">
+<meta name="description" content="In chapter of 8 of “Deep Learning for Coders with fastai &amp; PyTorch” we learned that the neural network version of of collaborative model is in fact built on something called TabularModel, and that in fact, an EmbeddingNN is nothing but a TabularModel without any continuous (or real) numbers. “Structured” or “tabular” data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both categorical and/or real numbers. Working with such data is the subject of chapter 9, so lets go!">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling">
+<meta property="og:description" content="In chapter of 8 of [&quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;](https://github.">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling">
+<meta name="twitter:description" content="In chapter of 8 of [&quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;](https://github.">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tabular-modeling" id="toc-tabular-modeling" class="nav-link active" data-scroll-target="#tabular-modeling">Tabular Modeling</a></li>
+  <li><a href="#categorical-embeddings" id="toc-categorical-embeddings" class="nav-link" data-scroll-target="#categorical-embeddings">Categorical Embeddings</a></li>
+  <li><a href="#imports" id="toc-imports" class="nav-link" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data preparation</a>
+  <ul class="collapse">
+  <li><a href="#step-1-get-the-data" id="toc-step-1-get-the-data" class="nav-link" data-scroll-target="#step-1-get-the-data">Step 1: Get the data</a></li>
+  <li><a href="#step-2-eda" id="toc-step-2-eda" class="nav-link" data-scroll-target="#step-2-eda">Step 2: EDA</a></li>
+  <li><a href="#step-3-preprocessing" id="toc-step-3-preprocessing" class="nav-link" data-scroll-target="#step-3-preprocessing">Step 3: Preprocessing</a></li>
+  </ul></li>
+  <li><a href="#creating-our-tabularpandas" id="toc-creating-our-tabularpandas" class="nav-link" data-scroll-target="#creating-our-tabularpandas">Creating our <code>TabularPandas</code></a>
+  <ul class="collapse">
+  <li><a href="#step-1-define-our-continuous-and-categorical-columns" id="toc-step-1-define-our-continuous-and-categorical-columns" class="nav-link" data-scroll-target="#step-1-define-our-continuous-and-categorical-columns">Step 1: Define our continuous and categorical columns</a></li>
+  <li><a href="#step-2-define-our-training-and-validation-splits" id="toc-step-2-define-our-training-and-validation-splits" class="nav-link" data-scroll-target="#step-2-define-our-training-and-validation-splits">Step 2: Define our training and validation splits</a></li>
+  <li><a href="#step-3-build-our-tabularpandas-object" id="toc-step-3-build-our-tabularpandas-object" class="nav-link" data-scroll-target="#step-3-build-our-tabularpandas-object">Step 3: Build our <code>TabularPandas</code> object</a></li>
+  </ul></li>
+  <li><a href="#approach-1-decision-trees" id="toc-approach-1-decision-trees" class="nav-link" data-scroll-target="#approach-1-decision-trees">Approach 1: Decision Trees</a>
+  <ul class="collapse">
+  <li><a href="#step-1-define-independentdependent-variables" id="toc-step-1-define-independentdependent-variables" class="nav-link" data-scroll-target="#step-1-define-independentdependent-variables">Step 1: Define independent/dependent variables</a></li>
+  <li><a href="#step-2-build-our-tree" id="toc-step-2-build-our-tree" class="nav-link" data-scroll-target="#step-2-build-our-tree">Step 2: Build our tree</a></li>
+  <li><a href="#step-3-build-other-trees" id="toc-step-3-build-other-trees" class="nav-link" data-scroll-target="#step-3-build-other-trees">Step 3: Build other trees</a></li>
+  <li><a href="#a-note-on-categorical-variables" id="toc-a-note-on-categorical-variables" class="nav-link" data-scroll-target="#a-note-on-categorical-variables">A note on categorical variables</a></li>
+  </ul></li>
+  <li><a href="#approach-2-random-forests" id="toc-approach-2-random-forests" class="nav-link" data-scroll-target="#approach-2-random-forests">Approach 2: Random Forests</a>
+  <ul class="collapse">
+  <li><a href="#step-1-define-your-random-forest" id="toc-step-1-define-your-random-forest" class="nav-link" data-scroll-target="#step-1-define-your-random-forest">Step 1: Define your Random Forest</a></li>
+  <li><a href="#step-2-determine-why-our-validation-set-is-worse-than-training" id="toc-step-2-determine-why-our-validation-set-is-worse-than-training" class="nav-link" data-scroll-target="#step-2-determine-why-our-validation-set-is-worse-than-training">Step 2: Determine why our validation set is worse than training</a></li>
+  <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model Interpretation</a></li>
+  <li><a href="#the-extrapolation-problem" id="toc-the-extrapolation-problem" class="nav-link" data-scroll-target="#the-extrapolation-problem">The “Extrapolation” problem</a></li>
+  </ul></li>
+  <li><a href="#approach-3-neural-networks" id="toc-approach-3-neural-networks" class="nav-link" data-scroll-target="#approach-3-neural-networks">Approach 3: Neural Networks</a></li>
+  <li><a href="#approach-4-boosting" id="toc-approach-4-boosting" class="nav-link" data-scroll-target="#approach-4-boosting">Approach 4: Boosting</a></li>
+  <li><a href="#other-things-to-try" id="toc-other-things-to-try" class="nav-link" data-scroll-target="#other-things-to-try">Other things to try</a></li>
+  <li><a href="#in-summary" id="toc-in-summary" class="nav-link" data-scroll-target="#in-summary">In summary</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+    <div class="quarto-category">tabular</div>
+    <div class="quarto-category">structured</div>
+    <div class="quarto-category">decision trees</div>
+    <div class="quarto-category">random forest</div>
+    <div class="quarto-category">embeddings</div>
+    <div class="quarto-category">categorical variables</div>
+    <div class="quarto-category">boosting</div>
+    <div class="quarto-category">gdbt</div>
+    <div class="quarto-category">xgboost</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    In chapter of 8 of <a href="https://github.com/fastai/fastbook">“Deep Learning for Coders with fastai &amp; PyTorch”</a> we learned that the neural network version of of collaborative model is in fact built on something called <code>TabularModel</code>, and that in fact, an <code>EmbeddingNN</code> is nothing but a <code>TabularModel</code> <em>without any continuous (or real) numbers</em>. “Structured” or “tabular” data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both categorical and/or real numbers. Working with such data is the subject of chapter 9, so lets go!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 25, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a></p>
+<section id="tabular-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="tabular-modeling">Tabular Modeling</h2>
+<p><strong>What is it?</strong></p>
+<p>“Tabular modeling takes data in the form of a table (like a spreadsheet or CSV). The objective is to predict the value of one column based on the values in the other columns.” Tabular data is also called <strong>“structured data”</strong> while <strong>“unstructured data”</strong> represents things like text, images, audio, etc…</p>
+<p><strong>Why is it important?</strong></p>
+<p>Though it is reported that <a href="https://www.cio.com/article/220347/ai-unleashes-the-power-of-unstructured-data.html">80-90% of data is unstructured</a> (think images, text, audio), ironically, it appears that the vast majority of “real world” machine learning is concerened with tabular/structured data.</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/tunguz/status/1496480602409017351</p>
+</blockquote>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>And here’s the good news … “recent studies have shown that the vast majority of datasets can be be modeled with just two methods.”</p>
+</div>
+</div>
+<p><strong>What are they?</strong></p>
+<ol type="1">
+<li><p>For structured data, <strong>ensembles of decision trees</strong> (e.g., random forests and gradient boosting machines like XGBoost).</p></li>
+<li><p>For unstructured data, <strong>multilayered neural networks learned with SGD.</strong></p></li>
+</ol>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… ensembles of decision trees <strong>tend to train faster</strong>, are often <strong>easier to interpret</strong>, <strong>do not require special GPU hardware</strong> for inference at scale, and <strong>often require less hyperparameter tuning</strong>.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Since a “critical step of <strong>interpreting</strong> a model of tabular data is significantly easier for decesion tree ensembles … <strong><em>ensembles of decision trees are our first approach for analyzing a new tabular dataset</em></strong>”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neural networks will considered when “there are some high-cardinality categorical variables” or there are columns with unstructured data. A example of a high “<strong>cardinality</strong>” (e.g., the number of discrete levels representing the categories) would be something like zip code.</p>
+</div>
+</div>
+<p>See pages 282-284 for more discussion on the pros/cons of decision trees and neural networks for tabular data.</p>
+<hr>
+</section>
+<section id="categorical-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="categorical-embeddings">Categorical Embeddings</h2>
+<p><strong>Continuous v. Categorical</strong></p>
+<p><strong>Continuous variables</strong> “contain a real numbers that be fed into a model directly and are meaningful in and out of themselves. Examples include”age” and “price”.</p>
+<p><strong>Categorical variables</strong> “contain a number of discrete levels, such as ‘movie ID,’ for which addition and multiplication don’t have any meaning <em>(even if they’re stored as numbers)</em>. Other examples include dates, columns indicating”sex”, “gender”, “department”, etc…</p>
+<p><strong>How do we represent “categorical” data?</strong></p>
+<p>We learned this in chapter 8, we represent such data via <strong>entity embeddings</strong>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Entity embeddings allow for a more complex and learnt numerical representation of a thing. This representation is likely task/data specific to one degree or another such that “Sunday” may have one representation in a task predicting how many hours people work on a day, and another for a task attempting to predict the number of trades that will be executed on each day of the week.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… by mapping similar values close to each other in the embedding space it reveals the intrinsic properties of the categorical variable. [It] is especially <strong>useful for datasets with lots of high cardinality features.</strong>. See pp.278-282 for examples of this in relation to the <a href="https://www.kaggle.com/c/rossmann-store-sales">Rossmann sales competition on kaggle</a>.</p>
+</div>
+</div>
+<p>Because “an embedding layer is exactly equivalent to placing an ordinary linear layer after every one-hot-encoded input layer … <strong>the embedding transforms the categorical variables into inputs that are both continuous and meaningful</strong>.”</p>
+<p><img src="https://raw.githubusercontent.com/fastai/fastbook/035016fb0cc826542aef77864f36df88a5055d06/images/att_00018.png" class="img-fluid"></p>
+<p>In other words …</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… we provide the model fundamentally categorical data about discrete entities … and the model learns an embedding for these entities that defines a continuous notion of distance between them.”</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given all this, “we can combine our continous embedding values with truly continuous input data [by just concatentating] the variables and feed[ing] the concatenation into our final dense layers. For an example of this, see the <a href="https://arxiv.org/abs/1606.07792">“Wide &amp; Deep Learning for Recommender Systems” paper</a>. See the below from page 282 on what that approach looks like.</p>
+</div>
+</div>
+<p><img src="https://raw.githubusercontent.com/fastai/fastbook/035016fb0cc826542aef77864f36df88a5055d06/images/att_00019.png" class="img-fluid"></p>
+</section>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> kaggle <span class="im">import</span> api</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dtreeviz.trees <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image, display_svg, SVG</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.api.types <span class="im">import</span> is_string_dtype, is_numeric_dtype, is_categorical_dtype</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor,export_graphviz</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>pd.options.display.max_rows <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>pd.options.display.max_columns <span class="op">=</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
+<section id="step-1-get-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-get-the-data">Step 1: Get the data</h3>
+<p>We’ll be getting the data from kaggle. If you’re running on colab, check out <a href="https://www.kaggle.com/general/74235">these instructions</a> for getting setup with the kaggle API</p>
+<div class="cell" data-outputid="641575d1-4402-4e67-f9df-064d9ea562f9">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">"bluebook"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>Path('bluebook')</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="fb60470f-323a-40b5-bae7-def10409d8e0">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path.exists():</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  path.mkdir()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  api.competition_download_cli(<span class="st">"bluebook-for-bulldozers"</span>, path<span class="op">=</span>path)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  file_extract(path<span class="op">/</span><span class="st">"bluebook-for-bulldozers.zip"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>path.ls(file_type<span class="op">=</span><span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading bluebook-for-bulldozers.zip to bluebook</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 48.4M/48.4M [00:00&lt;00:00, 112MB/s] </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(#7) [Path('bluebook/Machine_Appendix.csv'),Path('bluebook/Test.csv'),Path('bluebook/ValidSolution.csv'),Path('bluebook/median_benchmark.csv'),Path('bluebook/TrainAndValid.csv'),Path('bluebook/Valid.csv'),Path('bluebook/random_forest_benchmark_test.csv')]</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2-eda" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-eda">Step 2: EDA</h3>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“In any sort of data science work, it’s important to <em>look at your data directly</em> to make sure you <strong>understand the format, how it’s stored, what types of values it holds, etc.</strong>”</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… it’s a good idea to also specify <code>low_memory=False</code> unless Pandas acutally runs out of memory.” The default = <code>True</code> (will look only at the first few rows of data to infer column datatypes).</p>
+</div>
+</div>
+<div class="cell" data-outputid="cda899b1-94e5-4ec5-bffd-46adf1344dcc">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>train_df <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">"TrainAndValid.csv"</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">"Test.csv"</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>train_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>Index(['SalesID', 'SalePrice', 'MachineID', 'ModelID', 'datasource',
+       'auctioneerID', 'YearMade', 'MachineHoursCurrentMeter', 'UsageBand',
+       'saledate', 'fiModelDesc', 'fiBaseModel', 'fiSecondaryDesc',
+       'fiModelSeries', 'fiModelDescriptor', 'ProductSize',
+       'fiProductClassDesc', 'state', 'ProductGroup', 'ProductGroupDesc',
+       'Drive_System', 'Enclosure', 'Forks', 'Pad_Type', 'Ride_Control',
+       'Stick', 'Transmission', 'Turbocharged', 'Blade_Extension',
+       'Blade_Width', 'Enclosure_Type', 'Engine_Horsepower', 'Hydraulics',
+       'Pushblock', 'Ripper', 'Scarifier', 'Tip_Control', 'Tire_Size',
+       'Coupler', 'Coupler_System', 'Grouser_Tracks', 'Hydraulics_Flow',
+       'Track_Type', 'Undercarriage_Pad_Width', 'Stick_Length', 'Thumb',
+       'Pattern_Changer', 'Grouser_Type', 'Backhoe_Mounting', 'Blade_Type',
+       'Travel_Controls', 'Differential_Type', 'Steering_Controls'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<p><code>describe()</code> is a method that gives you some basic stats for each column.</p>
+<div class="cell" data-outputid="51276d8c-1dff-439c-8ab9-114b844833ec">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>train_df.describe().T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>SalesID</th>
+      <td>412698.0</td>
+      <td>2.011161e+06</td>
+      <td>1.080068e+06</td>
+      <td>1139246.0</td>
+      <td>1421897.75</td>
+      <td>1645852.5</td>
+      <td>2261012.50</td>
+      <td>6333349.0</td>
+    </tr>
+    <tr>
+      <th>SalePrice</th>
+      <td>412698.0</td>
+      <td>3.121518e+04</td>
+      <td>2.314174e+04</td>
+      <td>4750.0</td>
+      <td>14500.00</td>
+      <td>24000.0</td>
+      <td>40000.00</td>
+      <td>142000.0</td>
+    </tr>
+    <tr>
+      <th>MachineID</th>
+      <td>412698.0</td>
+      <td>1.230061e+06</td>
+      <td>4.539533e+05</td>
+      <td>0.0</td>
+      <td>1088593.25</td>
+      <td>1284397.0</td>
+      <td>1478079.25</td>
+      <td>2486330.0</td>
+    </tr>
+    <tr>
+      <th>ModelID</th>
+      <td>412698.0</td>
+      <td>6.947202e+03</td>
+      <td>6.280825e+03</td>
+      <td>28.0</td>
+      <td>3261.00</td>
+      <td>4605.0</td>
+      <td>8899.00</td>
+      <td>37198.0</td>
+    </tr>
+    <tr>
+      <th>datasource</th>
+      <td>412698.0</td>
+      <td>1.351694e+02</td>
+      <td>9.646749e+00</td>
+      <td>121.0</td>
+      <td>132.00</td>
+      <td>132.0</td>
+      <td>136.00</td>
+      <td>173.0</td>
+    </tr>
+    <tr>
+      <th>auctioneerID</th>
+      <td>392562.0</td>
+      <td>6.585268e+00</td>
+      <td>1.715841e+01</td>
+      <td>0.0</td>
+      <td>1.00</td>
+      <td>2.0</td>
+      <td>4.00</td>
+      <td>99.0</td>
+    </tr>
+    <tr>
+      <th>YearMade</th>
+      <td>412698.0</td>
+      <td>1.899050e+03</td>
+      <td>2.921902e+02</td>
+      <td>1000.0</td>
+      <td>1985.00</td>
+      <td>1995.0</td>
+      <td>2001.00</td>
+      <td>2014.0</td>
+    </tr>
+    <tr>
+      <th>MachineHoursCurrentMeter</th>
+      <td>147504.0</td>
+      <td>3.522988e+03</td>
+      <td>2.716993e+04</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>3209.00</td>
+      <td>2483300.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p><code>advanced_describe()</code> is a method I created that builds on top of the default <code>describe()</code> method to include stats on missing and unique values (which are both very helpful in terms of cleanup, understanding potential issues, and in determining the size of your embeddings for categorical data). For categorical variables with few discrete levels, this method will also show you what they are.</p>
+<div class="cell" data-outputid="320f820c-ab65-4bd2-b270-c6c60f18803e">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>advanced_describe(train_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>...</th>
+      <th>unique</th>
+      <th>unique%</th>
+      <th>unique_values</th>
+      <th>dtype</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>SalesID</th>
+      <td>412698</td>
+      <td>2011161.16364</td>
+      <td>1080067.724498</td>
+      <td>1139246.0</td>
+      <td>...</td>
+      <td>412698</td>
+      <td>7786.75</td>
+      <td>NaN</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <th>SalePrice</th>
+      <td>412698</td>
+      <td>31215.181414</td>
+      <td>23141.743695</td>
+      <td>4750.0</td>
+      <td>...</td>
+      <td>954</td>
+      <td>18.00</td>
+      <td>NaN</td>
+      <td>float64</td>
+    </tr>
+    <tr>
+      <th>MachineID</th>
+      <td>412698</td>
+      <td>1230061.436646</td>
+      <td>453953.25795</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>348808</td>
+      <td>6581.28</td>
+      <td>NaN</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <th>ModelID</th>
+      <td>412698</td>
+      <td>6947.201828</td>
+      <td>6280.824982</td>
+      <td>28.0</td>
+      <td>...</td>
+      <td>5281</td>
+      <td>99.64</td>
+      <td>NaN</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <th>datasource</th>
+      <td>412698</td>
+      <td>135.169361</td>
+      <td>9.646749</td>
+      <td>121.0</td>
+      <td>...</td>
+      <td>6</td>
+      <td>0.11</td>
+      <td>[121, 132, 136, 149, 172, 173]</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Backhoe_Mounting</th>
+      <td>80712</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>3</td>
+      <td>0.06</td>
+      <td>[nan, None or Unspecified, Yes]</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <th>Blade_Type</th>
+      <td>81875</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>11</td>
+      <td>0.21</td>
+      <td>[nan, PAT, None or Unspecified, Semi U, VPAT, Straight, Angle, No, U, Landfill, Coal]</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <th>Travel_Controls</th>
+      <td>81877</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>8</td>
+      <td>0.15</td>
+      <td>[nan, None or Unspecified, Differential Steer, Lever, Finger Tip, 2 Pedal, Pedal, 1 Speed]</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <th>Differential_Type</th>
+      <td>71564</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>5</td>
+      <td>0.09</td>
+      <td>[Standard, nan, Limited Slip, No Spin, Locking]</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <th>Steering_Controls</th>
+      <td>71522</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>6</td>
+      <td>0.11</td>
+      <td>[Conventional, nan, Command Control, Four Wheel Standard, Wheel, No]</td>
+      <td>object</td>
+    </tr>
+  </tbody>
+</table>
+<p>53 rows × 14 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-preprocessing">Step 3: Preprocessing</h3>
+<section id="handling-ordinal-columns" class="level4">
+<h4 class="anchored" data-anchor-id="handling-ordinal-columns">Handling Ordinal columns</h4>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… a good next step is to handle <em>ordinal columns</em> … columns containing strings or similar, **but where those strings have a natural ordering.”</p>
+</div>
+</div>
+<div class="cell" data-outputid="c17e6a8d-86cd-410c-dc5e-eb871db375f6">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>train_df.ProductSize.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>array([nan, 'Medium', 'Small', 'Large / Medium', 'Mini', 'Large',
+       'Compact'], dtype=object)</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“tell Pandas about a suitable ordering of these levels”</p>
+</div>
+</div>
+<div class="cell" data-outputid="c4f459bb-7ea8-4bbd-d4c3-40c744cea5f2">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [<span class="st">'Large'</span>, <span class="st">'Large / Medium'</span>, <span class="st">'Medium'</span>, <span class="st">'Small'</span>, <span class="st">'Mini'</span>, <span class="st">'Compact'</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>train_df.ProductSize <span class="op">=</span> train_df.ProductSize.astype(<span class="st">"category"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>train_df.ProductSize <span class="op">=</span> train_df.ProductSize.cat.set_categories(sizes, ordered<span class="op">=</span><span class="va">True</span>) <span class="co"># note: "inplace=True" is depreciated as of 1.30</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>train_df.ProductSize.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>[NaN, 'Medium', 'Small', 'Large / Medium', 'Mini', 'Large', 'Compact']
+Categories (6, object): ['Large' &lt; 'Large / Medium' &lt; 'Medium' &lt; 'Small' &lt; 'Mini' &lt; 'Compact']</code></pre>
+</div>
+</div>
+</section>
+<section id="handling-your-dependent-variables" class="level4">
+<h4 class="anchored" data-anchor-id="handling-your-dependent-variables">Handling Your Dependent Variable(s)</h4>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Update the dependent variable to suit your objective.</p>
+</div>
+</div>
+<p>“You should think carefully about which metric, or set of metrics, actually measures the notion of model quality that matters to you … in this case, Kaggle tells us [our measure is] root mean squared log error (RMLSE)” and because of this we need to make our target the log of the price “so that the <code>m_rmse</code> of that value will give us what we ultimately need.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dep_var <span class="op">=</span> <span class="st">"SalePrice"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>train_df[dep_var] <span class="op">=</span> np.log(train_df[dep_var])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="handling-dates" class="level4">
+<h4 class="anchored" data-anchor-id="handling-dates">Handling Dates</h4>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… enrich our representation of dates”</p>
+</div>
+</div>
+<p>Dates are “different from most ordinal values in that some dates are qualitatively different from others in a way that is often relevant to the systems we are modeling.” As such, we want the model to know if whether the day is a holiday, or part of the weekend, or in a certain month, etc… is important. To do this, “we **replace every date column with a set of date metadata columns, such as holiday, day of week, and month” = categorical data that might be very useful!</p>
+<p>Can use fastai’s <code>add_datepart()</code> function to do this.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apply same preprocessing to both your train/evaluation <strong><em>and</em></strong> test sets!</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>train_df <span class="op">=</span> add_datepart(train_df, <span class="st">"saledate"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> add_datepart(test_df, <span class="st">"saledate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="1b9b7e5a-964b-49e5-a6f3-a0e777b443cc">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>[col <span class="cf">for</span> col <span class="kw">in</span> train_df.columns <span class="cf">if</span> col.startswith(<span class="st">"sale"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>['saleYear',
+ 'saleMonth',
+ 'saleWeek',
+ 'saleDay',
+ 'saleDayofweek',
+ 'saleDayofyear',
+ 'saleIs_month_end',
+ 'saleIs_month_start',
+ 'saleIs_quarter_end',
+ 'saleIs_quarter_start',
+ 'saleIs_year_end',
+ 'saleIs_year_start',
+ 'saleElapsed']</code></pre>
+</div>
+</div>
+</section>
+<section id="handling-strings-and-missing-data" class="level4">
+<h4 class="anchored" data-anchor-id="handling-strings-and-missing-data">Handling Strings and Missing Data</h4>
+<p>For this we can use fastai’s <code>TabularPandas</code> class (allows us to apply <code>TabularProc</code> transforms to the DataFrame it wraps to do things like fill missing values, make columns categorical, etc…).</p>
+<p><strong><code>Categorify</code></strong>: “a <code>TabularProc</code> that replaces a column with a numeric categorical column”</p>
+<p><strong><code>FillMissing</code></strong>: “a <code>TabularProc</code> that replaces missing values with <strong>the median</strong> of the column, and **creates a new Boolean column that is set to <code>True</code> for any row where the value was missing<code>.  You can change this fill strategy via the</code>fill_strategy` argument.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>procs <span class="op">=</span> [Categorify, FillMissing]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="creating-our-tabularpandas" class="level2">
+<h2 class="anchored" data-anchor-id="creating-our-tabularpandas">Creating our <code>TabularPandas</code></h2>
+<section id="step-1-define-our-continuous-and-categorical-columns" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-define-our-continuous-and-categorical-columns">Step 1: Define our continuous and categorical columns</h3>
+<p>We need to tell <code>TabularPandas</code> what columns are continumous and which are categorical, and we can use fastai’s <code>cont_cat_split</code> to do that like so …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cont, cat <span class="op">=</span> cont_cat_split(train_df, <span class="dv">1</span>, dep_var<span class="op">=</span>dep_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-2-define-our-training-and-validation-splits" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-define-our-training-and-validation-splits">Step 2: Define our training and validation splits</h3>
+<p><strong>What is the difference between validation and test sets again?</strong></p>
+<p>Recall that a <strong>validation set</strong> “is data we hold back from training in order to ensure that the training process does not overfit on the training data” … while a <strong>test set</strong> “is data that is held back from ourselves in order to ensure that we don’t overfit on the validation data as we export various model architectures and hyperparameters.”</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“define our validation data so that it has the same sort of relationship wot the training data as the test set will have.”</p>
+</div>
+</div>
+<p>Because this is a <strong>time series</strong> problem, we’ll make the validation set include data for the last 6 months of the full training set, and the training set everything before that. See p.291 for more on this!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cond <span class="op">=</span> (train_df.saleYear <span class="op">&lt;</span> <span class="dv">2011</span>) <span class="op">|</span> (train_df.saleMonth <span class="op">&lt;</span> <span class="dv">10</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>train_idxs <span class="op">=</span> np.where(cond)[<span class="dv">0</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>valid_idxs <span class="op">=</span> np.where(<span class="op">~</span>cond)[<span class="dv">0</span>]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>splits <span class="op">=</span> (<span class="bu">list</span>(train_idxs), <span class="bu">list</span>(valid_idxs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-build-our-tabularpandas-object" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-build-our-tabularpandas-object">Step 3: Build our <code>TabularPandas</code> object</h3>
+<p>And <strong>finally</strong>, we instantiate our <code>TabularPandas</code> object, passing in our data, procs, splits and dependent variables as such.</p>
+<div class="cell" data-outputid="68e799cc-c846-4edb-cb18-292a38e102fc">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>to <span class="op">=</span> TabularPandas(train_df, procs, cat, cont, y_names<span class="op">=</span>dep_var, splits<span class="op">=</span>splits)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(to)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>fastai.tabular.core.TabularPandas</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“A <code>TabularPandas</code> behaves a lot like a fastai <code>Datasets</code> object, including <code>train</code> and <code>valid</code> attributes”</p>
+</div>
+</div>
+<div class="cell" data-outputid="efd7d4bf-dbb1-4878-c86f-ebe5ee8d5b23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(to.train), <span class="bu">len</span>(to.valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>(404710, 7988)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="c248d16b-1f89-4e09-a550-0f8e91c039ed">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>to.show(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>UsageBand</th>
+      <th>fiModelDesc</th>
+      <th>fiBaseModel</th>
+      <th>fiSecondaryDesc</th>
+      <th>fiModelSeries</th>
+      <th>fiModelDescriptor</th>
+      <th>ProductSize</th>
+      <th>fiProductClassDesc</th>
+      <th>state</th>
+      <th>ProductGroup</th>
+      <th>ProductGroupDesc</th>
+      <th>Drive_System</th>
+      <th>Enclosure</th>
+      <th>Forks</th>
+      <th>Pad_Type</th>
+      <th>Ride_Control</th>
+      <th>Stick</th>
+      <th>Transmission</th>
+      <th>Turbocharged</th>
+      <th>Blade_Extension</th>
+      <th>Blade_Width</th>
+      <th>Enclosure_Type</th>
+      <th>Engine_Horsepower</th>
+      <th>Hydraulics</th>
+      <th>Pushblock</th>
+      <th>Ripper</th>
+      <th>Scarifier</th>
+      <th>Tip_Control</th>
+      <th>Tire_Size</th>
+      <th>Coupler</th>
+      <th>Coupler_System</th>
+      <th>Grouser_Tracks</th>
+      <th>Hydraulics_Flow</th>
+      <th>Track_Type</th>
+      <th>Undercarriage_Pad_Width</th>
+      <th>Stick_Length</th>
+      <th>Thumb</th>
+      <th>Pattern_Changer</th>
+      <th>Grouser_Type</th>
+      <th>Backhoe_Mounting</th>
+      <th>Blade_Type</th>
+      <th>Travel_Controls</th>
+      <th>Differential_Type</th>
+      <th>Steering_Controls</th>
+      <th>saleIs_month_end</th>
+      <th>saleIs_month_start</th>
+      <th>saleIs_quarter_end</th>
+      <th>saleIs_quarter_start</th>
+      <th>saleIs_year_end</th>
+      <th>saleIs_year_start</th>
+      <th>auctioneerID_na</th>
+      <th>MachineHoursCurrentMeter_na</th>
+      <th>SalesID</th>
+      <th>MachineID</th>
+      <th>ModelID</th>
+      <th>datasource</th>
+      <th>auctioneerID</th>
+      <th>YearMade</th>
+      <th>MachineHoursCurrentMeter</th>
+      <th>saleYear</th>
+      <th>saleMonth</th>
+      <th>saleWeek</th>
+      <th>saleDay</th>
+      <th>saleDayofweek</th>
+      <th>saleDayofyear</th>
+      <th>saleElapsed</th>
+      <th>SalePrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Low</td>
+      <td>521D</td>
+      <td>521</td>
+      <td>D</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>Wheel Loader - 110.0 to 120.0 Horsepower</td>
+      <td>Alabama</td>
+      <td>WL</td>
+      <td>Wheel Loader</td>
+      <td>#na#</td>
+      <td>EROPS w AC</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>2 Valve</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>None or Unspecified</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>Standard</td>
+      <td>Conventional</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>1139246</td>
+      <td>999089</td>
+      <td>3157</td>
+      <td>121</td>
+      <td>3.0</td>
+      <td>2004</td>
+      <td>68.0</td>
+      <td>2006</td>
+      <td>11</td>
+      <td>46</td>
+      <td>16</td>
+      <td>3</td>
+      <td>320</td>
+      <td>1.163635e+09</td>
+      <td>11.097410</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Low</td>
+      <td>950FII</td>
+      <td>950</td>
+      <td>F</td>
+      <td>II</td>
+      <td>#na#</td>
+      <td>Medium</td>
+      <td>Wheel Loader - 150.0 to 175.0 Horsepower</td>
+      <td>North Carolina</td>
+      <td>WL</td>
+      <td>Wheel Loader</td>
+      <td>#na#</td>
+      <td>EROPS w AC</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>2 Valve</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>23.5</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>Standard</td>
+      <td>Conventional</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>1139248</td>
+      <td>117657</td>
+      <td>77</td>
+      <td>121</td>
+      <td>3.0</td>
+      <td>1996</td>
+      <td>4640.0</td>
+      <td>2004</td>
+      <td>3</td>
+      <td>13</td>
+      <td>26</td>
+      <td>4</td>
+      <td>86</td>
+      <td>1.080259e+09</td>
+      <td>10.950807</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>High</td>
+      <td>226</td>
+      <td>226</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>Skid Steer Loader - 1351.0 to 1601.0 Lb Operating Capacity</td>
+      <td>New York</td>
+      <td>SSL</td>
+      <td>Skid Steer Loaders</td>
+      <td>#na#</td>
+      <td>OROPS</td>
+      <td>None or Unspecified</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>Auxiliary</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>None or Unspecified</td>
+      <td>None or Unspecified</td>
+      <td>None or Unspecified</td>
+      <td>Standard</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>#na#</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>1139249</td>
+      <td>434808</td>
+      <td>7009</td>
+      <td>121</td>
+      <td>3.0</td>
+      <td>2001</td>
+      <td>2838.0</td>
+      <td>2004</td>
+      <td>2</td>
+      <td>9</td>
+      <td>26</td>
+      <td>3</td>
+      <td>57</td>
+      <td>1.077754e+09</td>
+      <td>9.210340</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-outputid="557886be-c05b-43d7-93fa-4f6211691f86">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>to.items.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>SalesID</th>
+      <th>SalePrice</th>
+      <th>MachineID</th>
+      <th>ModelID</th>
+      <th>...</th>
+      <th>saleIs_year_start</th>
+      <th>saleElapsed</th>
+      <th>auctioneerID_na</th>
+      <th>MachineHoursCurrentMeter_na</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1139246</td>
+      <td>11.097410</td>
+      <td>999089</td>
+      <td>3157</td>
+      <td>...</td>
+      <td>1</td>
+      <td>1.163635e+09</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1139248</td>
+      <td>10.950807</td>
+      <td>117657</td>
+      <td>77</td>
+      <td>...</td>
+      <td>1</td>
+      <td>1.080259e+09</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1139249</td>
+      <td>9.210340</td>
+      <td>434808</td>
+      <td>7009</td>
+      <td>...</td>
+      <td>1</td>
+      <td>1.077754e+09</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 67 columns</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As you can see above, the underlying string values (the levels) have been replaced with a unique number associated to that level.</p>
+</div>
+</div>
+<p>We can see that mapping via the <code>classes</code> attribute:</p>
+<div class="cell" data-outputid="b21f723d-6be7-4325-cbf2-d822440286a2">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>to.classes[<span class="st">"ProductSize"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>['#na#', 'Large', 'Large / Medium', 'Medium', 'Small', 'Mini', 'Compact']</code></pre>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Save your preprocessed <code>TabularPandas</code> object so you don’t have to process the data again</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save to filesystem</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>save_pickle(path<span class="op">/</span><span class="st">"to.pkl"</span>, to)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load from filesystem</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>to <span class="op">=</span> load_pickle(path<span class="op">/</span><span class="st">"to.pkl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="approach-1-decision-trees" class="level2">
+<h2 class="anchored" data-anchor-id="approach-1-decision-trees">Approach 1: Decision Trees</h2>
+<p>“A <strong>decision tree</strong> asks a series of binary (yes or no) questions about the data. After each question, the data at that part of the tree is split between a Yes and a No branch…. After one or more questions, either a prediction can be made on the basis of all previous answers or another question is required.”</p>
+<p>“… for <strong>regression</strong>, we take the target mean of the items in the group”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See p.288 for <strong>how we find the right questions to ask</strong>.</p>
+</div>
+</div>
+<section id="step-1-define-independentdependent-variables" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-define-independentdependent-variables">Step 1: Define independent/dependent variables</h3>
+<p>After this, our data is completely numeric and there are no missing values!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>train_xs, train_y <span class="op">=</span> to.train.xs, to.train.y</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>valid_xs, valid_y <span class="op">=</span> to.valid.xs, to.valid.y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-2-build-our-tree" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-build-our-tree">Step 2: Build our tree</h3>
+<p><strong><code>max_leaf_nodes=4</code></strong> = “Stop when you have 4 leaf nodes”</p>
+<div class="cell" data-outputid="1b55eadb-cda6-4ae5-ec26-d6608aea7c13">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> DecisionTreeRegressor(max_leaf_nodes<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>m.fit(train_xs, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>DecisionTreeRegressor(max_leaf_nodes=4)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="1a12e17c-c3ce-44d1-e233-ddbb93bd422b">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>draw_tree(m, train_xs, size<span class="op">=</span><span class="dv">7</span>, leaves_parallel<span class="op">=</span><span class="va">True</span>, precision<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-27-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>What is in each box above?</strong>:</p>
+<ol type="1">
+<li>The decision criterion for the best split that was found</li>
+<li>“samples”: The # of examples in the group</li>
+<li>“value”: The average value of the target for that group</li>
+<li>“squared_error”: The MSE for that group</li>
+</ol>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“The top node represents the <em>initial model</em> before any splits have been done, when all the data is in one group. This is the simplest possible model. It is the result of asking zero questions and will always predict the value to be the average value of the whole dataset.”</p>
+</div>
+</div>
+<p>A “<strong>leaf node</strong>” is a node “with no answers coming out of them, because there are no more questions to be answered.”</p>
+<p>See p.293 for more on intrepreting the diagram above.</p>
+<div class="cell" data-outputid="da40c901-ba0d-432b-9ec7-138e2e808b82">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>samp_idx <span class="op">=</span> np.random.permutation(<span class="bu">len</span>(train_y))[:<span class="dv">500</span>]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>dtreeviz(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    m, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    train_xs.iloc[samp_idx], </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    train_y.iloc[samp_idx], </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    train_xs.columns, </span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    dep_var, </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    fontname<span class="op">=</span><span class="st">"DejaVu Sans"</span>, </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span><span class="fl">1.6</span>, </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    label_fontsize<span class="op">=</span><span class="dv">10</span>, </span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    orientation<span class="op">=</span><span class="st">"LR"</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/usr/local/lib/python3.7/dist-packages/sklearn/base.py:451: UserWarning: X does not have valid feature names, but DecisionTreeRegressor was fitted with feature names
+  "X does not have valid feature names, but"</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-28-output-2.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>“This shows a cart of the distribution of the data for each split point”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>dtreeviz</code> to find problems with the data.</p>
+</div>
+</div>
+<p>For example, you can see there is a problem with “YearMade” as a bunch of tractors show they are made in the year 1000. The likely explanation is that if they don’t have the info on a tractor, they set it = 1000 to indicate “Unknown”.</p>
+<p>We can replace this with something like 1950 to make the visuals more clear …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>train_xs.loc[train_xs[<span class="st">"YearMade"</span>] <span class="op">&lt;</span> <span class="dv">1900</span>, <span class="st">"YearMade"</span>] <span class="op">=</span> <span class="dv">1950</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>valid_xs.loc[valid_xs[<span class="st">"YearMade"</span>] <span class="op">&lt;</span> <span class="dv">1900</span>, <span class="st">"YearMade"</span>] <span class="op">=</span> <span class="dv">1950</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="1fea987e-9732-470d-ddf8-74ebf010290d">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>samp_idx <span class="op">=</span> np.random.permutation(<span class="bu">len</span>(train_y))[:<span class="dv">500</span>]</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>dtreeviz(</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    m, </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    train_xs.iloc[samp_idx], </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    train_y.iloc[samp_idx], </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    train_xs.columns, </span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    dep_var, </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    fontname<span class="op">=</span><span class="st">"DejaVu Sans"</span>, </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span><span class="fl">1.6</span>, </span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    label_fontsize<span class="op">=</span><span class="dv">10</span>, </span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    orientation<span class="op">=</span><span class="st">"LR"</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/usr/local/lib/python3.7/dist-packages/sklearn/base.py:451: UserWarning: X does not have valid feature names, but DecisionTreeRegressor was fitted with feature names
+  "X does not have valid feature names, but"</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-30-output-2.svg" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="step-3-build-other-trees" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-build-other-trees">Step 3: Build other trees</h3>
+<div class="cell" data-outputid="e9e667be-db92-4b53-fb51-804642b06654">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> DecisionTreeRegressor()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>m.fit(train_xs, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>DecisionTreeRegressor()</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create/Use <strong>the</strong> metric used by the competition (or your work)</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> r_mse(preds, targs):</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">round</span>(math.sqrt(((preds <span class="op">-</span> targs)<span class="op">**</span><span class="dv">2</span>).mean()), <span class="dv">6</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> m_rmse(m, xs, y):</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> r_mse(m.predict(xs), y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="7c3133d6-0afc-4d60-f9f5-7831e189720a">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>m_rmse(m, train_xs, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>0.0</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="d6220317-d7df-4a96-cba7-51716fb4be3c">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>m_rmse(m, valid_xs, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>0.333111</code></pre>
+</div>
+</div>
+<p><strong>What does the above indicate?</strong></p>
+<p>That we might be <strong>overfitting</strong> … badly (because our training set is perfect and our validation set not so much).</p>
+<p><strong>Why are we overfitting?</strong></p>
+<p>Because “we have nearly as many leaf nodes as data points … <strong>sklearn’s default settings allow it to continue splitting nodes until there is only one item in each leaf node</strong>.” See pp.295-296 for more intuition on why trees overfit.</p>
+<div class="cell" data-outputid="7e94a4bf-9056-412c-f26c-cb7f389722d2">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>m.get_n_leaves(), <span class="bu">len</span>(train_xs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>(324559, 404710)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="4b63badc-fe2f-4a60-fb6c-9e7cb044dfec">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> DecisionTreeRegressor(min_samples_leaf<span class="op">=</span><span class="dv">25</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>m.fit(to.train.xs, to.train.y)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>m_rmse(m, to.train.xs, to.train.y), m_rmse(m, to.valid.xs, to.valid.y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>(0.211677, 0.268059)</code></pre>
+</div>
+</div>
+<p><strong><code>min_samples_leaf=25</code></strong> = “Stop when all leaf nodes have a minimum of 25 samples”</p>
+</section>
+<section id="a-note-on-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="a-note-on-categorical-variables">A note on categorical variables</h3>
+<p>Decision trees **don’t have embedding layers - “so how can these untreated categorical variables do anything useful”?</p>
+<p>Answer: “It just works!”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While it is possible to replace a categorical variable with multiple OHE columns using something like <code>get_dummies</code>, “there is not really any evidence that such an approach improves the end result.”</p>
+</div>
+</div>
+<p>See p.297 for more about why OHE aren’t necessary and why decision tree just work with categorical variables out-of-the-box.</p>
+<hr>
+</section>
+</section>
+<section id="approach-2-random-forests" class="level2">
+<h2 class="anchored" data-anchor-id="approach-2-random-forests">Approach 2: Random Forests</h2>
+<p>A <strong>random forest</strong> “is a model that averages the predictions of a large number of decision trees, which are generated by randomly varying various parameters that specify what data is used to train the tree (what columns and rows are included in each tree) and other tree parameters”</p>
+<p><strong>Why does it work so well?</strong></p>
+<p>Because it utlizes <strong>bagging</strong>.</p>
+<p><strong>What is “bagging”?</strong></p>
+<p>From the “Bagging Predictors” paper … “<strong>Bagging predictors</strong> is a method for generating multiple versions of a predictor and using these to get an aggregated predictor…. The multiple versions are formed by making <strong>bootstrap replicates</strong> (a randomly chosen subset of rows) of the learning set.”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… although each of the models trained on a subset of data will make more errors than a model trained on the full dataset, those errors will not be correlated with each other. **Different models make different errors … the average of those errors, therefore, is zero!”</p>
+</div>
+</div>
+<p>This means that we can improve the performance of a model by training it multiple times with a different random subset of the data each time, and then averaging the predictions.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Ensembling</strong> is a form of bagging</p>
+</div>
+</div>
+<p>See p.298 for more details on how bagging works.</p>
+<section id="step-1-define-your-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-define-your-random-forest">Step 1: Define your Random Forest</h3>
+<p>Since we need to define a variety of parameters that indicate the number of trees we want, how subsets of rows should be randomly chosen, how subsets of columns should likewise be randomly chosen, etc., we’ll put the creation behind a function we can call.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_rf(xs, y, n_estimators<span class="op">=</span><span class="dv">40</span>, max_samples<span class="op">=</span><span class="dv">200_000</span>, max_features<span class="op">=</span><span class="fl">0.5</span>, min_samples_leaf<span class="op">=</span><span class="dv">5</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> RandomForestRegressor(</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>      n_jobs<span class="op">=-</span><span class="dv">1</span>,                              <span class="co"># Tells sklearn to use all our CPUs to build the trees in parallel</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>      n_estimators<span class="op">=</span>n_estimators,              <span class="co"># The number of trees</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>      max_samples<span class="op">=</span>max_samples,                <span class="co"># The number of rows to sample for training ea. tree</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>      max_features<span class="op">=</span>max_features,              <span class="co"># The number of columns to sample at each split</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>      min_samples_leaf<span class="op">=</span>min_samples_leaf,      <span class="co"># Stop when all leaf nodes have at least this number of samples</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>      oob_score<span class="op">=</span><span class="va">True</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  ).fit(xs, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> fit_rf(train_xs, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="7ecd6702-db88-4994-8fea-d084c3eaf0c4">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>m_rmse(m, train_xs, train_y), m_rmse(m, valid_xs, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>(0.170771, 0.232215)</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Random Forests are <em>very</em> sensitive to hyperparameter choices!</p>
+</div>
+</div>
+<p><strong>Recommended hyperparameter values:</strong></p>
+<ul>
+<li><p><code>n_estimators</code>: “as high a number as you have time to train … more trees = more accurate</p></li>
+<li><p><code>max_samples</code>: default (200,000)</p></li>
+<li><p><code>max_features</code>: default (“auto”) or 0.5</p></li>
+<li><p><code>min_samples_leaf</code>: default (1) or 4</p></li>
+</ul>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bigger forests using a smalle subset of features tens to be better (see chart below)</p>
+</div>
+</div>
+<p><img src="https://raw.githubusercontent.com/fastai/fastbook/b7f756b49d4eb0d3ce96c0c29be98f4f293cde9f/images/sklearn_features.png" class="img-fluid"></p>
+<p><strong>How to get the predictions for a SINGLE tree?</strong></p>
+<div class="cell" data-outputid="4ca93903-b64e-4d8c-de6d-4e5d3e0ff653">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>tree_preds <span class="op">=</span> np.stack([t.predict(valid_xs.values) <span class="cf">for</span> t <span class="kw">in</span> m.estimators_]) <span class="co"># added .values (see: https://stackoverflow.com/a/69378867)</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>r_mse(tree_preds.mean(<span class="dv">0</span>), valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>0.232215</code></pre>
+</div>
+</div>
+<p><strong>How does <code>n_estimators</code> impact model performance?</strong></p>
+<p>To answer this, we can increment the number of trees we use in our predictions one at a time like so:</p>
+<div class="cell" data-outputid="ed3cc170-23e7-46e8-b8cd-c8e90cd90ab4">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>plt.plot([r_mse(tree_preds[:i<span class="op">+</span><span class="dv">1</span>].mean(<span class="dv">0</span>), valid_y) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">40</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-41-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the above technique to determine a good range of trees to try.</p>
+</div>
+</div>
+</section>
+<section id="step-2-determine-why-our-validation-set-is-worse-than-training" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-determine-why-our-validation-set-is-worse-than-training">Step 2: Determine why our validation set is worse than training</h3>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <strong>out-of-bag (OOB) error</strong> to determine if we’re overfitting, or if the validation set covers a different time period, or if it’s a bit of both.</p>
+</div>
+</div>
+<p>“The <strong>OOB error</strong> is <strong>a way of measuring prediction error in the training dataset</strong>” based on rows <em>not</em> used in the training of a particular tree. “This <strong>allows us to see whether the model is overfitting, without needing a separate validation set.</strong>”</p>
+<p>“… out-of-bag error is a little like imagining that every tree therefore also has its own validation set” based on the prediction of rows not used in its training.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“This is particularly beneficial in cases where we have only a small amount of training data” (we don’t necessarily have to remove items to create a validation set).</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your OOB error is &lt;&lt; than our validation set error, “something else is causing the error”</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“we compoare [OOB predictions] to our training labels”since this is being calculated on trees using the training set.”</p>
+</div>
+</div>
+<div class="cell" data-outputid="7809748f-1d31-4d1f-f8a1-2124e8398fe0">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>r_mse(m.oob_prediction_, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>0.210601</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="model-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h3>
+<section id="how-confident-are-we-in-our-predictions-using-a-particular-row-of-data" class="level4">
+<h4 class="anchored" data-anchor-id="how-confident-are-we-in-our-predictions-using-a-particular-row-of-data">How confident are we in our predictions using a particular row of data?</h4>
+<p>Answer: “use the standard deviation of predictions across the trees, instead of just the mean. This <strong>tells us the relative confidence of predictions</strong>”</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“…be more cautious of using the reulsts for rows where trees give very different results (higher standard deviations)”</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This information is helpful in production where “if you were using this model to decide which items to bid on at auction, a low-confidence prediction might cause you to look more carefully at an item before you made a bid.”</p>
+</div>
+</div>
+<div class="cell" data-outputid="1b2d96d8-3a9a-49fa-cf29-c5659d790989">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> np.stack([t.predict(valid_xs.values) <span class="cf">for</span> t <span class="kw">in</span> m.estimators_])</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>preds.shape <span class="co">#=&gt; (# of trees, # of predictions)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>(40, 7988)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>preds_std <span class="op">=</span> preds.std(<span class="dv">0</span>) <span class="co"># get rid of first dimension (the trees)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="47f8ba3f-9ed2-4dba-e893-edc631e482cd">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># std for first 5 rows of validation set</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>preds_std[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>array([0.25911739, 0.08550421, 0.11939131, 0.29835108, 0.16490343])</code></pre>
+</div>
+</div>
+</section>
+<section id="which-columns-are-the-strongest-predictors-and-which-can-we-ignore" class="level4">
+<h4 class="anchored" data-anchor-id="which-columns-are-the-strongest-predictors-and-which-can-we-ignore">Which columns are the strongest predictors (and which can we ignore)?</h4>
+<p>“It’s not normally enough to just know that a model can make accurate predictions - <strong>we also want to know how it’s making predictions</strong>”</p>
+<p>Answer: “<strong><em>feature importances</em></strong> give us this insight.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rf_feature_importance(m, df):</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> pd.DataFrame({<span class="st">"cols"</span>: df.columns, <span class="st">"imp"</span>: m.feature_importances_}).sort_values(<span class="st">"imp"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_fi(fi_df):</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> fi_df.plot(<span class="st">"cols"</span>, <span class="st">"imp"</span>, <span class="st">"barh"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">7</span>), legend<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="476af52e-2026-4e62-c89d-1676f798c9e7">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>fi_df <span class="op">=</span> rf_feature_importance(m, train_xs)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's look at the 10 most important features</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>fi_df[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>cols</th>
+      <th>imp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>57</th>
+      <td>YearMade</td>
+      <td>0.186662</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>ProductSize</td>
+      <td>0.133412</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Coupler_System</td>
+      <td>0.098091</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>fiProductClassDesc</td>
+      <td>0.071924</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Hydraulics_Flow</td>
+      <td>0.064008</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>saleElapsed</td>
+      <td>0.050607</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>ModelID</td>
+      <td>0.049313</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>fiSecondaryDesc</td>
+      <td>0.045434</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>fiModelDesc</td>
+      <td>0.033899</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Grouser_Tracks</td>
+      <td>0.026686</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-outputid="6e2a0b8e-993e-40cd-c23f-6f9d7027ca1a">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>plot_fi(fi_df[:<span class="dv">30</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f6562b8dd90&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-48-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>See p.304 for how feature importance is calculated.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By removing variables of low importance we can still get good results <strong>while making our model simpler, more interpretable, and easier to maintain</strong></p>
+</div>
+</div>
+<div class="cell" data-outputid="bead0599-1d63-4167-e15a-9fc7f7c125aa">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>cols_to_keep <span class="op">=</span> fi_df[fi_df.imp <span class="op">&gt;</span> <span class="fl">0.005</span>].cols</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(cols_to_keep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>21</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>train_xs_keep <span class="op">=</span> train_xs[cols_to_keep]</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>valid_xs_keep <span class="op">=</span> valid_xs[cols_to_keep]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> fit_rf(train_xs_keep, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="d77b2392-51e6-41cb-eaba-667b4009e38d">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>m_rmse(m, train_xs_keep, train_y), m_rmse(m, valid_xs_keep, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<pre><code>(0.181366, 0.231985)</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare accuracy of full model with column subset to ensure equitable performance!</p>
+</div>
+</div>
+<p>The accuracy is about the same as before, but the model is much more interpretable …</p>
+<div class="cell" data-outputid="2c93fafb-201d-479b-f008-0d645dd81d68">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(train_xs.columns), <span class="bu">len</span>(train_xs_keep.columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>(66, 21)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="9b57a252-f1ab-4a96-da36-d1705efb5bb4">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>plot_fi(rf_feature_importance(m, train_xs_keep[:<span class="dv">30</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f6562afe190&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-54-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="which-columns-are-effectively-redundant" class="level4">
+<h4 class="anchored" data-anchor-id="which-columns-are-effectively-redundant">Which columns are effectively redundant?</h4>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Like removing unimportant features, by removing redundant information, we <strong>make our model simpler, more interpretable, and easier to maintain</strong></p>
+</div>
+</div>
+<div class="cell" data-outputid="4ca7d1ea-a4bc-440d-8482-eeacddd37bbe">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>cluster_columns(train_xs_keep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-55-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>How do we determine similarity?</strong></p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… the pairs of columns that are most similar are the ones that were merged together early”</p>
+</div>
+</div>
+<p>“The most similar paris are found by calculating the <em>rank correlation</em>, which means that all the values are replaced with their <em>rank</em> … and then the <em>correlation</em> is calculated.</p>
+<p><strong>How do we know if a feature is “redundant” and can be dropped?</strong></p>
+<p>Answer: By removing potentially redundant variables <strong>one at a time</strong></p>
+<p>“We don’t need [the model] to be very accurate” so we can use a lower <code>max_samples</code> and a higher <code>min_samples_leaf</code>. We just want to see the effect it has by removing certain columns using the <strong>OOB score</strong> (“a number returned by sklearn that ranges between 1.0 for a perfect model and 0.0 for a random model.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_oob(df, y):</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">10</span>, min_samples_leaf<span class="op">=</span><span class="dv">15</span>, max_samples<span class="op">=</span><span class="dv">50_000</span>, max_features<span class="op">=</span><span class="fl">0.5</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, oob_score<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  m.fit(df, y)</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> m.oob_score_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our baseline:</p>
+<div class="cell" data-outputid="21986ec9-6ea9-469c-8ef0-a34e3fc8a6a0">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>get_oob(train_xs_keep, train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="56">
+<pre><code>0.8723047876078355</code></pre>
+</div>
+</div>
+<p>Try removing redundant features one at a time:</p>
+<div class="cell" data-outputid="2a9fa525-e3f7-4644-f691-2cbebba6eaeb">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>redundant_cols <span class="op">=</span> [</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'saleYear'</span>, <span class="st">'saleElapsed'</span>, <span class="st">'ProductGroupDesc'</span>, <span class="st">'ProductGroup'</span>, </span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'fiModelDesc'</span>, <span class="st">'fiBaseModel'</span>, <span class="st">'Hydraulics_Flow'</span>, <span class="st">'Grouser_Tracks'</span>, <span class="st">'Coupler_System'</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>{c:get_oob(train_xs_keep.drop(c, axis<span class="op">=</span><span class="dv">1</span>), train_y) <span class="cf">for</span> c <span class="kw">in</span> redundant_cols}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="57">
+<pre><code>{'Coupler_System': 0.8729675628149272,
+ 'Grouser_Tracks': 0.8735142839769211,
+ 'Hydraulics_Flow': 0.8730586366090629,
+ 'ProductGroup': 0.8731366740450576,
+ 'ProductGroupDesc': 0.8728712200071638,
+ 'fiBaseModel': 0.87126582392193,
+ 'fiModelDesc': 0.8714879359004835,
+ 'saleElapsed': 0.8681954238416791,
+ 'saleYear': 0.8713304844511609}</code></pre>
+</div>
+</div>
+<p>Now try dropping multiple variables (<strong>one from each of the tightly aligned pairs</strong> we noticed above), and compare accuracy:</p>
+<div class="cell" data-outputid="3e3eb813-2bd4-48ac-9cea-cfe7d00ff520">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>cols_to_drop <span class="op">=</span> [<span class="st">"saleYear"</span>, <span class="st">"ProductGroupDesc"</span>, <span class="st">"fiBaseModel"</span>, <span class="st">"Grouser_Tracks"</span>]</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>get_oob(train_xs_keep.drop(cols_to_drop, axis<span class="op">=</span><span class="dv">1</span>), train_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="58">
+<pre><code>0.8695950962336326</code></pre>
+</div>
+</div>
+<p>Assuming that its not much worse, create new DataFrames and save …</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>train_xs_final <span class="op">=</span> train_xs_keep.drop(cols_to_drop, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>valid_xs_final <span class="op">=</span> valid_xs_keep.drop(cols_to_drop, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save to filesystem</span></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>save_pickle(path<span class="op">/</span><span class="st">"train_xs_final.pkl"</span>, train_xs_final)</span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>save_pickle(path<span class="op">/</span><span class="st">"valid_xs_final.pkl"</span>, valid_xs_final)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>… then load them back in later</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>train_xs_final <span class="op">=</span> load_pickle(path<span class="op">/</span><span class="st">"train_xs_final.pkl"</span>)</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>valid_xs_final <span class="op">=</span> load_pickle(path<span class="op">/</span><span class="st">"valid_xs_final.pkl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="2c4651da-bc4c-4979-ce22-2726c1fc71d1">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> fit_rf(train_xs_final.values, train_y)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>m_rmse(m, train_xs_final.values, train_y), m_rmse(m, valid_xs_final.values, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>(0.183291, 0.232867)</code></pre>
+</div>
+</div>
+</section>
+<section id="how-do-find-the-relationship-between-two-predictors-columns" class="level4">
+<h4 class="anchored" data-anchor-id="how-do-find-the-relationship-between-two-predictors-columns">How do find the relationship between two predictors (columns)?</h4>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do this for the most important predictors!</p>
+</div>
+</div>
+<p>First, <strong>check the count of values per category</strong>:</p>
+<div class="cell" data-outputid="28b45c61-eb81-423d-8338-e78a1f5e1e67">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> valid_xs_final[<span class="st">"ProductSize"</span>].value_counts().sort_index().plot.barh()</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> to.classes[<span class="st">"ProductSize"</span>]</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>plt.yticks(<span class="bu">range</span>(<span class="bu">len</span>(c)), c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="62">
+<pre><code>([&lt;matplotlib.axis.YTick at 0x7f6564704d10&gt;,
+  &lt;matplotlib.axis.YTick at 0x7f6562ce8350&gt;,
+  &lt;matplotlib.axis.YTick at 0x7f6562b34d10&gt;,
+  &lt;matplotlib.axis.YTick at 0x7f65645b61d0&gt;,
+  &lt;matplotlib.axis.YTick at 0x7f656473b310&gt;,
+  &lt;matplotlib.axis.YTick at 0x7f656473bd90&gt;,
+  &lt;matplotlib.axis.YTick at 0x7f656473b250&gt;],
+ [Text(0, 0, '#na#'),
+  Text(0, 0, 'Large'),
+  Text(0, 0, 'Large / Medium'),
+  Text(0, 0, 'Medium'),
+  Text(0, 0, 'Small'),
+  Text(0, 0, 'Mini'),
+  Text(0, 0, 'Compact')])</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-63-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="296463b6-0c9a-44d6-ea9c-0cdee6c9093f">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> valid_xs_final[<span class="st">"YearMade"</span>].hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-64-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Second, built a <strong>partial dependence plot</strong></p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Partial dependence plots answer the question: <strong>if a row varied on nothing other than the feature in question, how would it impact the dependent variable?</strong></p>
+</div>
+</div>
+<p>See pp.309-10 for info on how to do this, but in essence, we are attempting to isolate the effects of changes to a single variable.</p>
+<div class="cell" data-outputid="47f89532-fe3a-42b1-a4b1-0e73d76cdd43">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> PartialDependenceDisplay</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">4</span>))</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>PartialDependenceDisplay.from_estimator(m, valid_xs_final, [<span class="st">"YearMade"</span>, <span class="st">"ProductSize"</span>], grid_resolution<span class="op">=</span><span class="dv">20</span>, ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>&lt;sklearn.inspection._plot.partial_dependence.PartialDependenceDisplay at 0x7f65647c15d0&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-65-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Intrepretation</strong></p>
+<p>The “YearMade” plot makes sense as it shows a linear relationship with price (“remember that our dependent variable is <em>after</em> taking the logarithm, so this means that in practice there is an exponential increase in price). Again, this is expected given that <strong>depreciation</strong> =”a multiplicative factor over time … varying year made ought to show an exponential relationship to sales price”</p>
+<p>The “ProductSize” should raise concerns, “it shows that for the final group, <strong>which we saw is for missing values</strong>, has the lowest price.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you see an unusual relationship like this between a variable and the target, you want to understand why there are missing values and what a missing value means!</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Missing values can sometimes be useful predictors</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Missing values can sometimes indicate data leakage.</p>
+</div>
+</div>
+<p><strong>What is “data leakage”?</strong></p>
+<p>“The introduction of information about the target of a data mining problem, which should not be legitimately available to mine from.” The idea is that you’re cheating by introducing something by way of the independent variables that biases your predictions favorably that you won’t be able to utlize at inference time. See p.311-12 for examples.</p>
+<p><strong>How to determine if you have data leakage?</strong></p>
+<p>From p.321 … “build a model and then …</p>
+<ul>
+<li>Check whether <strong>the accuracy of the model is too good</strong> to be true.</li>
+<li>Look for <strong>important predictors that don’t make sense in pratice</strong>.</li>
+<li>Look for <strong>partial dependence plot results that don’t make sense in practice</strong>. (see above)</li>
+</ul>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… often a good idea to build a model first and then do you data cleaning rather than vice versa … <strong>can help you identify potentially problematic data issues</strong>.</p>
+</div>
+</div>
+</section>
+<section id="for-predicting-a-specific-row-of-data-what-were-the-most-important-factors-and-how-did-they-influence-the-prediction" class="level4">
+<h4 class="anchored" data-anchor-id="for-predicting-a-specific-row-of-data-what-were-the-most-important-factors-and-how-did-they-influence-the-prediction">For predicting a specific row of data, what were the most important factors and how did they influence the prediction?</h4>
+<p>Answer: Use <code>treeinterpreter</code>. Note that:</p>
+<p><strong>prediction</strong> = the prediction made by RF</p>
+<p><strong>bias</strong> = the prediction based on taking the mean of the dependent variable (the root model for every tree)</p>
+<p><strong>contributions</strong> = “tells us the total change in prediction due to <strong>each</strong> of the independent variables.</p>
+<p>“Therfore, <strong>the sum of <code>contributions</code> plus <code>bias</code> must equal the <code>prediction</code></strong> for each row!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> treeinterpreter <span class="im">import</span> treeinterpreter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>row <span class="op">=</span> valid_xs_final.iloc[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>pred, bias, contributions <span class="op">=</span> treeinterpreter.predict(m, row.values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="6361237b-ee29-4c12-cee7-08781dd98602">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="dv">0</span>], bias[<span class="dv">0</span>], contributions[<span class="dv">0</span>].<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="78">
+<pre><code>(array([10.00298786]), 10.104457702350853, -0.10146984568626016)</code></pre>
+</div>
+</div>
+<p><strong>What is the best waty to visualize this?</strong></p>
+<p>Answer: A waterfull plot will show us “how the positive and negative contributions from all the independent variables sum up to create the final prediction.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> waterfall_chart</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="f5a06de3-f1cc-48db-b8ce-3c6d1c9b6d6e">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>waterfall_chart.plot(valid_xs_final.columns, contributions[<span class="dv">0</span>], threshold<span class="op">=</span><span class="fl">0.08</span>, rotation_value<span class="op">=</span><span class="dv">45</span>, formatting<span class="op">=</span><span class="st">"{:,.3f}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="86">
+<pre><code>&lt;module 'matplotlib.pyplot' from '/usr/local/lib/python3.7/dist-packages/matplotlib/pyplot.py'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-71-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Where is this information useful?</strong></p>
+<p>Answer: In production “rather than during model development. You can <strong>use it to provide useful information to users of your data product about underlying reasoning behind the predictions.</strong>”</p>
+<hr>
+</section>
+</section>
+<section id="the-extrapolation-problem" class="level3">
+<h3 class="anchored" data-anchor-id="the-extrapolation-problem">The “Extrapolation” problem</h3>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Random forests are not able to extrapolate the types of data they have seen … <strong>that’s why we need to make sure our validation set does not contina out-of-domain data</strong>.”</p>
+</div>
+</div>
+<p>See. pp.315-316.</p>
+<p><strong>How do determine if our “test set” is distributed in the same way as our “training set”, and if it isn’t, what columns are causing the difference?</strong></p>
+<p>Answer: Use a random forest where we “try to predict whether a row is in the validation set or training set.”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="op">=</span> pd.concat([train_xs_final, valid_xs_final])</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>is_valid <span class="op">=</span> np.array([<span class="dv">0</span>]<span class="op">*</span><span class="bu">len</span>(train_xs_final) <span class="op">+</span> [<span class="dv">1</span>]<span class="op">*</span><span class="bu">len</span>(valid_xs_final))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>ood_m <span class="op">=</span> fit_rf(combined_df, is_valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="79def2fa-7a5a-4647-f69a-1160280b90b1">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>rf_feature_importance(ood_m, combined_df)[:<span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="90">
+
+
+  <div id="df-5528b310-ecd3-4744-8c8c-ef000290f147">
+    <div class="colab-df-container">
+      <div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>cols</th>
+      <th>imp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>saleElapsed</td>
+      <td>0.900343</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>SalesID</td>
+      <td>0.073015</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>MachineID</td>
+      <td>0.023312</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>YearMade</td>
+      <td>0.001036</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>ModelID</td>
+      <td>0.000405</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Enclosure</td>
+      <td>0.000402</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-5528b310-ecd3-4744-8c8c-ef000290f147')" title="Convert this dataframe to an interactive table." style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-5528b310-ecd3-4744-8c8c-ef000290f147 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-5528b310-ecd3-4744-8c8c-ef000290f147');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
+</div>
+</div>
+<p>“This shows that three columns differ significantly between the training and validation sets: saleElapsed, SalesID, and MachineID’</p>
+<p>See p.317 for infering what this is.</p>
+<p><strong>What to do with this info?</strong></p>
+<p>Answer: Compare the effects of removing each of these columns with the original model</p>
+<div class="cell" data-outputid="38c0472c-6b4b-4770-edb5-81196c927975">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> fit_rf(train_xs_final, train_y)</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"orig:"</span>, m_rmse(m, valid_xs_final, valid_y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>orig: 0.231632</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="7414a984-6835-44ca-90e2-a50076f4b234">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> (<span class="st">"SalesID"</span>, <span class="st">"saleElapsed"</span>, <span class="st">"MachineID"</span>):</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> fit_rf(train_xs_final.drop(c, axis<span class="op">=</span><span class="dv">1</span>), train_y)</span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(c, m_rmse(m, valid_xs_final.drop(c, axis<span class="op">=</span><span class="dv">1</span>), valid_y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SalesID 0.231139
+saleElapsed 0.235471
+MachineID 0.229936</code></pre>
+</div>
+</div>
+<p>“… looks like we should be able to remove SaleID and MachineID without losing any accuracy”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>time_vars <span class="op">=</span> [<span class="st">"SalesID"</span>, <span class="st">"MachineID"</span>]</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>train_xs_final_time <span class="op">=</span> train_xs_final.drop(time_vars, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>valid_xs_final_time <span class="op">=</span> valid_xs_final.drop(time_vars, axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="bb58e3d6-4c4b-4871-afb9-d3159b9820e9">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> fit_rf(train_xs_final_time, train_y)</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>m_rmse(m, valid_xs_final_time, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="95">
+<pre><code>0.228524</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Removing these variables has slightly improved the model’s accuracy; but more importantly, <strong>it should make it more resilient over time, and eaiser to maintain and understand</strong>.”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Build a model where the dependent variable is <code>is_valid</code> for ALL datasets!</p>
+</div>
+</div>
+<p>“It can often uncovere subtle <strong><em>domain shift</em></strong> issues that you may otherwise miss.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“One thing that might help in our case is simply to avoid using old data”</p>
+</div>
+</div>
+<p>“Often, old data shows relationships that just aren’t valid anymore”</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This “shows you shouldn’t always use your entire dataset; sometimes a subset can be better.”</p>
+</div>
+</div>
+<div class="cell" data-outputid="a17ed45d-0a92-4177-9b68-861b0bcd2e5a">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>train_xs[<span class="st">"saleYear"</span>].hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="97">
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f654a597410&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-79-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>recent_sales <span class="op">=</span> train_xs[<span class="st">"saleYear"</span>] <span class="op">&gt;</span> <span class="dv">2004</span></span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>train_xs_recent <span class="op">=</span> train_xs_final_time[recent_sales]</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>train_y <span class="op">=</span> train_y[recent_sales]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="4711fa67-4be2-4025-fed5-e2f6034c34c1">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> fit_rf(train_xs_recent, train_y)</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>m_rmse(m, train_xs_recent, train_y), m_rmse(m, valid_xs_final_time, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="100">
+<pre><code>(0.177533, 0.229519)</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="approach-3-neural-networks" class="level2">
+<h2 class="anchored" data-anchor-id="approach-3-neural-networks">Approach 3: Neural Networks</h2>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“We can leverage the work we did to trim unwanted columns in the random forest by using the same set of columns”</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>nn_df <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">"TrainAndValid.csv"</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> [<span class="st">'Large'</span>, <span class="st">'Large / Medium'</span>, <span class="st">'Medium'</span>, <span class="st">'Small'</span>, <span class="st">'Mini'</span>, <span class="st">'Compact'</span>]</span>
+<span id="cb121-4"><a href="#cb121-4" aria-hidden="true" tabindex="-1"></a>nn_df.ProductSize <span class="op">=</span> nn_df.ProductSize.astype(<span class="st">"category"</span>)</span>
+<span id="cb121-5"><a href="#cb121-5" aria-hidden="true" tabindex="-1"></a>nn_df.ProductSize <span class="op">=</span> nn_df.ProductSize.cat.set_categories(sizes, ordered<span class="op">=</span><span class="va">True</span>) <span class="co"># note: "inplace=True" is depreciated as of 1.30</span></span>
+<span id="cb121-6"><a href="#cb121-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-7"><a href="#cb121-7" aria-hidden="true" tabindex="-1"></a>nn_df[dep_var] <span class="op">=</span> np.log(nn_df[dep_var])</span>
+<span id="cb121-8"><a href="#cb121-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-9"><a href="#cb121-9" aria-hidden="true" tabindex="-1"></a>nn_df <span class="op">=</span> add_datepart(nn_df, <span class="st">"saledate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>nn_df_final <span class="op">=</span> nn_df[<span class="bu">list</span>(train_xs_final_time.columns) <span class="op">+</span> [dep_var]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Categorical columns</strong> require embeddings.</p>
+</div>
+</div>
+<p>fastai uses the <code>max_card</code> to determine what columns should be treated as categoricals … “Embedding sizes larger that 10,000 should generaly be used only after you’ve tested whether there are better ways to group the variable”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>nn_cont, nn_cat <span class="op">=</span> cont_cat_split(nn_df_final, max_card<span class="op">=</span><span class="dv">9000</span>, dep_var<span class="op">=</span>dep_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“A categorical variable cannot, by definition, extrapolate outside the range of values that it has seen, **but we want to be able to predict auction sale prices in the future”</p>
+</div>
+</div>
+<p>Therfore, “saleElapsed” needs to be made into a continous variable … which it alread is</p>
+<div class="cell" data-outputid="7bd5362f-4170-47be-9a1f-20a2879280b0">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>nn_cont</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="128">
+<pre><code>['saleElapsed']</code></pre>
+</div>
+</div>
+<p><strong>How to find the cardinality of each categorical?</strong></p>
+<div class="cell" data-outputid="ec5a34f3-0e6f-4cd6-f42d-525607944f52">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>nn_df_final[nn_cat].nunique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="129">
+<pre><code>YearMade                73
+ProductSize              6
+Coupler_System           2
+fiProductClassDesc      74
+Hydraulics_Flow          3
+ModelID               5281
+fiSecondaryDesc        177
+fiModelDesc           5059
+Enclosure                6
+Hydraulics              12
+ProductGroup             6
+fiModelDescriptor      140
+Tire_Size               17
+Drive_System             4
+dtype: int64</code></pre>
+</div>
+</div>
+<p>“… two variables pertaining to the ‘model’ of the equipment, <strong>both with similar very high cardinalities</strong>, suggests that they may contain similar, redundant information.”</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Removing rendundant columns can make your model more efficient! Try and see what the impact is.</p>
+</div>
+</div>
+<div class="cell" data-outputid="8b2a7fe2-683c-4fae-a26a-fbe0cce5abc0">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>cols_to_drop <span class="op">=</span> [<span class="st">"fiModelDescriptor"</span>]</span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>train_xs_recent2 <span class="op">=</span> train_xs_recent.drop(cols_to_drop, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>valid_xs_recent2 <span class="op">=</span> valid_xs_final_time.drop(cols_to_drop, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>m2 <span class="op">=</span> fit_rf(train_xs_recent2, train_y)</span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>m_rmse(m2, train_xs_recent2, train_y), m_rmse(m2, valid_xs_recent2, valid_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="130">
+<pre><code>(0.176776, 0.230194)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>nn_cat.remove(<span class="st">"fiModelDescriptor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="75e03a10-ea84-4fc9-ff5c-7a91d534206b">
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nn_cont)</span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nn_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['saleElapsed']
+['YearMade', 'ProductSize', 'Coupler_System', 'fiProductClassDesc', 'Hydraulics_Flow', 'ModelID', 'fiSecondaryDesc', 'fiModelDesc', 'Enclosure', 'Hydraulics', 'ProductGroup', 'Tire_Size', 'Drive_System']</code></pre>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neural networks require <strong>normalization</strong> while random forest does not because neural networks care about scaling!</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>nn_procs <span class="op">=</span> [Categorify, FillMissing, Normalize]</span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>nn_to <span class="op">=</span> TabularPandas(nn_df_final, nn_procs, nn_cat, nn_cont, splits<span class="op">=</span>splits, y_names<span class="op">=</span>dep_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Tabular models and data don’t generally require much GPU RAM, so we can use larger batch sizes”</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> nn_to.dataloaders(bs<span class="op">=</span><span class="dv">1024</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“it’s a good idea to set <code>y_range</code> for regression models</p>
+</div>
+</div>
+<div class="cell" data-outputid="c78a95eb-595e-4bec-9e75-17a445ccca07">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> nn_to.train.y</span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>y.<span class="bu">min</span>(), y.<span class="bu">max</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="135">
+<pre><code>(8.465899467468262, 11.863582611083984)</code></pre>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The default number of hidden layers (200,100) work well for small datasets, but should be increased if you are working with a larger dataset (500,250) for example.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> tabular_learner(dls, y_range<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">12</span>), layers<span class="op">=</span>[<span class="dv">500</span>,<span class="dv">250</span>], n_out<span class="op">=</span><span class="dv">1</span>, loss_func<span class="op">=</span>F.mse_loss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="7c1afce9-2281-4b51-9122-bfe53ac40c55">
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="137">
+<pre><code>SuggestedLRs(valley=0.00015848931798245758)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2022-04-25-ajtfb-chapter-9_files/figure-html/cell-94-output-4.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is no need to fine tune since we aren’t starting with a pretrained model.</p>
+</div>
+</div>
+<div class="cell" data-outputid="eabcde0b-dffb-4ebb-a8db-ebe3e911eaee">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.062468</td>
+      <td>0.063260</td>
+      <td>00:15</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.053739</td>
+      <td>0.074410</td>
+      <td>00:15</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.047957</td>
+      <td>0.055398</td>
+      <td>00:15</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.042492</td>
+      <td>0.050278</td>
+      <td>00:15</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.039967</td>
+      <td>0.050096</td>
+      <td>00:14</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-outputid="03548118-8497-4b94-ce6c-57eb59a0cba7">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>preds, targs <span class="op">=</span> learn.get_preds()</span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>r_mse(preds, targs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="140">
+<pre><code>0.223821</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="19103328-e05b-40e1-aecb-c9546a5a0124">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>learn.save(<span class="st">"nn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="141">
+<pre><code>Path('models/nn.pth')</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="approach-4-boosting" class="level2">
+<h2 class="anchored" data-anchor-id="approach-4-boosting">Approach 4: Boosting</h2>
+<p>Here “we add models instead of averaging them” (as compared to ensembling). See p.323-24 for all the details, but here’s how it works in general:</p>
+<ol type="1">
+<li>Train small model that underfits</li>
+<li>Get predictions for model from #1</li>
+<li>Get the “residuals” (‘the error for each point in the training set’) by subtracting the predictions from the targets.</li>
+<li>Go back to step 1, “<strong>but instead of using the original targets, use the residuals as the targets</strong> for training.</li>
+<li>Continue stesp 1-4 until you need to stop (e.g., max number of trees, you start overfitting, etc…)</li>
+</ol>
+<p>Steps 3-4 are the bread and butter of things.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… each new tree will be attempting to fit the error of all of the previous trees combined. Because we are continually creating new residuals by subtracting the predictions of each new tree from the residulas from the previous tree, the residuals will get smaller and smaller.”</p>
+</div>
+</div>
+<p>Some go as far as saying that such models are all you need :)</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/tunguz/status/1509197350576672769</p>
+</blockquote>
+<p><strong>How do you make predictions with an ensemble of boosted trees?</strong></p>
+<p>Answer: By calculating the predictions from each tree and then <strong>adding them all together.</strong></p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… unlike with random forests, with this approach, there is nothing to stop us from overfitting …. in a boosted ensemble, <strong>the more trees you have, the better the training error becomes, and eventually you will see overfitting on the validation set.</strong>”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Unlike random forests, gradient boosted trees are extremely sensitive to the choices of these hyperparameters.”</p>
+</div>
+</div>
+<p>XGBoost and sklearn’s HistGradientBooting models are legit ML models to try …</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/tunguz/status/1517505710426406914</p>
+</blockquote>
+<hr>
+</section>
+<section id="other-things-to-try" class="level2">
+<h2 class="anchored" data-anchor-id="other-things-to-try">Other things to try</h2>
+<p><strong>Ensembling</strong> (pp.322-23)</p>
+<p>This is a form of “bagging” where <strong>averaging the predictions of models trained using different algorithms</strong>, each of which it is reasonable to expect would produce differnt kinds of errors, would likely product better predictions.</p>
+<p><strong>Combining embeddings with other models</strong> (pp.324-25)</p>
+<p>“… shows that you can get much of the performance improvement of a neural network without having to use a neural network as inference time” by using the embeddings as inputs (which are just array lookups) to small decision tree ensemble!</p>
+<hr>
+</section>
+<section id="in-summary" class="level2">
+<h2 class="anchored" data-anchor-id="in-summary">In summary</h2>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with a random forest!</p>
+</div>
+</div>
+<p>“This will give you a strong baseline … can then use that model for feature selection and partial dependence analysis to get a better understanding of your data.”</p>
+<p><strong>Pros/Cons of each approach:</strong></p>
+<p><strong>Random forests</strong>: Pros: - Easiest to train - Resiliant to hyperparameter choices - Require little preprocessing - Fast to train - Should not overfit if you have enough trees Cons: - Can be less accurate (esp.&nbsp;if extrapolation is required “such as predicting future time periods.”</p>
+<p><strong>Gradient boosting machines (GBMs)</strong>: Pros: - Often more accurate than random forests Cons: - Sensitive to hyperparmeter choices - Can overfit</p>
+<p><strong>Neural Networks</strong>: Pros: - Can extrapolate well - Can provide good results. Cons: - Take longest time to train - Require extra preprocessing (e.g., normalization)</p>
+<hr>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li><p>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</p></li>
+<li><p><a href="https://www.packtpub.com/product/hands-on-gradient-boosting-with-xgboost-and-scikit-learn/9781839218354">“Hands-On Gradient Boosting with XGBoost and scikit-learn”</a> - Unread personally, but on my bookshelf and recommended by those in the know.</p></li>
+<li><p><a href="https://timeseriesai.github.io/tsai/">tsai</a> - A time series/sequences focused library built on PyTorch and fastai by <a href="https://twitter.com/ignaciooguiza">Ignacio Oguiza</a></p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

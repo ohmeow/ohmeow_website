@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2022-03-28">
+<meta name="description" content="This chapter of &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot; details several techniques you can apply to getting SOTA results with your image classification models! It’s the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models">
+<meta property="og:description" content="This chapter of [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models">
+<meta name="twitter:description" content="This chapter of [\&quot;Deep Learning for Coders with fastai &amp; PyTorch\&quot;](https://github.">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/"><i class="bi bi-app" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#imagenette" id="toc-imagenette" class="nav-link active" data-scroll-target="#imagenette">Imagenette</a></li>
+  <li><a href="#tip-1-use-the-presizing-trick" id="toc-tip-1-use-the-presizing-trick" class="nav-link" data-scroll-target="#tip-1-use-the-presizing-trick">Tip 1: Use the “presizing trick”</a></li>
+  <li><a href="#tip-2-create-a-baseline" id="toc-tip-2-create-a-baseline" class="nav-link" data-scroll-target="#tip-2-create-a-baseline">Tip 2: Create a “baseline”</a></li>
+  <li><a href="#tip-3-normalize-your-data" id="toc-tip-3-normalize-your-data" class="nav-link" data-scroll-target="#tip-3-normalize-your-data">Tip 3: Normalize your data</a></li>
+  <li><a href="#tip-4-use-progressive-resizing" id="toc-tip-4-use-progressive-resizing" class="nav-link" data-scroll-target="#tip-4-use-progressive-resizing">Tip 4: Use “progressive resizing”</a></li>
+  <li><a href="#tip-5-use-test-time-augmentation-tta" id="toc-tip-5-use-test-time-augmentation-tta" class="nav-link" data-scroll-target="#tip-5-use-test-time-augmentation-tta">Tip 5: Use Test Time Augmentation (TTA)</a></li>
+  <li><a href="#tip-6-use-mixup" id="toc-tip-6-use-mixup" class="nav-link" data-scroll-target="#tip-6-use-mixup">Tip 6: Use <code>MixUp</code></a></li>
+  <li><a href="#tip-7-use-label-smoothing" id="toc-tip-7-use-label-smoothing" class="nav-link" data-scroll-target="#tip-7-use-label-smoothing">Tip 7: Use “Label Smoothing”</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+    <div class="quarto-category">classification</div>
+    <div class="quarto-category">computer vision</div>
+    <div class="quarto-category">techniques</div>
+    <div class="quarto-category">bag of tricks</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This chapter of <a href="https://github.com/fastai/fastbook">"Deep Learning for Coders with fastai &amp; PyTorch"</a> details several techniques you can apply to getting SOTA results with your image classification models! It’s the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 28, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Other posts in this series:<br>
+<a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2021-06-10-ajtfb-chapter-6-multilabel.html">A Journey Through Fastbook (AJTFB) - Chapter 6a</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<hr>
+<section id="imagenette" class="level2">
+<h2 class="anchored" data-anchor-id="imagenette">Imagenette</h2>
+<p>The <strong>Imagenette</strong> is a subset of the <strong>ImageNet</strong> dataset that “contains a subset of 10 very different categories from the orginal ImageNet dataset, making for quicker training when we want to experiment”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with small datasets and models for initial experimentation and prototyping. Both will allow you to iterate over your experiments more quickly and verify your code works from beginning to end without having to wait hours for your training/validation loops to finish. “You should aim to have an iteration speed of no more than a couple of minutes …. <em>If it’s taking longer to do an experiment, think about how you could cut down your dataset, or simply your model, to improve your experimentation speed.</em>”</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.IMAGENETTE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="tip-1-use-the-presizing-trick" class="level2">
+<h2 class="anchored" data-anchor-id="tip-1-use-the-presizing-trick">Tip 1: Use the “presizing trick”</h2>
+<p>See chapter 5, pp.189-191. The idea here is to first crop the image <strong>so that further augmentations can be applied without creating empty space</strong> (via <code>item_tfms</code>), with further augmentations being applied on the GPU on batches of images for speed (via <code>batch_tfms</code>).</p>
+<p>On the training set, the initial crop area is chosen randomly with the size set to cover the entire width/height of the image with random crop and other augmentations done on the GPU.</p>
+<p>On the validation set, a center square is always used in the first step and only a resize is applied on the GPU to get the image width/height equal to the final size needed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> DataBlock(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    blocks<span class="op">=</span>(ImageBlock(), CategoryBlock()),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    get_items <span class="op">=</span> get_image_files,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    get_y <span class="op">=</span> parent_label,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    item_tfms <span class="op">=</span> Resize(<span class="dv">460</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    batch_tfms <span class="op">=</span> aug_transforms(size<span class="op">=</span><span class="dv">224</span>, min_scale<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(path, bs<span class="op">=</span><span class="dv">64</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="tip-2-create-a-baseline" class="level2">
+<h2 class="anchored" data-anchor-id="tip-2-create-a-baseline">Tip 2: Create a “baseline”</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>we are <strong><em>not</em></strong> using a pretrained model here, we are training one from scratch.</p>
+</div>
+</div>
+<div class="cell" data-outputid="21e8d6b8-156d-41b6-81bf-da6be73f8166">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> xresnet50()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>CrossEntropyLossFlat(), metrics<span class="op">=</span>accuracy)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">3e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.654316</td>
+      <td>4.794844</td>
+      <td>0.320015</td>
+      <td>05:21</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1.217274</td>
+      <td>1.211676</td>
+      <td>0.612024</td>
+      <td>05:19</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.964628</td>
+      <td>1.417025</td>
+      <td>0.617252</td>
+      <td>05:06</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.736836</td>
+      <td>0.677910</td>
+      <td>0.787155</td>
+      <td>05:12</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.596578</td>
+      <td>0.539180</td>
+      <td>0.833831</td>
+      <td>05:05</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="tip-3-normalize-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="tip-3-normalize-your-data">Tip 3: Normalize your data</h2>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“When training a model, it helps if your input data is <em>normalized</em> - this is, <strong>has a mean of 0 and a standard deviation of 1</strong>.””</p>
+</div>
+</div>
+<p>For images we do this over each channel (the 1 dimension) but averaging over all axes with the exception of the channel axis. In fastai, we can utilize the <strong><code>Normalize</code></strong> transform to apply this a batch at a time.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If we don’t tell this transform what mean/std to use, “fastai will automatically calculate them from a single batch of your data”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If we are using ImageNet images, we can use <code>imagenet_stats</code> instead of calculating the mean/std ourselves).</p>
+</div>
+</div>
+<div class="cell" data-outputid="630e0453-3ac1-476f-dfa1-e6ce0c0759c3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># an example of normalization calculated on a batch of images</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (because we aren't using normalization yet, you'll see the mean and standard deviation are not very close to</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 and 1 respectively)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> dls.one_batch()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>x.mean(dim<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>]), x.std(dim<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(TensorImage([0.4518, 0.4554, 0.4344], device='cuda:0'),
+ TensorImage([0.2868, 0.2783, 0.2998], device='cuda:0'))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_dls(batch_size, image_size):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dblock <span class="op">=</span> DataBlock(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      blocks<span class="op">=</span>(ImageBlock(), CategoryBlock()),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      get_items <span class="op">=</span> get_image_files,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      get_y <span class="op">=</span> parent_label,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      item_tfms <span class="op">=</span> Resize(<span class="dv">460</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      batch_tfms <span class="op">=</span> [<span class="op">*</span>aug_transforms(size<span class="op">=</span>image_size, min_scale<span class="op">=</span><span class="fl">0.75</span>), Normalize.from_stats(<span class="op">*</span>imagenet_stats)]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  dls <span class="op">=</span> dblock.dataloaders(path, bs<span class="op">=</span>batch_size)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> dls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="a5ef96de-aff0-47d5-9412-8bb2088ef77a">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> get_dls(<span class="dv">64</span>, <span class="dv">224</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># an example of normalization calculated on a batch of images</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (because we are using normalization now, the mean and standard deviation are very close to 0 and 1 respectively)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> dls.one_batch()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x.mean(dim<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>]), x.std(dim<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>]))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># does this normalization improve our model? Let's see ...</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> xresnet50()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>CrossEntropyLossFlat(), metrics<span class="op">=</span>accuracy)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">3e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorImage([-0.0816, -0.0114,  0.0695], device='cuda:0') TensorImage([1.1806, 1.1762, 1.2825], device='cuda:0')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.701530</td>
+      <td>1.856552</td>
+      <td>0.468633</td>
+      <td>05:07</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1.280709</td>
+      <td>1.384676</td>
+      <td>0.573562</td>
+      <td>05:05</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1.007325</td>
+      <td>1.073023</td>
+      <td>0.656460</td>
+      <td>05:06</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.762624</td>
+      <td>0.666320</td>
+      <td>0.784541</td>
+      <td>05:06</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.606407</td>
+      <td>0.573812</td>
+      <td>0.823376</td>
+      <td>05:02</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… when you distribute a model, you need to also distribute the statistics used for normalization, since anyone using it for inference or transfer learning will need to use the same statistics …. <strong>If you’re using a model that someone else has trained, make sure you find out what normalization statistics they used and match them.</strong>”</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="tip-4-use-progressive-resizing" class="level2">
+<h2 class="anchored" data-anchor-id="tip-4-use-progressive-resizing">Tip 4: Use “progressive resizing”</h2>
+<p>“… start training using small images, and end training using large images. <strong>Spending most of the epochs training with small images helps training complete faster</strong>.”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think of this as a form of <strong><em>transfer learning</em></strong></p>
+</div>
+</div>
+<p>“… <strong>the kinds of features that are learned by convolutional neural networks are not in any way specific to the size of the image</strong> …. So, when we change the image size in the middle of training, it doesn’t mean that we have to find totally different parameters for our model.”</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Progressive resizing has an additional benefit: it is another form of data augmentation. Therefore, you should expect to see better generalization”</p>
+</div>
+</div>
+<div class="cell" data-outputid="06f07856-897c-41b1-9ac1-c0579d7457c2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> get_dls(<span class="dv">128</span>,<span class="dv">128</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, xresnet50(), loss_func<span class="op">=</span>CrossEntropyLossFlat(), metrics<span class="op">=</span>accuracy)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">4</span>, <span class="fl">3e-3</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># simply replace the `Learner.dls` with new `DataLoaders` and continue traning.</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>learn.dls <span class="op">=</span> get_dls(<span class="dv">64</span>, <span class="dv">224</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">5</span>, <span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1.848093</td>
+      <td>1.582196</td>
+      <td>0.526512</td>
+      <td>03:02</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1.297791</td>
+      <td>1.205059</td>
+      <td>0.616878</td>
+      <td>03:01</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.985249</td>
+      <td>1.022758</td>
+      <td>0.690067</td>
+      <td>02:55</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.762485</td>
+      <td>0.688779</td>
+      <td>0.787155</td>
+      <td>02:53</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.845315</td>
+      <td>1.171858</td>
+      <td>0.650112</td>
+      <td>05:08</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.635858</td>
+      <td>0.834369</td>
+      <td>0.751307</td>
+      <td>05:06</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.664283</td>
+      <td>0.665261</td>
+      <td>0.796117</td>
+      <td>05:10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.585543</td>
+      <td>0.634785</td>
+      <td>0.796490</td>
+      <td>05:11</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.478250</td>
+      <td>0.495538</td>
+      <td>0.840926</td>
+      <td>05:02</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.429075</td>
+      <td>0.448893</td>
+      <td>0.855489</td>
+      <td>05:08</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To use the <code>DataLoaders</code> with bigger images, we simply assign it to <code>Learner.dls</code>.</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bigger images will require smaller batch sizes. Also, you will not get a benefit of using images sized larger than the size of your images on disk!</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… for transfer learning, progressive resizing <em>may</em> acutally hurt performance …. This is most likely to happen <strong>if your pretrained model was quite similar to your transfer learning task and the dataset and was trained on similar-sized images</strong>, so the weights don’t need to be changed much. In that case, <strong>training on smaller images may damage the pretrained weights.</strong></p>
+</div>
+</div>
+<p>“On the other hand, if the transfer learning task is going to use <strong>images that are of different sizes, shapes, or styles than those used in the pretraining task</strong>, progressive resizing will probably help”</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are unsure, try it!</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="tip-5-use-test-time-augmentation-tta" class="level2">
+<h2 class="anchored" data-anchor-id="tip-5-use-test-time-augmentation-tta">Tip 5: Use Test Time Augmentation (TTA)</h2>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>TTA is a form of data augmentation applied to the validation set that adds augmented versions of the images. “<strong>During inference or validation</strong>, creating multiple versions of each image using data augmentation, and then taking the average or maximum of the predictions for each augmented version of the image.”</p>
+</div>
+</div>
+<p>“… select a number of areas to crop from the original rectangular image, pass each of them through our model, and take the maximum or average of the predictions. In fact, we can do this not just for different crops, but for different values across all of our test time augmentation parameters”</p>
+<p><strong>What is the problem TTA addresses and why use it?</strong></p>
+<p>“When we use random cropping, fastai will automatically <strong>use center-cropping for the validation set</strong>” which can be probelmatic, for example, in multi-label tasks where “sometimes there are small objects toward the edges of an image” that might be cropped out entirely or perhaps features on the fringe that are required for any classification task.</p>
+<div class="cell" data-outputid="421d320f-26ce-497b-dd77-2fbecbb3eb27">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can pass any `DataLoaders` to `tta()` (by default it uses your validation `DataLoader`)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>preds, targs <span class="op">=</span> learn.tta()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>accuracy(preds, targs).item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="0" class="" max="5" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      
+    </div>
+    
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>0.861090362071991</code></pre>
+</div>
+</div>
+<p>“TTA gives us a good boost in performance, <strong>with no additional training required.</strong></p>
+<hr>
+</section>
+<section id="tip-6-use-mixup" class="level2">
+<h2 class="anchored" data-anchor-id="tip-6-use-mixup">Tip 6: Use <code>MixUp</code></h2>
+<p>“<strong>Mixup</strong> … is a powerful data augmentation technique that can provide dramatically higher accuracy, <strong>especially when you don’t have much data and don’t have a pretrained model that was trained on data similar to your dataset</strong>”</p>
+<p>It is a dataset-independent form of data augmentation = can be applied without domain knowledge of the dataset to configure other forms of data augmentation (e.g., flipping and to what degree, etc…)</p>
+<p><strong>How does Mixup work?</strong></p>
+<ol type="1">
+<li>Select another random image</li>
+<li>Pick a weight at random</li>
+<li>Take a weighted average of the selected image with your image = <strong>Your independent variable</strong></li>
+<li>Take a weighted average of the selected image’s labels with your image’s labels = <strong>Your dependent variable</strong></li>
+<li>Use #3 to predict #4</li>
+</ol>
+<p>In pseudocode:</p>
+<pre><code>img2, targ2 = dataset[randint(0, len(dataset))]
+t = random_float(0.5, 1.0)
+new_img = t * img1 + (1-t) * img2
+new_targ = t * targ1 + (1-t) * targ2</code></pre>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“For this to work, our targets need to be one-hot encoded”</p>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Mixup requires far more epochs”</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“One of the reasons Mixup is so exciting is that it can be applied to types of data other than photos. In fact, some people have even shown good results by **using Mixup on activations inside their models, not just on inputs - this allows Mixup to be used for NLP and other data types too.”</p>
+</div>
+</div>
+<p>See pp.247-249 for a detailed example of how Mixup works and is used in fastai</p>
+<div class="cell" data-outputid="ef31ac42-65b4-4a10-bb63-39d0c19bad8d">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> xresnet50()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>CrossEntropyLossFlat(), metrics<span class="op">=</span>accuracy, cbs<span class="op">=</span>MixUp)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">3e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2.183965</td>
+      <td>2.523945</td>
+      <td>0.320762</td>
+      <td>02:57</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1.729223</td>
+      <td>1.974045</td>
+      <td>0.461538</td>
+      <td>03:01</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1.479313</td>
+      <td>1.131723</td>
+      <td>0.630695</td>
+      <td>03:07</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1.294975</td>
+      <td>0.872954</td>
+      <td>0.724421</td>
+      <td>03:08</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1.183486</td>
+      <td>0.731506</td>
+      <td>0.776699</td>
+      <td>03:06</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… it’s going to be hard to train, because … the model has to predict two labels per image rather than just one …. Overfitting seems less likely to be a problem.”</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="tip-7-use-label-smoothing" class="level2">
+<h2 class="anchored" data-anchor-id="tip-7-use-label-smoothing">Tip 7: Use “Label Smoothing”</h2>
+<p>“In the theoretical expression of loss, <strong>in classification problems</strong>, our targets are one hot encoded …. That means the model is trained to return 0 for all categories but one, for which it is trained to return 1…. This encourages overfitting and gives you at inference time a model that is not going to give meaningful probabilities: it will always say 1 for the predicted category <strong>even if it’s not too sure</strong>, just because it was trained that way.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“This can become very harmful if your data is not perfectly labeled.”</p>
+</div>
+</div>
+<p>“In general, your data will never be perfect. Even if the labels were manually produced by humans, they could make mistakes, or have differences of opinions on images that are harder to label”</p>
+<p><strong>What is the solution this this?</strong></p>
+<p>“… we could replace all our 1s with a number a bit less than 1, and our 0s with a number a bit more than 0, and then train. This is” = <strong>Label smoothing</strong>. “By encouraging your model to be a less confident, label smoothing will make your training more robust, <strong>even if there is mislabeled data. The result will be a model that generalizes better at inference</strong>.”</p>
+<p>See pp.249-251 for a detailed explanation and example of how label smoothing operates. <strong>To use it, we just have to change our loss function.</strong></p>
+<div class="cell" data-outputid="4a510d06-b7ea-4a4a-a971-16cbcb0fddbd">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> xresnet50()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>LabelSmoothingCrossEntropy(), metrics<span class="op">=</span>accuracy)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">3e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>accuracy</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2.757509</td>
+      <td>3.500999</td>
+      <td>0.253921</td>
+      <td>03:06</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.257501</td>
+      <td>2.817133</td>
+      <td>0.440627</td>
+      <td>03:00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1.968483</td>
+      <td>2.138581</td>
+      <td>0.617625</td>
+      <td>02:59</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1.781833</td>
+      <td>1.700527</td>
+      <td>0.772591</td>
+      <td>03:05</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1.648491</td>
+      <td>1.632251</td>
+      <td>0.798357</td>
+      <td>03:01</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“As with Mixup, you won’t generally see significant improvements from label smoothing until you train more epochs.”</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li><p>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</p></li>
+<li><p><a href="https://arxiv.org/abs/1812.01187">Bag of Tricks for Image Classification with Convolutional Neural Networks</a> discusses a variety of techniques you can use with CNNs</p></li>
+<li><p><a href="https://myrtle.ai/how-to-train-your-resnet-8-bag-of-tricks/">How to Train Your ResNet 8: Bag of Tricks</a> discusses a variety of techniques you can use to training ResNets.</p></li>
+<li><p><a href="https://airctic.com/0.12.0/">IceVision</a> is a great resource for all things computer vision and a fastai friendly library. You may want to follow these twitter accounts as well: <a href="https://twitter.com/ai_fast_track"><span class="citation" data-cites="ai_fast_track">@ai_fast_track</span></a> and <a href="https://twitter.com/fra_pochetti"><span class="citation" data-cites="Fra_Pochetti">@Fra_Pochetti</span></a> (creator of IceVision).</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
