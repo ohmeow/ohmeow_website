@@ -124,15 +124,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <meta property="og:title" content="FastAPI Guide">
-<meta property="og:description" content="See:
-Using FastAPI to Build Python Web APIs
-Full Stack FastAPI and PostgreSQL - Base Project Generator
-Up and running with fastapi series">
 <meta name="twitter:title" content="FastAPI Guide">
-<meta name="twitter:description" content="See:
-Using FastAPI to Build Python Web APIs
-Full Stack FastAPI and PostgreSQL - Base Project Generator
-Up and running with fastapi series">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -257,27 +249,59 @@ Up and running with fastapi series">
 
 </header>
 
-<section id="designing-your-api" class="level3">
-<h3 class="anchored" data-anchor-id="designing-your-api">Designing your API</h3>
-<hr>
-<div id="good-ref-archs" class="flash">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#good-ref-archs">What are some good reference architectures?</a></strong></p>
+<section id="designing-your-api" class="level2">
+<h2 class="anchored" data-anchor-id="designing-your-api">Designing your API</h2>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
+<div class="callout-caption-container flex-fill">
+What are some good reference architectures?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>See:<br>
 <a href="https://realpython.com/fastapi-python-web-apis/">Using FastAPI to Build Python Web APIs</a><br>
 <a href="https://github.com/tiangolo/full-stack-fastapi-postgresql">Full Stack FastAPI and PostgreSQL - Base Project Generator</a><br>
 <a href="https://www.jeffastor.com/blog/refactoring-our-react-ui-into-composable-hooks-part-ii">Up and running with fastapi series</a></p>
-<div id="user-reg-auth" class="flash">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#user-reg-auth">How do I do user registration/login, e-mail verification, password resets, etc… with fastapi?</a></strong></p>
 </div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+How do I do user registration/login, e-mail verification, password resets, etc… with fastapi?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>See:<br>
 <a href="https://levelup.gitconnected.com/handle-registration-in-fastapi-and-tortoise-orm-a661162d27f1">Handle Registration in FastAPI and Tortoise ORM</a><br>
 <a href="https://realpython.com/handling-email-confirmation-in-flask/#models">Handling Email Confirmation During Registration in Flask</a><br>
 <a href="https://dev.to/paurakhsharma/flask-rest-api-part-5-password-reset-2f2e">Flask Rest API -Part:5- Password Reset</a><br>
 <a href="https://www.youtube.com/watch?v=gdKBn5cp3TM">E-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail</a></p>
-<div id="star-in-method" class="flash">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#star-in-method">What does a star(*) mean in a method parameter?</a></strong></p>
 </div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What does a star(*) mean in a method parameter?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>It simply allows you to order your arguments so those without default values can be placed ahead of those that can. It also ensures that keyword arguments are used everywhere (which may or may not be desirable when refactoring code). I usually find it unnecessary except in places where I’m using <code>BackgroundTasks</code> or a depency injected argument somewhere, for example:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.get</span>(<span class="st">"/"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_username(<span class="op">*</span>, db: Session <span class="op">=</span> Depends(get_db), user_id: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -285,49 +309,118 @@ Up and running with fastapi series">
 <p>See:<br>
 <a href="https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896">What does a star(*) mean in a method parameter?</a><br>
 <a href="https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/#order-the-parameters-as-you-need-tricks">Order the parameters as you need, tricks</a></p>
-</section>
-<section id="working-with-pydantic-objects" class="level3">
-<h3 class="anchored" data-anchor-id="working-with-pydantic-objects">Working with Pydantic objects</h3>
-<hr>
-<div id="pydantic-cast" class="flash" style="margin-bottom:5px;">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#pydantic-cast">How to cast one pydantic object into another?</a></strong></p>
 </div>
+</div>
+</div>
+</section>
+<section id="working-with-pydantic-objects" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-pydantic-objects">Working with Pydantic objects</h2>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+How to cast one pydantic object into another?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>MyModel(<span class="op">**</span>my_model_from.<span class="bu">dict</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="dockerizing-a-fastapi-application" class="level3">
-<h3 class="anchored" data-anchor-id="dockerizing-a-fastapi-application">Dockerizing a FastAPI application</h3>
-<hr>
-<div id="how-to-dockerize" class="flash">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#how-to-dockerize">How can I Dockerize my app?</a></strong></p>
 </div>
+</div>
+</div>
+</section>
+<section id="dockerizing-a-fastapi-application" class="level2">
+<h2 class="anchored" data-anchor-id="dockerizing-a-fastapi-application">Dockerizing a FastAPI application</h2>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+How can I Dockerize my app?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>See:<br>
 <a href="https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/">How to Dockerize a Python App with FastAPI</a><br>
 <a href="https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/">An Extremely Simple Docker, Traefik, and Python FastAPI Example</a></p>
-</section>
-<section id="dealing-with-common-errors" class="level3">
-<h3 class="anchored" data-anchor-id="dealing-with-common-errors">Dealing with common errors</h3>
-<hr>
-<div id="error-unprocessable-entity-422" class="flash flash-error">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#error-unprocessable-entity-422">I get an Unprocessable Entity (422) error when I post/put to my API</a></strong></p>
 </div>
+</div>
+</div>
+</section>
+<section id="dealing-with-common-errors" class="level2">
+<h2 class="anchored" data-anchor-id="dealing-with-common-errors">Dealing with common errors</h2>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+I get an Unprocessable Entity (422) error when I post/put to my API
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>It usually means the body of your request doesn’t mesh with what your API method is expected. Make sure that the object your passing in matches what you’ve specified, including using the <code>Body(...[,embed=True])</code> types correctly</p>
 <p>See:<br>
 <a href="https://fastapi.tiangolo.com/tutorial/body-multiple-params/?h=embed">Body - Multiple Parameters</a><br>
 <a href="https://stackoverflow.com/questions/62384392/python-fastapi-unprocessable-entity-error">Python: FastApi (Unprocessable Entity) error</a></p>
-<div id="error-coroutine-has-no-attribute" class="flash flash-error">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#error-coroutine-has-no-attribute">AttributeError: ‘coroutine’ object has no attribute ‘X’</a></strong></p>
 </div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+AttributeError: ‘coroutine’ object has no attribute ‘X’
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Usually means you are missing “await” from async method (fastapi/python)</p>
-<div id="error-postgresql-returning-nada" class="flash flash-error">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#error-postgresql-returning-nada">I’m using </a><a href="https://github.com/encode/databases">Encode Databases</a> against a postgres database, but my <code>RETURNING</code> statements don’t return all the columns I specify</strong></p>
 </div>
-<p><code>RETURNING</code> statements work okay with <code>fetch_one</code>/<code>fetch_all</code>. If you are using <code>execute</code>, it won’t work<br>
-See: <a href="https://github.com/encode/databases/issues/98#issuecomment-499875112">Support for RETURNING</a></p>
-<div id="error-nginx-reverse-proxy-https" class="flash flash-error" style="margin-bottom:5px;">
-<p>{% octicon bookmark %} <strong><a class="nostyle" href="#error-nginx-reverse-proxy-https">When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below…</a></strong></p>
 </div>
-<pre><code>Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure 
-XMLHttpRequest endpoint 'http://page.com?filter=xxxx'. 
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+I’m using <a href="https://github.com/encode/databases">Encode Databases</a> against a postgres database, but my <code>RETURNING</code> statements don’t return all the columns I specify
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>RETURNING</code> statements work okay with <code>fetch_one</code>/<code>fetch_all</code>. If you are using <code>execute</code>, it won’t work.</p>
+<p>See: <a href="https://github.com/encode/databases/issues/98#issuecomment-499875112">Support for RETURNING</a></p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below…
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure
+XMLHttpRequest endpoint 'http://page.com?filter=xxxx'.
 This request has been blocked; the content must be served over HTTPS.</code></pre>
 <p>If you add a trailing slash (/) in your API requests it will fix the problem <strong><em>BUT</em></strong> a much easier solution is to the correct proxy headers for Uvicorn. They should look something like this:</p>
 <pre><code>upstream api_server {
@@ -348,7 +441,9 @@ server {
 <a href="https://github.com/vikramgulia/fastapi-react/blob/master/ui/nginx/nginx.conf">fastapi-react nginx.conf</a><br>
 <a href="https://github.com/axios/axios/issues/757">Add option for adding a trailing slash automatically</a><br>
 <a href="https://support.yithemes.com/hc/en-us/articles/115002851847-Ajax-Product-Filter-does-not-work-in-https-Fixed">Ajax Product Filter does not work in https - Fixed</a></p>
-<hr>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -500,8 +595,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
 });
-</script>
-<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

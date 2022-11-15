@@ -323,7 +323,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>What is it?</strong></p>
 <p>Think recommender systems which “look at which products the current user has used or liked, find other users who have used or liked similar products, and then recommend other products that those users have used or liked.”</p>
 <p>The key to making collaborative filtering and tabular models, is the idea of <strong>latent factors</strong>.</p>
-<hr>
 </section>
 <section id="what-are-latent-factors-and-what-is-the-problem-they-solve" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-latent-factors-and-what-is-the-problem-they-solve">What are “latent factors” and what is the problem they solve?</h2>
@@ -914,7 +913,6 @@ Important
 <p>An embedding is the “thing that you multiply the one-hot-encoded matrix by (or, using the computational shortcut, inex into directly)”</p>
 </div>
 </div>
-<hr>
 </section>
 <section id="collaborative-filtering-from-scratch-dot-product" class="level2">
 <h2 class="anchored" data-anchor-id="collaborative-filtering-from-scratch-dot-product">Collaborative Filtering: From Scratch (dot product)</h2>
@@ -1308,9 +1306,9 @@ Important
 <h3 class="anchored" data-anchor-id="creating-our-own-embedding-module">Creating our own Embedding Module</h3>
 <p>pp.265-267 show how to write your own <code>nn.Module</code> that does what <code>Embedding</code> does. Here are some of the important bits to pay attention too …</p>
 <p>“… optimizers require that they can get all the parameters of a module from the module’s <code>parameters</code> method, so make sure to tell <code>nn.Module</code> that you want to treat a tensor as a parameters using the <code>nn.Parameter</code> class like so:</p>
-<pre><code>class T(Module):
-  def __init__(self):
-    self.a = nn.Parameter(torch.ones(3))</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> T(Module):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.a <span class="op">=</span> nn.Parameter(torch.ones(<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1324,20 +1322,19 @@ Important
 <p>“All PyTorch modules use <code>nn.Parameter</code> for any trainable parameters.</p>
 </div>
 </div>
-<pre><code>class T(Module):
-  def __init__(self):
-    self.a = nn.Liner(1, 3, bias=False)
-
-t = T()
-t.parameters()   #=&gt; will show all the weights of your nn.Linear
-type(t.a.weight) #=&gt; torch.nn.parameter.Parameter</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> T(Module):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.a <span class="op">=</span> nn.Liner(<span class="dv">1</span>, <span class="dv">3</span>, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> T()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>t.parameters()   <span class="co">#=&gt; will show all the weights of your nn.Linear</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(t.a.weight) <span class="co">#=&gt; torch.nn.parameter.Parameter</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now, given a method like this …</p>
-<pre><code>def create_params(size):
-  return nn.Parameter(torch.zeros(*size).normal_(0, 0.01))</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_params(size):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> nn.Parameter(torch.zeros(<span class="op">*</span>size).normal_(<span class="dv">0</span>, <span class="fl">0.01</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>… we can create randomly initialized parameters, included parameters for our latent factors and biases like this:</p>
-<pre><code>self.users_emb = create_params([n_users, n_factors])
-self.users_bias = create_params([n_users])</code></pre>
-<hr>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.users_emb <span class="op">=</span> create_params([n_users, n_factors])</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.users_bias <span class="op">=</span> create_params([n_users])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="interpreting-embeddings-and-biases" class="level2">
@@ -1394,7 +1391,6 @@ Note
 </div>
 </div>
 <p>See p.268 and these three StatQuest videos for more on how PCA works (btw, StatQuest is one of my top data science references so consider subscribing to his channel). <a href="https://www.youtube.com/watch?v=HMOI_lkzW08&amp;t=13s">Video 1</a>, <a href="https://www.youtube.com/watch?v=FgakZw6K1QQ">Video 2</a>, and <a href="https://www.youtube.com/watch?v=oRvgq966yZg">Video 3</a></p>
-<hr>
 </section>
 <section id="collaborative-filtering-using-fastai.collab" class="level2">
 <h2 class="anchored" data-anchor-id="collaborative-filtering-using-fastai.collab">Collaborative Filtering: Using <code>fastai.collab</code></h2>
@@ -1485,7 +1481,6 @@ Note
  'Cable Guy, The (1996)']</code></pre>
 </div>
 </div>
-<hr>
 </section>
 <section id="embedding-distance" class="level2">
 <h2 class="anchored" data-anchor-id="embedding-distance">Embedding Distance</h2>
@@ -1502,7 +1497,6 @@ Note
 <pre><code>'Dial M for Murder (1954)'</code></pre>
 </div>
 </div>
-<hr>
 </section>
 <section id="bootstrapping" class="level2">
 <h2 class="anchored" data-anchor-id="bootstrapping">Bootstrapping</h2>
@@ -1522,7 +1516,6 @@ Important
 </div>
 </div>
 <p>See p.271 for more information on how collaborative models may contribute to positive feedback loops and how humans can mitigate by being part of the process.</p>
-<hr>
 </section>
 <section id="collaborative-filtering-from-scratch-nn" class="level2">
 <h2 class="anchored" data-anchor-id="collaborative-filtering-from-scratch-nn">Collaborative Filtering: From Scratch (NN)</h2>
@@ -1730,7 +1723,6 @@ Note
 <p><strong>Why use a neural network (NN)?</strong></p>
 <p>Because “we can now directly incorporate other user and movie information, date and time information, or any other information that may be relevant to the recommendation.”</p>
 <p>We’ll see this when we look at <code>TabularModel</code> (of which <code>EmbeddingNN</code> is a subclass with no continuous data [<code>n_cont=0</code>] and an <code>out_sz=1</code>.</p>
-<hr>
 </section>
 <section id="kwargs-and-delegates" class="level2">
 <h2 class="anchored" data-anchor-id="kwargs-and-delegates"><code>kwargs</code> and <code>@delegates</code></h2>
@@ -1742,7 +1734,6 @@ Note
 </ol>
 <p><code>@delegates</code>:</p>
 <p>“… fastai resolves [the issue of using <code>**kwargs</code> to avoid having to write out all the arguments of the base class] by providing a special <code>@delegates</code> decorator, which automatically <strong>changes the signature of the class or function</strong> … to insert all of its keyword arguments into the signature.”</p>
-<hr>
 </section>
 <section id="resources" class="level2">
 <h2 class="anchored" data-anchor-id="resources">Resources</h2>

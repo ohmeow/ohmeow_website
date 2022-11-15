@@ -346,9 +346,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>“Tabular modeling takes data in the form of a table (like a spreadsheet or CSV). The objective is to predict the value of one column based on the values in the other columns.” Tabular data is also called <strong>“structured data”</strong> while <strong>“unstructured data”</strong> represents things like text, images, audio, etc…</p>
 <p><strong>Why is it important?</strong></p>
 <p>Though it is reported that <a href="https://www.cio.com/article/220347/ai-unleashes-the-power-of-unstructured-data.html">80-90% of data is unstructured</a> (think images, text, audio), ironically, it appears that the vast majority of “real world” machine learning is concerened with tabular/structured data.</p>
-<blockquote class="blockquote">
-<p>twitter: https://twitter.com/tunguz/status/1496480602409017351</p>
+<blockquote class="twitter-tweet blockquote" data-theme="dark">
+<p lang="en" dir="ltr">
+If you are just starting out with Data Science you should know that still the vast majority of DS problems in the industry concern structured/tabular data. This is what you should focus on in order to make a professional inroad. <br><br>1/3
+</p>
+— Bojan Tunguz (<span class="citation" data-cites="tunguz">@tunguz</span>) <a href="https://twitter.com/tunguz/status/1496480602409017351?ref_src=twsrc%5Etfw">February 23, 2022</a>
 </blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -407,7 +411,6 @@ Important
 </div>
 </div>
 <p>See pages 282-284 for more discussion on the pros/cons of decision trees and neural networks for tabular data.</p>
-<hr>
 </section>
 <section id="categorical-embeddings" class="level2">
 <h2 class="anchored" data-anchor-id="categorical-embeddings">Categorical Embeddings</h2>
@@ -487,7 +490,6 @@ Note
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>pd.options.display.max_rows <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>pd.options.display.max_columns <span class="op">=</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 <section id="data-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
@@ -979,7 +981,6 @@ Important
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>procs <span class="op">=</span> [Categorify, FillMissing]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 </section>
 </section>
@@ -1443,7 +1444,6 @@ Tip
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load from filesystem</span></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>to <span class="op">=</span> load_pickle(path<span class="op">/</span><span class="st">"to.pkl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr>
 </section>
 </section>
 <section id="approach-1-decision-trees" class="level2">
@@ -1654,7 +1654,6 @@ Note
 </div>
 </div>
 <p>See p.297 for more about why OHE aren’t necessary and why decision tree just work with categorical variables out-of-the-box.</p>
-<hr>
 </section>
 </section>
 <section id="approach-2-random-forests" class="level2">
@@ -2593,7 +2592,6 @@ Important
 <pre><code>(0.177533, 0.229519)</code></pre>
 </div>
 </div>
-<hr>
 </section>
 </section>
 <section id="approach-3-neural-networks" class="level2">
@@ -2925,7 +2923,6 @@ Note
 <pre><code>Path('models/nn.pth')</code></pre>
 </div>
 </div>
-<hr>
 </section>
 <section id="approach-4-boosting" class="level2">
 <h2 class="anchored" data-anchor-id="approach-4-boosting">Approach 4: Boosting</h2>
@@ -2952,9 +2949,13 @@ Important
 </div>
 </div>
 <p>Some go as far as saying that such models are all you need :)</p>
-<blockquote class="blockquote">
-<p>twitter: https://twitter.com/tunguz/status/1509197350576672769</p>
+<blockquote class="twitter-tweet blockquote" data-theme="dark">
+<p lang="en" dir="ltr">
+XGBoost Is All You Need<br><br>Deep Neural Networks and Tabular Data: A Survey<a href="https://t.co/Z2KsHP3fvp">https://t.co/Z2KsHP3fvp</a> <a href="https://t.co/uh5NLS1fVP">pic.twitter.com/uh5NLS1fVP</a>
+</p>
+— Bojan Tunguz (<span class="citation" data-cites="tunguz">@tunguz</span>) <a href="https://twitter.com/tunguz/status/1509197350576672769?ref_src=twsrc%5Etfw">March 30, 2022</a>
 </blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p><strong>How do you make predictions with an ensemble of boosted trees?</strong></p>
 <p>Answer: By calculating the predictions from each tree and then <strong>adding them all together.</strong></p>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -2984,10 +2985,13 @@ Important
 </div>
 </div>
 <p>XGBoost and sklearn’s HistGradientBooting models are legit ML models to try …</p>
-<blockquote class="blockquote">
-<p>twitter: https://twitter.com/tunguz/status/1517505710426406914</p>
+<blockquote class="twitter-tweet blockquote" data-theme="dark">
+<p lang="en" dir="ltr">
+Here are my top used ML algos for tabular data problems:<br><br>1. XGBoost<br>2. HistGradientBoosting<br>3. Logistic regression/ Ridge regression<br>4. LightGBM<br>5. MLP<br>6. A blend of 1. And 5.
+</p>
+— Bojan Tunguz (<span class="citation" data-cites="tunguz">@tunguz</span>) <a href="https://twitter.com/tunguz/status/1517505710426406914?ref_src=twsrc%5Etfw">April 22, 2022</a>
 </blockquote>
-<hr>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </section>
 <section id="other-things-to-try" class="level2">
 <h2 class="anchored" data-anchor-id="other-things-to-try">Other things to try</h2>
@@ -2995,7 +2999,6 @@ Important
 <p>This is a form of “bagging” where <strong>averaging the predictions of models trained using different algorithms</strong>, each of which it is reasonable to expect would produce differnt kinds of errors, would likely product better predictions.</p>
 <p><strong>Combining embeddings with other models</strong> (pp.324-25)</p>
 <p>“… shows that you can get much of the performance improvement of a neural network without having to use a neural network as inference time” by using the embeddings as inputs (which are just array lookups) to small decision tree ensemble!</p>
-<hr>
 </section>
 <section id="in-summary" class="level2">
 <h2 class="anchored" data-anchor-id="in-summary">In summary</h2>
@@ -3017,7 +3020,6 @@ Tip
 <p><strong>Random forests</strong>: Pros: - Easiest to train - Resiliant to hyperparameter choices - Require little preprocessing - Fast to train - Should not overfit if you have enough trees Cons: - Can be less accurate (esp.&nbsp;if extrapolation is required “such as predicting future time periods.”</p>
 <p><strong>Gradient boosting machines (GBMs)</strong>: Pros: - Often more accurate than random forests Cons: - Sensitive to hyperparmeter choices - Can overfit</p>
 <p><strong>Neural Networks</strong>: Pros: - Can extrapolate well - Can provide good results. Cons: - Take longest time to train - Require extra preprocessing (e.g., normalization)</p>
-<hr>
 </section>
 <section id="resources" class="level2">
 <h2 class="anchored" data-anchor-id="resources">Resources</h2>
