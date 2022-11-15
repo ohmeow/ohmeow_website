@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="1999-01-01">
-<meta name="description" content="What is F-Beta, how should I use it, and what in the hell is ‘average’ and ‘sample_weight’">
 
-<title>Understanding the F-Beta metric</title>
+<title>PostgreSQL Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,22 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -62,13 +60,9 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Understanding the F-Beta metric">
-<meta property="og:description" content="What is F-Beta, how should I use it, and what in the hell is 'average' and 'sample_weight'">
-<meta property="og:image" content="https://ohmeow.com/posts/images/some_folder/your_image.png">
-<meta name="twitter:title" content="Understanding the F-Beta metric">
-<meta name="twitter:description" content="What is F-Beta, how should I use it, and what in the hell is 'average' and 'sample_weight'">
-<meta name="twitter:image" content="https://ohmeow.com/posts/images/some_folder/your_image.png">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="PostgreSQL Guide">
+<meta name="twitter:title" content="PostgreSQL Guide">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed">
@@ -78,8 +72,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -93,22 +87,22 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
         <li>
-    <a class="dropdown-item" href="../pages/guides/vue3-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/vue3-guide.html"><i class="bi bi-app" role="img">
 </i> 
  <span class="dropdown-text">Vue3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/fastapi-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/fastapi-guide.html"><i class="bi bi-app" role="img">
 </i> 
  <span class="dropdown-text">Fast API</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/postgresql-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/postgresql-guide.html"><i class="bi bi-app" role="img">
 </i> 
  <span class="dropdown-text">PostgreSQL</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/deployment-guide.html"><i class="bi bi-app" role="img">
+    <a class="dropdown-item" href="../../pages/guides/deployment-guide.html"><i class="bi bi-app" role="img">
 </i> 
  <span class="dropdown-text">Deployment</span></a>
   </li>  
@@ -139,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../about.html">
+    <a class="nav-link" href="../../about.html">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -164,45 +158,20 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#precision-vs.-recall" id="toc-precision-vs.-recall" class="nav-link" data-scroll-target="#precision-vs.-recall">Precision vs.&nbsp;Recall</a>
-  <ul class="collapse">
-  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision">Precision</a></li>
-  <li><a href="#recall" id="toc-recall" class="nav-link" data-scroll-target="#recall">Recall</a></li>
-  <li><a href="#okay-so-which-one-should-i-use" id="toc-okay-so-which-one-should-i-use" class="nav-link" data-scroll-target="#okay-so-which-one-should-i-use">Okay, so which one should I use?</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Understanding the F-Beta metric</h1>
+<h1 class="title">PostgreSQL Guide</h1>
 </div>
 
-<div>
-  <div class="description">
-    What is F-Beta, how should I use it, and what in the hell is ‘average’ and ‘sample_weight’
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
 
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">January 1, 1999</p>
-    </div>
-  </div>
   
     
   </div>
@@ -210,51 +179,20 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.fbeta_score.html?highlight=fbeta#sklearn.metrics.fbeta_score">scikit-learn</a> describes the F-Beta score “<em>as the weighted harmonic mean of precision and recall, reaching its optimal value at 1 and its worst value at 0</em>” with the “<code>beta</code> parameter [determining] the weight of recall in the combined score.” It is one of the most common metrics enlisted in demonstrating the performance of binary, multi-classification, and multi-label classifiers.</p>
-<p><strong>So what does all that mean?</strong></p>
-<p>In a nutshell, it says that this metric can be used to help you understand how good your classification model is based on the relative importance you ascribe to precision and recall in making that determination. Common <code>beta</code> values are <strong>0.5</strong> (precision is king), <strong>1</strong> (precision and recall are equally important), and <strong>2</strong> (recall is king).</p>
-<p>When you look at the documentation, you’ll notice there are several other interesting arguments you can pass into it. Two of the more mysterious ones being <code>average</code> and <code>sample_weight</code>. Will explore what they mean how you may want to use them based on your dataset.</p>
-<p>The two metrics, along with other important terms, are described well in this post. Let’s imagine a multi-classification model that tries to determine whether a photo show a picture of a dog, cat, or bird.</p>
-</section>
-<section id="precision-vs.-recall" class="level2">
-<h2 class="anchored" data-anchor-id="precision-vs.-recall">Precision vs.&nbsp;Recall</h2>
-<p>The two metrics, along with other important terms, are described really well in this post. Let’s imagine a multi-classification model that tries to determine whether a given photo is a picture of a dog, cat, or bird.</p>
-<section id="precision" class="level3">
-<h3 class="anchored" data-anchor-id="precision">Precision</h3>
-<p>Definition: When your classifier predicted a label, how often was it correct?</p>
-<p>Example: When you predicted ‘cat’, how often were you right?</p>
-<p>Formula: True Positive (TP) / <strong><em>PREDICTED</em></strong> Label (TP + False Positive or FP)</p>
-<pre><code># TP = number of cat prediction you got right
-tp = 100
-# FP = number of cat predictions you got wrong
-fp = 10
-precision = tp / (tp + fp)
-# = 0.91</code></pre>
-</section>
-<section id="recall" class="level3">
-<h3 class="anchored" data-anchor-id="recall">Recall</h3>
-<p>Definition: For every actual label in your dataset, how often did your classifier pick the correct one?</p>
-<p>Example: When it’s actually ‘cat’, how often did it predict ‘cat’?</p>
-<p>Formula: True Positive (TP) / <strong><em>ACTUAL</em></strong> Label (TP + False Negative or FN)</p>
-<pre><code># TP = number of cat prediction you got right
-tp = 100
-# FN = number of actual cats you predicted as something else
-fn = 5
-recall = tp / (tp + fn)
-# = 0.95</code></pre>
-</section>
-<section id="okay-so-which-one-should-i-use" class="level3">
-<h3 class="anchored" data-anchor-id="okay-so-which-one-should-i-use">Okay, so which one should I use?</h3>
-<p>This depends on your task.</p>
-<p>If you’re task is to predict whether a patient has cancer given set of symptoms and test results, it’s going to be far more important to you that all actual cancer patients get flagged even at the expense of non-cancer patients being flagged incorrectly. <em>This is recall</em>. In this particular kind of task, you’re also likely going to be facing a dataset were the vast majority of examples are “not cancer.” A case where using metrics like precision and accuracy will likely look really good but be completely misleading. Other examples where you want to maximize recall include fraud and network anomaly detection.</p>
-<p>On the otherhand, if you’re task is to predict whether an e-mail is spam or not (1=spam|0=not spam), you recognize that it’s not the end of the world if your user gets a junk e-mail. If fact, it would be worse if an actual e-mail got flagged as junk and they didn’t see it. Getting it wrong is more acceptable than making sure all the true cases are gotten right. <em>This is precision</em>. Here, you’re more concerned about your classifiers overall predictive capability in coming up with the right answer, yes or no.</p>
-<p><strong>What about our cats, dogs, birds?</strong></p>
-<p>Good question, again it depends on the task. All things be equal, most likely we care more about precision or we care about both equally in this case. Fortunately, the F-Beta metric gives us the power to determine the worth of our model regardless of how we want to weight the two.</p>
+<section id="database-design" class="level3">
+<h3 class="anchored" data-anchor-id="database-design">Database Design</h3>
+<table class="table">
+<colgroup>
+<col style="width: 5%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>#### <strong>&gt; How can I restrict the possible values for a column?</strong> You have two options: 1. A <code>CHECK CONSTRAINT</code>:</td>
+</tr>
+</tbody>
+</table>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

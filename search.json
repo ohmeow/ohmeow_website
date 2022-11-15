@@ -859,5 +859,47 @@
     "title": "Guides",
     "section": "Machine Learning / Deep Learning",
     "text": "Machine Learning / Deep Learning\nHow to learn (Deep Learning)"
+  },
+  {
+    "objectID": "pages/guides/vue3-guide.html",
+    "href": "pages/guides/vue3-guide.html",
+    "title": "Vue 3 Guide",
+    "section": "",
+    "text": "## ## `` // co\n# ## `j j ns re\nComputed properties > How to I define a computed property using the Composition API? avascript ust a getter t userEmail = computed(() => { turn $store.getters.userEmail\n\n\n..\n.\n\n\n\n// co\na ns ge\ngetter and setter t selectedUserClientId = computed({ t: () => { return $store.getters.selectedUserClientId\n\n\n\n\n\n\n\nimport { ref, watch, watchEffect } from 'vue'\nimport { useRoute } from 'vue-router'\n\nexport default {\n  setup() {\n    const route = useRoute()\n    ...\n    // watch\n    watch(route, async (nv, ov) => {\n      const { data } = await api.get(`get-something/blah`)\n      console.log(data)\n    })\n    \n    // watchEffect\n    const stateChanged = watchEffect(async () => {\n      const { data } = await api.get(`get-something/blah`)\n      console.log(data)\n     })\n     ...\n\n\n\nUse watch when … 1. You want to do something with one or more specific reactive objects changes 2. You need both the old value and the new value 3. You need it to be called lazily\nUse watchEffect when … 1. You want to do something whenever the state changes for any of your reactive objects 2. You don’t care about the old value(s) 3. You need it to run immediately when reactive dependencies change\nSee:\nVue 3 Composition API - watch and watchEffect\nHow to use Vue Watch and Vue watchEffect\n\n\n\n\n\n\n\nSimply add the data to your params attribute:\n<router-link :to=\"{ name: 'my-named-route', params: { id: 1, another_param: 'something else' } }\">\nGo to my page\n</router-link>\nSee:\nVue, is there a way to pass data between routes without URL params?\n\n\n\n\n\n\n\nSimply add the data to your params attribute:\nsetup(props) {\n   const store = useStore();\n\n   watch(()=>store.getters.myvalue, function() {\n      console.log('value changes detected');\n   });\n\n   return {\n      myvalue: computed(() => store.getters.myvalue)\n   }\n},\nSee:\nVue3 composition api watch store value\n\n\n\nconst app = new Vue({\n  el: '#app',\n  data: {\n    name: ''\n  },\n  methods: {\n    onStorageUpdate(event) {\n      if (event.key === \"name\") {\n        this.name = event.newValue;\n      }\n    }\n  },\n  mounted() {\n    if (localStorage.name) {\n      this.name = localStorage.name;\n    }\n    window.addEventListener(\"storage\", this.onStorageUpdate);\n  },\n  beforeDestroy() {\n    window.removeEventListener(\"storage\", this.onStorageUpdate);\n  },\n  watch: {\n    name(newName) {\n      localStorage.name = newName;\n    }\n  }\n});\nSee:\nReactive localStorage object across browser tabs using Vue.js\n\n\n\nBy using JSON.stringfy(X) when storing the data and JSON.parse(X) when you fetch the data\nvar names = [];\nnames[0] = prompt(\"New member name?\");\nlocalStorage.setItem(\"names\", JSON.stringify(names));\nvar storedNames = JSON.parse(localStorage.getItem(\"names\"));\n\n// ... or ...\nlocalstorage.names = JSON.stringify(names);\nvar storedNames = JSON.parse(localStorage.names);\nSee:\nHow do I store an array in localStorage?"
+  },
+  {
+    "objectID": "pages/guides/vue3-guide.html#quasar",
+    "href": "pages/guides/vue3-guide.html#quasar",
+    "title": "Vue 3 Guide",
+    "section": "Quasar",
+    "text": "Quasar\n\n\nWorking with q-table\n\n> How can I create grid for CRUD operations using a modal form for inserts/upserts with filtering, sorting, etc…?\nSee:\nQTable with Action Buttons\nQuasar QTable: Editing with QPopupEdits and QButtons to add/delete/update rows\nQuasar - q-table with toggle filters and text search"
+  },
+  {
+    "objectID": "pages/guides/deployment-guide.html",
+    "href": "pages/guides/deployment-guide.html",
+    "title": "Deployment Guide",
+    "section": "",
+    "text": "See:\nFlask + Vue + MySQL on Docker. Part III — Let’s Dockerize\n\n\n\nSee:\nWeb deployment using AWS Lightsail\n\n\n\nSee:\nLightsail Containers: An Easy Way to Run your Containers in the Cloud\nAmazon Lightsail Tutorial: Deploy an NGINX Reverse Proxy\nHow to build a Pocket Platform-as-a-Service"
+  },
+  {
+    "objectID": "pages/guides/deployment-guide.html#aws-tips-tricks",
+    "href": "pages/guides/deployment-guide.html#aws-tips-tricks",
+    "title": "Deployment Guide",
+    "section": "AWS Tips & Tricks",
+    "text": "AWS Tips & Tricks\n\n\n> How can I use multiple AWS accounts from the CLI?\nSee:\nHow to use multiple AWS accounts from the command line?"
+  },
+  {
+    "objectID": "pages/guides/postgresql-guide.html",
+    "href": "pages/guides/postgresql-guide.html",
+    "title": "PostgreSQL Guide",
+    "section": "",
+    "text": "Database Design\n\n\n\n\n\n\n#### > How can I restrict the possible values for a column? You have two options: 1. A CHECK CONSTRAINT:"
+  },
+  {
+    "objectID": "pages/guides/fastapi-guide.html",
+    "href": "pages/guides/fastapi-guide.html",
+    "title": "FastAPI Guide",
+    "section": "",
+    "text": "Designing your API\n\n\n{% octicon bookmark %} What are some good reference architectures?\n\nSee:\nUsing FastAPI to Build Python Web APIs\nFull Stack FastAPI and PostgreSQL - Base Project Generator\nUp and running with fastapi series\n\n{% octicon bookmark %} How do I do user registration/login, e-mail verification, password resets, etc… with fastapi?\n\nSee:\nHandle Registration in FastAPI and Tortoise ORM\nHandling Email Confirmation During Registration in Flask\nFlask Rest API -Part:5- Password Reset\nE-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail\n\n{% octicon bookmark %} What does a star(*) mean in a method parameter?\n\nIt simply allows you to order your arguments so those without default values can be placed ahead of those that can. It also ensures that keyword arguments are used everywhere (which may or may not be desirable when refactoring code). I usually find it unnecessary except in places where I’m using BackgroundTasks or a depency injected argument somewhere, for example:\n@app.get(\"/\")\ndef get_username(*, db: Session = Depends(get_db), user_id: int) -> str:\n    return db.query(User).get(user_id).username\nSee:\nWhat does a star(*) mean in a method parameter?\nOrder the parameters as you need, tricks\n\n\nWorking with Pydantic objects\n\n\n{% octicon bookmark %} How to cast one pydantic object into another?\n\nMyModel(**my_model_from.dict())\n\n\nDockerizing a FastAPI application\n\n\n{% octicon bookmark %} How can I Dockerize my app?\n\nSee:\nHow to Dockerize a Python App with FastAPI\nAn Extremely Simple Docker, Traefik, and Python FastAPI Example\n\n\nDealing with common errors\n\n\n{% octicon bookmark %} I get an Unprocessable Entity (422) error when I post/put to my API\n\nIt usually means the body of your request doesn’t mesh with what your API method is expected. Make sure that the object your passing in matches what you’ve specified, including using the Body(...[,embed=True]) types correctly\nSee:\nBody - Multiple Parameters\nPython: FastApi (Unprocessable Entity) error\n\n{% octicon bookmark %} AttributeError: ‘coroutine’ object has no attribute ‘X’\n\nUsually means you are missing “await” from async method (fastapi/python)\n\n{% octicon bookmark %} I’m using Encode Databases against a postgres database, but my RETURNING statements don’t return all the columns I specify\n\nRETURNING statements work okay with fetch_one/fetch_all. If you are using execute, it won’t work\nSee: Support for RETURNING\n\n{% octicon bookmark %} When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below…\n\nMixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure \nXMLHttpRequest endpoint 'http://page.com?filter=xxxx'. \nThis request has been blocked; the content must be served over HTTPS.\nIf you add a trailing slash (/) in your API requests it will fix the problem BUT a much easier solution is to the correct proxy headers for Uvicorn. They should look something like this:\nupstream api_server {\n    server ${API_HOST}:${API_PORT} fail_timeout=0;\n  }\n...\nserver {\n  ...\n  location ~ /api/ {\n    proxy_set_header   Host $host;\n    proxy_set_header   X-Real-IP $remote_addr;\n    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;\n    proxy_set_header   X-Forwarded-Host $server_name;\n    proxy_pass http://api_server;\n  }\nSee the following resources:\nFailure to load any static files when deploying with HTTPS\nfastapi-react nginx.conf\nAdd option for adding a trailing slash automatically\nAjax Product Filter does not work in https - Fixed"
   }
 ]

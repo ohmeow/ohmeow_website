@@ -2,74 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1.html</loc>
-    <lastmod>2022-11-15T04:01:57.118Z</lastmod>
+    <lastmod>2022-11-15T04:14:31.597Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2021-06-03-ajtfb-chapter-5.html</loc>
-    <lastmod>2022-11-15T04:01:57.684Z</lastmod>
+    <lastmod>2022-11-15T04:14:32.206Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2022-02-09-ajtfb-chapter-6-regression.html</loc>
-    <lastmod>2022-11-15T04:01:58.126Z</lastmod>
+    <lastmod>2022-11-15T04:14:32.772Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2022-03-31-ajtfb-chapter-8.html</loc>
-    <lastmod>2022-11-15T04:01:58.694Z</lastmod>
+    <lastmod>2022-11-15T04:14:33.466Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2021-05-25-mbart-sequence-classification-with-blurr.html</loc>
-    <lastmod>2022-11-15T04:01:59.094Z</lastmod>
+    <lastmod>2022-11-15T04:14:33.910Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2022-03-28-ajtfb-chapter-7.html</loc>
-    <lastmod>2022-11-15T04:01:59.895Z</lastmod>
+    <lastmod>2022-11-15T04:14:34.777Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2021-06-02-how-to-submit-a-pr-to-fastai.html</loc>
-    <lastmod>2022-11-15T04:02:00.187Z</lastmod>
+    <lastmod>2022-11-15T04:14:35.105Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr.html</loc>
-    <lastmod>2022-11-15T04:02:00.603Z</lastmod>
+    <lastmod>2022-11-15T04:14:35.547Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2021-05-23-ajtfb-chapter-4.html</loc>
-    <lastmod>2022-11-15T04:02:01.153Z</lastmod>
+    <lastmod>2022-11-15T04:14:36.247Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2020-11-16-ajtfb-chapter-2.html</loc>
-    <lastmod>2022-11-15T04:02:01.735Z</lastmod>
+    <lastmod>2022-11-15T04:14:36.877Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2020-11-22-ajtfb-chapter-3.html</loc>
-    <lastmod>2022-11-15T04:02:02.120Z</lastmod>
+    <lastmod>2022-11-15T04:14:37.288Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2020-11-06-ajtfb-chapter-1.html</loc>
-    <lastmod>2022-11-15T04:02:02.937Z</lastmod>
+    <lastmod>2022-11-15T04:14:38.138Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2021-06-10-ajtfb-chapter-6-multilabel.html</loc>
-    <lastmod>2022-11-15T04:02:03.507Z</lastmod>
+    <lastmod>2022-11-15T04:14:38.709Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2022-04-25-ajtfb-chapter-9.html</loc>
-    <lastmod>2022-11-15T04:02:04.612Z</lastmod>
+    <lastmod>2022-11-15T04:14:39.873Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2020-04-04-understanding-cross-entropy-loss.html</loc>
-    <lastmod>2022-11-15T04:02:05.002Z</lastmod>
+    <lastmod>2022-11-15T04:14:40.278Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/index.html</loc>
-    <lastmod>2022-11-15T04:02:05.609Z</lastmod>
+    <lastmod>2022-11-15T04:14:40.862Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/about.html</loc>
-    <lastmod>2022-11-15T04:02:05.864Z</lastmod>
+    <lastmod>2022-11-15T04:14:41.133Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/guides.html</loc>
-    <lastmod>2022-11-15T04:02:06.131Z</lastmod>
+    <lastmod>2022-11-15T04:14:41.419Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/pages/guides/vue3-guide.html</loc>
+    <lastmod>2022-11-15T04:14:42.013Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/pages/guides/deployment-guide.html</loc>
+    <lastmod>2022-11-15T04:14:42.300Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/pages/guides/postgresql-guide.html</loc>
+    <lastmod>2022-11-15T04:14:42.573Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/pages/guides/fastapi-guide.html</loc>
+    <lastmod>2022-11-15T04:14:42.929Z</lastmod>
   </url>
 </urlset>
