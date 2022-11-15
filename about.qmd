@@ -1,19 +1,21 @@
 ---
-title: "About"
-image: profile.jpg
+title: "About Me"
+subtitle: Wayde Gilliam (ohmeow)
+image: ./images/me.jpg
+comments: false
 about:
   template: jolla
   links:
     - icon: twitter
       text: Twitter
-      href: https://twitter.com
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com
+      href: https://twitter.com/waydegilliam
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/ohmeow
 
 ---
 
-About this blog
+### Hey there!
+
+I'm a full stack web application and machine learning developer with well over 20 years in the business. In addition to being the author of [blurr](https://ohmeow.github.io/blurr/), a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I'm also a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary), where I'm active in both contributing to their deep learning library and helping folks out on the forums and discord. Outside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.  Feel free to give me a follow on twitter or github if any of the above interests you.
+
