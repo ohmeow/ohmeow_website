@@ -38,8 +38,28 @@ $grid-body-maxsize-listing: calc(1200px - #{2 * $grid-screen-inset-padding});
     [screen-end];
 }
 
-.navbar-dark {background-color: #cc5500 !important;}
-.navbar-logo {max-height: 50px!important;}
 #quarto-margin-sidebar {
   width: 250px;
+}
+
+// configure navbar logo and remove odd spacking when search is included
+.navbar-dark {background-color: #cc5500 !important;}
+.navbar-logo {max-height: 50px!important;}
+
+#quarto-search {
+  margin-left: 0px !important;
+}
+
+@media (max-width: 991.98px) { g
+  // moves social icons and search to the top-right; fixes spacing and aligment
+  #navbarCollapse {
+    display: inline-flex;
+    align-items: flex-start;
+  }
+  #navbarCollapse > ul:nth-of-type(2) {
+    flex-direction: row;
+  }
+  #quarto-search > div.aa-Autocomplete {
+    padding-top: 8px;
+  }
 }
