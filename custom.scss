@@ -52,7 +52,7 @@ $grid-body-maxsize-listing: calc(1200px - #{2 * $grid-screen-inset-padding});
 
 @media (max-width: 991.98px) { 
   // moves social icons and search to the top-right; fixes spacing and aligment
-  #navbarCollapse {
+  #navbarCollapse.show {
     display: inline-flex;
     align-items: flex-start;
   }
