@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2021-05-25">
 <meta name="description" content="Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models. Working against the amazon_reviews_multi dataset I’ll show you how to use the blurr library to configure the huggingface objects, build DataLoaders, and train a model that you can use for classifying German text. I’ll throw in a bit of the inference code so that you can see how easy blurr makes it to use your trained model to boot. Let’s go …">
 
-<title>Multilingual Sequence Classifaction with the MBart Family</title>
+<title>ohmeow - Multilingual Sequence Classifaction with the MBart Family</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,12 +129,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="Multilingual Sequence Classifaction with the MBart Family">
+<meta property="og:title" content="ohmeow - Multilingual Sequence Classifaction with the MBart Family">
 <meta property="og:description" content="Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models.">
 <meta property="og:image" content="https://ohmeow.com/posts/images/blurr-logo-small.png">
+<meta property="og:site-name" content="ohmeow">
 <meta property="og:image:height" content="250">
 <meta property="og:image:width" content="127">
-<meta name="twitter:title" content="Multilingual Sequence Classifaction with the MBart Family">
+<meta name="twitter:title" content="ohmeow - Multilingual Sequence Classifaction with the MBart Family">
 <meta name="twitter:description" content="Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models.">
 <meta name="twitter:image" content="https://ohmeow.com/posts/images/blurr-logo-small.png">
 <meta name="twitter:image-height" content="250">
@@ -151,6 +152,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="navbar-brand-container">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ohmeow</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -233,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://ohmeow.com/index.xml"><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../index.xml"><i class="bi bi-rss" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
