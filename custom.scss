@@ -59,6 +59,9 @@ $grid-body-maxsize-listing: calc(1200px - #{2 * $grid-screen-inset-padding});
   #navbarCollapse > ul:nth-of-type(2) {
     flex-direction: row;
   }
+  #quarto-search {
+    margin-left: 0px !important;
+  }
   #quarto-search > div.aa-Autocomplete {
     padding-top: 8px;
   }
