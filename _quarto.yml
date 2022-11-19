@@ -52,6 +52,8 @@ website:
         href: https://twitter.com/waydegilliam
       - icon: github
         href: https://github.com/ohmeow
+      - icon: rss
+        href: https://ohmeow.com/index.xml
 
 format:
   html:
