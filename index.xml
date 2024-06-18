@@ -216,7 +216,7 @@ font-style: inherit;">import</span> RandomForestRegressor</span>
 background-color: null;
 font-style: inherit;">from</span> sklearn.tree <span class="im" style="color: #00769E;
 background-color: null;
-font-style: inherit;">import</span> DecisionTreeRegressor,export_graphviz</span>
+font-style: inherit;">import</span> DecisionTreeRegressor, export_graphviz</span>
 <span id="cb1-8"></span>
 <span id="cb1-9">pd.options.display.max_rows <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -254,15 +254,15 @@ font-style: inherit;">if</span> <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">not</span> path.exists():</span>
-<span id="cb4-2">  path.mkdir()</span>
-<span id="cb4-3">  api.competition_download_cli(<span class="st" style="color: #20794D;
+<span id="cb4-2">    path.mkdir()</span>
+<span id="cb4-3">    api.competition_download_cli(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"bluebook-for-bulldozers"</span>, path<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>path)</span>
-<span id="cb4-4">  file_extract(path<span class="op" style="color: #5E5E5E;
+<span id="cb4-4">    file_extract(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"bluebook-for-bulldozers.zip"</span>)</span>
 <span id="cb4-5"></span>
@@ -316,9 +316,9 @@ Tip
 <div id="cell-14" class="cell" data-outputid="cda899b1-94e5-4ec5-bffd-46adf1344dcc">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">train_df <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> pd.read_csv(path<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> pd.read_csv(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"TrainAndValid.csv"</span>, low_memory<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -327,9 +327,9 @@ background-color: null;
 font-style: inherit;">False</span>)</span>
 <span id="cb9-2">test_df <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> pd.read_csv(path<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> pd.read_csv(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Test.csv"</span>, low_memory<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -676,17 +676,17 @@ Important
 background-color: null;
 font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Large'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Large"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Large / Medium'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Large / Medium"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Medium'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Medium"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Small'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Small"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Mini'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Mini"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Compact'</span>]</span>
+font-style: inherit;">"Compact"</span>]</span>
 <span id="cb15-2">train_df.ProductSize <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> train_df.ProductSize.astype(<span class="st" style="color: #20794D;
@@ -694,14 +694,16 @@ background-color: null;
 font-style: inherit;">"category"</span>)</span>
 <span id="cb15-3">train_df.ProductSize <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> train_df.ProductSize.cat.set_categories(sizes, ordered<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> train_df.ProductSize.cat.set_categories(</span>
+<span id="cb15-4">    sizes, ordered<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">True</span>) <span class="co" style="color: #5E5E5E;
+font-style: inherit;">True</span></span>
+<span id="cb15-5">)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># note: "inplace=True" is depreciated as of 1.30</span></span>
-<span id="cb15-4">train_df.ProductSize.unique()</span></code></pre></div>
+<span id="cb15-6">train_df.ProductSize.unique()</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>[NaN, 'Medium', 'Small', 'Large / Medium', 'Mini', 'Large', 'Compact']
 Categories (6, object): ['Large' &lt; 'Large / Medium' &lt; 'Medium' &lt; 'Small' &lt; 'Mini' &lt; 'Compact']</code></pre>
@@ -1329,9 +1331,9 @@ Tip
 <div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># save to filesystem</span></span>
-<span id="cb32-2">save_pickle(path<span class="op" style="color: #5E5E5E;
+<span id="cb32-2">save_pickle(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"to.pkl"</span>, to)</span>
 <span id="cb32-3"></span>
@@ -1340,9 +1342,9 @@ background-color: null;
 font-style: inherit;"># load from filesystem</span></span>
 <span id="cb32-5">to <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> load_pickle(path<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> load_pickle(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"to.pkl"</span>)</span></code></pre></div>
 </div>
@@ -1447,32 +1449,32 @@ background-color: null;
 font-style: inherit;">500</span>]</span>
 <span id="cb37-2"></span>
 <span id="cb37-3">dtreeviz(</span>
-<span id="cb37-4">    m, </span>
-<span id="cb37-5">    train_xs.iloc[samp_idx], </span>
-<span id="cb37-6">    train_y.iloc[samp_idx], </span>
-<span id="cb37-7">    train_xs.columns, </span>
-<span id="cb37-8">    dep_var, </span>
+<span id="cb37-4">    m,</span>
+<span id="cb37-5">    train_xs.iloc[samp_idx],</span>
+<span id="cb37-6">    train_y.iloc[samp_idx],</span>
+<span id="cb37-7">    train_xs.columns,</span>
+<span id="cb37-8">    dep_var,</span>
 <span id="cb37-9">    fontname<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"DejaVu Sans"</span>, </span>
+font-style: inherit;">"DejaVu Sans"</span>,</span>
 <span id="cb37-10">    scale<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1.6</span>, </span>
+font-style: inherit;">1.6</span>,</span>
 <span id="cb37-11">    label_fontsize<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">10</span>, </span>
+font-style: inherit;">10</span>,</span>
 <span id="cb37-12">    orientation<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"LR"</span></span>
-<span id="cb37-13">  )</span></code></pre></div>
+font-style: inherit;">"LR"</span>,</span>
+<span id="cb37-13">)</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.7/dist-packages/sklearn/base.py:451: UserWarning: X does not have valid feature names, but DecisionTreeRegressor was fitted with feature names
   "X does not have valid feature names, but"</code></pre>
@@ -1539,32 +1541,32 @@ background-color: null;
 font-style: inherit;">500</span>]</span>
 <span id="cb40-2"></span>
 <span id="cb40-3">dtreeviz(</span>
-<span id="cb40-4">    m, </span>
-<span id="cb40-5">    train_xs.iloc[samp_idx], </span>
-<span id="cb40-6">    train_y.iloc[samp_idx], </span>
-<span id="cb40-7">    train_xs.columns, </span>
-<span id="cb40-8">    dep_var, </span>
+<span id="cb40-4">    m,</span>
+<span id="cb40-5">    train_xs.iloc[samp_idx],</span>
+<span id="cb40-6">    train_y.iloc[samp_idx],</span>
+<span id="cb40-7">    train_xs.columns,</span>
+<span id="cb40-8">    dep_var,</span>
 <span id="cb40-9">    fontname<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"DejaVu Sans"</span>, </span>
+font-style: inherit;">"DejaVu Sans"</span>,</span>
 <span id="cb40-10">    scale<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1.6</span>, </span>
+font-style: inherit;">1.6</span>,</span>
 <span id="cb40-11">    label_fontsize<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">10</span>, </span>
+font-style: inherit;">10</span>,</span>
 <span id="cb40-12">    orientation<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"LR"</span></span>
-<span id="cb40-13">  )</span></code></pre></div>
+font-style: inherit;">"LR"</span>,</span>
+<span id="cb40-13">)</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.7/dist-packages/sklearn/base.py:451: UserWarning: X does not have valid feature names, but DecisionTreeRegressor was fitted with feature names
   "X does not have valid feature names, but"</code></pre>
@@ -1607,26 +1609,27 @@ Important
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> r_mse(preds, targs):</span>
-<span id="cb44-2">  <span class="cf" style="color: #003B4F;
+<span id="cb44-2">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">round</span>(math.sqrt(((preds <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">-</span> targs)<span class="op" style="color: #5E5E5E;
+font-style: inherit;">-</span> targs) <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">**</span><span class="dv" style="color: #AD0000;
+font-style: inherit;">**</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span>).mean()), <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">6</span>)</span>
 <span id="cb44-3"></span>
-<span id="cb44-4"><span class="kw" style="color: #003B4F;
+<span id="cb44-4"></span>
+<span id="cb44-5"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> m_rmse(m, xs, y):</span>
-<span id="cb44-5">  <span class="cf" style="color: #003B4F;
+<span id="cb44-6">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> r_mse(m.predict(xs), y)</span></code></pre></div>
@@ -1734,62 +1737,70 @@ Note
 <div class="sourceCode cell-code" id="cb53" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">def</span> fit_rf(xs, y, n_estimators<span class="op" style="color: #5E5E5E;
+font-style: inherit;">def</span> fit_rf(</span>
+<span id="cb53-2">    xs,</span>
+<span id="cb53-3">    y,</span>
+<span id="cb53-4">    n_estimators<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">40</span>, max_samples<span class="op" style="color: #5E5E5E;
+font-style: inherit;">40</span>,</span>
+<span id="cb53-5">    max_samples<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">200_000</span>, max_features<span class="op" style="color: #5E5E5E;
+font-style: inherit;">200_000</span>,</span>
+<span id="cb53-6">    max_features<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0.5</span>, min_samples_leaf<span class="op" style="color: #5E5E5E;
+font-style: inherit;">0.5</span>,</span>
+<span id="cb53-7">    min_samples_leaf<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">5</span>, <span class="op" style="color: #5E5E5E;
+font-style: inherit;">5</span>,</span>
+<span id="cb53-8">    <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">**</span>kwargs):</span>
-<span id="cb53-2">  <span class="cf" style="color: #003B4F;
+font-style: inherit;">**</span>kwargs,</span>
+<span id="cb53-9">):</span>
+<span id="cb53-10">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> RandomForestRegressor(</span>
-<span id="cb53-3">      n_jobs<span class="op" style="color: #5E5E5E;
+<span id="cb53-11">        n_jobs<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>,                              <span class="co" style="color: #5E5E5E;
+font-style: inherit;">1</span>,  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Tells sklearn to use all our CPUs to build the trees in parallel</span></span>
-<span id="cb53-4">      n_estimators<span class="op" style="color: #5E5E5E;
+<span id="cb53-12">        n_estimators<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>n_estimators,              <span class="co" style="color: #5E5E5E;
+font-style: inherit;">=</span>n_estimators,  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># The number of trees</span></span>
-<span id="cb53-5">      max_samples<span class="op" style="color: #5E5E5E;
+<span id="cb53-13">        max_samples<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>max_samples,                <span class="co" style="color: #5E5E5E;
+font-style: inherit;">=</span>max_samples,  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># The number of rows to sample for training ea. tree</span></span>
-<span id="cb53-6">      max_features<span class="op" style="color: #5E5E5E;
+<span id="cb53-14">        max_features<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>max_features,              <span class="co" style="color: #5E5E5E;
+font-style: inherit;">=</span>max_features,  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># The number of columns to sample at each split</span></span>
-<span id="cb53-7">      min_samples_leaf<span class="op" style="color: #5E5E5E;
+<span id="cb53-15">        min_samples_leaf<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>min_samples_leaf,      <span class="co" style="color: #5E5E5E;
+font-style: inherit;">=</span>min_samples_leaf,  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Stop when all leaf nodes have at least this number of samples</span></span>
-<span id="cb53-8">      oob_score<span class="op" style="color: #5E5E5E;
+<span id="cb53-16">        oob_score<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">True</span></span>
-<span id="cb53-9">  ).fit(xs, y)</span></code></pre></div>
+font-style: inherit;">True</span>,</span>
+<span id="cb53-17">    ).fit(xs, y)</span></code></pre></div>
 </div>
 <div id="cell-72" class="cell">
 <div class="sourceCode cell-code" id="cb54" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1">m <span class="op" style="color: #5E5E5E;
@@ -1840,17 +1851,19 @@ Tip
 <div id="cell-76" class="cell" data-outputid="4ca93903-b64e-4d8c-de6d-4e5d3e0ff653">
 <div class="sourceCode cell-code" id="cb57" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1">tree_preds <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> np.stack([t.predict(valid_xs.values) <span class="cf" style="color: #003B4F;
+font-style: inherit;">=</span> np.stack(</span>
+<span id="cb57-2">    [t.predict(valid_xs.values) <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">for</span> t <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">in</span> m.estimators_]) <span class="co" style="color: #5E5E5E;
+font-style: inherit;">in</span> m.estimators_]</span>
+<span id="cb57-3">)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># added .values (see: https://stackoverflow.com/a/69378867)</span></span>
-<span id="cb57-2"></span>
-<span id="cb57-3">r_mse(tree_preds.mean(<span class="dv" style="color: #AD0000;
+<span id="cb57-4"></span>
+<span id="cb57-5">r_mse(tree_preds.mean(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>), valid_y)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
@@ -1860,9 +1873,9 @@ font-style: inherit;">0</span>), valid_y)</span></code></pre></div>
 <p><strong>How does <code>n_estimators</code> impact model performance?</strong></p>
 <p>To answer this, we can increment the number of trees we use in our predictions one at a time like so:</p>
 <div id="cell-78" class="cell" data-outputid="ed3cc170-23e7-46e8-b8cd-c8e90cd90ab4">
-<div class="sourceCode cell-code" id="cb59" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1">plt.plot([r_mse(tree_preds[:i<span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb59" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1">plt.plot([r_mse(tree_preds[: i <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>].mean(<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -2004,9 +2017,9 @@ font-style: inherit;">for</span> t <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> m.estimators_])</span>
-<span id="cb62-2">preds.shape <span class="co" style="color: #5E5E5E;
+<span id="cb62-2">preds.shape  <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#=&gt; (# of trees, # of predictions)</span></span></code></pre></div>
+font-style: inherit;"># =&gt; (# of trees, # of predictions)</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="42">
 <pre><code>(40, 7988)</code></pre>
 </div>
@@ -2016,7 +2029,7 @@ font-style: inherit;">#=&gt; (# of trees, # of predictions)</span></span></code>
 background-color: null;
 font-style: inherit;">=</span> preds.std(<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0</span>) <span class="co" style="color: #5E5E5E;
+font-style: inherit;">0</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># get rid of first dimension (the trees)</span></span></code></pre></div>
 </div>
@@ -2041,26 +2054,29 @@ font-style: inherit;">5</span>]</span></code></pre></div>
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> rf_feature_importance(m, df):</span>
-<span id="cb67-2">  <span class="cf" style="color: #003B4F;
+<span id="cb67-2">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">return</span> pd.DataFrame({<span class="st" style="color: #20794D;
+font-style: inherit;">return</span> pd.DataFrame(</span>
+<span id="cb67-3">        {<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"cols"</span>: df.columns, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"imp"</span>: m.feature_importances_}).sort_values(<span class="st" style="color: #20794D;
+font-style: inherit;">"imp"</span>: m.feature_importances_}</span>
+<span id="cb67-4">    ).sort_values(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"imp"</span>, ascending<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>)</span>
-<span id="cb67-3"></span>
-<span id="cb67-4"><span class="kw" style="color: #003B4F;
+<span id="cb67-5"></span>
+<span id="cb67-6"></span>
+<span id="cb67-7"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> plot_fi(fi_df):</span>
-<span id="cb67-5">  <span class="cf" style="color: #003B4F;
+<span id="cb67-8">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> fi_df.plot(<span class="st" style="color: #20794D;
@@ -2073,7 +2089,7 @@ font-style: inherit;">"barh"</span>, figsize<span class="op" style="color: #5E5E
 background-color: null;
 font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">12</span>,<span class="dv" style="color: #AD0000;
+font-style: inherit;">12</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">7</span>), legend<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2306,35 +2322,42 @@ Important
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> get_oob(df, y):</span>
-<span id="cb80-2">  m <span class="op" style="color: #5E5E5E;
+<span id="cb80-2">    m <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> RandomForestRegressor(n_estimators<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">10</span>, min_samples_leaf<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> RandomForestRegressor(</span>
+<span id="cb80-3">        n_estimators<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">15</span>, max_samples<span class="op" style="color: #5E5E5E;
+font-style: inherit;">10</span>,</span>
+<span id="cb80-4">        min_samples_leaf<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">50_000</span>, max_features<span class="op" style="color: #5E5E5E;
+font-style: inherit;">15</span>,</span>
+<span id="cb80-5">        max_samples<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50_000</span>,</span>
+<span id="cb80-6">        max_features<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0.5</span>, n_jobs<span class="op" style="color: #5E5E5E;
+font-style: inherit;">0.5</span>,</span>
+<span id="cb80-7">        n_jobs<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>, oob_score<span class="op" style="color: #5E5E5E;
+font-style: inherit;">1</span>,</span>
+<span id="cb80-8">        oob_score<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">True</span>)</span>
-<span id="cb80-3">  m.fit(df, y)</span>
-<span id="cb80-4">  <span class="cf" style="color: #003B4F;
+font-style: inherit;">True</span>,</span>
+<span id="cb80-9">    )</span>
+<span id="cb80-10">    m.fit(df, y)</span>
+<span id="cb80-11">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> m.oob_score_</span></code></pre></div>
@@ -2351,29 +2374,36 @@ font-style: inherit;">return</span> m.oob_score_</span></code></pre></div>
 <div class="sourceCode cell-code" id="cb83" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1">redundant_cols <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> [</span>
-<span id="cb83-2">  <span class="st" style="color: #20794D;
+<span id="cb83-2">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'saleYear'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"saleYear"</span>,</span>
+<span id="cb83-3">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'saleElapsed'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"saleElapsed"</span>,</span>
+<span id="cb83-4">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'ProductGroupDesc'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"ProductGroupDesc"</span>,</span>
+<span id="cb83-5">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'ProductGroup'</span>, </span>
-<span id="cb83-3">  <span class="st" style="color: #20794D;
+font-style: inherit;">"ProductGroup"</span>,</span>
+<span id="cb83-6">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'fiModelDesc'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"fiModelDesc"</span>,</span>
+<span id="cb83-7">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'fiBaseModel'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"fiBaseModel"</span>,</span>
+<span id="cb83-8">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Hydraulics_Flow'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Hydraulics_Flow"</span>,</span>
+<span id="cb83-9">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Grouser_Tracks'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Grouser_Tracks"</span>,</span>
+<span id="cb83-10">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Coupler_System'</span></span>
-<span id="cb83-4">]</span>
-<span id="cb83-5"></span>
-<span id="cb83-6">{c:get_oob(train_xs_keep.drop(c, axis<span class="op" style="color: #5E5E5E;
+font-style: inherit;">"Coupler_System"</span>,</span>
+<span id="cb83-11">]</span>
+<span id="cb83-12"></span>
+<span id="cb83-13">{c: get_oob(train_xs_keep.drop(c, axis<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
@@ -2439,14 +2469,14 @@ font-style: inherit;">1</span>)</span>
 <span id="cb87-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># save to filesystem</span></span>
-<span id="cb87-5">save_pickle(path<span class="op" style="color: #5E5E5E;
+<span id="cb87-5">save_pickle(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"train_xs_final.pkl"</span>, train_xs_final)</span>
-<span id="cb87-6">save_pickle(path<span class="op" style="color: #5E5E5E;
+<span id="cb87-6">save_pickle(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"valid_xs_final.pkl"</span>, valid_xs_final)</span></code></pre></div>
 </div>
@@ -2454,16 +2484,16 @@ font-style: inherit;">"valid_xs_final.pkl"</span>, valid_xs_final)</span></code>
 <div id="cell-113" class="cell">
 <div class="sourceCode cell-code" id="cb88" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1">train_xs_final <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> load_pickle(path<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> load_pickle(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"train_xs_final.pkl"</span>)</span>
 <span id="cb88-2">valid_xs_final <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> load_pickle(path<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> load_pickle(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"valid_xs_final.pkl"</span>)</span></code></pre></div>
 </div>
@@ -2575,10 +2605,11 @@ font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color
 background-color: null;
 font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">12</span>,<span class="dv" style="color: #AD0000;
+font-style: inherit;">12</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>))</span>
-<span id="cb94-4">PartialDependenceDisplay.from_estimator(m, valid_xs_final, [<span class="st" style="color: #20794D;
+<span id="cb94-4">PartialDependenceDisplay.from_estimator(</span>
+<span id="cb94-5">    m, valid_xs_final, [<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"YearMade"</span>, <span class="st" style="color: #20794D;
 background-color: null;
@@ -2588,7 +2619,8 @@ font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">20</span>, ax<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>ax)</span></code></pre></div>
+font-style: inherit;">=</span>ax</span>
+<span id="cb94-6">)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2710,17 +2742,22 @@ background-color: null;
 font-style: inherit;">import</span> waterfall_chart</span></code></pre></div>
 </div>
 <div id="cell-129" class="cell" data-outputid="f5a06de3-f1cc-48db-b8ce-3c6d1c9b6d6e">
-<div class="sourceCode cell-code" id="cb101" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1">waterfall_chart.plot(valid_xs_final.columns, contributions[<span class="dv" style="color: #AD0000;
+<div class="sourceCode cell-code" id="cb101" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1">waterfall_chart.plot(</span>
+<span id="cb101-2">    valid_xs_final.columns,</span>
+<span id="cb101-3">    contributions[<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0</span>], threshold<span class="op" style="color: #5E5E5E;
+font-style: inherit;">0</span>],</span>
+<span id="cb101-4">    threshold<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0.08</span>, rotation_value<span class="op" style="color: #5E5E5E;
+font-style: inherit;">0.08</span>,</span>
+<span id="cb101-5">    rotation_value<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">45</span>, formatting<span class="op" style="color: #5E5E5E;
+font-style: inherit;">45</span>,</span>
+<span id="cb101-6">    formatting<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
@@ -2728,7 +2765,8 @@ font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">{:,.3f}</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"</span>)</span></code></pre></div>
+font-style: inherit;">"</span>,</span>
+<span id="cb101-7">)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2768,17 +2806,17 @@ font-style: inherit;">=</span> pd.concat([train_xs_final, valid_xs_final])</span
 background-color: null;
 font-style: inherit;">=</span> np.array([<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0</span>]<span class="op" style="color: #5E5E5E;
+font-style: inherit;">0</span>] <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">*</span><span class="bu" style="color: null;
+font-style: inherit;">*</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(train_xs_final) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> [<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">*</span><span class="bu" style="color: null;
+font-style: inherit;">*</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(valid_xs_final))</span></code></pre></div>
 </div>
@@ -2947,14 +2985,14 @@ background-color: null;
 font-style: inherit;">"saleElapsed"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"MachineID"</span>):</span>
-<span id="cb107-2">  m <span class="op" style="color: #5E5E5E;
+<span id="cb107-2">    m <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> fit_rf(train_xs_final.drop(c, axis<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>), train_y)</span>
-<span id="cb107-3">  <span class="bu" style="color: null;
+<span id="cb107-3">    <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(c, m_rmse(m, valid_xs_final.drop(c, axis<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3113,9 +3151,9 @@ Tip
 <div id="cell-146" class="cell">
 <div class="sourceCode cell-code" id="cb116" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1">nn_df <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> pd.read_csv(path<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> pd.read_csv(path <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
+font-style: inherit;">/</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"TrainAndValid.csv"</span>, low_memory<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3127,17 +3165,17 @@ font-style: inherit;">False</span>)</span>
 background-color: null;
 font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Large'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Large"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Large / Medium'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Large / Medium"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Medium'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Medium"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Small'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Small"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Mini'</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"Mini"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'Compact'</span>]</span>
+font-style: inherit;">"Compact"</span>]</span>
 <span id="cb116-4">nn_df.ProductSize <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> nn_df.ProductSize.astype(<span class="st" style="color: #20794D;
@@ -3145,19 +3183,21 @@ background-color: null;
 font-style: inherit;">"category"</span>)</span>
 <span id="cb116-5">nn_df.ProductSize <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> nn_df.ProductSize.cat.set_categories(sizes, ordered<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> nn_df.ProductSize.cat.set_categories(</span>
+<span id="cb116-6">    sizes, ordered<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">True</span>) <span class="co" style="color: #5E5E5E;
+font-style: inherit;">True</span></span>
+<span id="cb116-7">)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># note: "inplace=True" is depreciated as of 1.30</span></span>
-<span id="cb116-6"></span>
-<span id="cb116-7">nn_df[dep_var] <span class="op" style="color: #5E5E5E;
+<span id="cb116-8"></span>
+<span id="cb116-9">nn_df[dep_var] <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.log(nn_df[dep_var])</span>
-<span id="cb116-8"></span>
-<span id="cb116-9">nn_df <span class="op" style="color: #5E5E5E;
+<span id="cb116-10"></span>
+<span id="cb116-11">nn_df <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> add_datepart(nn_df, <span class="st" style="color: #20794D;
 background-color: null;
@@ -3318,11 +3358,13 @@ font-style: inherit;">=</span> [Categorify, FillMissing, Normalize]</span>
 <span id="cb128-2"></span>
 <span id="cb128-3">nn_to <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> TabularPandas(nn_df_final, nn_procs, nn_cat, nn_cont, splits<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> TabularPandas(</span>
+<span id="cb128-4">    nn_df_final, nn_procs, nn_cat, nn_cont, splits<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>splits, y_names<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>dep_var)</span></code></pre></div>
+font-style: inherit;">=</span>dep_var</span>
+<span id="cb128-5">)</span></code></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3398,7 +3440,8 @@ font-style: inherit;">*</span></span>
 <span id="cb132-2"></span>
 <span id="cb132-3">learn <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> tabular_learner(dls, y_range<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> tabular_learner(</span>
+<span id="cb132-4">    dls, y_range<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -3408,7 +3451,7 @@ font-style: inherit;">12</span>), layers<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">500</span>,<span class="dv" style="color: #AD0000;
+font-style: inherit;">500</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">250</span>], n_out<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3416,7 +3459,8 @@ font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>, loss_func<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>F.mse_loss)</span></code></pre></div>
+font-style: inherit;">=</span>F.mse_loss</span>
+<span id="cb132-5">)</span></code></pre></div>
 </div>
 <div id="cell-166" class="cell" data-outputid="7c1afce9-2281-4b51-9122-bfe53ac40c55">
 <div class="sourceCode cell-code" id="cb133" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1">learn.lr_find()</span></code></pre></div>
