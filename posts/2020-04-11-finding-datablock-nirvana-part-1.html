@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.5.45">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2020-04-11">
 <meta name="description" content="The path to enlightment begins here!">
 
-<title>ohmeow - Finding DataBlock Nirvana with fast.ai v2 - Part 1</title>
+<title>Finding DataBlock Nirvana with fast.ai v2 - Part 1 – ohmeow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,11 +20,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -35,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -49,47 +50,17 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
@@ -101,17 +72,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -120,19 +97,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <meta property="og:title" content="ohmeow - Finding DataBlock Nirvana with fast.ai v2 - Part 1">
 <meta property="og:description" content="The path to enlightment begins here!">
 <meta property="og:image" content="https://ohmeow.com/posts/images/finding-datablock-nirvana-part-1-logo.jpg">
-<meta property="og:site-name" content="ohmeow">
+<meta property="og:site_name" content="ohmeow">
 <meta name="twitter:title" content="ohmeow - Finding DataBlock Nirvana with fast.ai v2 - Part 1">
 <meta name="twitter:description" content="The path to enlightment begins here!">
 <meta name="twitter:image" content="https://ohmeow.com/posts/images/finding-datablock-nirvana-part-1-logo.jpg">
@@ -143,9 +122,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
     </a>
@@ -153,13 +132,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <span class="navbar-title">ohmeow</span>
     </a>
   </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-tools" role="img">
 </i> 
  <span class="menu-text">Guides</span>
@@ -188,7 +168,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-stack" role="img">
 </i> 
  <span class="menu-text">Projects</span>
@@ -202,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-book" role="img">
 </i> 
  <span class="menu-text">Study Groups</span>
@@ -216,35 +196,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"><i class="bi bi-person-circle" role="img">
+    <a class="nav-link" href="../about.html"> <i class="bi bi-person-circle" role="img">
 </i> 
- <span class="menu-text">About Me</span></a>
+<span class="menu-text">About Me</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ohmeow"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../index.xml"><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -282,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -322,14 +303,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
 
-<div class="cell">
+
+<div id="cell-1" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only run this cell if you are in collab</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install git+https://github.com/fastai/fastai2 </span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install git+https://github.com/fastai/fastcore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-2" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai2.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="intoduction" class="level2">
@@ -376,7 +359,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                  batch_tfms=aug_transforms())</code></pre>
 <p>Your <strong>getters</strong> here are <code>get_items</code> and <code>get_y</code>. The first tells us that our <em>inputs</em> will be coming in the form of filenames returned by the <code>get_image_files</code> function, while the later tells the API to get the <em>labels</em>, or targets, for the inputs by applying a regex to the filename. There is also a <code>get_x</code> method available should you need to apply more specific instructions for defining your input. <code>get_items</code>, <code>get_x</code>, and <code>get_y</code> are all optional. Which you will need to implement depends on your data source and what you need to do to get your inputs/targets.</p>
 <p>The <strong>splitter</strong> parameter tells us that we are going to randomly split this data with 80% for training and 20% for validation. How do I know this? Easy. In your notebook put whatever class/method you are interested followed by two <code>??</code> to see it’s source.</p>
-<div class="cell">
+<div id="cell-9" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>RandomSplitter??</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So we got our data and we defined how we’re going to split it for training/validation … but how do we actually turn that into something we can feed a neural network? That is where <strong>transforms</strong> come into play and there are three primary kinds:</p>
@@ -391,7 +374,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>dls = pets.dataloaders(path/"images")</code></pre>
 <p>Once your <code>pets</code> DataBlock knows the “source” of your data, it goes to work. It gets your image filenames, derives each image’s label from that name, creates a training and validation dataset, and then applies the appropirate transforms, at the appropriate time, so that when you pull items from your <code>DataLoaders</code> object (your <code>dls</code> variable), you have something your model understands. This is the object you pass into your <code>Learner</code> to do the actual training.</p>
 <p>Here’s some code you can run yourself in colab:</p>
-<div class="cell" data-outputid="2b1e6a23-e6d7-4611-fd4d-5a9e62eed6de">
+<div id="cell-11" class="cell" data-outputid="2b1e6a23-e6d7-4611-fd4d-5a9e62eed6de">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.PETS)                        <span class="co"># &lt;-- Download our data; returns the path to that data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pets <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
@@ -408,7 +391,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -424,11 +411,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>__len__</code>: To return the size of our dataset</p>
 <p><code>__getitem__</code>: To get at a particular item in our dataset.</p>
 <p>Let’s start breaking down our DataBlock above by converting the underlying data representation as one of these <code>Dataset</code> classes. We’ll import some new packages that will be using and create a <code>PetCategories</code> class that will allow us to map our target labels with their indexes (and vice-versa).</p>
-<div class="cell">
+<div id="cell-14" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pdb, re</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> transforms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-15" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetCategories():</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, lbl_regex):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># not all things are images</span></span>
@@ -444,7 +431,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_label(<span class="va">self</span>, fname):</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.lbl_regex.match(fname).groups(<span class="dv">0</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-16" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetsDataset(torch.utils.data.Dataset):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, pet_categories, item_tfms<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -480,25 +467,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p><strong>TIP</strong>: Run all this code in colab … do it! Make sure you understand what is going on and why. One of the most valuable techniques I use for learning all things Python, PyTorch, and fast.ai, is using <code>pdb.set_trace()</code> to step through and debug code. It’s great way to build inutition by printing out the shapes of tensors, running parts of the code interactively, etc….</p>
 <p><strong>Now</strong> …we’re going to need TWO <code>Dataset</code>s … one for training and one for validation. We’ll split our examples up randomly and set aside 20% for our validation set. There’s many ways to do this (most better and more efficient that below).</p>
-<div class="cell" data-outputid="1202f124-94f8-4671-a8e5-bf4aec92a0f2" data-scrolled="true">
+<div id="cell-18" class="cell" data-outputid="1202f124-94f8-4671-a8e5-bf4aec92a0f2" data-scrolled="true">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>all_images <span class="op">=</span> (path<span class="op">/</span><span class="st">'images'</span>).ls()<span class="op">;</span> <span class="bu">len</span>(all_images)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>7393</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="1f989ef0-dbe6-4cca-e7fd-9e866b7f38f1">
+<div id="cell-19" class="cell" data-outputid="1f989ef0-dbe6-4cca-e7fd-9e866b7f38f1">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rnd_idxs <span class="op">=</span> np.random.permutation(<span class="bu">len</span>(all_images))<span class="op">;</span> <span class="bu">len</span>(rnd_idxs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>7393</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="aa669182-bc89-47af-8ad1-8b7889524e9e">
+<div id="cell-20" class="cell" data-outputid="aa669182-bc89-47af-8ad1-8b7889524e9e">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cut <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(rnd_idxs) <span class="op">*</span> <span class="fl">.2</span>)<span class="op">;</span> cut</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>1478</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="10cc521a-6980-4d22-95c9-92265feeac6c">
+<div id="cell-21" class="cell" data-outputid="10cc521a-6980-4d22-95c9-92265feeac6c">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>train_idxs, valid_idxs <span class="op">=</span> rnd_idxs[cut:], rnd_idxs[:cut]</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(train_idxs), <span class="bu">len</span>(valid_idxs), <span class="bu">len</span>(train_idxs) <span class="op">+</span> <span class="bu">len</span>(valid_idxs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -509,20 +496,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>TIP</strong>: Notice how I print out lengths and shapes of tensors as I go? Doing that provides both a sanity check and ensure you are seeing what you expect before going further down the rabbit hole.</p>
 <p>Now, we can create our training and validation <code>Dataset</code>s.</p>
 <p><strong><em>Again</em></strong>, we are <em>NOT</em> using fast.ai transforms here … these are all built into the <code>torchvision</code> package. They serve the same purpose here as the fast.ai “item transforms”, but for now, we’re doing this all using just the PyTorch bits.</p>
-<div class="cell">
+<div id="cell-24" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>item_tfms <span class="op">=</span> transforms.Compose([</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    transforms.RandomResizedCrop(<span class="dv">224</span>),</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor()</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="6a174496-4b7b-48a2-a71a-eb5d1eab5bb6">
+<div id="cell-25" class="cell" data-outputid="6a174496-4b7b-48a2-a71a-eb5d1eab5bb6">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> PetCategories(all_images[train_idxs], lbl_regex<span class="op">=</span><span class="vs">r'^(.*)_\d+.jpg$'</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(categories.vocab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>37</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="c786d224-8fa6-4dd1-bf58-8d5f99934fff">
+<div id="cell-26" class="cell" data-outputid="c786d224-8fa6-4dd1-bf58-8d5f99934fff">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>train_ds <span class="op">=</span> PetsDataset(all_images[train_idxs], pet_categories<span class="op">=</span>categories, item_tfms<span class="op">=</span>item_tfms)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>valid_ds <span class="op">=</span> PetsDataset(all_images[valid_idxs], pet_categories<span class="op">=</span>categories, item_tfms<span class="op">=</span>item_tfms)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -538,14 +525,14 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <h3 class="anchored" data-anchor-id="dataloader">DataLoader</h3>
 <p>With that we can create a <code>torch.utils.data.DataLoader</code> from each <code>Dataset</code>. The primary reason we need this object is to yield mini-batches of data into our model, but as you can see, it also provides us the ability to do much more (e.g., shuffle data, provide a collate function, etc…). Check out <a href="https://pytorch.org/docs/stable/data.html#module-torch.utils.data">the docs</a> for more info!</p>
 <p><strong><em>Note</em></strong>: fast.ai has it’s own <code>DataLoader</code> class that extends THIS one from PyTorch. Yah, I know it can seem confusing, but just remember for now, we are only working with functionality built-in to PyTorch.</p>
-<div class="cell">
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bsz <span class="op">=</span> <span class="dv">64</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>train_dl <span class="op">=</span> torch.utils.data.DataLoader(train_ds, batch_size<span class="op">=</span>bsz, shuffle<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>valid_dl <span class="op">=</span> torch.utils.data.DataLoader(valid_ds, batch_size<span class="op">=</span>bsz<span class="op">*</span><span class="dv">2</span>, shuffle<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And voila, we can now iterate through our dataset, mini-batch by mini-batch</p>
-<div class="cell" data-outputid="8672ba02-ded2-4e98-c400-00457fb755f9">
+<div id="cell-30" class="cell" data-outputid="8672ba02-ded2-4e98-c400-00457fb755f9">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(valid_dl))</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(b), b[<span class="dv">0</span>].shape, b[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
@@ -559,16 +546,16 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="using-the-low-level-api---fast.ai-dataloaders" class="level2">
 <h2 class="anchored" data-anchor-id="using-the-low-level-api---fast.ai-dataloaders">Using the Low-Level API - fast.ai DataLoaders</h2>
 <p>It’s actually pretty easy to get your PyTorch <code>Dataset</code> class incorporated into fast.ai and get it to play nicely with fast.ai’s custom <code>DataLoaders</code>.</p>
-<div class="cell">
+<div id="cell-33" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai2.data.core <span class="im">import</span> DataLoaders</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-34" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataLoaders.from_dsets(train_ds, valid_ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-35" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="9de25f7e-a887-40ac-d7ff-a0b4ad241d0d">
+<div id="cell-36" class="cell" data-outputid="9de25f7e-a887-40ac-d7ff-a0b4ad241d0d">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(b), b[<span class="dv">0</span>].shape, b[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>(2, torch.Size([64, 3, 224, 224]), torch.Size([64]))</code></pre>
@@ -587,7 +574,7 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <li><p>Change your return type to be a tuple and optionally use fastai’s semantic types (here we wrap our image in <code>TensorImage</code> which knows how to show itself). From the docs: “If you then return a tuple (or a subclass of a tuple), and use fastai’s semantic type, you can then apply any other fastai’s transform on your data and it will be dispatched properly.”{% fn 4 %} That simply means we can add on more transforms that know how to work with <code>TensorImage</code> objects and they’ll do the right thing.</p></li>
 <li><p>Get rid of <code>__len__</code></p></li>
 </ol>
-<div class="cell">
+<div id="cell-40" class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetsTransform(Transform):</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, pet_categories, item_tfms<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -617,7 +604,7 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 </div>
 <p>Now that we are using a <code>Transform</code>, we have to use a new kind of object to build our dataset: <code>TfmdLists</code></p>
 <p>A <code>TfmdList</code> is “just an object that lazily applies a collection of Transforms on a list.”{% fn 5 %} Think of it as a fancy <code>Dataset</code> object that knows how to work with <code>Transform</code> objects.</p>
-<div class="cell">
+<div id="cell-42" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>train_fpaths <span class="op">=</span> all_images[train_idxs]</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>valid_fpaths <span class="op">=</span> all_images[valid_idxs]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -630,12 +617,12 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                                                          item_tfms<span class="op">=</span>item_tfms))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Since this is just another kind of dataset, we can pass these <code>TfmdLists</code> objects to <code>DataLoaders</code> just like before. But notice, we can now add fast.ai transforms to it just like we did in the <code>DataBlock</code> example at the top. We’re already resizing and converting the examples to tensors, so we’ll add some <code>after_batch</code> transforms for normalization and augmentations.</p>
-<div class="cell">
+<div id="cell-44" class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> DataLoaders.from_dsets(train_tl, valid_tl, </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                             after_batch<span class="op">=</span>[Normalize.from_stats(<span class="op">*</span>imagenet_stats), <span class="op">*</span>aug_transforms()])</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dls.cuda()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="8ba8376c-3046-4f79-fd0c-1209e44b0671">
+<div id="cell-45" class="cell" data-outputid="8ba8376c-3046-4f79-fd0c-1209e44b0671">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(b), b[<span class="dv">0</span>].shape, b[<span class="dv">1</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
@@ -643,13 +630,13 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 </div>
 </div>
 <p>Let’s see if we can show a batch of our data. Uncomment the line below, run it, and yah … it throws an exception. But why?</p>
-<div class="cell">
+<div id="cell-47" class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.show_batch()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you guessed it is because <code>show_batch</code> doesn’t know what to do with the target’s numerical index, bingo! You’re right.</p>
 <p>Let’s start to fix that by actually creating <strong><em>our own</em></strong> class that represents our inputs/targets. Notice that besides inheriting from <code>Tuple</code>, all we are providing is a <code>show</code> method that tells a <code>PetImage</code> object how to show itself. According to the docs, “fastai will call [your transforms decodes methods] until it arrives at a type that knows how to show itself, then call the show method on this type.”{% fn 6 %}</p>
 <p>BTW, a lot of this code is just ripped from the “Siamese tutorial” in the docs, so don’t be too impressed. If you want to really do a deep dive and work though all this given a different task, check it out <a href="http://dev.fast.ai/tutorial.siamese">here</a>.</p>
-<div class="cell">
+<div id="cell-49" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetImage(Tuple):</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> show(<span class="va">self</span>, ctx<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>        img, category_idx <span class="op">=</span> <span class="va">self</span></span>
@@ -666,7 +653,7 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <p><strong>First</strong>, we’ll use <code>PILImage.create</code> to create the image in <code>encodes</code>. We do this because that object allows us to apply fast.ai transform liks <code>Resize</code> and <code>ToTensor</code> directly on it.</p>
 <p><strong>Second</strong>, we’re going to move to using fast.ai transforms for everything, so we’ll get rid of the PyTorch transforms!</p>
 <p><strong>Third</strong>, notice our <code>encodes</code> now returns a <code>PetsImage</code>. It’s just a tuple … but because its a particular kind of tuple, we can use the typdispatched <code>show_batch</code> and <code>show_results</code> to actually visualize our data/results.</p>
-<div class="cell">
+<div id="cell-52" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PetsTransform2(Transform):</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, image_fpaths, pet_categories):</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -687,61 +674,66 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> PetImage(img, lbl_idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Because of these changes, instead of creating the separate <code>TfmdLists</code> ourselves, we can now further do things the “fast.ai way” by using a <code>splitter</code> to do that for us. Here we’ll use <code>RandomSplitter</code> which gives us that same 80/20 training/validation split.</p>
-<div class="cell">
+<div id="cell-54" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>splits <span class="op">=</span> RandomSplitter()(all_images)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>tfm <span class="op">=</span> PetsTransform2(all_images, categories)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can get both our datasets in one line of code! When we pass <code>splits</code> to <code>TfmdLists</code>, it takes care of creating our training and validation datasets!</p>
-<div class="cell">
+<div id="cell-56" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tls <span class="op">=</span> TfmdLists(all_images, tfm, splits<span class="op">=</span>splits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And thanks for our <code>PetImage</code> class, fast.ai can show an item from our dataset.</p>
-<div class="cell" data-outputid="884fb11a-6110-4f8c-cd06-0f3ec9296468" data-scrolled="true">
+<div id="cell-58" class="cell" data-outputid="884fb11a-6110-4f8c-cd06-0f3ec9296468" data-scrolled="true">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>show_at(tls.valid, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fee17e84518&gt;</code></pre>
-</div>
 <div class="cell-output cell-output-display">
-<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-31-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Even better, we can now specify all our transforms using fast.ai in the call to <code>dataloaders()</code>. And because these are fast.ai <code>DataLoader</code> objects, we can add tranforms at any point in our data processing pipeline (not just <code>after_item</code> and <code>after_batch</code>).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> tls.dataloaders(after_item<span class="op">=</span>[Resize(<span class="dv">224</span>), ToTensor], </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                      after_batch<span class="op">=</span>[IntToFloatTensor, Normalize.from_stats(<span class="op">*</span>imagenet_stats)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-60" class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> tls.dataloaders(after_item<span class="op">=</span>[Resize(<span class="dv">224</span>), ToTensor], </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                      after_batch<span class="op">=</span>[IntToFloatTensor, Normalize.from_stats(<span class="op">*</span>imagenet_stats)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the process, notice how we’ve also refactored our code into something much more reusable. For example, if we want to resize our images to something else, its as easy as …</p>
-<div class="cell" data-outputid="8ba8f910-b575-4ea4-a6a2-004b6f2d07ec">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>new_dl <span class="op">=</span> dls.new(after_item<span class="op">=</span>[Resize(<span class="dv">64</span>), ToTensor])</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>new_dl.one_batch()[<span class="dv">0</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-62" class="cell" data-outputid="8ba8f910-b575-4ea4-a6a2-004b6f2d07ec">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>new_dl <span class="op">=</span> dls.new(after_item<span class="op">=</span>[Resize(<span class="dv">64</span>), ToTensor])</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>new_dl.one_batch()[<span class="dv">0</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <pre><code>torch.Size([64, 3, 64, 64])</code></pre>
 </div>
 </div>
 <p>And what about showing a batch of data? Unfortunately it still won’t work. <code>show_batch</code> is designed primarily to work with the <code>DataBlock API</code>, but here, we’re returning the whole thing as a single transform.</p>
 <p>The solution is easy: use the <code>@typedispatch</code> mechanism and override <code>show_batch</code> so that our <code>x</code> (our input) is “typed”.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-64" class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> dls.one_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="184fb9d4-13c7-4386-a477-bc603ececb3f">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dls._types, <span class="bu">type</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-65" class="cell" data-outputid="184fb9d4-13c7-4386-a477-bc603ececb3f">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dls._types, <span class="bu">type</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>({__main__.PetImage: [fastai2.torch_core.TensorImage, torch.Tensor]},
  __main__.PetImage)</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_batch(x:PetImage, y, samples, ctxs<span class="op">=</span><span class="va">None</span>, max_n<span class="op">=</span><span class="dv">6</span>, nrows<span class="op">=</span><span class="va">None</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> figsize <span class="kw">is</span> <span class="va">None</span>: figsize <span class="op">=</span> (ncols<span class="op">*</span><span class="dv">6</span>, max_n<span class="op">//</span>ncols <span class="op">*</span> <span class="dv">3</span>)</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ctxs <span class="kw">is</span> <span class="va">None</span>: ctxs <span class="op">=</span> get_grid(<span class="bu">min</span>(x[<span class="dv">0</span>].shape[<span class="dv">0</span>], max_n), nrows<span class="op">=</span><span class="va">None</span>, ncols<span class="op">=</span>ncols, figsize<span class="op">=</span>figsize)</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i,ctx <span class="kw">in</span> <span class="bu">enumerate</span>(ctxs): </span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>        PetImage(x[<span class="dv">0</span>][i], x[<span class="dv">1</span>][i].item()).show(ctx<span class="op">=</span>ctx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-66" class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="at">@typedispatch</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_batch(x:PetImage, y, samples, ctxs<span class="op">=</span><span class="va">None</span>, max_n<span class="op">=</span><span class="dv">6</span>, nrows<span class="op">=</span><span class="va">None</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> figsize <span class="kw">is</span> <span class="va">None</span>: figsize <span class="op">=</span> (ncols<span class="op">*</span><span class="dv">6</span>, max_n<span class="op">//</span>ncols <span class="op">*</span> <span class="dv">3</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ctxs <span class="kw">is</span> <span class="va">None</span>: ctxs <span class="op">=</span> get_grid(<span class="bu">min</span>(x[<span class="dv">0</span>].shape[<span class="dv">0</span>], max_n), nrows<span class="op">=</span><span class="va">None</span>, ncols<span class="op">=</span>ncols, figsize<span class="op">=</span>figsize)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i,ctx <span class="kw">in</span> <span class="bu">enumerate</span>(ctxs): </span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>        PetImage(x[<span class="dv">0</span>][i], x[<span class="dv">1</span>][i].item()).show(ctx<span class="op">=</span>ctx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="2876cce7-52f2-4b58-96f8-20c897aff305">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-67" class="cell" data-outputid="2876cce7-52f2-4b58-96f8-20c897aff305">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-37-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>When <code>dls.show_batch()</code> runs, it will find the closes matching version of <code>show_batch()</code> available to execute given chat the batch is. We could even write a typedispatched <code>show_results()</code> to look at our predictions alongside our targets using the same technique we applied to <code>show_batch()</code>.</p>
@@ -770,12 +762,12 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="getting-the-right-answers" class="level3">
 <h3 class="anchored" data-anchor-id="getting-the-right-answers">Getting the right answers</h3>
 <p>Looking back at our example <code>DataBlock</code> …</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pets <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files, </span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>Pipeline([attrgetter(<span class="st">"name"</span>), RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^(.*)_\d+.jpg$'</span>)]),</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pets <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, CategoryBlock), </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files, </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>Pipeline([attrgetter(<span class="st">"name"</span>), RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^(.*)_\d+.jpg$'</span>)]),</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We knew how to construct it as such because:</p>
 <p>1.What are the types of your inputs and targets?<br>
 <strong>Answer</strong>: inputs=pet images | targets=37 categories. So we need an <code>ImageBlock</code> to handle the images and a <code>CategoryBlock</code> to handle the labels. Those <code>blocks</code> will add the needed transforms for each of their respective pieces.</p>
@@ -803,13 +795,13 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="can-i-have-multiple-inputstargets" class="level4">
 <h4 class="anchored" data-anchor-id="can-i-have-multiple-inputstargets">Can I have multiple inputs/targets?</h4>
 <p>Yes! According to the docs … “You can also have more than two blocks (if you have multiple inputs and/or targets), you would just need to pass <code>n_inp</code> to the DataBlock to tell the library how many inputs there are (the rest would be targets) and pass a list of functions to <code>get_x</code> and/or <code>get_y</code> (to explain how to process each item to be ready for his type).”{% fn 9 %} We’ll explore this in Part 2 of this series where I attempt to update my v1 <code>MixedTabluarList</code> object (incorporates tabular + text) into something v2 friendly. In the meantime, here’s a nice example from the docs on setting up a dataset for object detection:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>coco <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, BBoxBlock, BBoxLblBlock),</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files,</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>[<span class="kw">lambda</span> o: img2bbox[o.name][<span class="dv">0</span>], <span class="kw">lambda</span> o: img2bbox[o.name][<span class="dv">1</span>]], </span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms(),</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                 n_inp<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>coco <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, BBoxBlock, BBoxLblBlock),</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                 get_items<span class="op">=</span>get_image_files,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                 splitter<span class="op">=</span>RandomSplitter(),</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                 get_y<span class="op">=</span>[<span class="kw">lambda</span> o: img2bbox[o.name][<span class="dv">0</span>], <span class="kw">lambda</span> o: img2bbox[o.name][<span class="dv">1</span>]], </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>                 item_tfms<span class="op">=</span>Resize(<span class="dv">128</span>),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>                 batch_tfms<span class="op">=</span>aug_transforms(),</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>                 n_inp<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You see that <code>n_inp</code>? It’s saying, “Use the <code>ImageBlock</code> for my inputs (I only have 1), but I’ll need TWO targets this time as I’m trying to predict the location of an object (<code>BBoxBlock</code>) and it’s label (<code>BBoxLblBlock</code>).” Notice also because we are predicting TWO things, our <code>get_y</code> returns a list of, you guessed it, two things. If we didn’t need to do anything special with either of these targets, we’d simply pass <code>noop</code> in it’s place in that list.</p>
 </section>
 <section id="where-can-i-learn-about-the-baked-in-bits-of-the-datablock-api" class="level4">
@@ -823,38 +815,38 @@ torch.Size([3, 224, 224]) tensor(33)</code></pre>
 <section id="do-i-need-to-always-use-get_items" class="level4">
 <h4 class="anchored" data-anchor-id="do-i-need-to-always-use-get_items">Do I need to always use <code>get_items</code>?</h4>
 <p>No.&nbsp;For example, if your “source” data is a DataFrame …</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>pascal <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock),</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>ColSplitter(),</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                   get_x<span class="op">=</span>ColReader(<span class="dv">0</span>, pref<span class="op">=</span>pascal_source<span class="op">/</span><span class="st">"train"</span>),</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>ColReader(<span class="dv">1</span>, label_delim<span class="op">=</span><span class="st">' '</span>),</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms())</span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                   </span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> pascal.dataloaders(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>pascal <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock),</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>ColSplitter(),</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                   get_x<span class="op">=</span>ColReader(<span class="dv">0</span>, pref<span class="op">=</span>pascal_source<span class="op">/</span><span class="st">"train"</span>),</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>ColReader(<span class="dv">1</span>, label_delim<span class="op">=</span><span class="st">' '</span>),</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms())</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> pascal.dataloaders(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>According to the docs … “we wont have to use a <code>get_items</code> function here because we already have all our data in one place.”{% fn 10 %}</p>
 </section>
 <section id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe" class="level4">
 <h4 class="anchored" data-anchor-id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe">What are different ways I can get my x and y from a DataFrame?</h4>
 <p>Using <code>ColReader</code>:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span>ColReader(<span class="dv">0</span>, pref<span class="op">=</span>pascal_source<span class="op">/</span><span class="st">"train"</span>),</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span>ColReader(<span class="dv">1</span>, label_delim<span class="op">=</span><span class="st">' '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span>ColReader(<span class="dv">0</span>, pref<span class="op">=</span>pascal_source<span class="op">/</span><span class="st">"train"</span>),</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span>ColReader(<span class="dv">1</span>, label_delim<span class="op">=</span><span class="st">' '</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Using <code>lambda</code> functions:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span><span class="kw">lambda</span> x:pascal_source<span class="op">/</span><span class="st">"train"</span><span class="op">/</span><span class="ss">f'</span><span class="sc">{</span>x[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span><span class="kw">lambda</span> x:x[<span class="dv">1</span>].split(<span class="st">' '</span>),</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span><span class="kw">lambda</span> x:pascal_source<span class="op">/</span><span class="st">"train"</span><span class="op">/</span><span class="ss">f'</span><span class="sc">{</span>x[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span><span class="kw">lambda</span> x:x[<span class="dv">1</span>].split(<span class="st">' '</span>),</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Using <code>column names</code>:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span><span class="kw">lambda</span> o:<span class="ss">f'</span><span class="sc">{</span>pascal_source<span class="sc">}</span><span class="ss">/train/'</span><span class="op">+</span>o.fname,</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span><span class="kw">lambda</span> o:o.labels.split(),</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>get_x<span class="op">=</span><span class="kw">lambda</span> o:<span class="ss">f'</span><span class="sc">{</span>pascal_source<span class="sc">}</span><span class="ss">/train/'</span><span class="op">+</span>o.fname,</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>get_y<span class="op">=</span><span class="kw">lambda</span> o:o.labels.split(),</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Using <code>from_columns</code>:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _pascal_items(x): <span class="cf">return</span> (<span class="ss">f'</span><span class="sc">{</span>pascal_source<span class="sc">}</span><span class="ss">/train/'</span><span class="op">+</span>x.fname, x.labels.<span class="bu">str</span>.split())</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>valid_idx <span class="op">=</span> df[df[<span class="st">'is_valid'</span>]].index.values</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>pascal <span class="op">=</span> DataBlock.from_columns(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock),</span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                   get_items<span class="op">=</span>_pascal_items,</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>IndexSplitter(valid_idx),</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms())</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _pascal_items(x): <span class="cf">return</span> (<span class="ss">f'</span><span class="sc">{</span>pascal_source<span class="sc">}</span><span class="ss">/train/'</span><span class="op">+</span>x.fname, x.labels.<span class="bu">str</span>.split())</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>valid_idx <span class="op">=</span> df[df[<span class="st">'is_valid'</span>]].index.values</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>pascal <span class="op">=</span> DataBlock.from_columns(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock),</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>                   get_items<span class="op">=</span>_pascal_items,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>IndexSplitter(valid_idx),</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>                   batch_tfms<span class="op">=</span>aug_transforms())</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>                  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>According to the docs, this is “the most efficient way (to avoid iterating over the rows of the dataframe, which can take a long time) …. It will use <code>get_items</code> to convert the columns in numpy arrays. The drawback is that since we lose the dataframe after extracting the relevant columns, we can’t use a <code>ColSplitter</code> anymore.”{% fn 11 %}</p>
 </section>
 <section id="what-about-tabular-data" class="level4">
@@ -910,12 +902,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
     }
-  });
-  clipboard.on('success', function(e) {
+    return false;
+  }
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -947,11 +942,55 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -961,8 +1000,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -974,9 +1022,245 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1014,25 +1298,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp(/^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**/);
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 <script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
+
 
 
 

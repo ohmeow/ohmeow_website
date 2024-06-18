@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.5.45">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -37,17 +37,23 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,8 +62,10 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -90,21 +98,55 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="alternate" type="application/rss+xml" title="ohmeow" href="index.xml"><meta property="og:title" content="">
-<meta property="og:site-name" content="ohmeow">
-<meta name="twitter:title" content="">
-<meta name="twitter:card" content="summary">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="alternate" type="application/rss+xml" title="ohmeow" href="index.xml" data-external="1"><meta property="og:title" content="ohmeow">
+<meta property="og:image" content="https://ohmeow.com/images/ohmeow_logo.png">
+<meta property="og:site_name" content="ohmeow">
+<meta property="og:image:height" content="118">
+<meta property="og:image:width" content="370">
+<meta name="twitter:title" content="ohmeow">
+<meta name="twitter:image" content="https://ohmeow.com/images/ohmeow_logo.png">
+<meta name="twitter:image-height" content="118">
+<meta name="twitter:image-width" content="370">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     <img src="./images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
     </a>
@@ -112,13 +154,14 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">ohmeow</span>
     </a>
   </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-tools" role="img">
 </i> 
  <span class="menu-text">Guides</span>
@@ -147,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-stack" role="img">
 </i> 
  <span class="menu-text">Projects</span>
@@ -161,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-book" role="img">
 </i> 
  <span class="menu-text">Study Groups</span>
@@ -175,30 +218,31 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"><i class="bi bi-person-circle" role="img">
+    <a class="nav-link" href="./about.html"> <i class="bi bi-person-circle" role="img">
 </i> 
- <span class="menu-text">About Me</span></a>
+<span class="menu-text">About Me</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/waydegilliam"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/waydegilliam"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ohmeow"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ohmeow"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -211,6 +255,7 @@ ul.task-list li input[type="checkbox"] {
     <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(16)</span></div><div class="category" data-category="BCE">BCE <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bag of tricks">bag of tricks <span class="quarto-category-count">(1)</span></div><div class="category" data-category="binary cross entropy">binary cross entropy <span class="quarto-category-count">(1)</span></div><div class="category" data-category="blurr">blurr <span class="quarto-category-count">(2)</span></div><div class="category" data-category="boosting">boosting <span class="quarto-category-count">(1)</span></div><div class="category" data-category="categorical variables">categorical variables <span class="quarto-category-count">(1)</span></div><div class="category" data-category="classification">classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="collaborative filtering">collaborative filtering <span class="quarto-category-count">(1)</span></div><div class="category" data-category="computer vision">computer vision <span class="quarto-category-count">(4)</span></div><div class="category" data-category="data">data <span class="quarto-category-count">(1)</span></div><div class="category" data-category="datablock api">datablock api <span class="quarto-category-count">(1)</span></div><div class="category" data-category="decision trees">decision trees <span class="quarto-category-count">(1)</span></div><div class="category" data-category="embeddings">embeddings <span class="quarto-category-count">(2)</span></div><div class="category" data-category="fastai">fastai <span class="quarto-category-count">(14)</span></div><div class="category" data-category="fastbook">fastbook <span class="quarto-category-count">(10)</span></div><div class="category" data-category="gdbt">gdbt <span class="quarto-category-count">(1)</span></div><div class="category" data-category="github">github <span class="quarto-category-count">(1)</span></div><div class="category" data-category="huggingface">huggingface <span class="quarto-category-count">(2)</span></div><div class="category" data-category="key point">key point <span class="quarto-category-count">(1)</span></div><div class="category" data-category="latent factors">latent factors <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multi-label classification">multi-label classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multiclass classification">multiclass classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="multilingual">multilingual <span class="quarto-category-count">(1)</span></div><div class="category" data-category="open source">open source <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pull requests">pull requests <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pytorch">pytorch <span class="quarto-category-count">(1)</span></div><div class="category" data-category="random forest">random forest <span class="quarto-category-count">(1)</span></div><div class="category" data-category="recommender systems">recommender systems <span class="quarto-category-count">(1)</span></div><div class="category" data-category="recsys">recsys <span class="quarto-category-count">(1)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="sequence classification">sequence classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="structured">structured <span class="quarto-category-count">(1)</span></div><div class="category" data-category="summarization">summarization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tabular">tabular <span class="quarto-category-count">(1)</span></div><div class="category" data-category="techniques">techniques <span class="quarto-category-count">(1)</span></div><div class="category" data-category="text generation">text generation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="xgboost">xgboost <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
+
 
 
 
@@ -251,19 +296,19 @@ ul.task-list li input[type="checkbox"] {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="fastai,fastbook,tabular,structured,decision trees,random forest,embeddings,categorical variables,boosting,gdbt,xgboost" data-listing-date-sort="1650870000000" data-listing-file-modified-sort="1668497105478" data-listing-reading-time-sort="21.53">
+<div class="quarto-post image-right" data-index="0" data-categories="fastai,fastbook,tabular,structured,decision trees,random forest,embeddings,categorical variables,boosting,gdbt,xgboost" data-listing-date-sort="1650870000000" data-listing-file-modified-sort="1718674034933" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4296">
 <div class="thumbnail">
-<p><a href="./posts/2022-04-25-ajtfb-chapter-9.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external"></a></p><a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-04-25-ajtfb-chapter-9.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 9: Tabular Modeling</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -299,14 +344,12 @@ gdbt
 xgboost
 </div>
 </div>
-<a href="./posts/2022-04-25-ajtfb-chapter-9.html">
 <div class="listing-description">
-<p>In chapter of 8 of <span>“Deep Learning for Coders with fastai &amp; PyTorch”</span> we learned that the neural network version of of collaborative model is in fact built on something called <code>TabularModel</code>, and that in fact, an <code>EmbeddingNN</code> is nothing but a <code>TabularModel</code> <em>without any continuous (or real) numbers</em>. “Structured” or “tabular” data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both categorical and/or real numbers. Working with such data is the subject of chapter 9, so lets go!</p>
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external">In chapter of 8 of <span>“Deep Learning for Coders with fastai &amp; PyTorch”</span> we learned that the neural network version of of collaborative model is in fact built on something called <code>TabularModel</code>, and that in fact, an <code>EmbeddingNN</code> is nothing but a <code>TabularModel</code> <em>without any continuous (or real) numbers</em>. “Structured” or “tabular” data describes datasets that look like an Excel spreadsheet or a relational database table, of which, it may be a composed of both categorical and/or real numbers. Working with such data is the subject of chapter 9, so lets go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-04-25-ajtfb-chapter-9.html">
+<a href="./posts/2022-04-25-ajtfb-chapter-9.html" class="no-external">
 <div class="listing-date">
 Apr 25, 2022
 </div>
@@ -314,27 +357,27 @@ Apr 25, 2022
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-21 min
+22 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/14/22, 11:25:05 PM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="fastai,fastbook,collaborative filtering,latent factors,embeddings,recommender systems,recsys" data-listing-date-sort="1648710000000" data-listing-file-modified-sort="1668540034388" data-listing-reading-time-sort="9.275">
+<div class="quarto-post image-right" data-index="1" data-categories="fastai,fastbook,collaborative filtering,latent factors,embeddings,recommender systems,recsys" data-listing-date-sort="1648710000000" data-listing-file-modified-sort="1718674034931" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1855">
 <div class="thumbnail">
-<p><a href="./posts/2022-03-31-ajtfb-chapter-8.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external"></a></p><a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-03-31-ajtfb-chapter-8.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 8: Collaborative Filtering</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -358,14 +401,12 @@ recommender systems
 recsys
 </div>
 </div>
-<a href="./posts/2022-03-31-ajtfb-chapter-8.html">
 <div class="listing-description">
-<p>This chapter of <span>“Deep Learning for Coders with fastai &amp; PyTorch”</span> moves us away from computer vision to collaborative filtering (think recommendation systems). We’ll explore building these models using the traditional “dot product” approach and also using a neural network, but we’ll begin by covering the idea of “latent factors,” which are both important for colloborative and tabular models. Lets go!</p>
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external">This chapter of <span>“Deep Learning for Coders with fastai &amp; PyTorch”</span> moves us away from computer vision to collaborative filtering (think recommendation systems). We’ll explore building these models using the traditional “dot product” approach and also using a neural network, but we’ll begin by covering the idea of “latent factors,” which are both important for colloborative and tabular models. Lets go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-03-31-ajtfb-chapter-8.html">
+<a href="./posts/2022-03-31-ajtfb-chapter-8.html" class="no-external">
 <div class="listing-date">
 Mar 31, 2022
 </div>
@@ -373,27 +414,27 @@ Mar 31, 2022
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-9 min
+10 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:20:34 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="fastai,fastbook,classification,computer vision,techniques,bag of tricks" data-listing-date-sort="1648450800000" data-listing-file-modified-sort="1668540255241" data-listing-reading-time-sort="7.6">
+<div class="quarto-post image-right" data-index="2" data-categories="fastai,fastbook,classification,computer vision,techniques,bag of tricks" data-listing-date-sort="1648450800000" data-listing-file-modified-sort="1718674034931" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1520">
 <div class="thumbnail">
-<p><a href="./posts/2022-03-28-ajtfb-chapter-7.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external"></a></p><a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-03-28-ajtfb-chapter-7.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 7: Advanced techniques for training image classification models</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -414,14 +455,12 @@ techniques
 bag of tricks
 </div>
 </div>
-<a href="./posts/2022-03-28-ajtfb-chapter-7.html">
 <div class="listing-description">
-<p>This chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span> details several techniques you can apply to getting SOTA results with your image classification models! It’s the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models</p>
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external">This chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span> details several techniques you can apply to getting SOTA results with your image classification models! It’s the last chapter dedicated to computer vision before diving into colloborate filtering, tabular, and NLP models</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-03-28-ajtfb-chapter-7.html">
+<a href="./posts/2022-03-28-ajtfb-chapter-7.html" class="no-external">
 <div class="listing-date">
 Mar 28, 2022
 </div>
@@ -429,27 +468,27 @@ Mar 28, 2022
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-7 min
+8 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:24:15 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="fastai,fastbook,regression,computer vision,key point" data-listing-date-sort="1644393600000" data-listing-file-modified-sort="1668540455801" data-listing-reading-time-sort="4.775">
+<div class="quarto-post image-right" data-index="3" data-categories="fastai,fastbook,regression,computer vision,key point" data-listing-date-sort="1644393600000" data-listing-file-modified-sort="1718674034931" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="955">
 <div class="thumbnail">
-<p><a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external"></a></p><a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 6: Regression
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 6: Regression</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -467,14 +506,12 @@ computer vision
 key point
 </div>
 </div>
-<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html">
 <div class="listing-description">
-<p>Its the more things you can do with computer vision chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! Having looked at both multiclass and multilable classification, we now turn our attention to regression tasks. In particular, we’ll look at key point regression models covered in chapter 6. Soooo lets go!</p>
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external">Its the more things you can do with computer vision chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! Having looked at both multiclass and multilable classification, we now turn our attention to regression tasks. In particular, we’ll look at key point regression models covered in chapter 6. Soooo lets go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html">
+<a href="./posts/2022-02-09-ajtfb-chapter-6-regression.html" class="no-external">
 <div class="listing-date">
 Feb 9, 2022
 </div>
@@ -482,27 +519,27 @@ Feb 9, 2022
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-4 min
+5 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:27:35 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="fastai,fastbook,multi-label classification,binary cross entropy,BCE,computer vision" data-listing-date-sort="1623308400000" data-listing-file-modified-sort="1668540675152" data-listing-reading-time-sort="9.1">
+<div class="quarto-post image-right" data-index="4" data-categories="fastai,fastbook,multi-label classification,binary cross entropy,BCE,computer vision" data-listing-date-sort="1623308400000" data-listing-file-modified-sort="1718674034927" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1820">
 <div class="thumbnail">
-<p><a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external"></a></p><a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -523,14 +560,12 @@ BCE
 computer vision
 </div>
 </div>
-<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html">
 <div class="listing-description">
-<p>Its the more things you can do with computer vision chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!</p>
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external">Its the more things you can do with computer vision chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html">
+<a href="./posts/2021-06-10-ajtfb-chapter-6-multilabel.html" class="no-external">
 <div class="listing-date">
 Jun 10, 2021
 </div>
@@ -538,27 +573,27 @@ Jun 10, 2021
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-9 min
+10 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:31:15 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="fastai,fastbook,multiclass classification,computer vision" data-listing-date-sort="1622703600000" data-listing-file-modified-sort="1668540899124" data-listing-reading-time-sort="10.455">
+<div class="quarto-post image-right" data-index="5" data-categories="fastai,fastbook,multiclass classification,computer vision" data-listing-date-sort="1622703600000" data-listing-file-modified-sort="1718674034922" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2091">
 <div class="thumbnail">
-<p><a href="./posts/2021-06-03-ajtfb-chapter-5.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external"></a></p><a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-06-03-ajtfb-chapter-5.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 5: Multiclass classification</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -573,14 +608,12 @@ multiclass classification
 computer vision
 </div>
 </div>
-<a href="./posts/2021-06-03-ajtfb-chapter-5.html">
 <div class="listing-description">
-<p>Its the image classification chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! We’ll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model’s predictions. So without further adieu, lets go …</p>
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external">Its the image classification chapter of <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>! We’ll go over everything you need to know to get started with multiclass classification, from setting up your DataBlock and loss function, to some of the core techniques for evaluating and improving your model’s predictions. So without further adieu, lets go …</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-06-03-ajtfb-chapter-5.html">
+<a href="./posts/2021-06-03-ajtfb-chapter-5.html" class="no-external">
 <div class="listing-date">
 Jun 3, 2021
 </div>
@@ -588,27 +621,27 @@ Jun 3, 2021
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-10 min
+11 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:34:59 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="fastai,github,open source,pull requests" data-listing-date-sort="1622617200000" data-listing-file-modified-sort="1668541189562" data-listing-reading-time-sort="2.355">
+<div class="quarto-post image-right" data-index="6" data-categories="fastai,github,open source,pull requests" data-listing-date-sort="1622617200000" data-listing-file-modified-sort="1718674034918" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="471">
 <div class="thumbnail">
-<p><a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html"> <img src="./posts/images/thumbs_up_kid.jpeg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external"></a></p><a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/thumbs_up_kid.jpeg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html">
 <h3 class="no-anchor listing-title">
-Contributing to fastai: Setup your local development environment &amp; submit a PR
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external">Contributing to fastai: Setup your local development environment &amp; submit a PR</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -623,14 +656,12 @@ open source
 pull requests
 </div>
 </div>
-<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html">
 <div class="listing-description">
-<p>A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn’t quite remember all the steps required to do so. Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all). So for all you developers looking to contribute to fastai, or really any open source project, here’s everything you need to know to setup your local development environment and submit PRs to fastai. Enjoy!</p>
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external">A few hours ago I was working on a PR for fastai, and as it has been awhile I realized I couldn’t quite remember all the steps required to do so. Fortunately, I got it figured out pretty quickly and decided I better blog the steps for when I forget next (I am almost 50 after all). So for all you developers looking to contribute to fastai, or really any open source project, here’s everything you need to know to setup your local development environment and submit PRs to fastai. Enjoy!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html">
+<a href="./posts/2021-06-02-how-to-submit-a-pr-to-fastai.html" class="no-external">
 <div class="listing-date">
 Jun 2, 2021
 </div>
@@ -638,27 +669,27 @@ Jun 2, 2021
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-2 min
+3 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:39:49 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="blurr,huggingface,fastai,multilingual,sequence classification" data-listing-date-sort="1621926000000" data-listing-file-modified-sort="1668541326559" data-listing-reading-time-sort="1.205">
+<div class="quarto-post image-right" data-index="7" data-categories="blurr,huggingface,fastai,multilingual,sequence classification" data-listing-date-sort="1621926000000" data-listing-file-modified-sort="1718674034918" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
 <div class="thumbnail">
-<p><a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html"> <img src="./posts/images/blurr-logo-small.png" class="thumnail-image"> </a></p>
+<p><a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external"></a></p><a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/blurr-logo-small.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html">
 <h3 class="no-anchor listing-title">
-Multilingual Sequence Classifaction with the MBart Family
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external">Multilingual Sequence Classifaction with the MBart Family</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('blurr'); return false;">
 blurr
@@ -676,14 +707,12 @@ multilingual
 sequence classification
 </div>
 </div>
-<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html">
 <div class="listing-description">
-<p>Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models. Working against the <code>amazon_reviews_multi</code> dataset I’ll show you how to use the <code>blurr</code> library to configure the huggingface objects, build DataLoaders, and train a model that you can use for classifying German text. I’ll throw in a bit of the inference code so that you can see how easy <code>blurr</code> makes it to use your trained model to boot. Let’s go …</p>
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external">Need to do some multi-lingual sequence classification? Look no further, at least if you want to use MBart and/or the MBart-50 variety of models. Working against the <code>amazon_reviews_multi</code> dataset I’ll show you how to use the <code>blurr</code> library to configure the huggingface objects, build DataLoaders, and train a model that you can use for classifying German text. I’ll throw in a bit of the inference code so that you can see how easy <code>blurr</code> makes it to use your trained model to boot. Let’s go …</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html">
+<a href="./posts/2021-05-25-mbart-sequence-classification-with-blurr.html" class="no-external">
 <div class="listing-date">
 May 25, 2021
 </div>
@@ -691,27 +720,27 @@ May 25, 2021
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-1 min
+2 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:42:06 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="fastai,fastbook" data-listing-date-sort="1621753200000" data-listing-file-modified-sort="1668541595227" data-listing-reading-time-sort="8.905">
+<div class="quarto-post image-right" data-index="8" data-categories="fastai,fastbook" data-listing-date-sort="1621753200000" data-listing-file-modified-sort="1718674034916" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1781">
 <div class="thumbnail">
-<p><a href="./posts/2021-05-23-ajtfb-chapter-4.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external"></a></p><a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2021-05-23-ajtfb-chapter-4.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 4: Stochastic Gradient Descent</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -720,14 +749,12 @@ fastai
 fastbook
 </div>
 </div>
-<a href="./posts/2021-05-23-ajtfb-chapter-4.html">
 <div class="listing-description">
-<p>The fourth in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external">The fourth in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2021-05-23-ajtfb-chapter-4.html">
+<a href="./posts/2021-05-23-ajtfb-chapter-4.html" class="no-external">
 <div class="listing-date">
 May 23, 2021
 </div>
@@ -735,27 +762,27 @@ May 23, 2021
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-8 min
+9 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:46:35 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="fastai,fastbook" data-listing-date-sort="1606032000000" data-listing-file-modified-sort="1668541777870" data-listing-reading-time-sort="8.325">
+<div class="quarto-post image-right" data-index="9" data-categories="fastai,fastbook" data-listing-date-sort="1606032000000" data-listing-file-modified-sort="1718674034916" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1665">
 <div class="thumbnail">
-<p><a href="./posts/2020-11-22-ajtfb-chapter-3.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external"></a></p><a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-11-22-ajtfb-chapter-3.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 3: Data Ethics
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 3: Data Ethics</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -764,14 +791,12 @@ fastai
 fastbook
 </div>
 </div>
-<a href="./posts/2020-11-22-ajtfb-chapter-3.html">
 <div class="listing-description">
-<p>The third in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external">The third in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-11-22-ajtfb-chapter-3.html">
+<a href="./posts/2020-11-22-ajtfb-chapter-3.html" class="no-external">
 <div class="listing-date">
 Nov 22, 2020
 </div>
@@ -779,27 +804,27 @@ Nov 22, 2020
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-8 min
+9 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:49:37 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="fastai,fastbook" data-listing-date-sort="1605513600000" data-listing-file-modified-sort="1668542321969" data-listing-reading-time-sort="15.15">
+<div class="quarto-post image-right" data-index="10" data-categories="fastai,fastbook" data-listing-date-sort="1605513600000" data-listing-file-modified-sort="1718674034915" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3030">
 <div class="thumbnail">
-<p><a href="./posts/2020-11-16-ajtfb-chapter-2.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external"></a></p><a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-11-16-ajtfb-chapter-2.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 2: Doing Deep Learning</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -808,14 +833,12 @@ fastai
 fastbook
 </div>
 </div>
-<a href="./posts/2020-11-16-ajtfb-chapter-2.html">
 <div class="listing-description">
-<p>The second in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external">The second in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-11-16-ajtfb-chapter-2.html">
+<a href="./posts/2020-11-16-ajtfb-chapter-2.html" class="no-external">
 <div class="listing-date">
 Nov 16, 2020
 </div>
@@ -823,27 +846,27 @@ Nov 16, 2020
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-15 min
+16 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 11:58:41 AM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="fastai,fastbook" data-listing-date-sort="1604649600000" data-listing-file-modified-sort="1668543304508" data-listing-reading-time-sort="24.665">
+<div class="quarto-post image-right" data-index="11" data-categories="fastai,fastbook" data-listing-date-sort="1604649600000" data-listing-file-modified-sort="1718674034915" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4933">
 <div class="thumbnail">
-<p><a href="./posts/2020-11-06-ajtfb-chapter-1.html"> <img src="./posts/images/fastbook.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external"></a></p><a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/fastbook.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-11-06-ajtfb-chapter-1.html">
 <h3 class="no-anchor listing-title">
-A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external">A Journey Through Fastbook (AJTFB) - Chapter 1: The Basics of Deep Learning</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -852,14 +875,12 @@ fastai
 fastbook
 </div>
 </div>
-<a href="./posts/2020-11-06-ajtfb-chapter-1.html">
 <div class="listing-description">
-<p>The first in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</p>
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external">The first in a weekly-ish series where I revisit the fast.ai book, <span>"Deep Learning for Coders with fastai &amp; PyTorch"</span>, and provide commentary on the bits that jumped out to me chapter by chapter. So without further adieu, let’s go!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-11-06-ajtfb-chapter-1.html">
+<a href="./posts/2020-11-06-ajtfb-chapter-1.html" class="no-external">
 <div class="listing-date">
 Nov 6, 2020
 </div>
@@ -867,27 +888,27 @@ Nov 6, 2020
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-24 min
+25 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 12:15:04 PM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="fastai,huggingface,blurr,summarization,text generation" data-listing-date-sort="1590217200000" data-listing-file-modified-sort="1668543474694" data-listing-reading-time-sort="3.355">
+<div class="quarto-post image-right" data-index="12" data-categories="fastai,huggingface,blurr,summarization,text generation" data-listing-date-sort="1590217200000" data-listing-file-modified-sort="1718674034913" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="671">
 <div class="thumbnail">
-<p><a href="./posts/2020-05-23-text-generation-with-blurr.html"> <img src="./posts/images/blurr-logo-small.png" class="thumnail-image"> </a></p>
+<p><a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external"></a></p><a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/blurr-logo-small.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-05-23-text-generation-with-blurr.html">
 <h3 class="no-anchor listing-title">
-Summarization with blurr
+<a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external">Summarization with blurr</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -905,14 +926,12 @@ summarization
 text generation
 </div>
 </div>
-<a href="./posts/2020-05-23-text-generation-with-blurr.html">
 <div class="listing-description">
-<p>blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new summarization capabilities to train, evaluate, and deploy a BART summarization model.</p>
+<a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external">blurr is a libray I started that integrates huggingface transformers with the world of fastai v2, giving fastai devs everything they need to train, evaluate, and deploy transformer specific models. In this article, I provide a simple example of how to use blurr’s new summarization capabilities to train, evaluate, and deploy a BART summarization model.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-05-23-text-generation-with-blurr.html">
+<a href="./posts/2020-05-23-text-generation-with-blurr.html" class="no-external">
 <div class="listing-date">
 May 23, 2020
 </div>
@@ -920,27 +939,27 @@ May 23, 2020
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-3 min
+4 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 12:17:54 PM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="fastai,datablock api,data,pytorch" data-listing-date-sort="1586588400000" data-listing-file-modified-sort="1668543782333" data-listing-reading-time-sort="24.18">
+<div class="quarto-post image-right" data-index="13" data-categories="fastai,datablock api,data,pytorch" data-listing-date-sort="1586588400000" data-listing-file-modified-sort="1718674034913" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4836">
 <div class="thumbnail">
-<p><a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html"> <img src="./posts/images/finding-datablock-nirvana-part-1-logo.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external"></a></p><a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/finding-datablock-nirvana-part-1-logo.jpg" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html">
 <h3 class="no-anchor listing-title">
-Finding DataBlock Nirvana with fast.ai v2 - Part 1
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external">Finding DataBlock Nirvana with fast.ai v2 - Part 1</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('fastai'); return false;">
 fastai
@@ -955,14 +974,12 @@ data
 pytorch
 </div>
 </div>
-<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html">
 <div class="listing-description">
-<p>The path to enlightment begins here!</p>
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external">The path to enlightment begins here!</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html">
+<a href="./posts/2020-04-11-finding-datablock-nirvana-part-1.html" class="no-external">
 <div class="listing-date">
 Apr 11, 2020
 </div>
@@ -970,33 +987,33 @@ Apr 11, 2020
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-24 min
+25 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 12:23:02 PM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-listing-date-sort="1585983600000" data-listing-file-modified-sort="1668543941719" data-listing-reading-time-sort="3.21">
+<div class="quarto-post image-right" data-index="14" data-listing-date-sort="1585983600000" data-listing-file-modified-sort="1718674034907" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="642">
 <div class="thumbnail">
-<p><a href="./posts/2020-04-04-understanding-cross-entropy-loss.html"> <img src="./posts/images/highlander-there-can-be-only-one.png" class="thumnail-image"> </a></p>
+<p><a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external"></a></p><a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external">
+<p><img loading="lazy" src="./posts/images/highlander-there-can-be-only-one.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html">
 <h3 class="no-anchor listing-title">
-Loss Functions: Cross Entropy Loss and You!
+<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external">Loss Functions: Cross Entropy Loss and You!</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Meet multi-classification’s favorite loss function</p>
+<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external">Meet multi-classification’s favorite loss function</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html">
+<a href="./posts/2020-04-04-understanding-cross-entropy-loss.html" class="no-external">
 <div class="listing-date">
 Apr 4, 2020
 </div>
@@ -1004,37 +1021,33 @@ Apr 4, 2020
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-3 min
+4 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 12:25:41 PM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-listing-date-sort="1546329600000" data-listing-file-modified-sort="1668544176824" data-listing-reading-time-sort="3.225">
+<div class="quarto-post image-right" data-index="15" data-listing-date-sort="1546329600000" data-listing-file-modified-sort="1718674034907" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="645">
 <div class="thumbnail">
-<a href="./posts/1999-01-01-understanding-fbeta.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/1999-01-01-understanding-fbeta.html"></a></p>
+<p><a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external"></a></p><a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/1999-01-01-understanding-fbeta.html">
 <h3 class="no-anchor listing-title">
-Understanding the F-Beta metric
+<a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external">Understanding the F-Beta metric</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>What is F-Beta, how should I use it, and what in the hell is ‘average’ and ‘sample_weight’</p>
+<a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external">What is F-Beta, how should I use it, and what in the hell is ‘average’ and ‘sample_weight’</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/1999-01-01-understanding-fbeta.html">
+<a href="./posts/1999-01-01-understanding-fbeta.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2019
 </div>
@@ -1042,10 +1055,10 @@ Jan 1, 2019
 Wayde Gilliam
 </div>
 <div class="listing-reading-time">
-3 min
+4 min
 </div>
 <div class="metadata-value listing-file-modified">
-11/15/22, 12:29:36 PM
+6/17/24, 6:27:14 PM
 </div>
 </a>
 </div>
@@ -1082,12 +1095,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
     }
-  });
-  clipboard.on('success', function(e) {
+    return false;
+  }
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1119,11 +1135,55 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1133,8 +1193,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1146,9 +1215,245 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1186,25 +1491,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp(/^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**/);
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 <script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
+
 
 
 
