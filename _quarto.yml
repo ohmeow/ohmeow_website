@@ -52,7 +52,7 @@ website:
       - icon: twitter
         href: https://twitter.com/waydegilliam
       - icon: github
-        href: https://github.com/ohmeow
+        href: https://github.com/ohmeow 
       - icon: rss
         href: index.xml
 
@@ -60,7 +60,7 @@ format:
   html:
     theme:
       - united
-      - custom.scss
+      - custom.scss?v=1.2
     grid:
       sidebar-width: 300px
       body-width: 1100px
