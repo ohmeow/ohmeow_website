@@ -146,9 +146,8 @@ Tip 4: Build something
 <p>The answer is you can’t without good evals, and good evals are something built up over time and a project in and of themselves. They aren’t static. Having a good system to build and continuously improve on them is one of the most important ways you can ensure you are delivering a quality AI solution.</p>
 <p>Also, don’t forget to include human experts where possible!</p>
 </section>
-</section>
-<section id="prove-you-need-to-finetune" class="level2">
-<h2 class="anchored" data-anchor-id="prove-you-need-to-finetune">Prove You Need to Finetune</h2>
+<section id="prove-you-need-to-finetune" class="level3">
+<h3 class="anchored" data-anchor-id="prove-you-need-to-finetune">Prove You Need to Finetune</h3>
 <blockquote class="blockquote">
 <p><img src="https://ohmeow.com/posts/images/blog-20240603/hamel-icon.png" alt="Hamel" style="border-radius:30px;width:auto;height:25px;"> Try not to finetune first … you need to prove to yoruefl that you should finetune [using] some minimal evaluation system and you hit a wall and can’t make progress by just prompting</p>
 </blockquote>
@@ -159,6 +158,7 @@ Tip 4: Build something
 <li>Domain specific things that models like GPT and Claude haven’t been trained on</li>
 </ol>
 <p>The narrower the domain/problem … the better.</p>
+</section>
 <section id="dont-try-and-build-a-general-purpose-chatbot" class="level3">
 <h3 class="anchored" data-anchor-id="dont-try-and-build-a-general-purpose-chatbot">Don’t Try and Build a General Purpose Chatbot</h3>
 <p>Being asked to build a chatbot is a smell because the surface area is very large and unscoped, making it difficult to make progress on. We simply do not have the time, money, data, and resources companies like OpenAI and Anthropic have to make a chatbot that can perform as well as theirs in general … and no one wants to use an AltaVista like chatbot when you got Google.</p>
