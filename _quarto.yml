@@ -60,8 +60,8 @@ format:
   html:
     theme:
       - united
-      - custom.scss?v=1.2 # when deploying uncomment this
-      # - custom.scss     # when testing local uncomment this
+      # - custom.scss?v=1.2 # when deploying uncomment this
+      - custom.scss     # when testing local uncomment this
     grid:
       sidebar-width: 300px
       body-width: 1100px
