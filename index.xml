@@ -170,7 +170,7 @@ Tip 4: Build something
 <p>Breakdown use cases into specific examples, log the traces, and use them in your finetunes.</p>
 <p><strong>What LLMs should I use in generating synthetic data?</strong></p>
 <blockquote class="blockquote">
-<p><img src="https://ohmeow.com/posts/images/blog-20240603/wayde-icon.png" alt="Wayde" style="border-radius:10px;width:auto;height:25px;"> I like mistral large … use the most powerful model you can”</p>
+<p><img src="https://ohmeow.com/posts/images/blog-20240603/hamel-icon.png" alt="Hamel" style="border-radius:30px;width:auto;height:25px;"> I like mistral large … use the most powerful model you can”</p>
 </blockquote>
 </section>
 <section id="evallogging-tools-i-like-so-far" class="level3">
