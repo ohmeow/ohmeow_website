@@ -207,8 +207,8 @@ Tip 4: Build something
 <p>Insturction models have been finetuned for conversation … something you want to chat with.</p>
 <p>Start with the basse model where possible … with the smallest model possible (e.g, the 7/8B parameter range)</p>
 </section>
-<section id="finetuning-exmaples-should-mimic-what-your-llm-will-see-in-production" class="level3">
-<h3 class="anchored" data-anchor-id="finetuning-exmaples-should-mimic-what-your-llm-will-see-in-production">Finetuning Exmaples Should Mimic what your LLM will see in production</h3>
+<section id="finetuning-examples-should-mimic-what-your-llm-will-see-in-production" class="level3">
+<h3 class="anchored" data-anchor-id="finetuning-examples-should-mimic-what-your-llm-will-see-in-production">Finetuning Examples Should Mimic what your LLM will see in production</h3>
 <p>If RAG is being used with your properitery LLMs, include it in your training examples for use in finetuning.</p>
 </section>
 <section id="for-structured-output-use-instructor-or-outlines" class="level3">
