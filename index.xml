@@ -547,6 +547,254 @@ font-style: inherit;">"</span>,</span>
 <li><p>I can use that same beautiful <code>Enum</code> across all parts of my application</p></li>
 </ol>
 </section>
+<section id="v2.0.1-using-enum-and-fuzzywuzzy" class="level2">
+<h2 class="anchored" data-anchor-id="v2.0.1-using-enum-and-fuzzywuzzy">v2.0.1: Using <code>Enum</code> and <code>fuzzywuzzy</code></h2>
+<p>A suggestion from a Twitter user inspired me to enhance our approach by implementing similarity-based matching rather than relying on exact matches. To make it so, I installed the <code>fuzzywuzzy</code> library and made the necessary modifications to increase the likelihood of delivering high-quality results.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> NamedEntityType(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, Enum):</span>
+<span id="cb4-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Valid types of named entities to extract."""</span></span>
+<span id="cb4-3"></span>
+<span id="cb4-4">    PERSON <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PERSON"</span></span>
+<span id="cb4-5">    NORP <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"NORP"</span></span>
+<span id="cb4-6">    FAC <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"FAC"</span></span>
+<span id="cb4-7">    ORG <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ORG"</span></span>
+<span id="cb4-8">    GPE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GPE"</span></span>
+<span id="cb4-9">    LOC <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"LOC"</span></span>
+<span id="cb4-10">    PRODUCT <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PRODUCT"</span></span>
+<span id="cb4-11">    EVENT <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"EVENT"</span></span>
+<span id="cb4-12">    WORK_OF_ART <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"WORK_OF_ART"</span></span>
+<span id="cb4-13">    LAW <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"LAW"</span></span>
+<span id="cb4-14">    LANGUAGE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"LANGUAGE"</span></span>
+<span id="cb4-15">    DATE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DATE"</span></span>
+<span id="cb4-16">    TIME <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TIME"</span></span>
+<span id="cb4-17">    PERCENT <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PERCENT"</span></span>
+<span id="cb4-18">    MONEY <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MONEY"</span></span>
+<span id="cb4-19">    QUANTITY <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"QUANTITY"</span></span>
+<span id="cb4-20">    ORDINAL <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ORDINAL"</span></span>
+<span id="cb4-21">    CARDINAL <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CARDINAL"</span></span>
+<span id="cb4-22">    OTHER <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"OTHER"</span></span>
+<span id="cb4-23"></span>
+<span id="cb4-24"></span>
+<span id="cb4-25"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> NamedEntity(BaseModel):</span>
+<span id="cb4-26">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""A named entity result."""</span></span>
+<span id="cb4-27"></span>
+<span id="cb4-28">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> convert_str_to_named_entity_type(v: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> NamedEntityType) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> NamedEntityType:</span>
+<span id="cb4-29">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Ensure entity type is a valid enum."""</span></span>
+<span id="cb4-30">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">isinstance</span>(v, NamedEntityType):</span>
+<span id="cb4-31">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> v</span>
+<span id="cb4-32">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="cb4-33">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb4-34">                match, score <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> fuzzy_process.extractOne(v.upper(), [e.value <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> e <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>(NamedEntityType)])</span>
+<span id="cb4-35">                <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> NamedEntityType(match) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> score <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">60</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> NamedEntityType.OTHER</span>
+<span id="cb4-36">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">ValueError</span>:</span>
+<span id="cb4-37">                <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> NamedEntityType.OTHER</span>
+<span id="cb4-38"></span>
+<span id="cb4-39">    entity_type: Annotated[<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, BeforeValidator(convert_str_to_named_entity_type)]</span>
+<span id="cb4-40">    entity_mention: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Field(..., description<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"The named entity recognized."</span>)</span>
+<span id="cb4-41"></span>
+<span id="cb4-42"></span>
+<span id="cb4-43"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> DocumentNERTask(BaseModel):</span>
+<span id="cb4-44">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Extracts the named entities found in the document.</span></span>
+<span id="cb4-45"></span>
+<span id="cb4-46"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    This tool should be used anytime the user asks for named entity recognition (NER)</span></span>
+<span id="cb4-47"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    or wants to identify named entities.</span></span>
+<span id="cb4-48"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb4-49"></span>
+<span id="cb4-50">    named_entities: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>[NamedEntity] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Field(</span>
+<span id="cb4-51">        ...,</span>
+<span id="cb4-52">        description<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Perform Named Entity Recognition that finds the following entities: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">', '</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>join([x.name <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> NamedEntityType])<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>,</span>
+<span id="cb4-53">    )</span></code></pre></div>
+<p>This improves those cases where, for example, the LLM wants to define the entity type as “ORGANIZATION” but it is defined in the <code>Enum</code> as “ORG”.</p>
+<p>Another option potentially worth exploring is to use the <code>llm_validator</code> function to make a call out to the LLM when exceptions happen and prompt it to coerce the value into something in the <code>Enum</code>. This could hike up your costs a bit but I imagine using a cheap model like GPT-3.5-Turbo could do the job just fine, and would likely you give an addtional robustness in quality results.</p>
+</section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>That’s it.</p>
