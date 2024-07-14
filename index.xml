@@ -17,7 +17,1317 @@
 <width>144</width>
 </image>
 <generator>quarto-1.5.45</generator>
-<lastBuildDate>Sat, 06 Jul 2024 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 14 Jul 2024 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>LLM Workshop #2 - From Noise to Knowledge: Mastering the Art of Objective Definition and Data Refinement”</title>
+  <dc:creator>Wayde Gilliam</dc:creator>
+  <link>https://ohmeow.com/posts/2024-07-14-llm-workshop-objectives-data-filtration.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="what-do-you-want-to-build-and-should-you-build-it" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-you-want-to-build-and-should-you-build-it">What Do You Want To Build and Should You Build It?</h2>
+<p>If you want to avoid a lot of needless back-and-forth as you go through the process of curating datasets for evaluation and/or fine tuning, building your eval pipeleines, training models, and so forth, stop and ask yourself, “What do I want to build and why?”. How you answer those questions will inform everything going forward!</p>
+<p>Why am I making a big deal about this?</p>
+<p>Simple, when I started … I didn’t do it.</p>
+<p>I had a general idea of building a tool calling system for work and just dove in, and as I would get into various aspects of development I’d be like, “Hold on, this isn’t right … why am I trying to do this when all I really need is this?” In the end, I had to start over a few times, and before the last time, I decided to go outside with the dogs and a good cup of coffee and <strong><em>really</em></strong> think about what I wanted to accomplish and why.</p>
+<p>Below is the result of that quiet time well spent.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip: Give your objectices a good think!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It’s crucial to deeply consider what you aim to achieve and understand the reasons behind it. Reflecting on your objectives and motivations helps ensure that your efforts are purposeful and aligned with your aspirations. It will also help prevent you from needlessly starting over, as well as, give you confidence that what you “think you want” is realistic, useful, and will add value.</p>
+<p>Things to ask yourself:</p>
+<ul>
+<li><p>What do you want the model to do for your end users?</p></li>
+<li><p>Can you define specifically what the model is supposed to do, or is it so general that you find it difficult to scope or measure quality?</p></li>
+<li><p>How diverse and varied does your data need to be to get the model to do what you want?</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="objective-definition" class="level2">
+<h2 class="anchored" data-anchor-id="objective-definition">Objective Definition</h2>
+<p>For this project I’ll be building a system where a user can ask an AI to perform various NLP tasks on one or more text documents. These documents represent survey comments sourced from several kinds of surveys delievered in higher education institutions (e.g., staff, faculty, student satisfaction and engagement surveys). There are core tasks that I need to perform like machine translation and sentiment analysis, but I’d also like to build a system whereby a user can provide it their own tools focused on NLP and the system figure out how to use them correctly.</p>
+<section id="version-1.0" class="level3">
+<h3 class="anchored" data-anchor-id="version-1.0">Version 1.0</h3>
+<p>Currently I have a pipeline, that for every task, makes a call to GPT-4 for every document. I did this because I couldn’t get good results by giving GPT several somewhat complex tools for it to use based on what the user asked. The tools would get called but the results weren’t great. Evaluation has been left to the eyeballs of myself and other human data scientists, which of course isn’t optimal either.</p>
+<p>Given that this current system is slow to process any substantial set of survey comments, relatively expensive given the number of calls to OpenAI I’m making, and doesn’t have a real evaluation-first workflow … I figured it was a good candidate for the course project. At the very least I could build an eval framework to really understand how well things were working and maybe fine tune a smaller model that could understand how to properly call all the tools to satisfy an end user’s ask in a single go.</p>
+</section>
+<section id="the-surface-area" class="level3">
+<h3 class="anchored" data-anchor-id="the-surface-area">The Surface Area</h3>
+<p>If your objectives are too general, for example a general purpose chatbot or even a general purpose tool calling machine, you are likely headed to some rough times. Considering my objective above, what can I infer about what I really want to build here?</p>
+<ol type="1">
+<li><p>The model should use <strong>NLP tools</strong> for specifically understanding <strong>survey comments from staff, students, and faculty in higher education</strong>. These comments are sourced from a number of surveys delievered to higher education audiences all over the country</p></li>
+<li><p><strong>Some clients allow for their surveys to be taken into Spanish</strong>, so the machine translation tool will need to be called initially for each of these comments so that the remaining tasks can be performed wholistically on English texts.</p></li>
+<li><p>Aside from machine translation, <strong>the core tools consist of functions for sentiment analysis, NER, summarization, and thematic analysis.</strong></p></li>
+<li><p><strong>Each task operations on either whole survey comments or on semantically chunked comments</strong> that need to be associated to a “topic” for thematic analysis.</p></li>
+<li><p>The <strong>tools should be focused on performing NLP tasks well, particular in the business domain of survey comments in higher educational settings.</strong></p></li>
+</ol>
+</section>
+<section id="retrospective" class="level3">
+<h3 class="anchored" data-anchor-id="retrospective">Retrospective</h3>
+<p>Considering the above, this system definitely needs a solid eval workflow but also presents a potential great argument for fine tuning.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Narrow domains are great for fine tuning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The more specific and specialized the task and/or data, the more likely you are to find success in fine tuning</p>
+</div>
+</div>
+<p>Both the domain and tasks are very specific to higher education and NLP analysis in that setting, I have access to a lot of diverse data, and there is definite business value in creating a model that might reduce costs, speed up processing, and perform at the same level as GPT-4.</p>
+<p>Given all this, I feel pretty good about proceeding.</p>
+</section>
+</section>
+<section id="data-refinement" class="level2">
+<h2 class="anchored" data-anchor-id="data-refinement">Data Refinement</h2>
+<p>Based on my objectives, I need to chiefly be able to support two uses cases:</p>
+<ol type="1">
+<li><p><strong>Tasks that need to be performed on a single document</strong> (e.g., translation, summary, NER, sentiment). Traditionally we have only done sentiment on chunks because it is the chunks that are associated to topics and we want to report sentiment by topic. This still needs to happen but it might also be interesting to predict sentiment across the full comment as well.</p></li>
+<li><p><strong>Tasks that need to be performed on a collection of related documents</strong> (.e.,g thematic analysis, topic sentiment).</p></li>
+</ol>
+<p>In this section we ask, “How can I curate a set of survey comments and semantically related chunks that are varied enough to support these two use cases across all our survey clients?”</p>
+<section id="build-some-datasets" class="level3">
+<h3 class="anchored" data-anchor-id="build-some-datasets">Build Some Datasets</h3>
+<p>I need a diverse set of documents from different survey clients, delivered to different audiences (staff, student, and faculty), and with a subset being in Spanish. I also need to clean up these documents so they are actually useful. If they are too short or represent useless statements like “N/A” or “I don’t know”, they probably won’t be very helpful.</p>
+<p>I don’t need to synthetically create any of the raw documents since I created the survey sytem and have access to the Microsoft SQL Server database it lies in.</p>
+<p>Thinking about the use cases I need to support, the following four datasets will be created:</p>
+<ol type="1">
+<li><p><code>_clean</code>: A cleaned up version of the raw document dataset</p></li>
+<li><p><code>_sample_Xk</code>: A sample of <code>X</code> rows from <code>cleaned</code> (mine will end up to be roughly 14k survey comments)</p></li>
+<li><p><code>_sample_Xk_chunked</code>: A properly chunked version of <code>_sample_Xk</code> that includes predicted topics as well.</p></li>
+<li><p><code>_sample_Xk_topics</code>: The chunks associated to each topic</p></li>
+</ol>
+<p>Document analysis tasks will use a mix of datasets #2 and #3 so they can learn to operate of both full and chunked comments. Related document analysis will use dataset #4 for thematic analysis and sentiment.</p>
+<p>I am prohibited from sharing the actual data, but I can share the code I wrote to create these datasets for this project.</p>
+<section id="step-1-cleanup" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-cleanup">Step 1: Cleanup</h4>
+<p>I have almost 500k comments that span decades of surveys. Before building a representative sample, I want to remove those comments that aren’t likely to be used or even of much use for NLP tasks. For example, comments that are too short or uninformative (e.g., like “N/A”, or “Great”) shouldn’t be part of eval/training datasets. Preprocessing in version 1.0 takes these comments out in current pipeline so we’ll do so here as well.</p>
+<p>After loading the full dataset and filtering on the columns I need to build up the datasets above, my DataFrame looks like this: <img src="https://ohmeow.com/posts/images/blog-20240714/raw-dataframe.png" class="img-fluid" alt="The raw data from the production DB"></p>
+<p>In particular, we’ll run the functions below to slim this dataset down and give us quality comments we can confidently use in building out our sampled datasets.</p>
+<section id="a.-remove-nans-and-trim-whitespaces" class="level5">
+<h5 class="anchored" data-anchor-id="a.-remove-nans-and-trim-whitespaces">A. Remove NaNs and Trim Whitespaces</h5>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> init_document_preprocessing(df: pd.DataFrame, text_col: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb1-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Remove empty documents and clean up whitespace."""</span></span>
+<span id="cb1-3">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.copy()</span>
+<span id="cb1-4"></span>
+<span id="cb1-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Remove all rows where `text_attr` is Nan</span></span>
+<span id="cb1-6">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.dropna(subset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>([attr <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> attr <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> [text_col] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> attr <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>])), how<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"all"</span>)</span>
+<span id="cb1-7"></span>
+<span id="cb1-8">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Remove all whitespace from `text_attr`, `language_attr`, `non_english_text_attr`</span></span>
+<span id="cb1-9">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> attr <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>([text_col, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerLang"</span>])):</span>
+<span id="cb1-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> attr <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb1-11">            df[attr] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[attr].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> v: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(v).strip())</span>
+<span id="cb1-12"></span>
+<span id="cb1-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> df</span>
+<span id="cb1-14"></span>
+<span id="cb1-15">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> init_document_preprocessing(raw_df, text_col<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>)</span></code></pre></div>
+</section>
+<section id="b.-remove-duplicate-documents" class="level5">
+<h5 class="anchored" data-anchor-id="b.-remove-duplicate-documents">B. Remove Duplicate Documents</h5>
+<p>Duplicate comments won’t be helpful and they definitely exist even within a single survey. For example, some users try to game the system by repeating the same comment thoughout the survey in hopes of making sure their points float to the top.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> remove_duplicate_documents(df: pd.DataFrame, text_col: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb2-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Eliminate duplicate documents."""</span></span>
+<span id="cb2-3">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.copy()</span>
+<span id="cb2-4">    unique_attrs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [text_col]</span>
+<span id="cb2-5"></span>
+<span id="cb2-6">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Remove duplicate rows (keeping the first instance)</span></span>
+<span id="cb2-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> df.drop_duplicates(subset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>unique_attrs).copy()</span>
+<span id="cb2-8"></span>
+<span id="cb2-9">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> remove_duplicate_documents(verbatims_df, text_col<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>)</span></code></pre></div>
+</section>
+<section id="c.-remove-duplicated-sentences" class="level5">
+<h5 class="anchored" data-anchor-id="c.-remove-duplicated-sentences">C. Remove Duplicated Sentences</h5>
+<p>The same folks above also like to try and game the system by repeating the same phrase over and over again. The below code does a decent job at eliminating a string of repetitive content.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> remove_duplicate_sentences(text: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb3-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Remove duplicated sentences throughout an entire text sequence."""</span></span>
+<span id="cb3-3">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> text <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb3-4">        text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span></span>
+<span id="cb3-5"></span>
+<span id="cb3-6">    text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.sub(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"(?&lt;=[.!?])\s*"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" "</span>, text)</span>
+<span id="cb3-7">    sentences <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nltk.sent_tokenize(text)</span>
+<span id="cb3-8">    unique_sentences <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>.fromkeys(sentences))</span>
+<span id="cb3-9"></span>
+<span id="cb3-10">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Tokenize the text into sentences and remove duplicates by converting to set and back to list</span></span>
+<span id="cb3-11">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" "</span>.join(unique_sentences)</span>
+<span id="cb3-12"></span>
+<span id="cb3-13"></span>
+<span id="cb3-14"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> remove_duplicate_sentences_in_documents(df: pd.DataFrame, text_col: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb3-15">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.copy()</span>
+<span id="cb3-16">    df[text_col] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[text_col].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> v: remove_duplicate_sentences(v))</span>
+<span id="cb3-17">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> df</span>
+<span id="cb3-18"></span>
+<span id="cb3-19">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> remove_duplicate_sentences_in_documents(verbatims_df, text_col<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>)</span></code></pre></div>
+</section>
+<section id="d.-remove-meaningless-and-short-documents" class="level5">
+<h5 class="anchored" data-anchor-id="d.-remove-meaningless-and-short-documents">D. Remove Meaningless and Short Documents</h5>
+<p>Comments that are too short or uninformative aren’t helpful to any NLP tasks. The code below removes much of this based on my examination of the data and running classification models that predicts whether a comment <code>is_nonsense</code>.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">remove_texts <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb4-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>,</span>
+<span id="cb4-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nothing"</span>,</span>
+<span id="cb4-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"not sure"</span>,</span>
+<span id="cb4-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"no suggestions"</span>,</span>
+<span id="cb4-6">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"no comment"</span>,</span>
+<span id="cb4-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"no comments"</span>,</span>
+<span id="cb4-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nothing to add"</span>,</span>
+<span id="cb4-9">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n/a"</span>,</span>
+<span id="cb4-10">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none at this time"</span>,</span>
+<span id="cb4-11">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"no comments at all"</span>,</span>
+<span id="cb4-12">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"see previous comment"</span>,</span>
+<span id="cb4-13">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"not really"</span>,</span>
+<span id="cb4-14">]</span>
+<span id="cb4-15"></span>
+<span id="cb4-16"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> is_bad_value(s, remove_texts<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[]):</span>
+<span id="cb4-17">    is_bad <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span></span>
+<span id="cb4-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> rt <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> remove_texts:</span>
+<span id="cb4-19">        is_bad <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">bool</span>(re.match(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">rf"^</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>rt<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>lower()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>strip()<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">[!.,;:?]*$"</span>, <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(s).lower().strip()))</span>
+<span id="cb4-20">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> is_bad:</span>
+<span id="cb4-21">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">break</span></span>
+<span id="cb4-22"></span>
+<span id="cb4-23">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> is_bad</span>
+<span id="cb4-24"></span>
+<span id="cb4-25"></span>
+<span id="cb4-26"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> remove_meaningless_documents(df, text_col: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb4-27">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.copy()</span>
+<span id="cb4-28">    df[text_col] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[text_col].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> v: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(v) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> v <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">and</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> is_bad_value(v, remove_texts) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>)</span>
+<span id="cb4-29">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> df</span>
+<span id="cb4-30"></span>
+<span id="cb4-31"></span>
+<span id="cb4-32"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> remove_short_documents(df: pd.DataFrame, text_col: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, min_text_length: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>):</span>
+<span id="cb4-33">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.copy()</span>
+<span id="cb4-34">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[pd.notna(df[text_col]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;</span> (df[text_col].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> min_text_length)]</span>
+<span id="cb4-35">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> df</span>
+<span id="cb4-36"></span>
+<span id="cb4-37">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> remove_meaningless_documents(verbatims_df, text_col<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>)</span>
+<span id="cb4-38">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> remove_short_documents(verbatims_df, text_col<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>)</span></code></pre></div>
+<p>That’s it for dataset #1, let’s save it</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">df.to_parquet(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>DATA_DIR<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/clean/documents_all.parquet"</span>)</span></code></pre></div>
+</section>
+</section>
+<section id="step-2-sample" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-sample">Step 2: Sample</h4>
+<p>There are a lot of documents so we’ll create a subset of &lt; 15k with enough variation for meaningful scoring functions and finetunes</p>
+<section id="a.-build-a-representative-subset" class="level5">
+<h5 class="anchored" data-anchor-id="a.-build-a-representative-subset">A. Build a Representative Subset</h5>
+<p>There are two core types of surveys, satisfaction and engagement. There are many more instances of the satisfaction surveys so we’ll want to have more of those in our sampled dataset to mimic reality.</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">filtered_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[(df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BenchmarkSurveyType"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.startswith(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CSS-"</span>))]</span>
+<span id="cb6-2"></span>
+<span id="cb6-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Calculate the number of samples for each BenchmarkSurveyType</span></span>
+<span id="cb6-4">sample_sizes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> filtered_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BenchmarkSurveyType"</span>].value_counts(normalize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10000</span></span>
+<span id="cb6-5">sample_sizes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sample_sizes.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">round</span>().astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>)</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Sample records proportionally with a bias towards longer comments</span></span>
+<span id="cb6-8">sampled_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.DataFrame()</span>
+<span id="cb6-9"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> survey_type, size <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> sample_sizes.items():</span>
+<span id="cb6-10">    subset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> filtered_df[filtered_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BenchmarkSurveyType"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> survey_type]</span>
+<span id="cb6-11">    weights <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> subset[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerTextCharacterCount"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> subset[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerTextCharacterCount"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>()</span>
+<span id="cb6-12">    sampled_records <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> subset.sample(n<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>size, weights<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>weights, random_state<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">42</span>)</span>
+<span id="cb6-13">    sampled_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([sampled_df, sampled_records])</span>
+<span id="cb6-14"></span>
+<span id="cb6-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reset index if needed</span></span>
+<span id="cb6-16">sampled_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sampled_df.reset_index(drop<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb6-17"></span>
+<span id="cb6-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This gets us down to 10k examples of customer satisfaction like surveys.</span></span>
+<span id="cb6-19"></span>
+<span id="cb6-20">sampled_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([sampled_df, df[(df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BenchmarkSurveyType"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.startswith(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SAW"</span>))]])</span>
+<span id="cb6-21"></span>
+<span id="cb6-22"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Adding in these staff engagement surveys get us to a total of almost 14k examples</span></span></code></pre></div>
+</section>
+<section id="b.-add-in-some-spanish-documents" class="level5">
+<h5 class="anchored" data-anchor-id="b.-add-in-some-spanish-documents">B. Add in some Spanish Documents</h5>
+<p>I lied when I said there was no syntetically generated data because we’re going to use an LLM to generate some Spanish content from our English survey comments. We’ll use one of my favorite libraries, <a href="https://www.langchain.com/" target="_blank">LangChain</a>, to generate 250 Spanish examples.</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> SpanishTranslation(BaseModel):</span>
+<span id="cb7-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""The translation of a document from English to Spanish."""</span></span>
+<span id="cb7-3"></span>
+<span id="cb7-4">    spanish_translation: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Field(..., description<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"The English tranlsation"</span>)</span>
+<span id="cb7-5"></span>
+<span id="cb7-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> get_openai_translation_messages(domain: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"survey comments"</span>):</span>
+<span id="cb7-7">    system_msg <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"You are a world class translator. Translate the English </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>domain<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> below to Spanish. Properly escape strings."</span></span>
+<span id="cb7-8">    human_msg <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{input}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb7-9"></span>
+<span id="cb7-10">    prompt_msgs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [SystemMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>system_msg), HumanMessagePromptTemplate.from_template(human_msg)]</span>
+<span id="cb7-11">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> prompt_msgs</span>
+<span id="cb7-12"></span>
+<span id="cb7-13">llm <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ChatOpenAI(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gpt-4"</span>)</span>
+<span id="cb7-14">messages <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> get_openai_translation_messages()</span>
+<span id="cb7-15"></span>
+<span id="cb7-16">prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ChatPromptTemplate(messages<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>messages)</span>
+<span id="cb7-17">functions <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [convert_to_openai_function(SpanishTranslation)]</span>
+<span id="cb7-18"></span>
+<span id="cb7-19">chain <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> llm.bind(function_call<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"name"</span>: SpanishTranslation.<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__name__</span>}, functions<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>functions) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> JsonOutputFunctionsParser()</span>
+<span id="cb7-20"></span>
+<span id="cb7-21">spanish_sample_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sampled_df.sample(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">250</span>, random_state<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>)</span>
+<span id="cb7-22"></span>
+<span id="cb7-23">spanish_translations <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb7-24"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> r_idx, r <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> spanish_sample_df.iterrows():</span>
+<span id="cb7-25">    rsp <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chain.invoke({<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"input"</span>: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(r[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>])})</span>
+<span id="cb7-26">    spanish_translations.append(rsp[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"spanish_translation"</span>])</span>
+<span id="cb7-27"></span>
+<span id="cb7-28">sampled_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText_NonEnglish"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span></span>
+<span id="cb7-29">sampled_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerLang"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"English"</span></span>
+<span id="cb7-30"></span>
+<span id="cb7-31">spanish_sample_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText_NonEnglish"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> spanish_translations</span>
+<span id="cb7-32">spanish_sample_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerLang"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Spanish"</span></span>
+<span id="cb7-33"></span>
+<span id="cb7-34"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Set 'MLVerbatId' as the index for both DataFrames</span></span>
+<span id="cb7-35">sampled_df.set_index(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MLVerbatimId"</span>, inplace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb7-36">spanish_sample_df.set_index(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MLVerbatimId"</span>, inplace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb7-37"></span>
+<span id="cb7-38"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Update df1 with values from df2</span></span>
+<span id="cb7-39">sampled_df.update(spanish_sample_df)</span>
+<span id="cb7-40"></span>
+<span id="cb7-41"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reset index if needed</span></span>
+<span id="cb7-42">sampled_df.reset_index(inplace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span></code></pre></div>
+<p>That’s it for dataset #2, let’s save it</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">df.to_parquet(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>DATA_DIR<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/clean/documents_sample_14k.parquet"</span>)</span></code></pre></div>
+</section>
+</section>
+<section id="step-3-chunk" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-chunk">Step 3: Chunk</h4>
+<p>The core thematic analysis task we need to support operates on semantically related survey comment “chunks”. In addition to predicting themes for these collections, we also need to report the sentiment for each chunk so that we can visualize sentiment as it relates to each topic.</p>
+<p>We’ll use the <a href="https://github.com/aurelio-labs/semantic-chunkers" target="\_blank">semantic-chunkers</a> library to build semantically related chunks which is something the current pipeline doesn’t use yet, but makes a lot of sense to me after exploring chunking in depth over the past few months or so. I really like this library and it comes with some nifty visualization capabilities for tuning its hyperparameters.</p>
+<p>Chunking can be somewhat complex and use case specific, but for the puposes of survey comments we are usually working with paragraphs and sentences sometimes containing bullet points to further deliniate different topics. Given this, I’ve asked chatGPT about general token usage for English paragraphs and sentences to set a few of these hyperparameters and do some basic preliminary chunking before using the <code>semantic-chunkers</code> library.</p>
+<p>According to chatGPT, the average number of characters in an English sentence and paragraph can vary based on factors such as writing style, purpose, and medium. However, general estimates are as follows:</p>
+<ol type="1">
+<li><p><strong>Average Characters in an English Sentence:</strong></p>
+<ul>
+<li>An average English sentence typically contains around 15 to 20 words.</li>
+<li>Assuming an average word length of 5 characters (including spaces and punctuation), an average sentence would be approximately 75 to 100 characters.</li>
+</ul></li>
+<li><p><strong>Average Characters in an English Paragraph:</strong></p>
+<ul>
+<li>An average English paragraph usually contains about 3 to 5 sentences.</li>
+<li>Using the upper bound of 5 sentences and assuming each sentence is 100 characters, an average paragraph would be around 300 to 500 characters.</li>
+</ul></li>
+</ol>
+<p>These averages can fluctuate based on the type of text (e.g., academic writing, casual writing, technical documentation) and individual writing styles but it seems reasonable to assume on average:</p>
+<ul>
+<li>A min sentence has 15 * 1.5 = 23 tokens</li>
+<li>A max paragrpah as 20 _ 5 _ 1.5 = 150 tokens</li>
+</ul>
+<p>If you’re interested in learning about the <code>semantic-chunkers</code>, check out these resources:</p>
+<p><a href="https://github.com/aurelio-labs/semantic-chunkers/blob/main/docs/00-chunkers-intro.ipynb" target="\_blank">Semantic Chunkers Into (Colab)</a></p>
+<p><a href="https://www.youtube.com/watch?v=TcRRfcbsApw" target="\_blank">Semantic Chunking for RAG (James Briggs)</a></p>
+<section id="a.-preliminary-chunking" class="level5">
+<h5 class="anchored" data-anchor-id="a.-preliminary-chunking">A. Preliminary Chunking</h5>
+<p>We start with the assumption that paragraphs likely represent distinct topics a user is trying to get at in any given survey comment. If there are bullet points, regardless of format, we also assume that each of these likely represent a distinct idea or “chunk.” Given this, we will do some initial chunking based on those assumptions.</p>
+<p>Also, I have and continue to look at a lot of this data, so they aren’t really assumptions as much as they simply reflect what I see.</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> chunk_paragraphs(text):</span>
+<span id="cb9-2">    paragraphs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.split(</span>
+<span id="cb9-3">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">|</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\r\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">|</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">n</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">n|</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">n|"</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"\\n\s*[-•*o]|\\n\s*\d+[.)]"</span>, text</span>
+<span id="cb9-4">    )  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># text.split("\n\n")  # Split text by double line breaks to identify paragraphs</span></span>
+<span id="cb9-5"></span>
+<span id="cb9-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [chunk.strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> chunk <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> paragraphs <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(chunk.strip()) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>]</span>
+<span id="cb9-7"></span>
+<span id="cb9-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> chunk_texts(df: pd.DataFrame):</span>
+<span id="cb9-9">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Chunk the paragraphs keeping any bullet points alongside their context."""</span></span>
+<span id="cb9-10">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.copy()</span>
+<span id="cb9-11"></span>
+<span id="cb9-12">    df.insert(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>, df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AnswerText"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> v: chunk_paragraphs(v)))</span>
+<span id="cb9-13"></span>
+<span id="cb9-14">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.explode(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>).reset_index(drop<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb9-15">    df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.strip()</span>
+<span id="cb9-16">    df.insert(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq_id"</span>, df.groupby([<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MLVerbatimId"</span>]).cumcount())</span>
+<span id="cb9-17">    df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq_length"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>()</span>
+<span id="cb9-18"></span>
+<span id="cb9-19">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> df</span>
+<span id="cb9-20"></span>
+<span id="cb9-21"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> remove_bullet_points(text):</span>
+<span id="cb9-22">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> re.sub(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"(^|\n)\s*[-•*o]\s*|\n\s*\d+[.)]\s*"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" "</span>, text).strip()</span>
+<span id="cb9-23"></span>
+<span id="cb9-24">chunked_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunk_texts(sampled_df)</span>
+<span id="cb9-25">chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(remove_bullet_points)</span></code></pre></div>
+</section>
+<section id="b.-semantic-chunking" class="level5">
+<h5 class="anchored" data-anchor-id="b.-semantic-chunking">B. Semantic Chunking</h5>
+<p>From the <code>semantic-chunkers</code> intro notebook mentioned above:</p>
+<blockquote class="blockquote">
+<p>The statistical chunking method our most robust chunking method, it uses a varying similarity threshold to identify more dynamic and local similarity splits. It offers a good balance between accuracy and efficiency but can only be used for text documents (unlike the multi-modal ConsecutiveChunker).</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>The StatisticalChunker can automatically identify a good threshold value to use while chunking our text, so it tends to require less customization than our other chunkers.</p>
+</blockquote>
+<p>I did some review of specific examples and played with the hyperparameters to get what looked like decent results. Here is what I came up with ultimately for perform the final chunking of the dataset.</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">encoder <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> HuggingFaceEncoder(name<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"thenlper/gte-large"</span>)</span>
+<span id="cb10-2"></span>
+<span id="cb10-3">chunker <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> StatisticalChunker(</span>
+<span id="cb10-4">    encoder<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>encoder,</span>
+<span id="cb10-5">    threshold_adjustment<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>,</span>
+<span id="cb10-6">    dynamic_threshold<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb10-7">    window_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>,  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 5,</span></span>
+<span id="cb10-8">    min_split_tokens<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">23</span>,  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 100,</span></span>
+<span id="cb10-9">    max_split_tokens<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">300</span>,  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 500</span></span>
+<span id="cb10-10">    split_tokens_tolerance<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,</span>
+<span id="cb10-11">    plot_chunks<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb10-12">    enable_statistics<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb10-13">)</span>
+<span id="cb10-14"></span>
+<span id="cb10-15"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> get_semantic_chunks(txt: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, min_chars_to_chunk: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>):</span>
+<span id="cb10-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb10-17">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(txt.strip()) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> min_chars_to_chunk:</span>
+<span id="cb10-18">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [txt.strip()]</span>
+<span id="cb10-19">        chunks <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunker(docs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[txt])</span>
+<span id="cb10-20">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [chunk.content.strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> chunk <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> chunks[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]]</span>
+<span id="cb10-21">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Exception</span> <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> e:</span>
+<span id="cb10-22">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [txt.strip()]</span>
+<span id="cb10-23"></span>
+<span id="cb10-24"></span>
+<span id="cb10-25">seqs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq"</span>].values.tolist()</span>
+<span id="cb10-26">chunked_docs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb10-27"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> seq <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> tqdm(seqs):</span>
+<span id="cb10-28">    chunked_docs.append(get_semantic_chunks(seq))</span>
+<span id="cb10-29"></span>
+<span id="cb10-30">chunked_df.insert(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>, chunked_docs)</span>
+<span id="cb10-31">chunked_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunked_df.explode(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>).reset_index(drop<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb10-32">chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.strip()</span>
+<span id="cb10-33">chunked_df.insert(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk_id"</span>, chunked_df.groupby([<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MLVerbatimId"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_seq_id"</span>]).cumcount())</span>
+<span id="cb10-34">chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk_length"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunked_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>].<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>()</span></code></pre></div>
+</section>
+<section id="c.-use-berttopic-associate-each-chunk-to-a-topic" class="level5">
+<h5 class="anchored" data-anchor-id="c.-use-berttopic-associate-each-chunk-to-a-topic">C. Use <code>BertTopic</code> Associate Each Chunk To A Topic</h5>
+<p>I’m not going to go into the specifics of this step since I don’t get detract from the focuse of this article anymore than I likely already have. Suffice to say, I use <a href="https://maartengr.github.io/BERTopic/index.html" target="\_blank">BERTopic</a> to create and assign topics to each “chunk”. This is another great and feature rich library that I’ve been using for a few years.</p>
+<p>The artifact produced at the conclusion of this step is a DataFrame with topic identiferis associated to each <code>_chunk</code>. It looks like this: <img src="https://ohmeow.com/posts/images/blog-20240714/raw-chunked-df.png" class="img-fluid" alt="The chunked dataset with topic identifiers"></p>
+<p>That’s it for dataset #3, let’s save it</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">chunked_df.to_parquet(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>DATA_DIR<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/clean/documents_sample_14k_chunked.parquet"</span>)</span></code></pre></div>
+</section>
+</section>
+<section id="step-4-topic-summaries" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-topic-summaries">Step 4: Topic Summaries</h4>
+<p>We need to evaluate the ability for the model to summarize and define action plans for related “chunks” as identified by a topic model. We’ll use the chunked dataset create above to put something together we can use to predict/evaluate the themes and action plans we assign to topics.</p>
+<p>Fortunately for you, the reader, there isn’t alot of code to make this happen :)</p>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">topics_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunked_df.copy()</span>
+<span id="cb12-2"></span>
+<span id="cb12-3">cols <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pred_theme_id"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pred_orig_theme_name"</span>]</span>
+<span id="cb12-4"></span>
+<span id="cb12-5">topics_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pred_theme_id"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> topics_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pred_theme_id"</span>].astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>)</span>
+<span id="cb12-6">topics_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> topics_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>].astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb12-7"></span>
+<span id="cb12-8">summaries_df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> topics_df.groupby(by<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>cols)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_chunk"</span>].agg(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>).reset_index()</span></code></pre></div>
+<p>That’s it for dataset #4, let’s save it</p>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">summaries_df.to_parquet(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>DATA_DIR<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/clean/documents_sample_14k_topics.parquet"</span>)</span></code></pre></div>
+</section>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>With some high quality context, we’ll move on to getting a “vibe check” for how likely what we want to build is possible by seeing what kinds of structured outputs we get when using the big dogs. In particular we’ll be running some tests with OpenAI, Anthropic, Fireworks, and Replicate to develop a good intutition of how well to expect things might work with both closed and open source models.</p>
+<p>Again, I’m using <a href="https://github.com/parlance-labs/ftcourse" target="\_blank">Hamel’s ftcourse repo</a> as a general guide for building this project out so make sure to check it out as y’all start your own journeys. The topic in this blog post isn’t necessarily covered in any of his notebooks so consider this the <code>00</code> notebook that is more or less implied in the course.</p>
+<p>Also, I welcome any ideas on improving anything and everything presented above. Especially if you notice any really egregious and glaring errors in my thinking or workflow, I’d defintely appreciate your thoughts. Either way, thanks for reading to the end :)</p>
+
+
+</section>
+
+ ]]></description>
+  <category>NLP</category>
+  <category>LLMS</category>
+  <category>data cleaning</category>
+  <category>learning</category>
+  <category>projects</category>
+  <guid>https://ohmeow.com/posts/2024-07-14-llm-workshop-objectives-data-filtration.html</guid>
+  <pubDate>Sun, 14 Jul 2024 07:00:00 GMT</pubDate>
+  <media:content url="https://ohmeow.com/posts/images/blog-20240714/blog-20240714-logo.png" medium="image" type="image/png" height="82" width="144"/>
+</item>
 <item>
   <title>Structuring Enums for Flawless LLM results with Instructor</title>
   <dc:creator>Wayde Gilliam</dc:creator>
