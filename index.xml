@@ -16,8 +16,161 @@
 <height>46</height>
 <width>144</width>
 </image>
-<generator>quarto-1.5.45</generator>
-<lastBuildDate>Thu, 25 Jul 2024 07:00:00 GMT</lastBuildDate>
+<generator>quarto-1.6.39</generator>
+<lastBuildDate>Fri, 13 Dec 2024 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Gemini (Part I) - Why You Should Consider Gemini</title>
+  <dc:creator>Wayde Gilliam</dc:creator>
+  <link>https://ohmeow.com/posts/2024-12-13-gemini-part-1.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="gemini-in-a-nutshell" class="level2">
+<h2 class="anchored" data-anchor-id="gemini-in-a-nutshell">Gemini in a Nutshell</h2>
+<p><img src="https://ohmeow.com/posts/images/blog-20241213/gemini-figure.png" alt="Gemini" style="float:right;border-radius: 15px;width:150px;"></p>
+<p>Gemini is a collection of smaller LLMs designed to deliver faster performance and lower costs while offering capabilities comparable to larger models. The recently released Gemini 2.0 enhances its predecessor with better performance, new real-time features, and a competitive price point that currently outpaces the competition.</p>
+<p>Gemini is a collection of smaller LLMs designed to deliver faster performance and lower costs while offering capabilities comparable to larger models. The recently released Gemini 2.0 builds on this foundation with enhanced performance, innovative real-time features, and a competitive price point that sets it apart from the competition.</p>
+<p>In this series, we’ll explore the exciting possibilities with Gemini, including the new real-time features introduced in 2.0. To start, we’ll review the range of Gemini models, their unique capabilities, and how to choose the right one for your needs. From there, we’ll dive into how these models stack up against the competition in terms of both results and cost.</p>
+<p>The core hypothesis driving this series is that the future lies in agentic systems composed of smaller and more cost efficient models. I believe organizations will achieve greater value by orchestrating smaller, task-specific models to meet their goals, rather than relying solely on large, expensive LLM to address every use case.</p>
+</section>
+<section id="the-gemini-family" class="level2">
+<h2 class="anchored" data-anchor-id="the-gemini-family">The Gemini Family</h2>
+<p><span style="padding-top:5px;width:100%"> <a href="images/blog-20241213/gemini-model-collection.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="The Gemini Family"><img src="https://ohmeow.com/posts/images/blog-20241213/gemini-model-collection.png" class="img-fluid" style="width:100.0%" alt="The Gemini Family"></a> <em>Figure 1: The Gemini Famly (<a href="https://ai.google.dev/gemini-api/docs/models/gemini#model-variations" target="_blank">google</a>)</em></span></p>
+<p></p>
+</section>
+<section id="performance" class="level2">
+<h2 class="anchored" data-anchor-id="performance">Performance</h2>
+<p><strong>Internal Benchmarks</strong></p>
+<p>To better understand how the latest Gemini 2.0 Flash Experimental model stacks up against its predecessors, let’s examine the reported benchmark results.</p>
+<p>The following table highlights the performance improvements compared to the Gemini 1.5 generation models.</p>
+<p><span style="padding-top:5px"> <a href="images/blog-20241213/gemini-benchmarks.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Overall performance comparison across models"><img src="https://ohmeow.com/posts/images/blog-20241213/gemini-benchmarks.jpeg" class="img-fluid" alt="Overall performance comparison across models"></a> <em>Figure 2: Reported benchmarks (<a href="https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/#gemini-2-0-flash" target="_blank">google</a>)</em></span></p>
+<p></p>
+<p>The 1.5 models have worked really well for me across a number of projects and it looks like the 2.0 generation represents a substantial move in the right direction across the board! According to Google’s <a href="https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/" target="\_blank"> announcement post</a> …</p>
+<blockquote class="blockquote">
+<p>“Gemini 2.0 Flash builds on the success of 1.5 Flash, our most popular model yet for developers, with enhanced performance at similarly fast response times. Notably, 2.0 Flash even outperforms 1.5 Pro on key benchmarks, at twice the speed”</p>
+</blockquote>
+<p><strong>How Does It Compare to the Competition?</strong></p>
+<p>Evaluating performance across large language models (LLMs) can be challenging due to the abundance of available benchmarks, not all of which provide consistent or reliable insights. Among these options, one resource that I’ve found consistently aligns with my own experiences is <a href="https://lmarena.ai/" target="\_blank">lmarena.ai (formerly LMSYS)</a>, which I will reference for this comparison.</p>
+<p><span style="padding-top:5px"> <a href="images/blog-20241213/lmarena-overall.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Overall performance comparison across models"><img src="https://ohmeow.com/posts/images/blog-20241213/lmarena-overall.png" class="img-fluid" data-margin="20px" alt="Overall performance comparison across models"></a> <em>Figure 2: Overall performance comparison across leading LLM models (courtesy of <a href="https://lmarena.ai/" target="_blank">lmarena.ai</a>)</em> </span></p>
+<p><span style="padding-top:5px"> <a href="images/blog-20241213/lmarena-details.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Detailed performance metrics by category"><img src="https://ohmeow.com/posts/images/blog-20241213/lmarena-details.png" class="img-fluid" alt="Detailed performance metrics by category"></a> <em>Figure 3: Detailed breakdown of performance metrics across different categories (courtesy of <a href="https://lmarena.ai/" target="_blank">lmarena.ai</a>)</em> </span></p>
+<p>That’s alot of Geminis up there at the top!</p>
+</section>
+<section id="cost" class="level2">
+<h2 class="anchored" data-anchor-id="cost">Cost</h2>
+<p>As AI becomes an increasingly integral part of application infrastructure, the cost of using these models is becoming a critical consideration. Understanding how costs vary across providers like OpenAI, Anthropic, and others is essential for making informed decisions. So, how do the costs of using these models generally compare, and where does Gemini stand in this landscape?</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 25%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Provider</th>
+<th>Model</th>
+<th>Max Tokens</th>
+<th>Input Cost (per 1M)</th>
+<th>Output Cost (per 1M)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenAI</td>
+<td>GPT-4o</td>
+<td>128,000</td>
+<td>$2.50</td>
+<td>$10.00</td>
+</tr>
+<tr class="even">
+<td>OpenAI</td>
+<td>GPT-4o mini</td>
+<td>128,000</td>
+<td>$0.15</td>
+<td>$0.60</td>
+</tr>
+<tr class="odd">
+<td>OpenAI</td>
+<td>GPT-4 Turbo</td>
+<td>128,000</td>
+<td>$10.00</td>
+<td>$30.00</td>
+</tr>
+<tr class="even">
+<td>OpenAI</td>
+<td>GPT-3.5 Turbo</td>
+<td>16,384</td>
+<td>$0.50</td>
+<td>$1.50</td>
+</tr>
+<tr class="odd">
+<td>Anthropic</td>
+<td>Claude 3.5 Sonnet</td>
+<td>200,000</td>
+<td>$3.00</td>
+<td>$15.00</td>
+</tr>
+<tr class="even">
+<td>Anthropic</td>
+<td>Claude 3.5 Haiku</td>
+<td>200,000</td>
+<td>$0.25</td>
+<td>$1.25</td>
+</tr>
+<tr class="odd">
+<td>Google</td>
+<td>Gemini 1.5 Pro</td>
+<td>1,048,576</td>
+<td>$1.25</td>
+<td>$5.00</td>
+</tr>
+<tr class="even">
+<td>Google</td>
+<td>Gemini 1.5 Flash</td>
+<td>1,048,576</td>
+<td>$0.075</td>
+<td>$0.30</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Input tokens refer to the tokens in the prompt sent to the model, while output tokens are those generated by the model in response.</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The cost of using Gemini is often a fraction of the cost of other models. In fact, for “experimental” models, you aren’t billed at all</p>
+<blockquote class="blockquote">
+<p>You aren’t billed for the usage of experimental Google models.<br>
+<a href="https://cloud.google.com/vertex-ai/generative-ai/docs/gemini-v2" target="\_blank">Generative AI on Vertex AI pricing for experimental models</a></p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>If the future is indeed agentic, as I hypothesize, and cost-efficient, high-performing, task-specific models play a central role in that vision, then Gemini emerges as a compelling choice. Based on the comparison of performance between Gemini models and those of other major API providers, combined with its cost-effectiveness, Gemini is undoubtedly worth considering as part of your AI strategy moving forward.</p>
+<p>In the next blog in this series, we’ll explore the basics of using Gemini and dive into some of its standout features that set it apart from the competition using the new and improved unified SDK in 2.0. This unified SDK is one of the more exicting bits to developers like myself that have had to bounce back-and-forth between using the Gemini API and Vertex API to talk with Gemini. With 2.0, we finally have one SDK to rule them all (even if it still means we need to understand how the two different API options vary and when to use one over the other … something we’ll talk about in the next post as well).</p>
+
+
+</section>
+
+ ]]></description>
+  <category>LLMS</category>
+  <category>Gemini</category>
+  <category>Google</category>
+  <guid>https://ohmeow.com/posts/2024-12-13-gemini-part-1.html</guid>
+  <pubDate>Fri, 13 Dec 2024 08:00:00 GMT</pubDate>
+  <media:content url="https://ohmeow.com/posts/images/blog-20241213/blog-20241213-header.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
 <item>
   <title>LLM Workshop #4 - L1 Evals and Dataset Curation (Part I)</title>
   <dc:creator>Wayde Gilliam</dc:creator>
@@ -23959,404 +24112,6 @@ font-style: inherit;">=</span>aug_transforms())</span>
   <guid>https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1.html</guid>
   <pubDate>Sat, 11 Apr 2020 07:00:00 GMT</pubDate>
   <media:content url="https://ohmeow.com/posts/images/finding-datablock-nirvana-part-1-logo.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-  <title>Loss Functions: Cross Entropy Loss and You!</title>
-  <dc:creator>Wayde Gilliam</dc:creator>
-  <link>https://ohmeow.com/posts/2020-04-04-understanding-cross-entropy-loss.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<div id="cell-1" class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># only run this cell if you are in collab</span></span>
-<span id="cb1-2"><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">!</span>pip install fastai</span></code></pre></div>
-</div>
-<div id="cell-2" class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> torch</span>
-<span id="cb2-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> torch.nn <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> functional <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">as</span> F</span>
-<span id="cb2-3"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> fastai2.vision.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">all</span> <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span></span></code></pre></div>
-</div>
-<p>We’ve been doing multi-classification since week one, and last week, we learned about how a NN “learns” by evaluating its predictions as measured by something called a “loss function.”</p>
-<p>So for multi-classification tasks, what is our loss function?</p>
-<div id="cell-4" class="cell" data-outputid="658323fe-9ce4-4eea-82d5-c35661fbd1c1">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">path <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> untar_data(URLs.PETS)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'images'</span></span>
-<span id="cb3-2"></span>
-<span id="cb3-3"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> is_cat(x): <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> x[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].isupper()</span>
-<span id="cb3-4">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> ImageDataLoaders.from_name_func(</span>
-<span id="cb3-5">    path, get_image_files(path), valid_pct<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.2</span>, seed<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">42</span>,</span>
-<span id="cb3-6">    label_func<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>is_cat, item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">224</span>))</span>
-<span id="cb3-7"></span>
-<span id="cb3-8">learn <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> cnn_learner(dls, resnet34, metrics<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>error_rate)</span>
-<span id="cb3-9">learn.loss_func</span></code></pre></div>
-<div class="cell-output cell-output-display">
-
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Downloading: "https://download.pytorch.org/models/resnet34-333f7ec4.pth" to /root/.cache/torch/checkpoints/resnet34-333f7ec4.pth</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"19c320dff2ce45eda01db6b143b755a7","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code></code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>FlattenedLoss of CrossEntropyLoss()</code></pre>
-</div>
-</div>
-<p>To understand <code>CrossEntropyLoss</code>, we need to first understand something called <code>Negative Log-Likelihood</code></p>
-<section id="negative-log-likelihood-nll-loss" class="level2">
-<h2 class="anchored" data-anchor-id="negative-log-likelihood-nll-loss">Negative Log-Likelihood (NLL) Loss</h2>
-<p>Let’s imagine a model who’s objective is to predict the label of an example given five possible classes to choose from. Our predictions might look like this …</p>
-<div id="cell-8" class="cell" hidden="true" data-outputid="270fc1ea-817a-41de-bfbe-2858e983f231">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">preds <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> torch.randn(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">5</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> preds</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>tensor([[-0.3139,  0.6737, -0.0143,  1.9929, -0.6949],
-        [ 0.5285,  0.1311,  0.2628,  0.6450,  1.7745],
-        [-1.7458,  2.0199, -0.1365,  1.4622, -0.0940]])</code></pre>
-</div>
-</div>
-<p>Because this is a supervised task, we know the actual labels of our three training examples above (e.g., the label of the first example is the first class, the label of the 2nd example the 4th class, and so forth)</p>
-<div id="cell-10" class="cell" hidden="true">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">targets <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> torch.tensor([<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>])</span></code></pre></div>
-</div>
-<p><strong>Step 1</strong>: Convert the predictions for each example into probabilities using <code>softmax</code>. This describes how confident your model is in predicting what it belongs to respectively for each class</p>
-<div id="cell-12" class="cell" hidden="true" data-outputid="74e6b970-eab3-4983-b534-19f1631fa041">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">probs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> F.softmax(preds, dim<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> probs</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>tensor([[0.0635, 0.1704, 0.0856, 0.6372, 0.0433],
-        [0.1421, 0.0955, 0.1089, 0.1596, 0.4939],
-        [0.0126, 0.5458, 0.0632, 0.3125, 0.0659]])</code></pre>
-</div>
-</div>
-<p>If we sum the probabilities across each example, you’ll see they add up to 1</p>
-<div id="cell-14" class="cell" hidden="true" data-outputid="4b45b4bc-2216-4042-979a-9a9a2a5e8fd2">
-<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">probs.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">sum</span>(dim<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>tensor([1.0000, 1.0000, 1.0000])</code></pre>
-</div>
-</div>
-<p><strong>Step 2</strong>: Calculate the “negative log likelihood” for each example where <code>y</code> = the probability of the correct class</p>
-<p><code>loss = -log(y)</code></p>
-<p>We can do this in one-line using something called <strong><em>tensor/array indexing</em></strong></p>
-<div id="cell-16" class="cell" hidden="true" data-outputid="ff41f75c-a874-4dcd-ec86-8f4f160d11db">
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">example_idxs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">range</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(preds))<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> example_idxs</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>range(0, 3)</code></pre>
-</div>
-</div>
-<div id="cell-17" class="cell" hidden="true" data-outputid="9e83e8eb-495b-4621-f5b2-ad0cd47473e2">
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">correct_class_probs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> probs[example_idxs, targets]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> correct_class_probs</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>tensor([0.0635, 0.1596, 0.0659])</code></pre>
-</div>
-</div>
-<div id="cell-18" class="cell" hidden="true" data-outputid="9c76b586-86be-4050-9789-17d4b5245781">
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">nll <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span>torch.log(correct_class_probs)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> nll</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>tensor([2.7574, 1.8349, 2.7194])</code></pre>
-</div>
-</div>
-<p><strong>Step 3</strong>: The loss is the mean of the individual NLLs</p>
-<div id="cell-20" class="cell" hidden="true" data-outputid="9a580569-b5b3-4f74-bdc1-7db4f8ed6738">
-<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">nll.mean()</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>tensor(2.4372)</code></pre>
-</div>
-</div>
-<p>… or using PyTorch</p>
-<div id="cell-22" class="cell" hidden="true" data-outputid="4b7e59ef-6ff7-4493-ea13-0f9202717981">
-<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1">F.nll_loss(torch.log(probs), targets)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>tensor(2.4372)</code></pre>
-</div>
-</div>
-</section>
-<section id="cross-entropy-loss" class="level2">
-<h2 class="anchored" data-anchor-id="cross-entropy-loss">Cross Entropy Loss</h2>
-<p>… or we can do this all at once using PyTorch’s <code>CrossEntropyLoss</code></p>
-<div id="cell-25" class="cell" hidden="true" data-outputid="deac6d92-7ed3-4d7c-8d42-7ffb59a05850">
-<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1">F.cross_entropy(preds, targets)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>tensor(2.4372)</code></pre>
-</div>
-</div>
-<p>As you can see, cross entropy loss simply combines the <code>log_softmax</code> operation with the <code>negative log-likelihood</code> loss</p>
-</section>
-<section id="why-not-use-accuracy" class="level2">
-<h2 class="anchored" data-anchor-id="why-not-use-accuracy">Why not use accuracy?</h2>
-<div id="cell-28" class="cell">
-<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># this function is actually copied verbatim from the utils package in fastbook (see footnote 1)</span></span>
-<span id="cb26-2"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> plot_function(f, tx<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, ty<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, title<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">min</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>, <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">max</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>, figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">6</span>,<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>)):</span>
-<span id="cb26-3">    x <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> torch.linspace(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">min</span>,<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">max</span>)</span>
-<span id="cb26-4">    fig,ax <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>figsize)</span>
-<span id="cb26-5">    ax.plot(x,f(x))</span>
-<span id="cb26-6">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> tx <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">not</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>: ax.set_xlabel(tx)</span>
-<span id="cb26-7">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> ty <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">not</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>: ax.set_ylabel(ty)</span>
-<span id="cb26-8">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> title <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">not</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>: ax.set_title(title)</span></code></pre></div>
-</div>
-<div id="cell-29" class="cell" data-outputid="241017a3-62bd-4600-c058-3d6d7fbdb6d1">
-<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> f(x): <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span>torch.log(x)</span>
-<span id="cb27-2"></span>
-<span id="cb27-3">plot_function(f, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'x (prob correct class)'</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'-log(x)'</span>, title<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'Negative Log-Likelihood'</span>, <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">min</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>, <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">max</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://ohmeow.com/posts/2020-04-04-understanding-cross-entropy-loss_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>NLL loss will be higher the smaller the probability <em>of the correct class</em></p>
-<p><strong>What does this all mean?</strong> The lower the confidence it has in predicting the correct class, the higher the loss. It will:</p>
-<ol type="1">
-<li><p>Penalize correct predictions that it isn’t confident about more so than correct predictions it is very confident about.</p></li>
-<li><p>And vice-versa, it will penalize incorrect predictions it is very confident about more so than incorrect predictions it isn’t very confident about</p></li>
-</ol>
-<p><strong>Why is this better than accuracy?</strong></p>
-<p>Because accuracy simply tells you whether you got it right or wrong (a 1 or a 0), whereast NLL incorporates the confidence as well. That information provides you’re model with a much better insight w/r/t to how well it is really doing in a single number (INF to 0), resulting in gradients that the model can actually use!</p>
-<p><em>Rember that a loss function returns a number.</em> That’s it!</p>
-<p>Or the more technical explanation from fastbook:</p>
-<blockquote class="blockquote">
-<p>“The gradient of a function is its slope, or its steepness, which can be defined as rise over run – that is, how much the value of function goes up or down, divided by how much you changed the input. We can write this in maths: <code>(y_new-y_old) / (x_new-x_old)</code>. Specifically, it is defined when <code>x_new</code> is very similar to <code>x_old</code>, meaning that their difference is very small. <strong>But accuracy only changes at all when a prediction changes from a 3 to a 7, or vice versa.</strong> So the problem is that a small change in weights from <code>x_old</code> to <code>x_new</code> isn’t likely to cause any prediction to change, so <code>(y_new - y_old)</code> will be zero. <strong>In other words, the gradient is zero almost everywhere.</strong></p>
-</blockquote>
-<blockquote class="blockquote">
-<p>As a result, <strong>a very small change in the value of a weight will often not actually change the accuracy at all</strong>. This means it is not useful to use accuracy as a loss function. When we use accuracy as a loss function, most of the time our gradients will actually be zero, and the model will not be able to learn from that number. That is not much use at all!” {% fn 1 %}</p>
-</blockquote>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>So to summarize, <code>accuracy</code> is a great metric for human intutition but not so much for your your model. If you’re doing multi-classification, your model will do much better with something that will provide it gradients it can actually use in improving your parameters, and that something is <code>cross-entropy loss</code>.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ol type="1">
-<li>https://pytorch.org/docs/stable/nn.html#crossentropyloss</li>
-<li>http://wiki.fast.ai/index.php/Log_Loss</li>
-<li>https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/</li>
-<li>https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html#cross-entropy</li>
-<li>https://machinelearningmastery.com/loss-and-loss-functions-for-training-deep-learning-neural-networks/</li>
-</ol>
-
-
-</section>
-
- ]]></description>
-  <guid>https://ohmeow.com/posts/2020-04-04-understanding-cross-entropy-loss.html</guid>
-  <pubDate>Sat, 04 Apr 2020 07:00:00 GMT</pubDate>
-  <media:content url="https://ohmeow.com/posts/images/highlander-there-can-be-only-one.png" medium="image" type="image/png" height="90" width="144"/>
 </item>
 </channel>
 </rss>

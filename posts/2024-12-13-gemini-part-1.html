@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2024-12-13">
+<meta name="description" content="Gemini may not be “all you need”, but it is in my opinion the future. In this series we’ll explore the capabilities offered in the Gemini ecosystem and how this family of LLMs can be used to build better LLM applications for a fraction of the cost. We’ll start with a brief look at how it compares with others models relative to both performance and cost and why you should consider it as a potential “go to” in building AI powered applications of almost any kind.">
 
-<title>FastAPI Guide – ohmeow</title>
+<title>Gemini (Part I) - Why You Should Consider Gemini – ohmeow</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,59 +23,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/ohmeow_favicon.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-7a0b31a7f61027fd71bbba04eea7db2e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7a0b31a7f61027fd71bbba04eea7db2e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,25 +74,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta property="og:title" content="FastAPI Guide – ohmeow">
-<meta property="og:image" content="https://ohmeow.com/pages/guides/images/ohmeow_logo.png">
+<meta property="og:title" content="Gemini (Part I) - Why You Should Consider Gemini – ohmeow">
+<meta property="og:description" content="Gemini may not be “all you need”, but it is in my opinion the future. In this series we’ll explore the capabilities offered in the Gemini ecosystem and how this family of LLMs can be used to build better LLM applications for a fraction of the cost. We’ll start with a brief look at how it compares with others models relative to both performance and cost and why you should consider it as a potential “go to” in building AI powered applications of almost any kind.">
+<meta property="og:image" content="https://ohmeow.com/posts/images/blog-20241213/blog-20241213-header.png">
 <meta property="og:site_name" content="ohmeow">
-<meta name="twitter:title" content="FastAPI Guide – ohmeow">
-<meta name="twitter:image" content="https://ohmeow.com/pages/guides/images/ohmeow_logo.png">
+<meta property="og:image:height" content="1024">
+<meta property="og:image:width" content="1024">
+<meta name="twitter:title" content="Gemini (Part I) - Why You Should Consider Gemini – ohmeow">
+<meta name="twitter:description" content="Gemini may not be “all you need”, but it is in my opinion the future. In this series we’ll explore the capabilities offered in the Gemini ecosystem and how this family of LLMs can be used to build better LLM applications for a fraction of the cost. We’ll start with a brief look at how it compares with others models relative to both performance and cost and why you should consider it as a potential “go to” in building AI powered applications of almost any kind.">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/blog-20241213/blog-20241213-header.png">
+<meta name="twitter:image-height" content="1024">
+<meta name="twitter:image-width" content="1024">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ohmeow</span>
     </a>
   </div>
@@ -138,22 +116,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
         <li>
-    <a class="dropdown-item" href="../../pages/guides/vue3-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/vue3-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">Vue3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../pages/guides/fastapi-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/fastapi-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">Fast API</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../pages/guides/postgresql-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/postgresql-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">PostgreSQL</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../pages/guides/deployment-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/deployment-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
 </i> 
  <span class="dropdown-text">Deployment</span></a>
   </li>  
@@ -188,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> <i class="bi bi-person-circle" role="img">
+    <a class="nav-link" href="../about.html"> <i class="bi bi-person-circle" role="img">
 </i> 
 <span class="menu-text">About Me</span></a>
   </li>  
@@ -205,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -220,20 +198,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#gemini-in-a-nutshell" id="toc-gemini-in-a-nutshell" class="nav-link active" data-scroll-target="#gemini-in-a-nutshell">Gemini in a Nutshell</a></li>
+  <li><a href="#the-gemini-family" id="toc-the-gemini-family" class="nav-link" data-scroll-target="#the-gemini-family">The Gemini Family</a></li>
+  <li><a href="#performance" id="toc-performance" class="nav-link" data-scroll-target="#performance">Performance</a></li>
+  <li><a href="#cost" id="toc-cost" class="nav-link" data-scroll-target="#cost">Cost</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">FastAPI Guide</h1>
-</div>
+<h1 class="title">Gemini (Part I) - Why You Should Consider Gemini</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLMS</div>
+    <div class="quarto-category">Gemini</div>
+    <div class="quarto-category">Google</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    Gemini may not be “all you need”, but it is in my opinion the future. In this series we’ll explore the capabilities offered in the Gemini ecosystem and how this family of LLMs can be used to build better LLM applications for a fraction of the cost. We’ll start with a brief look at how it compares with others models relative to both performance and cost and why you should consider it as a potential “go to” in building AI powered applications of almost any kind.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 13, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -243,201 +255,138 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="designing-your-api" class="level2">
-<h2 class="anchored" data-anchor-id="designing-your-api">Designing your API</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<section id="gemini-in-a-nutshell" class="level2">
+<h2 class="anchored" data-anchor-id="gemini-in-a-nutshell">Gemini in a Nutshell</h2>
+<p><img src="images/blog-20241213/gemini-figure.png" alt="Gemini" style="float:right;border-radius: 15px;width:150px;"></p>
+<p>Gemini is a collection of smaller LLMs designed to deliver faster performance and lower costs while offering capabilities comparable to larger models. The recently released Gemini 2.0 enhances its predecessor with better performance, new real-time features, and a competitive price point that currently outpaces the competition.</p>
+<p>Gemini is a collection of smaller LLMs designed to deliver faster performance and lower costs while offering capabilities comparable to larger models. The recently released Gemini 2.0 builds on this foundation with enhanced performance, innovative real-time features, and a competitive price point that sets it apart from the competition.</p>
+<p>In this series, we’ll explore the exciting possibilities with Gemini, including the new real-time features introduced in 2.0. To start, we’ll review the range of Gemini models, their unique capabilities, and how to choose the right one for your needs. From there, we’ll dive into how these models stack up against the competition in terms of both results and cost.</p>
+<p>The core hypothesis driving this series is that the future lies in agentic systems composed of smaller and more cost efficient models. I believe organizations will achieve greater value by orchestrating smaller, task-specific models to meet their goals, rather than relying solely on large, expensive LLM to address every use case.</p>
+</section>
+<section id="the-gemini-family" class="level2">
+<h2 class="anchored" data-anchor-id="the-gemini-family">The Gemini Family</h2>
+<p><span style="padding-top:5px;width:100%"> <a href="images/blog-20241213/gemini-model-collection.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="The Gemini Family"><img src="images/blog-20241213/gemini-model-collection.png" class="img-fluid" style="width:100.0%" alt="The Gemini Family"></a> <em>Figure 1: The Gemini Famly (<a href="https://ai.google.dev/gemini-api/docs/models/gemini#model-variations" target="_blank">google</a>)</em></span></p>
+<p></p>
+</section>
+<section id="performance" class="level2">
+<h2 class="anchored" data-anchor-id="performance">Performance</h2>
+<p><strong>Internal Benchmarks</strong></p>
+<p>To better understand how the latest Gemini 2.0 Flash Experimental model stacks up against its predecessors, let’s examine the reported benchmark results.</p>
+<p>The following table highlights the performance improvements compared to the Gemini 1.5 generation models.</p>
+<p><span style="padding-top:5px"> <a href="images/blog-20241213/gemini-benchmarks.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Overall performance comparison across models"><img src="images/blog-20241213/gemini-benchmarks.jpeg" class="img-fluid" alt="Overall performance comparison across models"></a> <em>Figure 2: Reported benchmarks (<a href="https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/#gemini-2-0-flash" target="_blank">google</a>)</em></span></p>
+<p></p>
+<p>The 1.5 models have worked really well for me across a number of projects and it looks like the 2.0 generation represents a substantial move in the right direction across the board! According to Google’s <a href="https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/" target="\_blank"> announcement post</a> …</p>
+<blockquote class="blockquote">
+<p>“Gemini 2.0 Flash builds on the success of 1.5 Flash, our most popular model yet for developers, with enhanced performance at similarly fast response times. Notably, 2.0 Flash even outperforms 1.5 Pro on key benchmarks, at twice the speed”</p>
+</blockquote>
+<p><strong>How Does It Compare to the Competition?</strong></p>
+<p>Evaluating performance across large language models (LLMs) can be challenging due to the abundance of available benchmarks, not all of which provide consistent or reliable insights. Among these options, one resource that I’ve found consistently aligns with my own experiences is <a href="https://lmarena.ai/" target="\_blank">lmarena.ai (formerly LMSYS)</a>, which I will reference for this comparison.</p>
+<p><span style="padding-top:5px"> <a href="images/blog-20241213/lmarena-overall.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Overall performance comparison across models"><img src="images/blog-20241213/lmarena-overall.png" class="img-fluid" data-margin="20px" alt="Overall performance comparison across models"></a> <em>Figure 2: Overall performance comparison across leading LLM models (courtesy of <a href="https://lmarena.ai/" target="_blank">lmarena.ai</a>)</em> </span></p>
+<p><span style="padding-top:5px"> <a href="images/blog-20241213/lmarena-details.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Detailed performance metrics by category"><img src="images/blog-20241213/lmarena-details.png" class="img-fluid" alt="Detailed performance metrics by category"></a> <em>Figure 3: Detailed breakdown of performance metrics across different categories (courtesy of <a href="https://lmarena.ai/" target="_blank">lmarena.ai</a>)</em> </span></p>
+<p>That’s alot of Geminis up there at the top!</p>
+</section>
+<section id="cost" class="level2">
+<h2 class="anchored" data-anchor-id="cost">Cost</h2>
+<p>As AI becomes an increasingly integral part of application infrastructure, the cost of using these models is becoming a critical consideration. Understanding how costs vary across providers like OpenAI, Anthropic, and others is essential for making informed decisions. So, how do the costs of using these models generally compare, and where does Gemini stand in this landscape?</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 25%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Provider</th>
+<th>Model</th>
+<th>Max Tokens</th>
+<th>Input Cost (per 1M)</th>
+<th>Output Cost (per 1M)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenAI</td>
+<td>GPT-4o</td>
+<td>128,000</td>
+<td>$2.50</td>
+<td>$10.00</td>
+</tr>
+<tr class="even">
+<td>OpenAI</td>
+<td>GPT-4o mini</td>
+<td>128,000</td>
+<td>$0.15</td>
+<td>$0.60</td>
+</tr>
+<tr class="odd">
+<td>OpenAI</td>
+<td>GPT-4 Turbo</td>
+<td>128,000</td>
+<td>$10.00</td>
+<td>$30.00</td>
+</tr>
+<tr class="even">
+<td>OpenAI</td>
+<td>GPT-3.5 Turbo</td>
+<td>16,384</td>
+<td>$0.50</td>
+<td>$1.50</td>
+</tr>
+<tr class="odd">
+<td>Anthropic</td>
+<td>Claude 3.5 Sonnet</td>
+<td>200,000</td>
+<td>$3.00</td>
+<td>$15.00</td>
+</tr>
+<tr class="even">
+<td>Anthropic</td>
+<td>Claude 3.5 Haiku</td>
+<td>200,000</td>
+<td>$0.25</td>
+<td>$1.25</td>
+</tr>
+<tr class="odd">
+<td>Google</td>
+<td>Gemini 1.5 Pro</td>
+<td>1,048,576</td>
+<td>$1.25</td>
+<td>$5.00</td>
+</tr>
+<tr class="even">
+<td>Google</td>
+<td>Gemini 1.5 Flash</td>
+<td>1,048,576</td>
+<td>$0.075</td>
+<td>$0.30</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Input tokens refer to the tokens in the prompt sent to the model, while output tokens are those generated by the model in response.</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What are some good reference architectures?
+Note
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>See:<br>
-<a href="https://realpython.com/fastapi-python-web-apis/">Using FastAPI to Build Python Web APIs</a><br>
-<a href="https://github.com/tiangolo/full-stack-fastapi-postgresql">Full Stack FastAPI and PostgreSQL - Base Project Generator</a><br>
-<a href="https://www.jeffastor.com/blog/refactoring-our-react-ui-into-composable-hooks-part-ii">Up and running with fastapi series</a></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-How do I do user registration/login, e-mail verification, password resets, etc… with fastapi?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>See:<br>
-<a href="https://levelup.gitconnected.com/handle-registration-in-fastapi-and-tortoise-orm-a661162d27f1">Handle Registration in FastAPI and Tortoise ORM</a><br>
-<a href="https://realpython.com/handling-email-confirmation-in-flask/#models">Handling Email Confirmation During Registration in Flask</a><br>
-<a href="https://dev.to/paurakhsharma/flask-rest-api-part-5-password-reset-2f2e">Flask Rest API -Part:5- Password Reset</a><br>
-<a href="https://www.youtube.com/watch?v=gdKBn5cp3TM">E-commerce API with FastAPI | Sending Verification Emails | FastAPI-Mail</a></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What does a star(*) mean in a method parameter?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>It simply allows you to order your arguments so those without default values can be placed ahead of those that can. It also ensures that keyword arguments are used everywhere (which may or may not be desirable when refactoring code). I usually find it unnecessary except in places where I’m using <code>BackgroundTasks</code> or a depency injected argument somewhere, for example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.get</span>(<span class="st">"/"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_username(<span class="op">*</span>, db: Session <span class="op">=</span> Depends(get_db), user_id: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> db.query(User).get(user_id).username</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>See:<br>
-<a href="https://github.com/tiangolo/fastapi/issues/817#issuecomment-569799896">What does a star(*) mean in a method parameter?</a><br>
-<a href="https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/#order-the-parameters-as-you-need-tricks">Order the parameters as you need, tricks</a></p>
-</div>
+<p>The cost of using Gemini is often a fraction of the cost of other models. In fact, for “experimental” models, you aren’t billed at all</p>
+<blockquote class="blockquote">
+<p>You aren’t billed for the usage of experimental Google models.<br>
+<a href="https://cloud.google.com/vertex-ai/generative-ai/docs/gemini-v2" target="\_blank">Generative AI on Vertex AI pricing for experimental models</a></p>
+</blockquote>
 </div>
 </div>
 </section>
-<section id="working-with-pydantic-objects" class="level2">
-<h2 class="anchored" data-anchor-id="working-with-pydantic-objects">Working with Pydantic objects</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-How to cast one pydantic object into another?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>MyModel(<span class="op">**</span>my_model_from.<span class="bu">dict</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="dockerizing-a-fastapi-application" class="level2">
-<h2 class="anchored" data-anchor-id="dockerizing-a-fastapi-application">Dockerizing a FastAPI application</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-How can I Dockerize my app?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>See:<br>
-<a href="https://www.docker.com/blog/video-how-to-dockerize-a-python-app-with-fastapi/">How to Dockerize a Python App with FastAPI</a><br>
-<a href="https://kleiber.me/blog/2021/03/23/simple-docker-traefik-python-fastapi-example/">An Extremely Simple Docker, Traefik, and Python FastAPI Example</a></p>
-</div>
-</div>
-</div>
-</section>
-<section id="dealing-with-common-errors" class="level2">
-<h2 class="anchored" data-anchor-id="dealing-with-common-errors">Dealing with common errors</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-I get an Unprocessable Entity (422) error when I post/put to my API
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>It usually means the body of your request doesn’t mesh with what your API method is expected. Make sure that the object your passing in matches what you’ve specified, including using the <code>Body(...[,embed=True])</code> types correctly</p>
-<p>See:<br>
-<a href="https://fastapi.tiangolo.com/tutorial/body-multiple-params/?h=embed">Body - Multiple Parameters</a><br>
-<a href="https://stackoverflow.com/questions/62384392/python-fastapi-unprocessable-entity-error">Python: FastApi (Unprocessable Entity) error</a></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-AttributeError: ‘coroutine’ object has no attribute ‘X’
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Usually means you are missing “await” from async method (fastapi/python)</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-I’m using <a href="https://github.com/encode/databases">Encode Databases</a> against a postgres database, but my <code>RETURNING</code> statements don’t return all the columns I specify
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><code>RETURNING</code> statements work okay with <code>fetch_one</code>/<code>fetch_all</code>. If you are using <code>execute</code>, it won’t work.</p>
-<p>See: <a href="https://github.com/encode/databases/issues/98#issuecomment-499875112">Support for RETURNING</a></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-When I deploy using Nginx reverse-proxy, I get mixed content errors like the one below…
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<pre><code>Mixed Content: The page at 'https://page.com' was loaded over HTTPS, but requested an insecure
-XMLHttpRequest endpoint 'http://page.com?filter=xxxx'.
-This request has been blocked; the content must be served over HTTPS.</code></pre>
-<p>If you add a trailing slash (/) in your API requests it will fix the problem <strong><em>BUT</em></strong> a much easier solution is to the correct proxy headers for Uvicorn. They should look something like this:</p>
-<pre><code>upstream api_server {
-    server ${API_HOST}:${API_PORT} fail_timeout=0;
-  }
-...
-server {
-  ...
-  location ~ /api/ {
-    proxy_set_header   Host $host;
-    proxy_set_header   X-Real-IP $remote_addr;
-    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header   X-Forwarded-Host $server_name;
-    proxy_pass http://api_server;
-  }</code></pre>
-<p>See the following resources:<br>
-<a href="https://github.com/tiangolo/fastapi/issues/2611#issuecomment-755436758">Failure to load any static files when deploying with HTTPS</a><br>
-<a href="https://github.com/vikramgulia/fastapi-react/blob/master/ui/nginx/nginx.conf">fastapi-react nginx.conf</a><br>
-<a href="https://github.com/axios/axios/issues/757">Add option for adding a trailing slash automatically</a><br>
-<a href="https://support.yithemes.com/hc/en-us/articles/115002851847-Ajax-Product-Filter-does-not-work-in-https-Fixed">Ajax Product Filter does not work in https - Fixed</a></p>
-</div>
-</div>
-</div>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>If the future is indeed agentic, as I hypothesize, and cost-efficient, high-performing, task-specific models play a central role in that vision, then Gemini emerges as a compelling choice. Based on the comparison of performance between Gemini models and those of other major API providers, combined with its cost-effectiveness, Gemini is undoubtedly worth considering as part of your AI strategy moving forward.</p>
+<p>In the next blog in this series, we’ll explore the basics of using Gemini and dive into some of its standout features that set it apart from the competition using the new and improved unified SDK in 2.0. This unified SDK is one of the more exicting bits to developers like myself that have had to bounce back-and-forth between using the Gemini API and Vertex API to talk with Gemini. With 2.0, we finally have one SDK to rule them all (even if it still means we need to understand how the two different API options vary and when to use one over the other … something we’ll talk about in the next post as well).</p>
 
 
 </section>
@@ -865,7 +814,41 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
