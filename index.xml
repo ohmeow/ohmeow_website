@@ -33,7 +33,7 @@
 <p>Gemini is a collection of smaller LLMs designed to deliver faster performance and lower costs while offering capabilities comparable to larger models. The recently released Gemini 2.0 enhances its predecessor with better performance, new real-time features, and a competitive price point that currently outpaces the competition.</p>
 <p>Gemini is a collection of smaller LLMs designed to deliver faster performance and lower costs while offering capabilities comparable to larger models. The recently released Gemini 2.0 builds on this foundation with enhanced performance, innovative real-time features, and a competitive price point that sets it apart from the competition.</p>
 <p>In this series, we’ll explore the exciting possibilities with Gemini, including the new real-time features introduced in 2.0. To start, we’ll review the range of Gemini models, their unique capabilities, and how to choose the right one for your needs. From there, we’ll dive into how these models stack up against the competition in terms of both results and cost.</p>
-<p>The core hypothesis driving this series is that the future lies in agentic systems composed of smaller and more cost efficient models. I believe organizations will achieve greater value by orchestrating smaller, task-specific models to meet their goals, rather than relying solely on large, expensive LLM to address every use case.</p>
+<p>The core hypothesis driving this series is that the future lies in agentic systems composed of smaller and more cost efficient models. I believe organizations will achieve greater value by orchestrating smaller and general-use models to meet their goals, rather than by relying solely on large and expensive LLMs to address every use case.</p>
 </section>
 <section id="the-gemini-family" class="level2">
 <h2 class="anchored" data-anchor-id="the-gemini-family">The Gemini Family</h2>
@@ -157,7 +157,7 @@ Note
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>If the future is indeed agentic, as I hypothesize, and cost-efficient, high-performing, task-specific models play a central role in that vision, then Gemini emerges as a compelling choice. Based on the comparison of performance between Gemini models and those of other major API providers, combined with its cost-effectiveness, Gemini is undoubtedly worth considering as part of your AI strategy moving forward.</p>
+<p>If the future is indeed agentic, as I hypothesize, and cost-efficient, high-performing, general-use models play a central role in that vision, then Gemini emerges as a compelling choice. Based on the comparison of performance between Gemini models and those of other major API providers, combined with its cost-effectiveness, Gemini is undoubtedly worth considering as part of your AI strategy moving forward.</p>
 <p>In the next blog in this series, we’ll explore the basics of using Gemini and dive into some of its standout features that set it apart from the competition using the new and improved unified SDK in 2.0. This unified SDK is one of the more exicting bits to developers like myself that have had to bounce back-and-forth between using the Gemini API and Vertex API to talk with Gemini. With 2.0, we finally have one SDK to rule them all (even if it still means we need to understand how the two different API options vary and when to use one over the other … something we’ll talk about in the next post as well).</p>
 
 
