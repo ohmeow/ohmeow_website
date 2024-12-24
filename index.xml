@@ -17,7 +17,855 @@
 <width>144</width>
 </image>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 13 Dec 2024 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 24 Dec 2024 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Gemini (Part II) - The Unified SDK</title>
+  <dc:creator>Wayde Gilliam</dc:creator>
+  <link>https://ohmeow.com/posts/2024-12-24-gemini-part-2-sdk.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="hallelujah" class="level2">
+<h2 class="anchored" data-anchor-id="hallelujah">Hallelujah!</h2>
+<p>In the previous post we looked at how Gemini, espeically 2.0, compares with other models relative to both performance and cost and why you should consider it as a potential “go to” in building AI powered applications of almost any kind. Today, we’ll discuss how to get started with their new unified SDK that both Gemini API and Vertex API users can use to build applications.</p>
+<blockquote class="twitter-tweet blockquote">
+<p lang="en" dir="ltr">
+Is it just me, but I'm more hyped about this than all the new sick features in <a href="https://twitter.com/Google?ref_src=twsrc%5Etfw"><span class="citation" data-cites="google">@google</span></a> Gemini 2.0 …<a href="https://t.co/mMiba2pwMq">https://t.co/mMiba2pwMq</a><br><br>"The new Google Gen AI SDK provides a unified interface … through both the Gemini Developer API and the Gemini Enterprise API ( Vertex AI)"
+</p>
+— Wayde Gilliam (<span class="citation" data-cites="waydegilliam">@waydegilliam</span>) <a href="https://twitter.com/waydegilliam/status/1866959913312010394?ref_src=twsrc%5Etfw">December 11, 2024</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Amongst the biggest complaints from Gemini devs, has been the inconsistency of the SDKs for both the Gemini API and Vertex API. Well it looks like Google has finally heard our cries and as part of the Gemini 2.0 release, they’ve released a new unified SDK that both Gemini API and Vertex API users can use to build applications. This makes is super easy to bounce back-and-forth between the two API options without having to understand the nuances of two somewhat different SDKs and what might break when you switch between them.</p>
+</section>
+<section id="initializing-the-sdk-client" class="level2">
+<h2 class="anchored" data-anchor-id="initializing-the-sdk-client">Initializing the SDK client</h2>
+<section id="a-note-on-the-gemini-api-and-vertex-ai-from-the-official-docs" class="level3">
+<h3 class="anchored" data-anchor-id="a-note-on-the-gemini-api-and-vertex-ai-from-the-official-docs">A note on the Gemini API and Vertex AI (from the official docs)</h3>
+<blockquote class="blockquote">
+<p>In the whitepapers, most of the example code uses the Enterprise <a href="https://cloud.google.com/vertex-ai">Vertex AI platform</a>. In contrast, this notebook, along with the others in this series, will use the <a href="https://ai.google.dev/gemini-api/">Gemini Developer API</a> and <a href="https://aistudio.google.com/">AI Studio</a>.</p>
+<p>Both APIs provide access to the Gemini family of models, and the code to interact with the models is very similar. Vertex provides a world-class platform for enterprises, governments and advanced users that need powerful features like data governance, ML ops and deep Google Cloud integration.</p>
+<p>AI Studio is free to use and only requires a compatible Google account to log in and get started. It is deeply integrated with the Gemini API, which comes with a generous <a href="https://ai.google.dev/pricing">free tier</a> that you can use to run the code in these exercises.</p>
+<p>If you are already set up with Google Cloud, you can check out the <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference">Enterprise Gemini API</a> through Vertex AI, and run the samples directly from the supplied whitepapers.</p>
+</blockquote>
+<p>I’ll be showing how to use both platforms below, but the first step is the same either way … a single pip install :)</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">pip install google<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>genai</span></code></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here are some reference links to the new SDK docs and a Getting Started notebook courtesy of Google with a lot more information and examples …</p>
+<ul>
+<li><a href="https://googleapis.github.io/python-genai/#">2.0 SDK Docs</a></li>
+<li><a href="https://github.com/google-gemini/cookbook/blob/main/gemini-2/get_started.ipynb">2.0 SDK Getting Started Notebook</a></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="if-you-are-using-the-gemini-developer-api" class="level3">
+<h3 class="anchored" data-anchor-id="if-you-are-using-the-gemini-developer-api">If you are using the Gemini Developer API …</h3>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># with Google AI API key</span></span>
+<span id="cb2-2">GOOGLE_AI_API_KEY <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.getenv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GOOGLE_AI_API_KEY"</span>)</span>
+<span id="cb2-3"></span>
+<span id="cb2-4">client <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> genai.Client(api_key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>GOOGLE_AI_API_KEY)</span>
+<span id="cb2-5"></span>
+<span id="cb2-6">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.models.generate_content(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>)</span>
+<span id="cb2-7"></span>
+<span id="cb2-8">display(Markdown(response.text))</span>
+<span id="cb2-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The distance between the Earth and the Moon isn't constant, as the Moon travels in an elliptical orbit around our planet. Therefore, we talk about the distance in terms of averages:</span></span>
+<span id="cb2-10"></span>
+<span id="cb2-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Average distance: Approximately 238,855 miles (384,400 kilometers).</span></span>
+<span id="cb2-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># However, keep in mind:</span></span>
+<span id="cb2-13"></span>
+<span id="cb2-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Perigee (Closest Approach): The Moon can get as close as about 225,623 miles (363,104 kilometers).</span></span>
+<span id="cb2-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Apogee (Farthest Distance): The Moon can be as far as about 252,088 miles (405,696 kilometers).</span></span>
+<span id="cb2-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># So, while the average distance is a good figure to keep in mind, it's important to remember that the actual distance varies throughout the month.</span></span>
+<span id="cb2-17"></span>
+<span id="cb2-18"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response.usage_metadata)</span>
+<span id="cb2-19"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># cached_content_token_count=None candidates_token_count=181 prompt_token_count=10 total_token_count=191</span></span></code></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>resonse</code> is an instance of <code>GenerateContentResponse</code>. In addition to the generated content, it includes a bunch of other information including the token usage (via <code>response.usage_metadata</code>), a safety rating and explanations, and a variety of other information that will prove more useful depending on how we use Gemini (e.g., whether we use it with multimodal inputs, or with tool calling, code execution, etc…). You’ll see what I mean down below.</p>
+<p>There is an async version of <code>generate_content</code> available via the <code>aio</code> property on your <code>client</code> instance. You just need to add <code>await</code> in front of the call.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> client.aio.models.generate_content(</span>
+<span id="cb3-2">    model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>, config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>gen_config</span>
+<span id="cb3-3">)</span></code></pre></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>text</code> response is almost always going to be in Markdown, so why not make it look pretty in notebooks by doing a <code>from IPython.display import Markdown, display</code> and then <code>display(Markdown(response.text))</code>?</p>
+</div>
+</div>
+</section>
+<section id="if-you-are-using-vertex" class="level3">
+<h3 class="anchored" data-anchor-id="if-you-are-using-vertex">If you are using Vertex …</h3>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># this is the path to your json credentials file (at least it is to mine, :))</span></span>
+<span id="cb4-2">GOOGLE_VERTEX_AI_CREDS <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.getenv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GOOGLE_VERTEX_AI_CREDS"</span>)</span>
+<span id="cb4-3"></span>
+<span id="cb4-4">SCOPES <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://www.googleapis.com/auth/cloud-platform"</span>]</span>
+<span id="cb4-5">creds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> service_account.Credentials.from_service_account_file(GOOGLE_VERTEX_AI_CREDS, scopes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>SCOPES)</span>
+<span id="cb4-6"></span>
+<span id="cb4-7">client <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> genai.Client(vertexai<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, project<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"generative-playground"</span>, location<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"us-central1"</span>, credentials<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>creds)</span>
+<span id="cb4-8"></span>
+<span id="cb4-9">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.models.generate_content(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>)</span>
+<span id="cb4-10"></span>
+<span id="cb4-11">display(Markdown(response.text))</span>
+<span id="cb4-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The distance between the Earth and the Moon is not constant, as the Moon's orbit is elliptical (an oval shape), not a perfect circle. Here's a breakdown:</span></span>
+<span id="cb4-13"></span>
+<span id="cb4-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Average Distance: The average distance is about 384,400 kilometers (238,900 miles). This is the number most commonly used.</span></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Perigee: This is the point in the Moon's orbit where it is closest to Earth. At perigee, the distance can be as close as 363,104 kilometers (225,623 miles).</span></span>
+<span id="cb4-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Apogee: This is the point in the Moon's orbit where it is furthest from Earth. At apogee, the distance can reach as far as 405,696 kilometers (252,088 miles).</span></span>
+<span id="cb4-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># So, the answer is variable, but the average distance is approximately 384,400 kilometers (238,900 miles).</span></span>
+<span id="cb4-18"></span>
+<span id="cb4-19"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response.usage_metadata)</span>
+<span id="cb4-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># cached_content_token_count=None candidates_token_count=221 prompt_token_count=9 total_token_count=230</span></span></code></pre></div>
+<p>We should expect to get something close to the same response from both the Gemini API and Vertex API. The only difference is with how you instantiate your Gemini <code>client</code>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As of the time of this writing, Gemini 2.0 models are ONLY available at the “us-central1” location.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The previous SDK had a <code>list_models</code> method that would return a list of models (at least the Gemini API did). This is not supported in the new SDK at the time of this writing.</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> model <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> client.models.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>():</span>
+<span id="cb5-2">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(model)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ain't returning nothing useful</span></span></code></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="controlling-generation" class="level2">
+<h2 class="anchored" data-anchor-id="controlling-generation">Controlling Generation</h2>
+<p>You can influence the generation of content by providing a <code>GenerateContentConfig</code> object. With this object, you can provide a system instruction, safety settings, and generation parameters (e.g., temperature, top_p, etc.).</p>
+<p>See also:</p>
+<ul>
+<li><a href="https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/content-generation-parameters">Content Generation Parameters</a></li>
+<li><a href="https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters#harm_categories">Safety Settings</a></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I tend to turn all of these “safety” settings off and it would be great if there is an easier way to do this in one-line vs what you see below</p>
+</div>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">safety_settings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb6-2">    types.SafetySetting(category<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HARM_CATEGORY_HATE_SPEECH"</span>, threshold<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BLOCK_NONE"</span>),</span>
+<span id="cb6-3">    types.SafetySetting(category<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HARM_CATEGORY_DANGEROUS_CONTENT"</span>, threshold<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BLOCK_NONE"</span>),</span>
+<span id="cb6-4">    types.SafetySetting(category<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HARM_CATEGORY_HARASSMENT"</span>, threshold<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BLOCK_NONE"</span>),</span>
+<span id="cb6-5">    types.SafetySetting(category<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HARM_CATEGORY_SEXUALLY_EXPLICIT"</span>, threshold<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BLOCK_NONE"</span>),</span>
+<span id="cb6-6">]</span>
+<span id="cb6-7"></span>
+<span id="cb6-8">gen_config <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> types.GenerateContentConfig(</span>
+<span id="cb6-9">    system_instruction<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"You are an expert in all things astronomy and you ONLY provide very concise answers"</span>,</span>
+<span id="cb6-10">    safety_settings<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>safety_settings,</span>
+<span id="cb6-11">    temperature<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,</span>
+<span id="cb6-12">    top_p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.95</span>,</span>
+<span id="cb6-13">    top_k<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>,</span>
+<span id="cb6-14">    candidate_count<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb6-15">    seed<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>,</span>
+<span id="cb6-16">    max_output_tokens<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>,</span>
+<span id="cb6-17">    stop_sequences<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"STOP!"</span>],</span>
+<span id="cb6-18">    presence_penalty<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>,</span>
+<span id="cb6-19">    frequency_penalty<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>,</span>
+<span id="cb6-20">)</span>
+<span id="cb6-21"></span>
+<span id="cb6-22">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.models.generate_content(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>, config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>gen_config)</span></code></pre></div>
+<p>With that in place we can see that our response is now much more concise and to the point.</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.models.generate_content(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>, config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>gen_config)</span>
+<span id="cb7-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response.text)</span>
+<span id="cb7-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># About 384,400 kilometers.</span></span>
+<span id="cb7-4"></span>
+<span id="cb7-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response.usage_metadata)</span>
+<span id="cb7-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># cached_content_token_count=None candidates_token_count=12 prompt_token_count=24 total_token_count=36</span></span></code></pre></div>
+</section>
+<section id="tokenization-goodies" class="level2">
+<h2 class="anchored" data-anchor-id="tokenization-goodies">Tokenization Goodies</h2>
+<p>You can use the <code>count_tokens</code> method to calculate <strong>the number of input tokens</strong> before sending a request to the Gemini API. Super helpful to understanding the cost implications of your requests. Async operations are available for both <code>count_tokens</code> and <code>compute_tokens</code> as well as most other methods on your <code>client</code> instance via the <code>aio</code> property.</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># count_tokens</span></span>
+<span id="cb8-2">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.models.count_tokens(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>)</span>
+<span id="cb8-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response)</span>
+<span id="cb8-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># total_tokens=9 cached_content_token_count=None</span></span>
+<span id="cb8-5"></span>
+<span id="cb8-6"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">======</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb8-7"></span>
+<span id="cb8-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># count_tokens async</span></span>
+<span id="cb8-9">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> client.aio.models.count_tokens(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>)</span>
+<span id="cb8-10"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response)</span>
+<span id="cb8-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># total_tokens=9 cached_content_token_count=None</span></span></code></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All of the <code>async</code> bits are available via the <code>aio</code> property on your <code>client</code> instance.</p>
+</div>
+</div>
+<p>You can use <code>compute_tokens</code> to get the tokenized inputs (only available in Vertex AI). This can be really helpful in terms of understanding how the Gemini models tokenize your input and troubleshooing issues that might arise from generation.</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># compute_tokens</span></span>
+<span id="cb9-2">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.models.compute_tokens(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>)</span>
+<span id="cb9-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response)</span>
+<span id="cb9-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># tokens_info=[TokensInfo(role='user', token_ids=['2299', '2166', '603', '573', '11883', '774', '573', '6683', '235336'], tokens=[b'How', b' far', b' is', b' the', b' moon', b' from', b' the', b' earth', b'?'])]</span></span>
+<span id="cb9-5"></span>
+<span id="cb9-6"></span>
+<span id="cb9-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">======</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb9-8"></span>
+<span id="cb9-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># compute_tokens async</span></span>
+<span id="cb9-10">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> client.aio.models.compute_tokens(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>)</span>
+<span id="cb9-11"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response)</span>
+<span id="cb9-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># tokens_info=[TokensInfo(role='user', token_ids=['2299', '2166', '603', '573', '11883', '774', '573', '6683', '235336'], tokens=[b'How', b' far', b' is', b' the', b' moon', b' from', b' the', b' earth', b'?'])]</span></span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tokenization issues are often some of the biggest gotchas in issues folks have with working with LLMs. There’s an entire <a href="https://hamel.dev/blog/posts/course/" target="_blank">course</a> about the importance of looking at your data … and that means looking at your tokens.</p>
+</div>
+</div>
+</section>
+<section id="streaming-content" class="level2">
+<h2 class="anchored" data-anchor-id="streaming-content">Streaming Content</h2>
+<p>We’ve already seen how we can use the <code>generate_content</code> method to generate content but what if we want to stream the content as it is being generated?</p>
+<p>The <code>generate_content_stream</code> method is a great way to stream content as it is generated. This is useful for things like chat interfaces or long-form content where you want to see the progress as it is being generated.</p>
+<p>An async version is also available via the <code>aio</code> property.</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> chunk <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> client.models.generate_content_stream(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, contents<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"How far is the moon from the earth?"</span>):</span>
+<span id="cb10-2">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(chunk.text, end<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"|"</span>, flush<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb10-3"></span>
+<span id="cb10-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The| distance between the Earth and the Moon is not constant, as the Moon's| orbit is elliptical. Here's a breakdown:</span></span>
+<span id="cb10-5"></span>
+<span id="cb10-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># * **Average Distance:**| The average distance between the Earth and the Moon is about **384,400 kilometers (238,900 miles)**. This| is the most commonly cited figure.</span></span>
+<span id="cb10-7"></span>
+<span id="cb10-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># * **Perigee:** This is the point in the Moon's orbit when it is closest to Earth. At| perigee, the distance can be as little as about **363,104 kilometers (225,623 miles)**.</span></span>
+<span id="cb10-9"></span>
+<span id="cb10-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># * **Apogee:** This is the point in the Moon's orbit| when it is farthest from Earth. At apogee, the distance can be as much as about **405,696 kilometers (252,088 miles)**.</span></span>
+<span id="cb10-11"></span>
+<span id="cb10-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># **Key Takeaway:** While we often| talk about the average distance, remember that the Moon's distance varies throughout its orbit, fluctuating between perigee and apogee.</span></span>
+<span id="cb10-13"></span>
+<span id="cb10-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># So, while the average is 384,400 kilometers, it's more accurate to say the distance ranges from about 363,000| km to 406,000 km.</span></span>
+<span id="cb10-15"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span></span></code></pre></div>
+<p>I’ve included the pipe character so you can see the chunks as they are being generated.</p>
+</section>
+<section id="multi-turn-chat" class="level2">
+<h2 class="anchored" data-anchor-id="multi-turn-chat">Multi-Turn Chat</h2>
+<p>The <code>chats</code> module provides a way to interact with the Gemini API in a multi-turn chat interface.</p>
+<p>The <code>create</code> method is used to create a new chat session. The <code>send_message</code> method is used to send a message to the chat session.</p>
+<p>The <code>history</code> parameter is used to provide the chat history.</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">system_instruction <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dedent(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb11-2"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">  You are an expert software developer and a helpful coding assistant.</span></span>
+<span id="cb11-3"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">  You are able to generate high-quality code in any programming language.</span></span>
+<span id="cb11-4"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span>).strip()</span>
+<span id="cb11-5"></span>
+<span id="cb11-6">convo <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb11-7">chat <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> client.chats.create(</span>
+<span id="cb11-8">    model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemini-2.0-flash-exp"</span>, config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>types.GenerateContentConfig(system_instruction<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>system_instruction, temperature<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>), history<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>convo</span>
+<span id="cb11-9">)</span></code></pre></div>
+<p>You can now use <code>send_message</code> to add a message to the chat.</p>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chat.send_message(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Write a simple python program that accepts a person's name and returns a greeting."</span>)</span>
+<span id="cb12-2"></span>
+<span id="cb12-3">Markdown(response.text)</span>
+<span id="cb12-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># def greet_person(name):</span></span>
+<span id="cb12-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   """</span></span>
+<span id="cb12-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   Greets a person by name.</span></span>
+<span id="cb12-7"></span>
+<span id="cb12-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   Args:</span></span>
+<span id="cb12-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     name: The name of the person to greet (string).</span></span>
+<span id="cb12-10"></span>
+<span id="cb12-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   Returns:</span></span>
+<span id="cb12-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     A greeting string.</span></span>
+<span id="cb12-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   """</span></span>
+<span id="cb12-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   return f"Hello, {name}!"</span></span>
+<span id="cb12-15"></span>
+<span id="cb12-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># if __name__ == "__main__":</span></span>
+<span id="cb12-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   person_name = input("Please enter your name: ")</span></span>
+<span id="cb12-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   greeting = greet_person(person_name)</span></span>
+<span id="cb12-19"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#   print(greeting)</span></span>
+<span id="cb12-20"></span>
+<span id="cb12-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ... and an extended explanation of the code I'm omitting here ...</span></span></code></pre></div>
+<p>Currently we can look at, and even modify, the chat history by accessing the <code>_curated_history</code> property on the <code>chat</code> instance. That <code>_</code> prefix tells me this part of the SDK is still under construction and likely to change.</p>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">chat._curated_history</span>
+<span id="cb13-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [Content(parts=[Part(video_metadata=None, code_execution_result=None, executable_code=None, file_data=None, function_call=None, function_response=None, inline_data=None, text="Write a simple python program that accepts a person's name and returns a greeting.")], role='user'),</span></span>
+<span id="cb13-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#  Content(parts=[Part(video_metadata=None, code_execution_result=None, executable_code=None, file_data=None, function_call=None, function_response=None, inline_data=None, text='```python\ndef greet_person(name):\n  """\n  Greets a person by name.\n\n  Args:\n    name: The name of the person to greet (string).\n\n  Returns:\n    A greeting string.\n  """\n  return f"Hello, {name}!"\n\nif __name__ == "__main__":\n  person_name = input("Please enter your name: ")\n  greeting = greet_person(person_name)\n  print(greeting)\n```\n\n**Explanation:**\n\n1.  **`def greet_person(name):`**:\n    *   This line defines a function named `greet_person` that takes one argument, `name`.\n    *   The `name` argument will hold the person\'s name as a string.\n\n2.  **`"""..."""`**:\n    *   This is a docstring, which is a multiline string used to document what the function does. It\'s good practice to include docstrings to make your code more understandable.\n\n3.  **`return f"Hello, {name}!"`**:\n    *   This line uses an f-string (formatted string literal) to create the greeting.\n    *   `f"..."`  allows you to embed variables directly into the string by placing them inside curly braces `{}`.\n    *   The function returns the complete greeting string (e.g., "Hello, Alice!").\n\n4.  **`if __name__ == "__main__":`**:\n    *   This is a standard Python construct that ensures the code inside the `if` block only runs when the script is executed directly (not when it\'s imported as a module into another script).\n\n5.  **`person_name = input("Please enter your name: ")`**:\n    *   The `input()` function displays the message "Please enter your name: " to the user and waits for them to type something.\n    *   Whatever the user types is stored as a string in the `person_name` variable.\n\n6.  **`greeting = greet_person(person_name)`**:\n    *   This line calls the `greet_person` function, passing the `person_name` as an argument.\n    *   The function returns the greeting string, which is then stored in the `greeting` variable.\n\n7.  **`print(greeting)`**:\n    *   Finally, this line prints the greeting to the console.\n\n**How to run this code:**\n\n1.  Save the code in a file named, for example, `greeting.py`.\n2.  Open a terminal or command prompt.\n3.  Navigate to the directory where you saved the file.\n4.  Run the command `python greeting.py`.\n5.  The program will prompt you to enter your name. Type your name and press Enter.\n6.  The program will then print the greeting to the console.\n\n**Example Interaction:**\n\n```\nPlease enter your name: Bob\nHello, Bob!\n```\n')], role='model')</span></span></code></pre></div>
+<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chat.send_message(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Okay, write a unit test of the generated function."</span>)</span>
+<span id="cb14-2"></span>
+<span id="cb14-3">Markdown(response.text)</span>
+<span id="cb14-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># import unittest</span></span>
+<span id="cb14-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># from greeting import greet_person  # Assuming the previous code is in greeting.py</span></span>
+<span id="cb14-6"></span>
+<span id="cb14-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># class TestGreeting(unittest.TestCase):</span></span>
+<span id="cb14-8"></span>
+<span id="cb14-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     def test_greet_with_valid_name(self):</span></span>
+<span id="cb14-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person("Alice"), "Hello, Alice!")</span></span>
+<span id="cb14-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person("Bob"), "Hello, Bob!")</span></span>
+<span id="cb14-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person("Charlie"), "Hello, Charlie!")</span></span>
+<span id="cb14-13"></span>
+<span id="cb14-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     def test_greet_with_empty_name(self):</span></span>
+<span id="cb14-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person(""), "Hello, !")</span></span>
+<span id="cb14-16"></span>
+<span id="cb14-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     def test_greet_with_name_containing_spaces(self):</span></span>
+<span id="cb14-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person("John Doe"), "Hello, John Doe!")</span></span>
+<span id="cb14-19"></span>
+<span id="cb14-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     def test_greet_with_name_containing_numbers(self):</span></span>
+<span id="cb14-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person("User123"), "Hello, User123!")</span></span>
+<span id="cb14-22"></span>
+<span id="cb14-23"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     def test_greet_with_special_characters(self):</span></span>
+<span id="cb14-24"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#         self.assertEqual(greet_person("!@#$%^"), "Hello, !@#$%^!")</span></span>
+<span id="cb14-25"></span>
+<span id="cb14-26"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># if __name__ == '__main__':</span></span>
+<span id="cb14-27"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#     unittest.main()</span></span>
+<span id="cb14-28"></span>
+<span id="cb14-29"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ... and an extended explanation of the code I'm omitting here ...</span></span></code></pre></div>
+<p>Pretty cool!</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note the “role” names are a bit different than what you might expect. With Gemini 2.0, you’ll see “user” when the message comes from the user and “model” when the message comes from the the LLM.</p>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The SDK is still being fleshed out but I’m excited about the prospect of being able build with Gemini regardless of which API I’m using. Hopefully, some of the tips and tricks above will help you get started regardless of which API flavor you prefer.</p>
+<p>In the next post, we’ll look at how to take advantage of Gemini’s multimodal capabilities including how to incorporate few-shot examples for both text only and multimodal tasks.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>LLMS</category>
+  <category>Gemini</category>
+  <category>Google</category>
+  <guid>https://ohmeow.com/posts/2024-12-24-gemini-part-2-sdk.html</guid>
+  <pubDate>Tue, 24 Dec 2024 08:00:00 GMT</pubDate>
+  <media:content url="https://ohmeow.com/posts/images/blog-20241213/blog-20241213-header.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
 <item>
   <title>Gemini (Part I) - Why You Should Consider Gemini</title>
   <dc:creator>Wayde Gilliam</dc:creator>
@@ -22611,1517 +23459,6 @@ font-style: inherit;">'ft_cnndm_export.pkl'</span>)</span>
   <guid>https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr.html</guid>
   <pubDate>Sat, 23 May 2020 07:00:00 GMT</pubDate>
   <media:content url="https://ohmeow.com/posts/images/blurr-logo-small.png" medium="image" type="image/png" height="250" width="127"/>
-</item>
-<item>
-  <title>Finding DataBlock Nirvana with fast.ai v2 - Part 1</title>
-  <dc:creator>Wayde Gilliam</dc:creator>
-  <link>https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<div id="cell-1" class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># only run this cell if you are in collab</span></span>
-<span id="cb1-2"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install git+https://github.com/fastai/fastai2 </span></span>
-<span id="cb1-3"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install git+https://github.com/fastai/fastcore</span></span></code></pre></div>
-</div>
-<div id="cell-2" class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> fastai2.vision.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">all</span> <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span></span></code></pre></div>
-</div>
-<section id="intoduction" class="level2">
-<h2 class="anchored" data-anchor-id="intoduction">Intoduction</h2>
-<section id="flying-at-50000-feet" class="level3">
-<h3 class="anchored" data-anchor-id="flying-at-50000-feet">Flying at 50,000 feet</h3>
-<p>At a high level, most machine learning and deep learning systems can be summed up as consisting of three primary elements. Data, an architecture/model, and a loss function. It can be visually described as such:</p>
-<p><img src="https://ohmeow.com/images/articles/nn-high-level.png" class="img-fluid"></p>
-<p>The <strong>data</strong> describes the information given to the <strong>model</strong> for learning a specific task, and the <strong>loss function</strong> provides the feedback necessary for the model to improve in that task via a number that tells it how well it is doing.</p>
-</section>
-<section id="why-is-thinking-about-our-data-pipeline-important" class="level3">
-<h3 class="anchored" data-anchor-id="why-is-thinking-about-our-data-pipeline-important">Why is thinking about our data pipeline important?</h3>
-<p>Simple! You can’t have a good model without a good architecture and proper loss function, <strong><em>but you can’t have anything without data</em></strong>. And getting good data that can be transformed into something modelable isn’t necessarily easy. In the slide deck presentation heard throughout the ML world, Andrej Karpathy, Senior Director of Artifical Intelligence at Tesla, put it this way:</p>
-<p><img src="https://ohmeow.com/images/articles/academia-v-irl-data-importance.png" title="Credit: https://electrek.co/2018/06/11/tesla-ai-director-insights-autopilot-computer-vision-neural-net/" class="img-fluid"></p>
-<p>Coming from academia and the utopia of prepared datasets ready of modeling, he found that in the real world, the bread and butter of a deep learning system and where the blood, sweat, and tears would be shed, was in the data. Data acquisition, cleaning, preparation, and the day-to-day management thereof. This same sentiment can as much be inferred from any of you that watched Jeremy Howard’s v2 walk through in late 2019{% fn 1 %}… <em>every single session was about getting your data modelable using the new v2 bits</em>. That should tell you a lot!</p>
-</section>
-<section id="so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling" class="level3">
-<h3 class="anchored" data-anchor-id="so-how-do-we-do-it-how-do-we-prepare-our-datasets-for-modeling">So how do we do it? How do we prepare our datasets for modeling?</h3>
-<p>While there are many ways, even with fast.ai, most indicators point to it’s DataBlock API as the answer.</p>
-</section>
-</section>
-<section id="what-is-the-datablock-api" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-the-datablock-api">What is the DataBlock API?</h2>
-<p>The <strong>DataBlock API</strong> is <strong><em>a blueprint for transforming your raw data into something that can fed into a model</em></strong> using the fast.ai framework. It is their high-level data API, one that builds upon their low-level <code>Datasets</code>/<code>DataLoaders</code> API, and also their mid-level <code>Transform</code> based API.</p>
-<p>All three incorporate some new ideas for getting your data good to go, and the choice isn’t necessary one or the other.</p>
-<section id="dropping-down-to-30000-feet-what-is-it" class="level3">
-<h3 class="anchored" data-anchor-id="dropping-down-to-30000-feet-what-is-it">Dropping down to 30,000 feet … what is it?</h3>
-<p><strong>The DataBlock API consists of THREE main components: getters, transforms, and a splitters.</strong></p>
-<ol type="1">
-<li><p><strong>getters</strong> tell it how to “get” the raw data (e.g., from the file system as file paths, a Pandas DataFrame).</p></li>
-<li><p><strong>transforms</strong> tell it how to “transform” that raw data progressively into something that can be fed into a model (e.g., a numeric representation of your inputs and targets).</p></li>
-<li><p><strong>splitters</strong> define various strategies you can implore to create your training and validation datasets.</p></li>
-</ol>
-<p>We’ll be talking a lot about transforms in this article, but one of their most interesting characteristics is that they can be defined to transform your raw data into a numerical representation (as “<strong>block transforms</strong>”), to run on your CPU when an item from your dataset is fetched (as an “<strong>item transform</strong>”) , or on the GPU after a mini-batch of your data has been collated into a square matrix and right before it is ran through your model (as a “<strong>batch transform</strong>”). In fact, there are all kinds of hooks into the data processing pipeline whereby you can apply transforms!</p>
-</section>
-<section id="an-example" class="level3">
-<h3 class="anchored" data-anchor-id="an-example">An example</h3>
-<p>Let’s break down one of the <code>DataBlock</code> examples from the documentation:</p>
-<pre><code>pets = DataBlock(blocks=(ImageBlock, CategoryBlock), 
-                 get_items=get_image_files, 
-                 splitter=RandomSplitter(),
-                 get_y=Pipeline([attrgetter("name"), RegexLabeller(pat = r'^(.*)_\d+.jpg$')]),
-                 item_tfms=Resize(128),
-                 batch_tfms=aug_transforms())</code></pre>
-<p>Your <strong>getters</strong> here are <code>get_items</code> and <code>get_y</code>. The first tells us that our <em>inputs</em> will be coming in the form of filenames returned by the <code>get_image_files</code> function, while the later tells the API to get the <em>labels</em>, or targets, for the inputs by applying a regex to the filename. There is also a <code>get_x</code> method available should you need to apply more specific instructions for defining your input. <code>get_items</code>, <code>get_x</code>, and <code>get_y</code> are all optional. Which you will need to implement depends on your data source and what you need to do to get your inputs/targets.</p>
-<p>The <strong>splitter</strong> parameter tells us that we are going to randomly split this data with 80% for training and 20% for validation. How do I know this? Easy. In your notebook put whatever class/method you are interested followed by two <code>??</code> to see it’s source.</p>
-<div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">RandomSplitter??</span></code></pre></div>
-</div>
-<p>So we got our data and we defined how we’re going to split it for training/validation … but how do we actually turn that into something we can feed a neural network? That is where <strong>transforms</strong> come into play and there are three primary kinds:</p>
-<ol type="1">
-<li><p>The <strong><em>data transforms</em></strong> defined in the <code>blocks</code> parameter describe how to “transform” your inputs and targets into what you really want to pass in to your model. Here we apply an <code>ImageBlock</code> to our inputs in order to turn the filenames into numerical representations of our images and a <code>CategoryBlock</code> to turn our targets from string labels to a unique set of numerical indexes for each of the possible labels. Essentially what these transforms do is turn your raw data into numbers because your data <em>HAS</em> to be represented numerically to train any kind of ML or DL model.</p></li>
-<li><p>Next we define our <strong><em>item transforms</em></strong> via <code>item_tfms</code>. Our only item transform above will resize all our images to 128x128. We do this here because we’ll need squared matrices to pass our images through our network in <strong>mini-batches</strong> (e.g., a subset of examples), and we can’t create a mini-batch of items until they are all the same shape. These transforms are applied when we fetch an individual item from one of our datasets.</p></li>
-<li><p>Lastly, we define our <strong><em>batch transforms</em></strong> via <code>batch_tfms</code> for transforms that will be applied to a “mini-batch” of data. Above we’re saying, “There’s a bunch of cool data augmentations we want you to apply to the images in each mini-batch right before you send it through the model.” Again, these transforms are applied on the GPU against a mini-batch of items.</p></li>
-</ol>
-<p>You can apply transforms to a variety of places in the data processing loop, but these three will satisfy your needs 90-95% of the time.</p>
-<p><strong>Uh, okay … so where’s the data?</strong></p>
-<p>Remember that the <code>pets</code> DataBlock is just a blueprint, a pipeline for making raw data into modelable data. How do we build something based on this blueprint? Easy. We just call our <code>DataBlock</code>’s <code>dataloaders()</code> method, passing in the one argument our <code>get_items</code> function, <code>get_image_files</code>, needs … the directory path all your images files are under.</p>
-<pre><code>dls = pets.dataloaders(path/"images")</code></pre>
-<p>Once your <code>pets</code> DataBlock knows the “source” of your data, it goes to work. It gets your image filenames, derives each image’s label from that name, creates a training and validation dataset, and then applies the appropirate transforms, at the appropriate time, so that when you pull items from your <code>DataLoaders</code> object (your <code>dls</code> variable), you have something your model understands. This is the object you pass into your <code>Learner</code> to do the actual training.</p>
-<p>Here’s some code you can run yourself in colab:</p>
-<div id="cell-11" class="cell" data-outputid="2b1e6a23-e6d7-4611-fd4d-5a9e62eed6de">
-<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">path <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> untar_data(URLs.PETS)                        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># &lt;-- Download our data; returns the path to that data</span></span>
-<span id="cb6-2"></span>
-<span id="cb6-3">pets <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataBlock(blocks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(ImageBlock, CategoryBlock), </span>
-<span id="cb6-4">                 get_items<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>get_image_files, </span>
-<span id="cb6-5">                 splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>RandomSplitter(),</span>
-<span id="cb6-6">                 get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Pipeline([attrgetter(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"name"</span>), RegexLabeller(pat <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="vs" style="color: #20794D;
-background-color: null;
-font-style: inherit;">r'^(.*)_\d+.jpg$'</span>)]),</span>
-<span id="cb6-7">                 item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">128</span>),</span>
-<span id="cb6-8">                 batch_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>aug_transforms())</span>
-<span id="cb6-9"></span>
-<span id="cb6-10">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pets.dataloaders(path<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"images"</span>)               <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># &lt;-- Tell our DataBlock where the "source" is and off it goes</span></span>
-<span id="cb6-11">dls.show_batch(max_n<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">9</span>)</span>
-<span id="cb6-12"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># dls.valid.show_batch()</span></span></code></pre></div>
-<div class="cell-output cell-output-display">
-
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="the-basics---pytorch-datasets-dataloaders" class="level2">
-<h2 class="anchored" data-anchor-id="the-basics---pytorch-datasets-dataloaders">The Basics - PyTorch Datasets &amp; Dataloaders</h2>
-<p>Using the DataBlock API seems magical (well, it kinda is). We’ve seen how easy it is to build this <code>DataLoaders</code> object that can be used to train our models, but in order to see what it is <em>actually</em> going on, we need to start at the beginning, we need to see how this is done natively in PyTorch.</p>
-<p>Don’t get confused by the similar concepts and names (e.g., Datasets, DataLoaders, transforms, etc…). Many of these ideas are built into PyTorch and extended to do much more in fast.ai. Just remember … <strong><em>we’re only working with PyTorch right now</em></strong>.</p>
-<p>PyTorch itself provides <code>Dataset</code> and <code>DataLoader</code> classes for getting at our data and being able to iteratively run it through our model via mini-batches. Let’s see how!</p>
-<section id="dataset" class="level3">
-<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
-<p>A Pytorch <code>Dataset</code> (see <code>torch.utils.data.Dataset</code>) is defined as “an abstract class representing a dataset”{% fn 2 %}. That’s just a fancy way to say it represents a collection of our data. We inherit from it and implement two key methods:</p>
-<p><code>__len__</code>: To return the size of our dataset</p>
-<p><code>__getitem__</code>: To get at a particular item in our dataset.</p>
-<p>Let’s start breaking down our DataBlock above by converting the underlying data representation as one of these <code>Dataset</code> classes. We’ll import some new packages that will be using and create a <code>PetCategories</code> class that will allow us to map our target labels with their indexes (and vice-versa).</p>
-<div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> pdb, re</span>
-<span id="cb7-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> torchvision <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> transforms</span></code></pre></div>
-</div>
-<div id="cell-15" class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> PetCategories():</span>
-<span id="cb8-2">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, image_fpaths, lbl_regex):</span>
-<span id="cb8-3">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># not all things are images</span></span>
-<span id="cb8-4">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.lbl_regex <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> re.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">compile</span>(lbl_regex)</span>
-<span id="cb8-5">        fpaths <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [ f  <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> f <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> image_fpaths <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.lbl_regex .match(f.name) ]</span>
-<span id="cb8-6">        </span>
-<span id="cb8-7">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># build our vocab</span></span>
-<span id="cb8-8">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.vocab <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">dict</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">enumerate</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">set</span>([<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.lbl_regex.match(f.name).groups(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>)[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>]  </span>
-<span id="cb8-9">                                         <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> f <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> fpaths <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.lbl_regex.match(f.name) ])))</span>
-<span id="cb8-10">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># build a reverse lookup</span></span>
-<span id="cb8-11">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.o2i <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> L(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.vocab.values()).val2idx()</span>
-<span id="cb8-12">        </span>
-<span id="cb8-13">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> get_label(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, fname):</span>
-<span id="cb8-14">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.lbl_regex.match(fname).groups(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>)[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>]</span></code></pre></div>
-</div>
-<div id="cell-16" class="cell">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> PetsDataset(torch.utils.data.Dataset):</span>
-<span id="cb9-2">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, image_fpaths, pet_categories, item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>):</span>
-<span id="cb9-3">        </span>
-<span id="cb9-4">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># not all things are images</span></span>
-<span id="cb9-5">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [ f  <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> f <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> image_fpaths <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> f.name.endswith(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'.jpg'</span>)]</span>
-<span id="cb9-6">        </span>
-<span id="cb9-7">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># our "item transforms"</span></span>
-<span id="cb9-8">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.tfm_pipeline <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> item_tfms</span>
-<span id="cb9-9">        </span>
-<span id="cb9-10">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># our labels vocab</span></span>
-<span id="cb9-11">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pet_categories</span>
-<span id="cb9-12">            </span>
-<span id="cb9-13">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__len__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>):</span>
-<span id="cb9-14">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths)</span>
-<span id="cb9-15">    </span>
-<span id="cb9-16">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__getitem__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, idx):</span>
-<span id="cb9-17">        img_fpath <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths[idx]</span>
-<span id="cb9-18">        img_label <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories.get_label(img_fpath.name)</span>
-<span id="cb9-19">        </span>
-<span id="cb9-20">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># you can think of this as a "block" or an "data transform"</span></span>
-<span id="cb9-21">        img <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Image.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">open</span>(img_fpath)</span>
-<span id="cb9-22">        lbl_idx <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories.o2i[img_label]</span>
-<span id="cb9-23">        </span>
-<span id="cb9-24">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.tfm_pipeline: img <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.tfm_pipeline(img)</span>
-<span id="cb9-25">            </span>
-<span id="cb9-26">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> img, torch.tensor(lbl_idx)</span></code></pre></div>
-</div>
-<p>There is a lot for you to explore above (step through the code, riddle it with <code>pdb.set_trace</code> statements, change it up and see what happens, etc….), but note the following in particular:</p>
-<ol type="1">
-<li><p><code>__getitem__</code> needs to return an “example”, which is two things … your inputs/targets and they both need to be tensors.</p></li>
-<li><p><code>item_tfms</code> represents the PyTorch (not fast.ai) transforms we need to apply to our inputs/targets. We’re going to use a special class named <code>Compose</code> from <code>torchvision</code> to set these up. For now, these transforms will just make sure our images are resized to the same size and converted to a tensor. Again, there is nothing fast.ai here (with the exception of me using the <code>L</code> class) … we’re just dealing with PyTorch righ now. :)</p></li>
-<li><p>Notice how we have to create our own <code>vocab</code> and <code>o2i</code> method so we can return an integer representing the “category” rather than the category name (e.g.&nbsp;“Maine_Coon”) itself. Everything has to be a number!</p></li>
-</ol>
-<p><strong>TIP</strong>: Run all this code in colab … do it! Make sure you understand what is going on and why. One of the most valuable techniques I use for learning all things Python, PyTorch, and fast.ai, is using <code>pdb.set_trace()</code> to step through and debug code. It’s great way to build inutition by printing out the shapes of tensors, running parts of the code interactively, etc….</p>
-<p><strong>Now</strong> …we’re going to need TWO <code>Dataset</code>s … one for training and one for validation. We’ll split our examples up randomly and set aside 20% for our validation set. There’s many ways to do this (most better and more efficient that below).</p>
-<div id="cell-18" class="cell" data-outputid="1202f124-94f8-4671-a8e5-bf4aec92a0f2" data-scrolled="true">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">all_images <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> (path<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'images'</span>).ls()<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(all_images)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>7393</code></pre>
-</div>
-</div>
-<div id="cell-19" class="cell" data-outputid="1f989ef0-dbe6-4cca-e7fd-9e866b7f38f1">
-<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">rnd_idxs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> np.random.permutation(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(all_images))<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(rnd_idxs)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>7393</code></pre>
-</div>
-</div>
-<div id="cell-20" class="cell" data-outputid="aa669182-bc89-47af-8ad1-8b7889524e9e">
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">cut <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">int</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(rnd_idxs) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">.2</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> cut</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>1478</code></pre>
-</div>
-</div>
-<div id="cell-21" class="cell" data-outputid="10cc521a-6980-4d22-95c9-92265feeac6c">
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">train_idxs, valid_idxs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> rnd_idxs[cut:], rnd_idxs[:cut]</span>
-<span id="cb16-2"></span>
-<span id="cb16-3"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(train_idxs), <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(valid_idxs), <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(train_idxs) <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(valid_idxs))</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>5915 1478 7393</code></pre>
-</div>
-</div>
-<p><strong>TIP</strong>: Notice how I print out lengths and shapes of tensors as I go? Doing that provides both a sanity check and ensure you are seeing what you expect before going further down the rabbit hole.</p>
-<p>Now, we can create our training and validation <code>Dataset</code>s.</p>
-<p><strong><em>Again</em></strong>, we are <em>NOT</em> using fast.ai transforms here … these are all built into the <code>torchvision</code> package. They serve the same purpose here as the fast.ai “item transforms”, but for now, we’re doing this all using just the PyTorch bits.</p>
-<div id="cell-24" class="cell">
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">item_tfms <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> transforms.Compose([</span>
-<span id="cb18-2">    transforms.RandomResizedCrop(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">224</span>),</span>
-<span id="cb18-3">    transforms.ToTensor()</span>
-<span id="cb18-4">])</span></code></pre></div>
-</div>
-<div id="cell-25" class="cell" data-outputid="6a174496-4b7b-48a2-a71a-eb5d1eab5bb6">
-<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1">categories <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> PetCategories(all_images[train_idxs], lbl_regex<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="vs" style="color: #20794D;
-background-color: null;
-font-style: inherit;">r'^(.*)_\d+.jpg$'</span>)</span>
-<span id="cb19-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(categories.vocab)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>37</code></pre>
-</div>
-</div>
-<div id="cell-26" class="cell" data-outputid="c786d224-8fa6-4dd1-bf58-8d5f99934fff">
-<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1">train_ds <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> PetsDataset(all_images[train_idxs], pet_categories<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>categories, item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>item_tfms)</span>
-<span id="cb21-2">valid_ds <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> PetsDataset(all_images[valid_idxs], pet_categories<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>categories, item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>item_tfms)</span>
-<span id="cb21-3"></span>
-<span id="cb21-4"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(train_ds), <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(valid_ds))</span>
-<span id="cb21-5"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(train_ds[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">20</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].shape, train_ds[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">20</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>])</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>5913 1477
-torch.Size([3, 224, 224]) tensor(33)</code></pre>
-</div>
-</div>
-</section>
-<section id="dataloader" class="level3">
-<h3 class="anchored" data-anchor-id="dataloader">DataLoader</h3>
-<p>With that we can create a <code>torch.utils.data.DataLoader</code> from each <code>Dataset</code>. The primary reason we need this object is to yield mini-batches of data into our model, but as you can see, it also provides us the ability to do much more (e.g., shuffle data, provide a collate function, etc…). Check out <a href="https://pytorch.org/docs/stable/data.html#module-torch.utils.data">the docs</a> for more info!</p>
-<p><strong><em>Note</em></strong>: fast.ai has it’s own <code>DataLoader</code> class that extends THIS one from PyTorch. Yah, I know it can seem confusing, but just remember for now, we are only working with functionality built-in to PyTorch.</p>
-<div id="cell-28" class="cell">
-<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">bsz <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">64</span></span>
-<span id="cb23-2"></span>
-<span id="cb23-3">train_dl <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> torch.utils.data.DataLoader(train_ds, batch_size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>bsz, shuffle<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">True</span>)</span>
-<span id="cb23-4">valid_dl <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> torch.utils.data.DataLoader(valid_ds, batch_size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>bsz<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>, shuffle<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">False</span>)</span></code></pre></div>
-</div>
-<p>And voila, we can now iterate through our dataset, mini-batch by mini-batch</p>
-<div id="cell-30" class="cell" data-outputid="8672ba02-ded2-4e98-c400-00457fb755f9">
-<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1">b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">next</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">iter</span>(valid_dl))</span>
-<span id="cb24-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(b), b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].shape, b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>].shape</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>(2, torch.Size([128, 3, 224, 224]), torch.Size([128]))</code></pre>
-</div>
-</div>
-<p>Wow … that took quite a bit more work than the 6 lines of code to create a <code>DataBlock</code>, and it’s still not as functional. For example, we haven’t built anything that can decode items, show batches, or allow us to easily adjust/extend the objects we created above.</p>
-<p>So let’s keep going. Starting with the low-level API, we can take these PyTorch <code>Dataset</code> and <code>DataLoader</code> objects more friendly for fast.ai <code>Learner</code>s.</p>
-</section>
-</section>
-<section id="using-the-low-level-api---fast.ai-dataloaders" class="level2">
-<h2 class="anchored" data-anchor-id="using-the-low-level-api---fast.ai-dataloaders">Using the Low-Level API - fast.ai DataLoaders</h2>
-<p>It’s actually pretty easy to get your PyTorch <code>Dataset</code> class incorporated into fast.ai and get it to play nicely with fast.ai’s custom <code>DataLoaders</code>.</p>
-<div id="cell-33" class="cell">
-<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> fastai2.data.core <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> DataLoaders</span></code></pre></div>
-</div>
-<div id="cell-34" class="cell">
-<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataLoaders.from_dsets(train_ds, valid_ds)</span></code></pre></div>
-</div>
-<div id="cell-35" class="cell">
-<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1">b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.one_batch()</span></code></pre></div>
-</div>
-<div id="cell-36" class="cell" data-outputid="9de25f7e-a887-40ac-d7ff-a0b4ad241d0d">
-<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(b), b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].shape, b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>].shape</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
-<pre><code>(2, torch.Size([64, 3, 224, 224]), torch.Size([64]))</code></pre>
-</div>
-</div>
-<p>I told you it was simple, didn’t I?</p>
-<p>Notice that we didn’t have to change anything in our PyTorch <code>Dataset</code> to create a <code>DataLoaders</code> object we can pass to our <code>Learner</code> for training. This is nice because it means, given a standard PyTorch Dataset, you can use all the wonderful fast.ai bits for training in less than 3 lines of code.</p>
-<p><strong>Tip</strong>: If you don’t care about being able to show batches, show results, and this satisfies your needs … STOP! You’re good to go. Don’t overthink you’re problem or over-engineer a solution to a problem that doesn’t necessarily exist. <em>Remember: You don’t have to use the mid-level API or DataBlocks to use fast.ai!</em></p>
-</section>
-<section id="using-the-mid-level-api---converting-your-dataset-into-a-transform" class="level2">
-<h2 class="anchored" data-anchor-id="using-the-mid-level-api---converting-your-dataset-into-a-transform">Using the Mid-Level API - Converting Your Dataset into a Transform</h2>
-<p><strong>BUT</strong> what if we want to apply/change our transforms, or run transforms on the GPU after we have a batch, or be able to visualize our data in our datasets and dataloaders or even our predictions? To begin with, we can convert our <code>Dataset</code> into a <code>Transform</code> by doing <strong>4</strong> things:</p>
-<ol type="1">
-<li><p>Inherit from <code>Transform</code> instead of <code>torch.utils.data.Dataset</code></p></li>
-<li><p>Change your <code>__getitem__</code> into <code>encodes</code>. According to the docs … “a <code>Transform</code> in fastai calls the <code>encodes</code> method when you apply it on an item (a bit like PyTorch modules call forward when applied on something).”{% fn 3 %} Here it will return the numerical representations of our data in the form of tensors.</p></li>
-<li><p>Change your return type to be a tuple and optionally use fastai’s semantic types (here we wrap our image in <code>TensorImage</code> which knows how to show itself). From the docs: “If you then return a tuple (or a subclass of a tuple), and use fastai’s semantic type, you can then apply any other fastai’s transform on your data and it will be dispatched properly.”{% fn 4 %} That simply means we can add on more transforms that know how to work with <code>TensorImage</code> objects and they’ll do the right thing.</p></li>
-<li><p>Get rid of <code>__len__</code></p></li>
-</ol>
-<div id="cell-40" class="cell">
-<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> PetsTransform(Transform):</span>
-<span id="cb31-2">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, image_fpaths, pet_categories, item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>):</span>
-<span id="cb31-3">        </span>
-<span id="cb31-4">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># not all things are images</span></span>
-<span id="cb31-5">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [ f  <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> f <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> all_images <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> f.name.endswith(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'.jpg'</span>)]</span>
-<span id="cb31-6">        </span>
-<span id="cb31-7">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># our pytorch "item transforms"</span></span>
-<span id="cb31-8">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.tfm_pipeline <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> item_tfms</span>
-<span id="cb31-9">        </span>
-<span id="cb31-10">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># our labels vocab</span></span>
-<span id="cb31-11">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pet_categories</span>
-<span id="cb31-12">            </span>
-<span id="cb31-13">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__len__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>):</span>
-<span id="cb31-14">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths)</span>
-<span id="cb31-15">    </span>
-<span id="cb31-16">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> encodes(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, idx):</span>
-<span id="cb31-17">        img_fpath <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths[idx]</span>
-<span id="cb31-18">        img_label <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories.get_label(img_fpath.name)</span>
-<span id="cb31-19">        </span>
-<span id="cb31-20">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># you can think of this as a "block" or an "data transform"</span></span>
-<span id="cb31-21">        img <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Image.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">open</span>(img_fpath)</span>
-<span id="cb31-22">        lbl_idx <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories.o2i[img_label]</span>
-<span id="cb31-23">        </span>
-<span id="cb31-24">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.tfm_pipeline: img <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.tfm_pipeline(img)</span>
-<span id="cb31-25">            </span>
-<span id="cb31-26">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> (TensorImage(img), torch.tensor(lbl_idx))</span></code></pre></div>
-</div>
-<p>Now that we are using a <code>Transform</code>, we have to use a new kind of object to build our dataset: <code>TfmdLists</code></p>
-<p>A <code>TfmdList</code> is “just an object that lazily applies a collection of Transforms on a list.”{% fn 5 %} Think of it as a fancy <code>Dataset</code> object that knows how to work with <code>Transform</code> objects.</p>
-<div id="cell-42" class="cell">
-<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1">train_fpaths <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> all_images[train_idxs]</span>
-<span id="cb32-2">valid_fpaths <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> all_images[valid_idxs]</span>
-<span id="cb32-3"></span>
-<span id="cb32-4">train_tl<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> TfmdLists(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">range</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(train_idxs)), PetsTransform(train_fpaths, </span>
-<span id="cb32-5">                                                          pet_categories<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>categories, </span>
-<span id="cb32-6">                                                          item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>item_tfms))</span>
-<span id="cb32-7"></span>
-<span id="cb32-8">valid_tl<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> TfmdLists(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">range</span>(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(valid_idxs)), PetsTransform(valid_fpaths, </span>
-<span id="cb32-9">                                                          pet_categories<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>categories, </span>
-<span id="cb32-10">                                                          item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>item_tfms))</span></code></pre></div>
-</div>
-<p>Since this is just another kind of dataset, we can pass these <code>TfmdLists</code> objects to <code>DataLoaders</code> just like before. But notice, we can now add fast.ai transforms to it just like we did in the <code>DataBlock</code> example at the top. We’re already resizing and converting the examples to tensors, so we’ll add some <code>after_batch</code> transforms for normalization and augmentations.</p>
-<div id="cell-44" class="cell">
-<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataLoaders.from_dsets(train_tl, valid_tl, </span>
-<span id="cb33-2">                             after_batch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[Normalize.from_stats(<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>imagenet_stats), <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>aug_transforms()])</span>
-<span id="cb33-3">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.cuda()</span></code></pre></div>
-</div>
-<div id="cell-45" class="cell" data-outputid="8ba8376c-3046-4f79-fd0c-1209e44b0671">
-<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1">b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.one_batch()</span>
-<span id="cb34-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(b), b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].shape, b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>].shape</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
-<pre><code>(2, torch.Size([64, 3, 224, 224]), torch.Size([64]))</code></pre>
-</div>
-</div>
-<p>Let’s see if we can show a batch of our data. Uncomment the line below, run it, and yah … it throws an exception. But why?</p>
-<div id="cell-47" class="cell">
-<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># dls.show_batch()</span></span></code></pre></div>
-</div>
-<p>If you guessed it is because <code>show_batch</code> doesn’t know what to do with the target’s numerical index, bingo! You’re right.</p>
-<p>Let’s start to fix that by actually creating <strong><em>our own</em></strong> class that represents our inputs/targets. Notice that besides inheriting from <code>Tuple</code>, all we are providing is a <code>show</code> method that tells a <code>PetImage</code> object how to show itself. According to the docs, “fastai will call [your transforms decodes methods] until it arrives at a type that knows how to show itself, then call the show method on this type.”{% fn 6 %}</p>
-<p>BTW, a lot of this code is just ripped from the “Siamese tutorial” in the docs, so don’t be too impressed. If you want to really do a deep dive and work though all this given a different task, check it out <a href="http://dev.fast.ai/tutorial.siamese">here</a>.</p>
-<div id="cell-49" class="cell">
-<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> PetImage(Tuple):</span>
-<span id="cb37-2">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> show(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, ctx<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span>kwargs):</span>
-<span id="cb37-3">        img, category_idx <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span></span>
-<span id="cb37-4">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">not</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">isinstance</span>(img, Tensor):</span>
-<span id="cb37-5">            img_tensor <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> tensor(img)</span>
-<span id="cb37-6">            img_tensor <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> img_tensor.permute(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>,<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)</span>
-<span id="cb37-7">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">else</span>: </span>
-<span id="cb37-8">            img_tensor <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> img</span>
-<span id="cb37-9"></span>
-<span id="cb37-10">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> show_image(img_tensor, title<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>categories.vocab[category_idx], ctx<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ctx, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span>kwargs)</span></code></pre></div>
-</div>
-<p>The <code>show</code> method knows how to work with tensors or PIL images. The last method is a helper method available in fast.ai to actually show an image and print it’s title above it. If you pass in a <code>ctx</code> it will use that to format and place the images appropriate. A context can be something like a matplotlib axis or a DataFrame … it “represents the object where we will show our thing.”{% fn 7 %}</p>
-<p>Now let’s make some changes to our <code>PetsTransform</code> to make it a bit more fastai’sh.</p>
-<p><strong>First</strong>, we’ll use <code>PILImage.create</code> to create the image in <code>encodes</code>. We do this because that object allows us to apply fast.ai transform liks <code>Resize</code> and <code>ToTensor</code> directly on it.</p>
-<p><strong>Second</strong>, we’re going to move to using fast.ai transforms for everything, so we’ll get rid of the PyTorch transforms!</p>
-<p><strong>Third</strong>, notice our <code>encodes</code> now returns a <code>PetsImage</code>. It’s just a tuple … but because its a particular kind of tuple, we can use the typdispatched <code>show_batch</code> and <code>show_results</code> to actually visualize our data/results.</p>
-<div id="cell-52" class="cell">
-<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">class</span> PetsTransform2(Transform):</span>
-<span id="cb38-2">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, image_fpaths, pet_categories):</span>
-<span id="cb38-3">        </span>
-<span id="cb38-4">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># not all things are images</span></span>
-<span id="cb38-5">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [ f  <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> f <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> all_images <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> f.name.endswith(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'.jpg'</span>)]</span>
-<span id="cb38-6">        </span>
-<span id="cb38-7">        <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># our labels vocab</span></span>
-<span id="cb38-8">        <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pet_categories</span>
-<span id="cb38-9">            </span>
-<span id="cb38-10">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">__len__</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>):</span>
-<span id="cb38-11">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.fpaths)</span>
-<span id="cb38-12">    </span>
-<span id="cb38-13">    <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> encodes(<span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>, img_fpath):</span>
-<span id="cb38-14">        img <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> PILImage.create(img_fpath)</span>
-<span id="cb38-15">        img_label <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories.get_label(img_fpath.name)</span>
-<span id="cb38-16">        lbl_idx <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">self</span>.pet_categories.o2i[img_label]</span>
-<span id="cb38-17">        </span>
-<span id="cb38-18">        <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> PetImage(img, lbl_idx)</span></code></pre></div>
-</div>
-<p>Because of these changes, instead of creating the separate <code>TfmdLists</code> ourselves, we can now further do things the “fast.ai way” by using a <code>splitter</code> to do that for us. Here we’ll use <code>RandomSplitter</code> which gives us that same 80/20 training/validation split.</p>
-<div id="cell-54" class="cell">
-<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1">splits <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> RandomSplitter()(all_images)</span>
-<span id="cb39-2">tfm <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> PetsTransform2(all_images, categories)</span></code></pre></div>
-</div>
-<p>Now we can get both our datasets in one line of code! When we pass <code>splits</code> to <code>TfmdLists</code>, it takes care of creating our training and validation datasets!</p>
-<div id="cell-56" class="cell">
-<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1">tls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> TfmdLists(all_images, tfm, splits<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>splits)</span></code></pre></div>
-</div>
-<p>And thanks for our <code>PetImage</code> class, fast.ai can show an item from our dataset.</p>
-<div id="cell-58" class="cell" data-outputid="884fb11a-6110-4f8c-cd06-0f3ec9296468" data-scrolled="true">
-<div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1">show_at(tls.valid, <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>)</span></code></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Even better, we can now specify all our transforms using fast.ai in the call to <code>dataloaders()</code>. And because these are fast.ai <code>DataLoader</code> objects, we can add tranforms at any point in our data processing pipeline (not just <code>after_item</code> and <code>after_batch</code>).</p>
-<div id="cell-60" class="cell">
-<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> tls.dataloaders(after_item<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">224</span>), ToTensor], </span>
-<span id="cb42-2">                      after_batch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[IntToFloatTensor, Normalize.from_stats(<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span>imagenet_stats)])</span></code></pre></div>
-</div>
-<p>In the process, notice how we’ve also refactored our code into something much more reusable. For example, if we want to resize our images to something else, its as easy as …</p>
-<div id="cell-62" class="cell" data-outputid="8ba8f910-b575-4ea4-a6a2-004b6f2d07ec">
-<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1">new_dl <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.new(after_item<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">64</span>), ToTensor])</span>
-<span id="cb43-2">new_dl.one_batch()[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].shape</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
-<pre><code>torch.Size([64, 3, 64, 64])</code></pre>
-</div>
-</div>
-<p>And what about showing a batch of data? Unfortunately it still won’t work. <code>show_batch</code> is designed primarily to work with the <code>DataBlock API</code>, but here, we’re returning the whole thing as a single transform.</p>
-<p>The solution is easy: use the <code>@typedispatch</code> mechanism and override <code>show_batch</code> so that our <code>x</code> (our input) is “typed”.</p>
-<div id="cell-64" class="cell">
-<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1">b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.one_batch()</span></code></pre></div>
-</div>
-<div id="cell-65" class="cell" data-outputid="184fb9d4-13c7-4386-a477-bc603ececb3f">
-<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1">dls._types, <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">type</span>(b)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="34">
-<pre><code>({__main__.PetImage: [fastai2.torch_core.TensorImage, torch.Tensor]},
- __main__.PetImage)</code></pre>
-</div>
-</div>
-<div id="cell-66" class="cell">
-<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">@typedispatch</span></span>
-<span id="cb48-2"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> show_batch(x:PetImage, y, samples, ctxs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, max_n<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">6</span>, nrows<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, ncols<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>, figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span>kwargs):</span>
-<span id="cb48-3">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> figsize <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">is</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>: figsize <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> (ncols<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">6</span>, max_n<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">//</span>ncols <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>)</span>
-<span id="cb48-4">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> ctxs <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">is</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>: ctxs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> get_grid(<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">min</span>(x[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>].shape[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>], max_n), nrows<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span>, ncols<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ncols, figsize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>figsize)</span>
-<span id="cb48-5">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> i,ctx <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">enumerate</span>(ctxs): </span>
-<span id="cb48-6">        PetImage(x[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>][i], x[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>][i].item()).show(ctx<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ctx)</span></code></pre></div>
-</div>
-<div id="cell-67" class="cell" data-outputid="2876cce7-52f2-4b58-96f8-20c897aff305">
-<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1">dls.show_batch()</span></code></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>When <code>dls.show_batch()</code> runs, it will find the closes matching version of <code>show_batch()</code> available to execute given chat the batch is. We could even write a typedispatched <code>show_results()</code> to look at our predictions alongside our targets using the same technique we applied to <code>show_batch()</code>.</p>
-<p>Using the mid-level API, you not only have a <code>Dataloaders</code> object good to go for training … you have one that you can use to show your data and extend by applying/changing as many transforms to wherever you want in the data processing pipeline.</p>
-<p><strong>What could be better than this?</strong></p>
-<p>Answer: Doing all this with &lt; 10 lines of code using the <code>DataBlock</code> API.</p>
-<p>We’ve already looked at how it works above, now, we’ll look at the questions you need to ask to construct it in accordance with your data and task. Again, if the above gets you where you need to be, you don’t need to use the high-level <code>DataBlock</code> API. There is no right option for every task and there are many ways to get where you need to go.</p>
-</section>
-<section id="using-the-high-level-api---datablocks" class="level2">
-<h2 class="anchored" data-anchor-id="using-the-high-level-api---datablocks">Using the High-Level API - DataBlocks</h2>
-<p>Having looked at the basic data-processing units in PyTorch, then to the low and mid-level APIs available in fast.ai, you’re probably wondering, “Ok, how can I do all that by drawing up a <code>DataBlock</code> blueprint for <em>my</em> task?”</p>
-<p>The path to enlightment comes in the form of answering <strong>7</strong> questions.</p>
-<section id="asking-the-right-questions" class="level3">
-<h3 class="anchored" data-anchor-id="asking-the-right-questions">Asking the right questions</h3>
-<p>Assuming you understand your task and data, once you’ve answered these <strong>7</strong> questions you’ll know everything you need to construct your own <code>DataBlock</code>. These come right out of the <a href="http://dev.fast.ai/tutorial.datablock">DataBlock tutorial</a> so check that for even more details and example implementations!</p>
-<ol type="1">
-<li>What are the types of your inputs and targets? (e.g., images/categories)</li>
-<li>Where is your data? (e.g., filenames in folders, a DataFrame, a database)</li>
-<li>Do we need to do anything special to get our “inputs”? If so, use <code>get_x</code></li>
-<li>Do we need to do anything special to get our “targets”? If yes, use <code>get_y</code></li>
-<li>How do you want to split the data into training and validation sets? Use <code>splitter</code></li>
-<li>Do we need to do anything when we get an item? If yes, define that in <code>item_tfms</code></li>
-<li>Do we need to do anything to a “mini-batch” of data? If yes, define that in <code>batch_tfms</code></li>
-</ol>
-</section>
-<section id="getting-the-right-answers" class="level3">
-<h3 class="anchored" data-anchor-id="getting-the-right-answers">Getting the right answers</h3>
-<p>Looking back at our example <code>DataBlock</code> …</p>
-<div class="sourceCode" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1">pets <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataBlock(blocks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(ImageBlock, CategoryBlock), </span>
-<span id="cb50-2">                 get_items<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>get_image_files, </span>
-<span id="cb50-3">                 splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>RandomSplitter(),</span>
-<span id="cb50-4">                 get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Pipeline([attrgetter(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"name"</span>), RegexLabeller(pat <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="vs" style="color: #20794D;
-background-color: null;
-font-style: inherit;">r'^(.*)_\d+.jpg$'</span>)]),</span>
-<span id="cb50-5">                 item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">128</span>),</span>
-<span id="cb50-6">                 batch_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>aug_transforms())</span></code></pre></div>
-<p>We knew how to construct it as such because:</p>
-<p>1.What are the types of your inputs and targets?<br>
-<strong>Answer</strong>: inputs=pet images | targets=37 categories. So we need an <code>ImageBlock</code> to handle the images and a <code>CategoryBlock</code> to handle the labels. Those <code>blocks</code> will add the needed transforms for each of their respective pieces.</p>
-<p>2.Where is your data?<br>
-<strong>Answer</strong>: filenames</p>
-<p>3.Do we need to do anything special to get our “inputs”?<br>
-<strong>Answer</strong>: No, <code>get_items</code> will get our input images.</p>
-<p>4.Do we need to do anything special to get our “targets”?<br>
-<strong>Answer</strong>: Yes, we need to implement a <code>get_y</code> to get our labels from the image file name.</p>
-<p>5.How do you want to split the data into training and validation sets?<br>
-<strong>Answer</strong>: We just want a random 80/20 split, so use <code>RandomSplitter</code></p>
-<p>6.Do we need to do anything when we get an item?<br>
-<strong>Answer</strong>: Yes, we need to resize our images so they are the same shape and can be included together in a mini-batch. Do this in <code>item_tfms</code></p>
-<p>7.Do we need to do anything to a “mini-batch” of data?<br>
-<strong>Answer</strong>: Yes, we’d like to add some randomization to the images by applying data augmentations on the GPU. Do this with <code>batch_tfms</code></p>
-</section>
-</section>
-<section id="tips-tricks-best-practices-a-bunch-of-good-things-to-know" class="level2">
-<h2 class="anchored" data-anchor-id="tips-tricks-best-practices-a-bunch-of-good-things-to-know">Tips, Tricks, Best Practices, &amp; A Bunch of Good Things to Know</h2>
-<p>Below are some of the more important things and best practices to be aware of when working with the <code>DataBlock</code> API. It’s in no way exhaustive, but anything I’ve had to lookup multiple times is listed here.</p>
-<section id="what-happens-if-i-dont-define-how-to-get-my-targets-my-y" class="level4">
-<h4 class="anchored" data-anchor-id="what-happens-if-i-dont-define-how-to-get-my-targets-my-y">What happens if I don’t define how to get my targets (my <code>y</code>)?</h4>
-<p>If you don’t specify your labels, the DataBlock API will assume they are the same as your inputs. This is atypical for most tasks, but not entirely useless. According to the docs, “by default, the data block API assumes we have an input and a target, which is why we see our filename repeated twice” whenever you view the results of your datasets/dataloaders <em>without</em> a <code>y</code> specified.{% fn 8 %}</p>
-</section>
-<section id="can-i-have-multiple-inputstargets" class="level4">
-<h4 class="anchored" data-anchor-id="can-i-have-multiple-inputstargets">Can I have multiple inputs/targets?</h4>
-<p>Yes! According to the docs … “You can also have more than two blocks (if you have multiple inputs and/or targets), you would just need to pass <code>n_inp</code> to the DataBlock to tell the library how many inputs there are (the rest would be targets) and pass a list of functions to <code>get_x</code> and/or <code>get_y</code> (to explain how to process each item to be ready for his type).”{% fn 9 %} We’ll explore this in Part 2 of this series where I attempt to update my v1 <code>MixedTabluarList</code> object (incorporates tabular + text) into something v2 friendly. In the meantime, here’s a nice example from the docs on setting up a dataset for object detection:</p>
-<div class="sourceCode" id="cb51" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1">coco <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataBlock(blocks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(ImageBlock, BBoxBlock, BBoxLblBlock),</span>
-<span id="cb51-2">                 get_items<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>get_image_files,</span>
-<span id="cb51-3">                 splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>RandomSplitter(),</span>
-<span id="cb51-4">                 get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[<span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">lambda</span> o: img2bbox[o.name][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>], <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">lambda</span> o: img2bbox[o.name][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>]], </span>
-<span id="cb51-5">                 item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">128</span>),</span>
-<span id="cb51-6">                 batch_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>aug_transforms(),</span>
-<span id="cb51-7">                 n_inp<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div>
-<p>You see that <code>n_inp</code>? It’s saying, “Use the <code>ImageBlock</code> for my inputs (I only have 1), but I’ll need TWO targets this time as I’m trying to predict the location of an object (<code>BBoxBlock</code>) and it’s label (<code>BBoxLblBlock</code>).” Notice also because we are predicting TWO things, our <code>get_y</code> returns a list of, you guessed it, two things. If we didn’t need to do anything special with either of these targets, we’d simply pass <code>noop</code> in it’s place in that list.</p>
-</section>
-<section id="where-can-i-learn-about-the-baked-in-bits-of-the-datablock-api" class="level4">
-<h4 class="anchored" data-anchor-id="where-can-i-learn-about-the-baked-in-bits-of-the-datablock-api">Where can I learn about the baked in bits of the DataBlock API?</h4>
-<p>The API already has a lot of useful classes and functions suitable for defining your getters, splitter, and transforms across a number of application types. The full list is here: http://dev.fast.ai/data.transforms</p>
-</section>
-<section id="what-if-something-goes-wrong-or-what-if-i-want-to-make-sure-my-datablock-is-doing-what-i-think-it-is" class="level4">
-<h4 class="anchored" data-anchor-id="what-if-something-goes-wrong-or-what-if-i-want-to-make-sure-my-datablock-is-doing-what-i-think-it-is">What if something goes wrong? Or what if I want to make sure my DataBlock is doing what I think it is?</h4>
-<p>Use <code>dblock.summary(path)</code>. If there is an error, this thing will bomb out where it is encountered … else, you’ll be able to verify that all the wonderful things your 5-10 lines of code above does what you expect.</p>
-</section>
-<section id="do-i-need-to-always-use-get_items" class="level4">
-<h4 class="anchored" data-anchor-id="do-i-need-to-always-use-get_items">Do I need to always use <code>get_items</code>?</h4>
-<p>No.&nbsp;For example, if your “source” data is a DataFrame …</p>
-<div class="sourceCode" id="cb52" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1">pascal <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataBlock(blocks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(ImageBlock, MultiCategoryBlock),</span>
-<span id="cb52-2">                   splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColSplitter(),</span>
-<span id="cb52-3">                   get_x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColReader(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>, pref<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>pascal_source<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"train"</span>),</span>
-<span id="cb52-4">                   get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColReader(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, label_delim<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">' '</span>),</span>
-<span id="cb52-5">                   item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">224</span>),</span>
-<span id="cb52-6">                   batch_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>aug_transforms())</span>
-<span id="cb52-7">                   </span>
-<span id="cb52-8">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pascal.dataloaders(df)</span></code></pre></div>
-<p>According to the docs … “we wont have to use a <code>get_items</code> function here because we already have all our data in one place.”{% fn 10 %}</p>
-</section>
-<section id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe" class="level4">
-<h4 class="anchored" data-anchor-id="what-are-different-ways-i-can-get-my-x-and-y-from-a-dataframe">What are different ways I can get my x and y from a DataFrame?</h4>
-<p>Using <code>ColReader</code>:</p>
-<div class="sourceCode" id="cb53" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1">get_x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColReader(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>, pref<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>pascal_source<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"train"</span>),</span>
-<span id="cb53-2">get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColReader(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, label_delim<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">' '</span>)</span></code></pre></div>
-<p>Using <code>lambda</code> functions:</p>
-<div class="sourceCode" id="cb54" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1">get_x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">lambda</span> x:pascal_source<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"train"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">/</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>x[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>]<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'</span>,</span>
-<span id="cb54-2">get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">lambda</span> x:x[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>].split(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">' '</span>),</span></code></pre></div>
-<p>Using <code>column names</code>:</p>
-<div class="sourceCode" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1">get_x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">lambda</span> o:<span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>pascal_source<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">/train/'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span>o.fname,</span>
-<span id="cb55-2">get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">lambda</span> o:o.labels.split(),</span></code></pre></div>
-<p>Using <code>from_columns</code>:</p>
-<div class="sourceCode" id="cb56" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> _pascal_items(x): <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> (<span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>pascal_source<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">/train/'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span>x.fname, x.labels.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">str</span>.split())</span>
-<span id="cb56-2"></span>
-<span id="cb56-3">valid_idx <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> df[df[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'is_valid'</span>]].index.values</span>
-<span id="cb56-4"></span>
-<span id="cb56-5">pascal <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataBlock.from_columns(blocks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>(ImageBlock, MultiCategoryBlock),</span>
-<span id="cb56-6">                   get_items<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>_pascal_items,</span>
-<span id="cb56-7">                   splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>IndexSplitter(valid_idx),</span>
-<span id="cb56-8">                   item_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>Resize(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">224</span>),</span>
-<span id="cb56-9">                   batch_tfms<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>aug_transforms())</span>
-<span id="cb56-10">                  </span></code></pre></div>
-<p>According to the docs, this is “the most efficient way (to avoid iterating over the rows of the dataframe, which can take a long time) …. It will use <code>get_items</code> to convert the columns in numpy arrays. The drawback is that since we lose the dataframe after extracting the relevant columns, we can’t use a <code>ColSplitter</code> anymore.”{% fn 11 %}</p>
-</section>
-<section id="what-about-tabular-data" class="level4">
-<h4 class="anchored" data-anchor-id="what-about-tabular-data">What about tabular data?</h4>
-<p>We’ll explore the tabular bits in a later part, but as the docs say, the “tabular data doesn’t really use the data block API as it’s relying on another API with <code>TabularPandas</code> for efficient preprocessing and batching.”{% fn 12 %} Of course, where there is a will, there is a way, and so we’ll see a possible solution in Part 2 or 3 of this series :).</p>
-</section>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>As the famous song goes, “we’ve only just begun ….” In future installments we’ll dig into more of the particulars of the entire fast.ai data stack, and see how we can use it to solve some “out-of-the-box” tasks.</p>
-<p>In the meantime, the best way for you to get a better handle on what’s what, is to mess around with the many examples found in the v2 documentation <a href="http://dev.fast.ai/index.html">here</a>.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ol type="1">
-<li>http://dev.fast.ai/tutorial.datablock</li>
-<li>http://dev.fast.ai/tutorial.siamese</li>
-<li>http://dev.fast.ai/data.block</li>
-<li>http://dev.fast.ai/data.transforms</li>
-<li><a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">fastai v2 walk-thru playlist</a></li>
-<li><a href="https://www.youtube.com/watch?v=bw4PRyxa-y4">Zach Mueller’s “A Guided Walk-through of 2.0”: Lesson 1</a></li>
-</ol>
-<p>{{ ‘See full playlist <a href="https://www.youtube.com/playlist?list=PLfYUBJiXbdtSWRCYUHh-ThVCC39bp5yiq">here</a>’ | fndetail: 1 }} {{ ‘https://pytorch.org/tutorials/beginner/data_loading_tutorial.html#dataset-class’ | fndetail: 2 }} {{ ‘http://dev.fast.ai/tutorial.siamese#Using-the-mid-level-API’ | fndetail: 3 }} {{ ‘Ibid.’ | fndetail: 4 }} {{ ‘http://dev.fast.ai/tutorial.siamese#Using-the-mid-level-API’ | fndetail: 5 }} {{ ‘http://dev.fast.ai/tutorial.siamese#Making-show-work’ | fndetail: 6 }} {{ ‘Ibid.’ | fndetail: 7 }} {{ ‘http://dev.fast.ai/tutorial.datablock’ | fndetail: 8 }} {{ ‘Ibid.’ | fndetail: 9 }} {{ ‘Ibid.’ | fndetail: 10 }} {{ ‘Ibid.’ | fndetail: 11 }} {{ ‘Ibid.’ | fndetail: 12 }}</p>
-
-
-</section>
-
- ]]></description>
-  <category>fastai</category>
-  <category>datablock api</category>
-  <category>data</category>
-  <category>pytorch</category>
-  <guid>https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1.html</guid>
-  <pubDate>Sat, 11 Apr 2020 07:00:00 GMT</pubDate>
-  <media:content url="https://ohmeow.com/posts/images/finding-datablock-nirvana-part-1-logo.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

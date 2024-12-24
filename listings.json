@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2024-12-24-gemini-part-2-sdk.html",
       "/posts/2024-12-13-gemini-part-1.html",
       "/posts/2024-07-25-llm-workshop-evals-dataset-curation.html",
       "/posts/2024-07-18-llm-workshop-prompt-only.html",
