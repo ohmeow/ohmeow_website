@@ -334,19 +334,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NamedEntity(BaseModel):</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""The type of named entity and it's value."""</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    entity_group: EntityGroup <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The type of named entity"</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    word: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The named entity found"</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DocumentNER(BaseModel):</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Information about named entities to extract."""</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity] <span class="op">=</span> Field(</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        ...,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        description<span class="op">=</span><span class="ss">f"Perform Named Entity Recognition that finds the following entities: </span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join([x.name <span class="cf">for</span> x <span class="kw">in</span> EntityGroup])<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    entity_group: EntityGroup</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    word: <span class="bu">str</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DocumentNER(BaseModel):</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When using the Anthropic models, I would consistently see it trying to set <code>entity_group</code> to a string rather than a proper enum value from the <code>EntityGroup</code> enum.</p>
 <p>After iterating through a number of prompt and class/field description modifications, I decided to give up and replace my <code>Enum</code> with a <code>Literal</code>. And guess what, everything worked great across all model vendors.</p>
 <p>I also decided to lookup the named entities used in Spacy and use those names in my <code>Enum</code> as it makes sense to me that perhaps these libraries might have been included in the training of these LLMs and so maybe will help it do a better job of finding the entities I care about.</p>
@@ -378,20 +371,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"CARDINAL"</span>,</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"OTHER"</span>,</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    entity: <span class="bu">str</span> <span class="op">=</span> Field(..., description<span class="op">=</span><span class="st">"The named entity found"</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    entity: <span class="bu">str</span></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DocumentNERTask(BaseModel):</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extracts the named entities in the document.</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">    This tool should be used anytime the user asks for named entity recognition (NER)</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">    or wants to identify named entities.</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity] <span class="op">=</span> Field(</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        ...,</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        description<span class="op">=</span><span class="st">"Perform Named Entity Recognition and return a list of any 'NamedEntity' objects found."</span>,</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This works great … but I really wanted to use an <code>Enum</code> for the reasons listed at the top of this post. And as I’m the kinda guy who enjoys fighting with CUDA installs on his local DL rig, I decided to give it a go after taking a few hours off to enjoy the Euros and Copa America tourneys (also Germany should have won; that was a handball but nah, I’m not angry, nope, not bent at all).</p>
 </section>
 <section id="v2-using-enum-revisted" class="level2">
@@ -439,16 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DocumentNERTask(BaseModel):</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extracts the named entities found in the document.</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co">    This tool should be used anytime the user asks for named entity recognition (NER)</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co">    or wants to identify named entities.</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity] <span class="op">=</span> Field(</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        ...,</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>        description<span class="op">=</span><span class="ss">f"Perform Named Entity Recognition that finds the following entities: </span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join([x.name <span class="cf">for</span> x <span class="kw">in</span> NamedEntityType])<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Besides the return of the <code>Enum</code>, the most noticeable change involves the inclusion of a <code>BeforeValidator</code> that ensures the value is assigned to a valid enum as defined in <code>NamedEntity</code>. In cases where it wants to add an entity to the list of <code>named_entities</code> that isn’t defined in the <code>NamedEntityType</code> enum or is named differently (e.g., “ORGANIZATION” vs.&nbsp;“ORG”), it will assign them to <code>OTHER</code>.</p>
 <p>With this in place, I now have a solution that is:</p>
 <ol type="1">
@@ -503,16 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DocumentNERTask(BaseModel):</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extracts the named entities found in the document.</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">    This tool should be used anytime the user asks for named entity recognition (NER)</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">    or wants to identify named entities.</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity] <span class="op">=</span> Field(</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        ...,</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        description<span class="op">=</span><span class="ss">f"Perform Named Entity Recognition that finds the following entities: </span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join([x.name <span class="cf">for</span> x <span class="kw">in</span> NamedEntityType])<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    named_entities: <span class="bu">list</span>[NamedEntity]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This improves those cases where, for example, the LLM wants to define the entity type as “ORGANIZATION” but it is defined in the <code>Enum</code> as “ORG”.</p>
 <p>Another option potentially worth exploring is to use the <code>llm_validator</code> function to make a call out to the LLM when exceptions happen and prompt it to coerce the value into something in the <code>Enum</code>. This could hike up your costs a bit but I imagine using a cheap model like GPT-3.5-Turbo could do the job just fine, and would likely you give an addtional robustness in quality results.</p>
 </section>
