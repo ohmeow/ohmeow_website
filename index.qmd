@@ -1,16 +1,88 @@
 ---
-listing:
-  contents: posts
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: true
-  filter-ui: true
-  feed: true
-  fields: [image, date, title, description, categories, author, reading-time, file-modified]
-  
+title: "Applied AI <span style='color:#f2994a;'>Solutions</span> for Modern Businesses"
 page-layout: full
-title-block-banner: false
+comments: false
+format:
+  html:
+    theme: cosmo
 ---
 
+::: {.hero style="padding: 0.5rem 0; text-align: left;"}
+Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.
+
+[Explore Services](#services){.btn .btn-outline-secondary} 
+[About Me](#about){.btn .btn-outline-secondary}
+[Contact](#contact){.btn .btn-outline-secondary}
+:::
+
+## Services {#services}
+
+Leveraging AI and web technologies to build innovative solutions that drive business value.
+
+::: {style="display: flex; gap: 1.5rem; flex-wrap: wrap;"}
+
+::: {.card style="flex:1; min-width:250px;padding:1rem;"}
+#### AI/ML Application Development
+Applied AI solutions tailored to business needs, with a focus on full-stack integration and deployment.
+
+- ✅ LLM & NLP Workflows
+- ✅ Forecasting & Classification Models
+- ✅ End-to-End Eval-First AI Pipelines
+:::
+
+::: {.card style="flex:1; min-width:250px;padding:1rem;"}
+#### Full-Stack Engineering
+Robust and scalable web platforms engineered with modern technologies and a strong DevOps mindset.
+
+- ✅ React, Vue, Quasar, Next.js
+- ✅ FastAPI, ASP.NET Core, Node.js
+- ✅ Dockerized Systems & Cloud Deployments
+:::
+
+::: {.card style="flex:1; min-width:250px;padding:1rem;"}
+#### AI Strategy & Enablement
+Strategic guidance and hands-on support to help teams adopt, deploy, and evaluate AI effectively.
+
+- ✅ Technical Evaluations & Model Benchmarking
+- ✅ AI-Driven Product Architecture
+- ✅ Training
+:::
+
+:::
+
+## About Me {#about}
+
+<div style="display:flex;align-items:flex-start;gap:2rem;">
+<img src="profile.png" alt="Wayde Gilliam" style="width:120px;border-radius:50%;border:2px solid #eee;">
+<div>
+**Wayde Gilliam (ohmeow)**  
+I'm a full stack web application and machine learning developer with well over 20 years in the business. 
+
+In addition to being the author of [blurr](https://ohmeow.github.io/blurr/){target="_blank"}, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I'm also a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary){target="_blank"}, where I'm active in both contributing to their deep learning library and helping folks out on the forums and discord. 
+
+Outside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.  Feel free to give me a follow on twitter or github if any of the above interests you.
+
+[<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"} 
+[<i class="bi-twitter-x"></i> Twitter](https://twitter.com/waydegilliam){.ohmeow-button-outline target="_blank"} 
+[<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"}
+</div>
+</div>
+
+
+## Clients
+
+I've had the pleasure of working with amazing companies across various industries.
+
+::: {.client-logos style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin:2rem 0;"}
+::: {.client-cards}
+<div class="client-card">Answer.AI</div>
+<div class="client-card">Musubilabs</div>
+<div class="client-card">Weights & Biases</div>
+<div class="client-card">Agrilynk</div>
+:::
+:::
+
+## Contact {#contact}
+
+Feel free to reach out to me via <a href="mailto:wgilliam@ohmeow.com">email</a> or <a href="https://twitter.com/messages/compose?recipient_id=waydegilliam" target="_blank">direct message on X</a>.
 

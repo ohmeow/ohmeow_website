@@ -35,3 +35,55 @@ h1, h2, h3, h4, h5, h6 {
     display: block !important;
   }
 }
+
+// button styles
+.ohmeow-button {
+  background-color: #cc5500;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ohmeow-button:hover {
+  background-color: #e36003;
+}
+
+.ohmeow-button-outline {
+  background-color: transparent;
+  color: #cc5500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #cc5500;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ohmeow-button-outline:hover {
+  background-color: #f3f0f0;
+}
+
+
+.client-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.client-card {
+  background-color: #f8f9fa;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  font-weight: 600;
+  text-align: center;
+  min-width: 160px;
+  transition: transform 0.2s ease;
+}
+
+.client-card:hover {
+  transform: translateY(-3px);
+}

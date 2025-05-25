@@ -6,7 +6,7 @@ website:
   image: images/ohmeow_logo.png
   favicon: images/ohmeow_favicon.png
   site-url: "https://ohmeow.com"
-  description: "A resource for full stack web application and machine learning developement"
+  description: "ohmeow.com is dedicated to providing resources for full stack web application and machine learning developement"
   twitter-card: true
   open-graph: true
   comments:
@@ -18,6 +18,9 @@ website:
     pinned: true
     collapse-below: lg
     left:
+      - text: Blog
+        icon: bi-journal-text
+        href: blog.qmd
       - text: Guides
         icon: tools
         menu:
@@ -39,27 +42,29 @@ website:
           - text: "blurr"
             icon: layers
             href: https://ohmeow.github.io/blurr/
+            target: blank
       - text: Study Groups
         icon: book
         menu:
           - text: "fastai x Hugging Face Study Group"
             icon: youtube
             href: https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t
-      - href: about.qmd
-        icon: person-circle
+            target: blank
 
     right:
       - icon: twitter
         href: https://twitter.com/waydegilliam
+        target: blank
       - icon: github
         href: https://github.com/ohmeow 
+        target: blank
       - icon: rss
         href: index.xml
 
 format:
   html:
     theme:
-      - united
+      - cosmo
       # - custom.scss?v=1.2 # when deploying uncomment this
       - custom.scss     # when testing local uncomment this
     grid:
