@@ -11,6 +11,7 @@ format:
 Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.
 
 [Explore Services](#services){.btn .btn-outline-secondary} 
+[Clients / Former Employers](#clients){.btn .btn-outline-secondary}
 [About Me](#about){.btn .btn-outline-secondary}
 [Contact](#contact){.btn .btn-outline-secondary}
 :::
@@ -69,7 +70,7 @@ Outside of work, I enjoy hanging out with my two labradors, reading, working out
 </div>
 
 
-## Clients
+## Clients / Former Employers {#clients}
 
 I've had the pleasure of working with amazing companies across various industries.
 
@@ -79,6 +80,13 @@ I've had the pleasure of working with amazing companies across various industrie
 <div class="client-card" style="max-width: 300px; height: 200px;"><div>Musubilabs</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Delivered ML pipelines and FastAPI backends to power cutting-edge conversational AI tools.</div></div>
 <div class="client-card" style="max-width: 300px; height: 200px;"><div>Weights & Biases</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Delivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.</div></div>
 <div class="client-card" style="max-width: 300px; height: 200px;"><div>Agrilynk</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Architected and built a production-ready AI platform to support real-time agricultural insights.</div></div>
+
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Cotelligent</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Provided enterprise-grade software development and architecture consulting.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Epson</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Helped streamline development workflows with tailored software solutions.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Car Crazy Central</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Built branded digital experiences and backend infrastructure for media-rich applications.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>UC San Diego</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Work includes: Developed an enterprise survey delivery and analytics platorm, an AI pipeline to analyze qualitative data, initial forecasting models for HR employment needs, and more.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>BuyProduce.com</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Built and led a dev team creating a flexible e-commerce engine for the produce industry.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>AltaVista / Shopping.com</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Rebuilt e-commerce systems and led backend dev teams at the forefront of early internet retail.</div></div>
 :::
 :::
 
