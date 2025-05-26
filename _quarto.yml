@@ -60,7 +60,11 @@ website:
         target: blank
       - icon: rss
         href: index.xml
-
+  page-footer:
+    left: "© 2025 ohmeow.com"
+    right: "[E-mail](mailto:wgilliam@ohmeow.com) | [X](https://x.com/waydegilliam) | [GitHub](https://github.com/ohmeow) | [Website](https://ohmeow.com)"
+    background: "#f8f9fa"
+    border: true
 format:
   html:
     theme:
