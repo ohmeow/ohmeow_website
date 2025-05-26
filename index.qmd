@@ -53,10 +53,10 @@ Strategic guidance and hands-on support to help teams adopt, deploy, and evaluat
 ## About Me {#about}
 
 <div style="display:flex;align-items:flex-start;gap:2rem;">
-<img src="profile.png" alt="Wayde Gilliam" style="width:120px;border-radius:50%;border:2px solid #eee;">
+<img src="profile.png" alt="Wayde Gilliam" style="width:120px;border-radius:50%;border:2px solid #eee;" class="d-none d-md-block">
 <div>
 **Wayde Gilliam (ohmeow)**  
-I'm a full stack web application and machine learning developer with well over 20 years in the business. 
+I'm a full stack web application and AI/ML developer with well over 20 years in the business. 
 
 In addition to being the author of [blurr](https://ohmeow.github.io/blurr/){target="_blank"}, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I'm also a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary){target="_blank"}, where I'm active in both contributing to their deep learning library and helping folks out on the forums and discord. 
 
@@ -64,7 +64,7 @@ Outside of work, I enjoy hanging out with my two labradors, reading, working out
 
 [<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"} 
 [<i class="bi-twitter-x"></i> Twitter](https://twitter.com/waydegilliam){.ohmeow-button-outline target="_blank"} 
-[<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"}
+[<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"} 
 </div>
 </div>
 
@@ -75,10 +75,10 @@ I've had the pleasure of working with amazing companies across various industrie
 
 ::: {.client-logos style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin:2rem 0;"}
 ::: {.client-cards}
-<div class="client-card">Answer.AI</div>
-<div class="client-card">Musubilabs</div>
-<div class="client-card">Weights & Biases</div>
-<div class="client-card">Agrilynk</div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Answer.AI</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Contributed to core libraries and tutorials driving open-source innovation in LLM tooling.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Musubilabs</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Delivered ML pipelines and FastAPI backends to power cutting-edge conversational AI tools.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Weights & Biases</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Delivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.</div></div>
+<div class="client-card" style="max-width: 300px; height: 200px;"><div>Agrilynk</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Architected and built a production-ready AI platform to support real-time agricultural insights.</div></div>
 :::
 :::
 
