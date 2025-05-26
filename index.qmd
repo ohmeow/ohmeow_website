@@ -11,9 +11,8 @@ format:
 Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.
 
 [Explore Services](#services){.btn .btn-outline-secondary} 
-[Clients / Former Employers](#clients){.btn .btn-outline-secondary}
 [About Me](#about){.btn .btn-outline-secondary}
-[Contact](#contact){.btn .btn-outline-secondary}
+[Clients](#clients){.btn .btn-outline-secondary}
 :::
 
 ## Services {#services}
@@ -63,6 +62,9 @@ In addition to being the author of [blurr](https://ohmeow.github.io/blurr/){targ
 
 Outside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.  Feel free to give me a follow on twitter or github if any of the above interests you.
 
+Feel free to reach out to me via <a href="mailto:wgilliam@ohmeow.com">email</a> or <a href="https://twitter.com/messages/compose?recipient_id=waydegilliam" target="_blank">direct message on X</a>.
+
+
 [<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"} 
 [<i class="bi-twitter-x"></i> Twitter](https://twitter.com/waydegilliam){.ohmeow-button-outline target="_blank"} 
 [<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"} 
@@ -89,8 +91,3 @@ I've had the pleasure of working with amazing companies across various industrie
 <div class="client-card" style="max-width: 300px; height: 200px;"><div>AltaVista / Shopping.com</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Rebuilt e-commerce systems and led backend dev teams at the forefront of early internet retail.</div></div>
 :::
 :::
-
-## Contact {#contact}
-
-Feel free to reach out to me via <a href="mailto:wgilliam@ohmeow.com">email</a> or <a href="https://twitter.com/messages/compose?recipient_id=waydegilliam" target="_blank">direct message on X</a>.
-
