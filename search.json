@@ -46,7 +46,7 @@
     "href": "index.html",
     "title": "Applied AI Solutions for Modern Businesses",
     "section": "",
-    "text": "Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.\nExplore Services About Me Contact"
+    "text": "Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.\nExplore Services Clients / Former Employers About Me Contact"
   },
   {
     "objectID": "index.html#services",
@@ -60,14 +60,14 @@
     "href": "index.html#about",
     "title": "Applied AI Solutions for Modern Businesses",
     "section": "About Me",
-    "text": "About Me\n\n\n\nWayde Gilliam (ohmeow)\nI’m a full stack web application and machine learning developer with well over 20 years in the business.\nIn addition to being the author of blurr, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I’m also a proud fast.ai community leader, where I’m active in both contributing to their deep learning library and helping folks out on the forums and discord.\nOutside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning. Feel free to give me a follow on twitter or github if any of the above interests you.\n GitHub  Twitter  Download Resume"
+    "text": "About Me\n\n\n\nWayde Gilliam (ohmeow)\nI’m a full stack web application and AI/ML developer with well over 20 years in the business.\nIn addition to being the author of blurr, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I’m also a proud fast.ai community leader, where I’m active in both contributing to their deep learning library and helping folks out on the forums and discord.\nOutside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning. Feel free to give me a follow on twitter or github if any of the above interests you.\n GitHub  Twitter  Download Resume"
   },
   {
     "objectID": "index.html#clients",
     "href": "index.html#clients",
     "title": "Applied AI Solutions for Modern Businesses",
-    "section": "Clients",
-    "text": "Clients\nI’ve had the pleasure of working with amazing companies across various industries.\n\n\n\nAnswer.AI\n\n\nMusubilabs\n\n\nWeights & Biases\n\n\nAgrilynk"
+    "section": "Clients / Former Employers",
+    "text": "Clients / Former Employers\nI’ve had the pleasure of working with amazing companies across various industries.\n\n\n\n\nAnswer.AI\n\n\nContributed to core libraries and tutorials driving open-source innovation in LLM tooling.\n\n\n\n\nMusubilabs\n\n\nDelivered ML pipelines and FastAPI backends to power cutting-edge conversational AI tools.\n\n\n\n\nWeights & Biases\n\n\nDelivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.\n\n\n\n\nAgrilynk\n\n\nArchitected and built a production-ready AI platform to support real-time agricultural insights.\n\n\n\n\nCotelligent\n\n\nProvided enterprise-grade software development and architecture consulting.\n\n\n\n\nEpson\n\n\nHelped streamline development workflows with tailored software solutions.\n\n\n\n\nCar Crazy Central\n\n\nBuilt branded digital experiences and backend infrastructure for media-rich applications.\n\n\n\n\nUC San Diego\n\n\nWork includes: Developed an enterprise survey delivery and analytics platorm, an AI pipeline to analyze qualitative data, initial forecasting models for HR employment needs, and more.\n\n\n\n\nBuyProduce.com\n\n\nBuilt and led a dev team creating a flexible e-commerce engine for the produce industry.\n\n\n\n\nAltaVista / Shopping.com\n\n\nRebuilt e-commerce systems and led backend dev teams at the forefront of early internet retail."
   },
   {
     "objectID": "index.html#contact",
