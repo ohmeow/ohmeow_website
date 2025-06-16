@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wayde Gilliam">
+<meta name="dcterms.date" content="2021-06-10">
+<meta name="description" content="Its the more things you can do with computer vision chapter of &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!">
+
+<title>A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification – ohmeow</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/ohmeow_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7f5c32456752ae48d544551be6ddc928.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<meta property="og:title" content="A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification – ohmeow">
+<meta property="og:description" content="Its the more things you can do with computer vision chapter of &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!">
+<meta property="og:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta property="og:site_name" content="ohmeow">
+<meta name="twitter:title" content="A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification – ohmeow">
+<meta name="twitter:description" content="Its the more things you can do with computer vision chapter of &quot;Deep Learning for Coders with fastai &amp; PyTorch&quot;! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!">
+<meta name="twitter:image" content="https://ohmeow.com/posts/images/fastbook.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ohmeow</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> <i class="bi bi-journal-text" role="img">
+</i> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-tools" role="img">
+</i> 
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../pages/guides/vue3-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Vue3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/guides/fastapi-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Fast API</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/guides/postgresql-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">PostgreSQL</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/guides/deployment-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+</i> 
+ <span class="dropdown-text">Deployment</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-stack" role="img">
+</i> 
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="https://ohmeow.github.io/blurr/" target="blank"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">blurr</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-book" role="img">
+</i> 
+ <span class="menu-text">Study Groups</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
+        <li>
+    <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t" target="blank"><i class="bi bi-youtube" role="img">
+</i> 
+ <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/waydegilliam" target="blank"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ohmeow" target="blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#multiclass-vs-multi-label-classification-again" id="toc-multiclass-vs-multi-label-classification-again" class="nav-link active" data-scroll-target="#multiclass-vs-multi-label-classification-again">Multiclass vs Multi-label classification (again)…</a></li>
+  <li><a href="#defining-your-datablock" id="toc-defining-your-datablock" class="nav-link" data-scroll-target="#defining-your-datablock">Defining your DataBlock</a></li>
+  <li><a href="#train-a-model" id="toc-train-a-model" class="nav-link" data-scroll-target="#train-a-model">Train a model</a>
+  <ul class="collapse">
+  <li><a href="#define-your-loss-function" id="toc-define-your-loss-function" class="nav-link" data-scroll-target="#define-your-loss-function">Define your loss function</a></li>
+  <li><a href="#define-your-metrics-and-thresholds" id="toc-define-your-metrics-and-thresholds" class="nav-link" data-scroll-target="#define-your-metrics-and-thresholds">Define Your Metrics and Thresholds</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">A Journey Through Fastbook (AJTFB) - Chapter 6: Multilabel Classification</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">fastai</div>
+    <div class="quarto-category">fastbook</div>
+    <div class="quarto-category">multi-label classification</div>
+    <div class="quarto-category">binary cross entropy</div>
+    <div class="quarto-category">BCE</div>
+    <div class="quarto-category">computer vision</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Its the more things you can do with computer vision chapter of <a href="https://github.com/fastai/fastbook">"Deep Learning for Coders with fastai &amp; PyTorch"</a>! We’ll go over everything you need to know to get started with multi-label classification tasks from datablocks to training and everything in between. Next post we’ll look at regression tasks, in particular key point regression models that are also covered in chapter 6. Soooo lets go!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Wayde Gilliam </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 10, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Other posts in this series:</p>
+<p><a href="../posts/2020-11-06-ajtfb-chapter-1.html">A Journey Through Fastbook (AJTFB) - Chapter 1</a><br>
+<a href="../posts/2020-11-16-ajtfb-chapter-2.html">A Journey Through Fastbook (AJTFB) - Chapter 2</a><br>
+<a href="../posts/2020-11-22-ajtfb-chapter-3.html">A Journey Through Fastbook (AJTFB) - Chapter 3</a><br>
+<a href="../posts/2021-05-23-ajtfb-chapter-4.html">A Journey Through Fastbook (AJTFB) - Chapter 4</a><br>
+<a href="../posts/2021-06-03-ajtfb-chapter-5.html">A Journey Through Fastbook (AJTFB) - Chapter 5</a><br>
+<a href="../posts/2022-02-09-ajtfb-chapter-6-regression.html">A Journey Through Fastbook (AJTFB) - Chapter 6b</a><br>
+<a href="../posts/2022-03-28-ajtfb-chapter-7.html">A Journey Through Fastbook (AJTFB) - Chapter 7</a><br>
+<a href="../posts/2022-03-31-ajtfb-chapter-8.html">A Journey Through Fastbook (AJTFB) - Chapter 8</a><br>
+<a href="../posts/2022-04-25-ajtfb-chapter-9.html">A Journey Through Fastbook (AJTFB) - Chapter 9</a></p>
+<section id="multiclass-vs-multi-label-classification-again" class="level2">
+<h2 class="anchored" data-anchor-id="multiclass-vs-multi-label-classification-again">Multiclass vs Multi-label classification (again)…</h2>
+<p>Last post we saw that <strong>multiclass classification</strong> is all about predicting a SINGLE CLASS an object belongs to from a list of two or more classes. It’s the go to task if we’re confident that every image our model sees is going to be one of these classes. <strong>Cross-entropy loss</strong> is our go to loss function as it wants to confidently pick one thing.</p>
+<p><strong>Multi-label classification</strong> involves predicting MULTIPLE CLASSES to which an object belongs; it can belong to one, some, all, or even none of those classes. For example, you may be looking at satellite photos from which you need to predict the different kinds of terrain (your classes) each contains.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the multi-label classification approach in your “multiclassification problems” where you want your model to be able to result in None (which is probably a more common real world use case)</p>
+</div>
+</div>
+</section>
+<section id="defining-your-datablock" class="level2">
+<h2 class="anchored" data-anchor-id="defining-your-datablock">Defining your DataBlock</h2>
+<p>Again, the <code>DataBlock</code> is a blueprint for everything required to turn your raw data (images and labels) into something that can be fed through a neural network (DataLoaders with a numerical representation of both your images and labels). Below is the one presented in this chapter.</p>
+<div id="cell-6" class="cell" data-outputid="04a73c17-1684-417f-cbcf-013dfdd2e8ed" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> untar_data(URLs.PASCAL_2007)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+    <div>
+      <progress value="1637801984" class="" max="1637796771" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      100.00% [1637801984/1637796771 01:41&lt;00:00]
+    </div>
+    
+</div>
+</div>
+<p>Instead of working with the filesystem structure to get our images and define our labels, in this example we use a .csv file that we can explore and manipulate further via a pandas <strong>DataFrame</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>DataFrames are one of those things you’re going to want to get comfortable using. Personally, I love using them if for nothing else, for how ubiquitous they are. You can create them from .csv files, excel files, dictionaries, from a sql database, and so forth. This makes them a fabulous datasource around which to build your DataBlocks!</p>
+</div>
+</div>
+<p>Here are some of my favorite pandas resources: 1. https://chrisalbon.com/ 2. https://pandas.pydata.org/docs/ (yah, the docs are really good!)</p>
+<div id="cell-8" class="cell" data-outputid="bd839e9f-add2-4df4-a9c5-e92c6281aaa3" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">'train.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+  <div id="df-eec720ad-52d3-4742-b946-af2dd161dc33">
+    <div class="colab-df-container">
+      <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fname</th>
+<th data-quarto-table-cell-role="th">labels</th>
+<th data-quarto-table-cell-role="th">is_valid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>000005.jpg</td>
+<td>chair</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>000007.jpg</td>
+<td>car</td>
+<td>True</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>000009.jpg</td>
+<td>horse person</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>000012.jpg</td>
+<td>car</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>000016.jpg</td>
+<td>bicycle</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-eec720ad-52d3-4742-b946-af2dd161dc33')" title="Convert this dataframe to an interactive table." style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"></path>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-eec720ad-52d3-4742-b946-af2dd161dc33 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-eec720ad-52d3-4742-b946-af2dd161dc33');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  
+</div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_x(r): <span class="cf">return</span> path<span class="op">/</span><span class="st">'train'</span><span class="op">/</span>r[<span class="st">'fname'</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_y(r): <span class="cf">return</span> r[<span class="st">'labels'</span>].split(<span class="st">' '</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> splitter(df):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  train <span class="op">=</span> df.index[<span class="op">~</span>df[<span class="st">'is_valid'</span>]].tolist()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  valid <span class="op">=</span> df.index[df[<span class="st">'is_valid'</span>]].tolist()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> train, valid</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(ImageBlock, MultiCategoryBlock), </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                   get_x<span class="op">=</span>get_x, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>get_y,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>splitter, <span class="co"># or could just have used ColSplitter()   </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>RandomResizedCrop(<span class="dv">128</span>, min_scale<span class="op">=</span><span class="fl">0.35</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Let’s break down our blueprint</strong>!</p>
+<ol type="1">
+<li>Define the data types for our inputs and targets via the <code>blocks</code> argument.</li>
+</ol>
+<p>This is defined as a tuple, where we tell our <code>DataBlock</code> that the imputs are images and our targets are multiple potential categories. Above we can see that these labels are space delimited in the “labels” column. The later essentially returns a one-hot encoded list of possible labels, with a 0 indicating that the label wasn’t found for the item and a 1 indicating otherwise (see the <code>DataBlock.summary</code> results below).</p>
+<ol start="2" type="1">
+<li>Define how we’re going to get our images via <code>get_x</code>.</li>
+</ol>
+<p>As we’ll be passing in a Dataframe as the raw data source, we don’t need to define a <code>get_items</code> to pull the raw data. We do however, need to instruct the DataBlock as to how to find the images, which we do via the <code>get_x</code> method. That method will get one row of DataFrame (<code>r</code>) at a time.</p>
+<ol start="3" type="1">
+<li>Define how, from the raw data, we’re going to create our labels via <code>get_y</code>.</li>
+</ol>
+<p>As already mentioned, the classes are in the “labels” column and delimited by a space, and so, we return a list of labels splitting on ’ ’. Easy peasy.</p>
+<ol start="4" type="1">
+<li>Define how we’re going to create our <a href="https://www.fast.ai/2017/11/13/validation-sets/">validation dataset</a> via <code>splitter</code></li>
+</ol>
+<p>Here we define a custom splitter mostly to just show you how to do it. It has to return at least a tuple of train, validation data. We could have just used <code>ColSplitter</code> (<a href="https://docs.fast.ai/data.transforms.html#ColSplitter">see it in the docs here</a>)</p>
+<ol start="5" type="1">
+<li>Define things we want to do for each item via <code>item_tfms</code></li>
+</ol>
+<p><code>item_tfms</code> are transforms, or things we want to do, to each input individually! Above we only have one which says, “Randomly crop the image to be 128x128 that captures at least 35% of the image each time you grab an image”. See here for more info on <a href="https://docs.fast.ai/vision.augment.html#RandomResizedCrop"><code>RandomResizedCrop</code></a></p>
+<ol start="6" type="1">
+<li>Define things we want to do for each mini-batch of items via <code>batch_tfms</code></li>
+</ol>
+<p>None here, but remember that these are transforms you want applied to a mini-batch of images on the GPU at the same time.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not use lambda functions for defining your DataBlock methods! They can’t be serialized and so you’re lucky to get some errors when you try to save/export your DataLoaders and/or Learner</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Verify your <code>DataBlock</code> works as expected, or else troubleshoot it, by running <code>DataBlock.summary(data)</code></p>
+</div>
+</div>
+<div id="cell-11" class="cell" data-outputid="8c879a4f-7a11-485e-c820-71aa35972b81" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dblock.summary(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Setting-up type transforms pipelines
+Collecting items from            fname          labels  is_valid
+0     000005.jpg           chair      True
+1     000007.jpg             car      True
+2     000009.jpg    horse person      True
+3     000012.jpg             car     False
+4     000016.jpg         bicycle      True
+...          ...             ...       ...
+5006  009954.jpg    horse person      True
+5007  009955.jpg            boat      True
+5008  009958.jpg  person bicycle      True
+5009  009959.jpg             car     False
+5010  009961.jpg             dog     False
+
+[5011 rows x 3 columns]
+Found 5011 items
+2 datasets of sizes 2501,2510
+Setting up Pipeline: get_x -&gt; PILBase.create
+Setting up Pipeline: get_y -&gt; MultiCategorize -- {'vocab': None, 'sort': True, 'add_na': False} -&gt; OneHotEncode -- {'c': None}
+
+Building one sample
+  Pipeline: get_x -&gt; PILBase.create
+    starting from
+      fname       000012.jpg
+labels             car
+is_valid         False
+Name: 3, dtype: object
+    applying get_x gives
+      /root/.fastai/data/pascal_2007/train/000012.jpg
+    applying PILBase.create gives
+      PILImage mode=RGB size=500x333
+  Pipeline: get_y -&gt; MultiCategorize -- {'vocab': None, 'sort': True, 'add_na': False} -&gt; OneHotEncode -- {'c': None}
+    starting from
+      fname       000012.jpg
+labels             car
+is_valid         False
+Name: 3, dtype: object
+    applying get_y gives
+      [car]
+    applying MultiCategorize -- {'vocab': None, 'sort': True, 'add_na': False} gives
+      TensorMultiCategory([6])
+    applying OneHotEncode -- {'c': None} gives
+      TensorMultiCategory([0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0.])
+
+Final sample: (PILImage mode=RGB size=500x333, TensorMultiCategory([0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0.]))
+
+
+Collecting items from            fname          labels  is_valid
+0     000005.jpg           chair      True
+1     000007.jpg             car      True
+2     000009.jpg    horse person      True
+3     000012.jpg             car     False
+4     000016.jpg         bicycle      True
+...          ...             ...       ...
+5006  009954.jpg    horse person      True
+5007  009955.jpg            boat      True
+5008  009958.jpg  person bicycle      True
+5009  009959.jpg             car     False
+5010  009961.jpg             dog     False
+
+[5011 rows x 3 columns]
+Found 5011 items
+2 datasets of sizes 2501,2510
+Setting up Pipeline: get_x -&gt; PILBase.create
+Setting up Pipeline: get_y -&gt; MultiCategorize -- {'vocab': None, 'sort': True, 'add_na': False} -&gt; OneHotEncode -- {'c': None}
+Setting up after_item: Pipeline: RandomResizedCrop -- {'size': (128, 128), 'min_scale': 0.35, 'ratio': (0.75, 1.3333333333333333), 'resamples': (2, 0), 'val_xtra': 0.14, 'max_scale': 1.0, 'p': 1.0} -&gt; ToTensor
+Setting up before_batch: Pipeline: 
+Setting up after_batch: Pipeline: IntToFloatTensor -- {'div': 255.0, 'div_mask': 1}
+
+Building one batch
+Applying item_tfms to the first sample:
+  Pipeline: RandomResizedCrop -- {'size': (128, 128), 'min_scale': 0.35, 'ratio': (0.75, 1.3333333333333333), 'resamples': (2, 0), 'val_xtra': 0.14, 'max_scale': 1.0, 'p': 1.0} -&gt; ToTensor
+    starting from
+      (PILImage mode=RGB size=500x333, TensorMultiCategory([0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0.]))
+    applying RandomResizedCrop -- {'size': (128, 128), 'min_scale': 0.35, 'ratio': (0.75, 1.3333333333333333), 'resamples': (2, 0), 'val_xtra': 0.14, 'max_scale': 1.0, 'p': 1.0} gives
+      (PILImage mode=RGB size=128x128, TensorMultiCategory([0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0.]))
+    applying ToTensor gives
+      (TensorImage of size 3x128x128, TensorMultiCategory([0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0.]))
+
+Adding the next 3 samples
+
+No before_batch transform to apply
+
+Collating items in a batch
+
+Applying batch_tfms to the batch built
+  Pipeline: IntToFloatTensor -- {'div': 255.0, 'div_mask': 1}
+    starting from
+      (TensorImage of size 4x3x128x128, TensorMultiCategory of size 4x20)
+    applying IntToFloatTensor -- {'div': 255.0, 'div_mask': 1} gives
+      (TensorImage of size 4x3x128x128, TensorMultiCategory of size 4x20)</code></pre>
+</div>
+</div>
+<p>Now we can create our <code>DataLoaders</code> and take a look at our x’s and y’s, our images and their labels (multiple labeled images have their labels separated by semi-colon)</p>
+<div id="cell-13" class="cell" data-outputid="33962bd5-d0bb-4ce5-cf35-8774209ace71" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(df)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2021-06-10-ajtfb-chapter-6-multilabel_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To get a feel for what our <code>item_tfms</code> (and <code>batch_tfms</code> if we had them) are doing, we can <code>show_batch</code> using a single image as we do below.</p>
+<div id="cell-15" class="cell" data-outputid="e4340dd4-17bd-4069-eaf1-cac750f1b25d" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch(unique<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2021-06-10-ajtfb-chapter-6-multilabel_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The combination of what we’re doing in the <code>item_tfms</code> and <code>batch_tfms</code> is known as <strong>presizing</strong>.</p>
+<p>“Presizing is a particular way to do image augmentation that is designed to minimize data destruction while maintaining good performance.” After resizing all the images to a larger dimension that we will train on, we perform all our core augmentations on the GPU. This results in both faster and less destructive transformations of the data.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See pp190-191 for how these augmentations are applied to the training and validation set!</p>
+</div>
+</div>
+</section>
+<section id="train-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="train-a-model">Train a model</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Once you think your data looks right, we generally recommend the next step should be using it to train a simple model” See bottom of p193 for why.</p>
+</div>
+</div>
+<section id="define-your-loss-function" class="level3">
+<h3 class="anchored" data-anchor-id="define-your-loss-function">Define your loss function</h3>
+<p>To train a model we need a good loss function that will allow us to optimize the parameters of our model. For multi-label classification tasks where we want to predict a single class/label, to go to is <strong>binary cross-entropy loss</strong></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cross-entropy loss is the U.S. Marine of loss functions … “the few, the proud, the one hot encoded”</p>
+</div>
+</div>
+<p><strong>Why can’t we just use cross-entropy loss?</strong></p>
+<p>Because “the softmax function <em>really</em> wants to pick one class” whereas here want it to pick multiple or even none.</p>
+<p>“<strong>softmax</strong> … requires that all predictions sum to 1, and tends to push one activation to be much larger than the others (because of the use of <code>exp</code>) … we may want the sum to be less than 1, if we don’t think <em>any</em> of the categories appear in an image.”</p>
+<p>“<strong>nll_loss</strong> … returns the value of just one activation: the single activation corresponding with the single label for an item [which] doesn’t make sense when we have multiple labels”</p>
+<div id="cell-19" class="cell" data-outputid="60ed91f6-0720-42c8-ea8f-d935fdc4dd39" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet18)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /root/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"55479ae22b724c4d8ef810587f44e8bd","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run a batch through model to see/verify your batches and final activations look right.</p>
+</div>
+</div>
+<div id="cell-21" class="cell" data-outputid="1d15fefd-0e89-4658-83d8-4b31d8f95bb0" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>xb, yb <span class="op">=</span> to_cpu(dls.train.one_batch())</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> learn.model(xb)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>xb.shape, yb[<span class="dv">0</span>], res.shape, res[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>(torch.Size([64, 3, 128, 128]),
+ TensorMultiCategory([0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 1., 0., 0.,
+         0., 0.]),
+ torch.Size([64, 20]),
+ TensorBase([ 1.4774, -2.1223,  4.1004,  1.5169, -0.5184,  0.1914, -1.0933, -1.4870,
+         -1.4855, -0.9137, -2.1899,  2.5738,  2.6155, -1.8979,  0.9340,  1.2691,
+         -0.2225,  0.4355, -4.2410, -2.5808], grad_fn=&lt;AliasBackward0&gt;))</code></pre>
+</div>
+</div>
+<p>So now we need a loss function that will scale those activations to be between 1 and 0 and then compare each activation with the value (0 or 1) in each target column.</p>
+<div id="cell-23" class="cell" data-outputid="2954758b-3061-4fe1-f2f7-0dc90f04c4a3" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bce(inputs, targets):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  inputs <span class="op">=</span> inputs.sigmoid()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">-</span>torch.where(targets<span class="op">==</span><span class="dv">1</span>, inputs, <span class="dv">1</span><span class="op">-</span>inputs).log().mean()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bce(res, yb))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorMultiCategory(1.0537, grad_fn=&lt;AliasBackward0&gt;)</code></pre>
+</div>
+</div>
+<p>So breaking the above down, line by line, for a single input/targets …</p>
+<div id="cell-25" class="cell" data-outputid="931fa7c6-fc2e-490f-f948-82b5f0d8ef16" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>inps <span class="op">=</span> res.sigmoid()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'1. </span><span class="sc">{</span>inps[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'2. </span><span class="sc">{</span>yb[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'3. </span><span class="sc">{</span>torch<span class="sc">.</span>where(yb<span class="op">==</span><span class="dv">1</span>, inps, <span class="dv">1</span><span class="op">-</span>inps)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'4. </span><span class="sc">{</span>torch<span class="sc">.</span>where(yb<span class="op">==</span><span class="dv">1</span>, inps, <span class="dv">1</span><span class="op">-</span>inps)[<span class="dv">0</span>]<span class="sc">.</span>log()<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'5. </span><span class="sc">{</span>torch<span class="sc">.</span>where(yb<span class="op">==</span><span class="dv">1</span>, inps, <span class="dv">1</span><span class="op">-</span>inps)[<span class="dv">0</span>]<span class="sc">.</span>log()<span class="sc">.</span>mean()<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'6. </span><span class="sc">{</span><span class="op">-</span>torch<span class="sc">.</span>where(yb<span class="op">==</span><span class="dv">1</span>, inps, <span class="dv">1</span><span class="op">-</span>inps)[<span class="dv">0</span>]<span class="sc">.</span>log()<span class="sc">.</span>mean()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1. TensorBase([0.8142, 0.1070, 0.9837, 0.8201, 0.3732, 0.5477, 0.2510, 0.1844, 0.1846,
+        0.2862, 0.1007, 0.9292, 0.9319, 0.1303, 0.7179, 0.7806, 0.4446, 0.6072,
+        0.0142, 0.0704], grad_fn=&lt;AliasBackward0&gt;)
+2. TensorMultiCategory([0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 1., 0., 0.,
+        0., 0.])
+3. TensorMultiCategory([0.1858, 0.8930, 0.0163, 0.1799, 0.3732, 0.4523, 0.7490, 0.8156, 0.8154,
+        0.7138, 0.8993, 0.0708, 0.0681, 0.8697, 0.7179, 0.7806, 0.5554, 0.3928,
+        0.9858, 0.9296], grad_fn=&lt;AliasBackward0&gt;)
+4. TensorMultiCategory([-1.6830, -0.1131, -4.1168, -1.7153, -0.9856, -0.7934, -0.2890, -0.2038,
+        -0.2041, -0.3372, -0.1061, -2.6473, -2.6861, -0.1397, -0.3314, -0.2477,
+        -0.5881, -0.9344, -0.0143, -0.0730], grad_fn=&lt;AliasBackward0&gt;)
+5. -0.9104629755020142
+6. 0.9104629755020142</code></pre>
+</div>
+</div>
+<p><strong>… what is binary cross-entropy loss doing?</strong></p>
+<p>Scale all activations to be between 0 and 1 using the <code>sigmoid</code> function (1). The resulting activations tell us, for each potential label, how confident the model is that the value is a “1”.</p>
+<p>Build a tensor with a value for each target (2); if the target = 1 then use the corresponding scaled value above … if the target = 0, then use 1 minus this value (3). <em>Notice how confident correct predictions will be very large, while confident incorrect predictions will be very small.</em> We can think of this value as telling us how right the model was in predicting each label.</p>
+<p>Take the <code>log</code> (4) which will will turn correct and more confident predictions (those closer to 1) to a value closer to zero, and wrong and more confident prediction to a value closer to 0. This exactly what we want since the better the model, the smaller the lost, and the <code>log(1) = 0</code> where as the <code>log(0)</code> approaches negative infinity! See the chart below.</p>
+<p>Lastly, because the loss has to be a single value, we mean the losses for each label (5), and then turn it into a positive (6).</p>
+<div id="cell-27" class="cell" data-outputid="1f30383f-1c88-41eb-d049-30d6169732b2" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plot_function(torch.log, <span class="st">'x (prob correct class)'</span>, <span class="st">'-log(x)'</span>, title<span class="op">=</span><span class="st">'Negative Log-Likelihood'</span>, <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/usr/local/lib/python3.7/dist-packages/ipykernel_launcher.py:3: UserWarning: Not providing a value for linspace's steps is deprecated and will throw a runtime error in a future release. This warning will appear only once per process. (Triggered internally at  ../aten/src/ATen/native/RangeFactories.cpp:23.)
+  This is separate from the ipykernel package so we can avoid doing imports until</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2021-06-10-ajtfb-chapter-6-multilabel_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Review BCE and Cross Entropy Loss until you can explain it to your significant other :). They are by and far the most common loss functions you’ll come across and many of the problems you encounter in training your models will be because you’re using the wrong one.</p>
+</div>
+</div>
+<p>Fortunately, PyTorch has a function and module we can use:</p>
+<div id="cell-29" class="cell" data-outputid="a0ba174e-c1bb-44b6-e41e-2110dea65097" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># functional form</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> F.binary_cross_entropy_with_logits(res, yb)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loss)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># modular form (most commonly used)</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>loss_func <span class="op">=</span> nn.BCEWithLogitsLoss()</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> loss_func(res, yb)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loss)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># and for shits and giggles</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bce(res, yb))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorMultiCategory(1.0537, grad_fn=&lt;AliasBackward0&gt;)
+TensorMultiCategory(1.0537, grad_fn=&lt;AliasBackward0&gt;)
+TensorMultiCategory(1.0537, grad_fn=&lt;AliasBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Normally, for one-hot-encoded targets, you’ll want <code>F.binary_cross_entropy_with_logits</code> (or <code>nn.BCEWithLogitsLoss</code>), which do both sigmoid and binary cross entropy in a single function.</p>
+</div>
+</div>
+<p>If the final activations already have the sigmoid applied to it, then you’d use <code>F.binary_cross_entropy</code> (or <code>nn.BCELoss</code>).</p>
+</section>
+<section id="define-your-metrics-and-thresholds" class="level3">
+<h3 class="anchored" data-anchor-id="define-your-metrics-and-thresholds">Define Your Metrics and Thresholds</h3>
+<p>One of the trickier bits with multilabel tasks, is selecting at what threshold (probability) do we want to consider a label 1 or 0. Using accuracy as our metric, we can play around with different values …</p>
+<div id="cell-32" class="cell" data-outputid="2650a739-4f4b-4b54-a8e7-ce07de53c3b8" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(dls, resnet50, metrics<span class="op">=</span>partial(accuracy_multi, thresh<span class="op">=</span><span class="fl">0.2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>, base_lr<span class="op">=</span><span class="fl">3e-3</span>, freeze_epochs<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading: "https://download.pytorch.org/models/resnet50-0676ba61.pth" to /root/.cache/torch/hub/checkpoints/resnet50-0676ba61.pth</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"fb9719a51f4e4427b7f686a4aad439b0","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">accuracy_multi</th>
+<th data-quarto-table-cell-role="th">time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.939569</td>
+<td>0.704923</td>
+<td>0.230299</td>
+<td>00:41</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.820619</td>
+<td>0.558957</td>
+<td>0.290279</td>
+<td>00:38</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>0.602579</td>
+<td>0.195408</td>
+<td>0.835618</td>
+<td>00:38</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>0.358107</td>
+<td>0.122511</td>
+<td>0.945438</td>
+<td>00:38</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">accuracy_multi</th>
+<th data-quarto-table-cell-role="th">time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.131727</td>
+<td>0.116799</td>
+<td>0.945359</td>
+<td>00:41</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.116440</td>
+<td>0.109859</td>
+<td>0.949861</td>
+<td>00:40</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>0.097460</td>
+<td>0.103571</td>
+<td>0.954841</td>
+<td>00:40</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We didn’t have to specify BCE as our loss function above because fastai was smart enough to figure it out from the dataset. This isn’t always the case, in particular when you start building your own or use 3rd party models for training. So Trainer beware!</p>
+</div>
+</div>
+<div id="cell-34" class="cell" data-outputid="1b28deed-7fa8-4468-ca06-365170da12eb" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>learn.metrics <span class="op">=</span> partial(accuracy_multi, thresh<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(learn.validate())</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>learn.metrics <span class="op">=</span> partial(accuracy_multi, thresh<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(learn.validate())</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>learn.metrics <span class="op">=</span> partial(accuracy_multi, thresh<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(learn.validate())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.10357054322957993, 0.9548406004905701]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.10357054322957993, 0.9559162855148315]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.10357054322957993, 0.9615935683250427]</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“This is much faster if we grab the predictions just once …. Note that by default <code>get_preds</code> applies the output activat function (sigmoid, in this case) for us, so we’ll need to tell <code>accuracy_multi</code> to not apply it”</p>
+</div>
+</div>
+<div id="cell-36" class="cell" data-outputid="2e3f4b24-a66e-4074-cf8e-9212aa920952" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>preds, targs <span class="op">=</span> learn.get_preds()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+</div>
+<div id="cell-37" class="cell" data-outputid="559aaf21-9ab1-4172-b75d-61b68b1a9d61" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(accuracy_multi(preds, targs, thresh<span class="op">=</span><span class="fl">0.9</span>, sigmoid<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBase(0.9559)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Find the best threshold by testing over a range of potential thresholds!</p>
+</div>
+</div>
+<div id="cell-39" class="cell" data-outputid="8ce15825-56a3-461a-c549-7baafaf86d96" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>thresholds <span class="op">=</span> torch.linspace(<span class="fl">0.05</span>, <span class="fl">0.99</span>, <span class="dv">29</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>accs <span class="op">=</span> [accuracy_multi(preds, targs, thresh<span class="op">=</span>th, sigmoid<span class="op">=</span><span class="va">False</span>) <span class="cf">for</span> th <span class="kw">in</span> thresholds]</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>plt.plot(thresholds, accs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2021-06-10-ajtfb-chapter-6-multilabel_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-40" class="cell" data-outputid="a5f91449-4a7e-4a00-f80e-1cd4c8367657" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(accuracy_multi(preds, targs, thresh<span class="op">=</span><span class="fl">0.55</span>, sigmoid<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBase(0.9640)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“… using the validation set to pick a hyperparameter (the threshold), which is the purpose of the validation set” is perfectly fine here. “As you see in the plot, changing the threshold in this case results in a smooth curve, so we’re clearly not picking an inappropriate outlier”.</p>
+</div>
+</div>
+<p>See p.231 for more discussion on this.</p>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You now know how to train both multi-label and muticlass vistion problems, when to use one or another, and what loss function to choose for each. You should consider treating multiclass problems where the predicted class should be “None” as a multi-label problem, especially if this is going to be used in the real-world and not just against some prefabbed dataset.</p>
+<p>Also, we’re using accuracy as our metric to optimize the threshold in the example above, <em>but</em> you can use any metric (or combination of metrics you want). For example, a common issue with multi-label tasks is unbalanced datasets where one or more targets are ill represented in number. In that case, it may be more productive to use something like F1 or Recall.</p>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ol type="1">
+<li>https://book.fast.ai - The book’s website; it’s updated regularly with new content and recommendations from everything to GPUs to use, how to run things locally and on the cloud, etc…</li>
+<li>To learn more about pandas check the <a href="https://pandas.pydata.org/docs/">pandas documentation</a> and <a href="https://chrisalbon.com/">chrisalbon.com</a>.</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"09c8e8c8875b4774be7ca910f22dff22":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"1572287cfceb47639a5aad2a4fcf1a90":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_3723e13d8c20459ca16d17270141d2ed","placeholder":"​","style":"IPY_MODEL_93f06f9943b04110a913e339ab7bf949","value":"100%"}},"26dfb8d1b01344ffb093c076b91dba4f":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"3723e13d8c20459ca16d17270141d2ed":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"3c2d5d1165114c749a415210c2626f74":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"4552b7b1a7ca478bb5058e432bc6d885":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"","description_tooltip":null,"layout":"IPY_MODEL_e3e4f759605e4d0d8712f0a96bdd2eb6","max":102530333,"min":0,"orientation":"horizontal","style":"IPY_MODEL_f3e0fc1eb0f04d0e96486472ac6f6d06","value":102530333}},"55479ae22b724c4d8ef810587f44e8bd":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_a53ae834a9fe4611aec032df1e211ae8","IPY_MODEL_870e6aae58da437594569567ef0637b8","IPY_MODEL_ef8643cd328f4b24a06d033c38234908"],"layout":"IPY_MODEL_6479fe7ab7df41378e51d704cc98867f"}},"6479fe7ab7df41378e51d704cc98867f":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"69862a2a83044ca1b9602aed3585befa":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"83bb109deaaf45abb46b2e1c483cff7d":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":""}},"870e6aae58da437594569567ef0637b8":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"","description_tooltip":null,"layout":"IPY_MODEL_3c2d5d1165114c749a415210c2626f74","max":46830571,"min":0,"orientation":"horizontal","style":"IPY_MODEL_83bb109deaaf45abb46b2e1c483cff7d","value":46830571}},"8a063009fa5e44958811681fd2edde94":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"93f06f9943b04110a913e339ab7bf949":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"a53ae834a9fe4611aec032df1e211ae8":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_69862a2a83044ca1b9602aed3585befa","placeholder":"​","style":"IPY_MODEL_26dfb8d1b01344ffb093c076b91dba4f","value":"100%"}},"b66c3172658043229c875d8c5da524b5":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"c007cbb3f5b1487aa8da79482929deb8":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"e3e4f759605e4d0d8712f0a96bdd2eb6":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"e5b7c0c3e75a4fc58dc917a8432c8901":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_b66c3172658043229c875d8c5da524b5","placeholder":"​","style":"IPY_MODEL_f3f5872c715a435e8bd78bda9c3a9365","value":" 97.8M/97.8M [00:00&lt;00:00, 146MB/s]"}},"ef8643cd328f4b24a06d033c38234908":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_c007cbb3f5b1487aa8da79482929deb8","placeholder":"​","style":"IPY_MODEL_09c8e8c8875b4774be7ca910f22dff22","value":" 44.7M/44.7M [00:00&lt;00:00, 125MB/s]"}},"f3e0fc1eb0f04d0e96486472ac6f6d06":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":""}},"f3f5872c715a435e8bd78bda9c3a9365":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"fb9719a51f4e4427b7f686a4aad439b0":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_1572287cfceb47639a5aad2a4fcf1a90","IPY_MODEL_4552b7b1a7ca478bb5058e432bc6d885","IPY_MODEL_e5b7c0c3e75a4fc58dc917a8432c8901"],"layout":"IPY_MODEL_8a063009fa5e44958811681fd2edde94"}}}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?:http:|https:)\/\/?(www)\.ohmeow\.com\/**");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 ohmeow.com</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="mailto:wgilliam@ohmeow.com">E-mail</a> | <a href="https://x.com/waydegilliam">X</a> | <a href="https://github.com/ohmeow">GitHub</a> | <a href="https://ohmeow.com">Website</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
