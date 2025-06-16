@@ -29,6 +29,10 @@
     <lastmod>2025-05-25T17:42:15.427Z</lastmod>
   </url>
   <url>
+    <loc>https://ohmeow.com/posts/2020-11-16-ajtfb-chapter-2.html</loc>
+    <lastmod>2024-06-18T01:27:14.915Z</lastmod>
+  </url>
+  <url>
     <loc>https://ohmeow.com/posts/2024-07-25-llm-workshop-evals-dataset-curation.html</loc>
     <lastmod>2025-05-25T17:37:10.263Z</lastmod>
   </url>
@@ -37,39 +41,11 @@
     <lastmod>2025-05-25T17:43:49.561Z</lastmod>
   </url>
   <url>
-    <loc>https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr.html</loc>
-    <lastmod>2024-06-18T01:27:14.913Z</lastmod>
+    <loc>https://ohmeow.com/posts/2024-07-14-llm-workshop-objectives-data-filtration.html</loc>
+    <lastmod>2024-07-14T23:23:49.753Z</lastmod>
   </url>
   <url>
-    <loc>https://ohmeow.com/posts/2021-06-02-how-to-submit-a-pr-to-fastai.html</loc>
-    <lastmod>2024-06-18T01:27:14.918Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2024-07-18-llm-workshop-prompt-only.html</loc>
-    <lastmod>2025-05-25T17:36:38.588Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2021-05-25-mbart-sequence-classification-with-blurr.html</loc>
-    <lastmod>2024-06-18T01:27:14.918Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2022-02-09-ajtfb-chapter-6-regression.html</loc>
-    <lastmod>2024-06-18T01:27:14.931Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1.html</loc>
-    <lastmod>2024-06-18T01:27:14.913Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2024-12-13-gemini-part-1.html</loc>
-    <lastmod>2024-12-14T03:25:06.981Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2021-06-03-ajtfb-chapter-5.html</loc>
-    <lastmod>2024-06-18T01:27:14.922Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ohmeow.com/posts/2022-03-31-ajtfb-chapter-8.html</loc>
+    <loc>https://ohmeow.com/posts/2022-03-28-ajtfb-chapter-7.html</loc>
     <lastmod>2024-06-18T01:27:14.931Z</lastmod>
   </url>
   <url>
@@ -77,24 +53,52 @@
     <lastmod>2024-06-18T01:27:14.907Z</lastmod>
   </url>
   <url>
-    <loc>https://ohmeow.com/posts/2022-03-28-ajtfb-chapter-7.html</loc>
+    <loc>https://ohmeow.com/posts/2022-03-31-ajtfb-chapter-8.html</loc>
     <lastmod>2024-06-18T01:27:14.931Z</lastmod>
   </url>
   <url>
-    <loc>https://ohmeow.com/posts/2024-07-14-llm-workshop-objectives-data-filtration.html</loc>
-    <lastmod>2024-07-14T23:23:49.753Z</lastmod>
+    <loc>https://ohmeow.com/posts/2021-06-03-ajtfb-chapter-5.html</loc>
+    <lastmod>2024-06-18T01:27:14.922Z</lastmod>
   </url>
   <url>
-    <loc>https://ohmeow.com/posts/2024-12-24-gemini-part-2-sdk.html</loc>
-    <lastmod>2024-12-24T23:29:25.333Z</lastmod>
+    <loc>https://ohmeow.com/posts/2024-12-13-gemini-part-1.html</loc>
+    <lastmod>2024-12-14T03:25:06.981Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2020-04-11-finding-datablock-nirvana-part-1.html</loc>
+    <lastmod>2024-06-18T01:27:14.913Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2022-02-09-ajtfb-chapter-6-regression.html</loc>
+    <lastmod>2024-06-18T01:27:14.931Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2021-05-25-mbart-sequence-classification-with-blurr.html</loc>
+    <lastmod>2024-06-18T01:27:14.918Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2024-07-18-llm-workshop-prompt-only.html</loc>
+    <lastmod>2025-05-25T17:36:38.588Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2021-06-02-how-to-submit-a-pr-to-fastai.html</loc>
+    <lastmod>2024-06-18T01:27:14.918Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr.html</loc>
+    <lastmod>2024-06-18T01:27:14.913Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2021-05-23-ajtfb-chapter-4.html</loc>
     <lastmod>2024-06-18T01:27:14.916Z</lastmod>
   </url>
   <url>
-    <loc>https://ohmeow.com/posts/2020-11-16-ajtfb-chapter-2.html</loc>
-    <lastmod>2024-06-18T01:27:14.915Z</lastmod>
+    <loc>https://ohmeow.com/posts/2024-12-24-gemini-part-2-sdk.html</loc>
+    <lastmod>2025-06-16T00:17:25.877Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ohmeow.com/posts/2025-06-15-ai-evals-course-retrospective.html</loc>
+    <lastmod>2025-06-16T00:17:17.460Z</lastmod>
   </url>
   <url>
     <loc>https://ohmeow.com/posts/2020-11-22-ajtfb-chapter-3.html</loc>

@@ -17,7 +17,100 @@
 <width>144</width>
 </image>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Tue, 24 Dec 2024 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 15 Jun 2025 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>AI Evals For Engineers &amp; PMs: A Retrospective</title>
+  <dc:creator>Wayde Gilliam</dc:creator>
+  <link>https://ohmeow.com/posts/2025-06-15-ai-evals-course-retrospective.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="lets-begin" class="level2">
+<h2 class="anchored" data-anchor-id="lets-begin">Let’s Begin</h2>
+<p>Me when Hamel first told me he was putting together this course …</p>
+<div class="tenor-gif-embed" data-postid="14332965" data-share-method="host" data-aspect-ratio="2.40385" data-width="100%">
+<a href="https://tenor.com/view/stepbrothers-mists-of-avalon-follow-will-ferrell-brennan-huff-gif-14332965">Stepbrothers Mists Of Avalon GIF</a>from <a href="https://tenor.com/search/stepbrothers-gifs">Stepbrothers GIFs</a>
+</div>
+<script type="text/javascript" async="" src="https://tenor.com/embed.js"></script>
+<p>Actually, this has been “me” for any lecture/course/workshop/etc… that Hamel is involved with ever since he put on the wonderful <a href="https://maven.com/parlance-labs/fine-tuning" target="\_blank">Mastering LLMs For Developers &amp; Data Scientists</a> with Dan Becker last year (also strongly recommended for folks that are exploring evals-informed finetuning).</p>
+<p>My #1 criteria for evaluating any course is this: <strong><em>Is it fun?</em></strong></p>
+<p>But what does that mean you ask? Well, let’s make this retrospective a bit more interesting by answering that question in the context of lessons learned from the course itself.</p>
+</section>
+<section id="what-do-i-mean-by-fun" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-i-mean-by-fun">What do I mean by “fun”?</h2>
+<p>The idea of making your intentions clear when talking to LLMs and building evals is a re-occurring theme throughout the course. When it comes to “fun”, that means we need an agreed upon definition, or “rubric” if you will, to really use it as an eval for determining what makes a course worth your time.</p>
+<p>It could mean fun like “I was always laughing at their jokes and cracking up whenever someone posted a ‘look at your data’ meme”. It could mean “It was fun in the sense that I was entertained watching Hamel and Shreya in action”. It could mean a lot of things.</p>
+<p>The question here is: If I’m building an evalauation rubric for “fun”, how could I formulate it in a way that would allow human and LLM judges to look at any course and determine if it would pass the “Wayde-Gilliam-Is-Fun-Eval”?</p>
+<p>I will assume the role of “benevolent dictator” and answer that question by following the recommendations stated in chapter 4 of the course reader for building out your evals.</p>
+<section id="the-fun-eval" class="level3">
+<h3 class="anchored" data-anchor-id="the-fun-eval">The “Fun” Eval</h3>
+<p>Chapter 4 encourages folks to “create a first version of the rubric [for determining what passes for a given eval].” This “includes a working definition of the evaluation criterion … and a few illustrative Pass/Fail examples”.</p>
+<p>Here’s my initial “fun” rubric</p>
+<blockquote class="blockquote">
+<p>A “fun” course is where participants learn how to apply valuable skills in their own work through informative lectures, detailed reading material, colloboration with other studens and experts in the field of study, and the ability to put the lessons learned into action.</p>
+<p>If a given course includes most of the elements below, it meets this criteria and should be marked as “Pass”:</p>
+<ul>
+<li>The course is taught by subject matter experts that are also good communicators to the stated course audience</li>
+<li>The course includes interactive lectures by other subject matter experts related to this domain of study</li>
+<li>The course includes a lively forum for students and experts to share insights, ask questions, and build community</li>
+<li>The course includes a realistic project that drives home what is taught by allowing students to put it into practice</li>
+</ul>
+<p>If the course description is missing most of these items, mark it as a “Fail”</p>
+</blockquote>
+<p>I think this is a pretty good definition if I do say so myself. Good enough, that in my opinion as the BD (benevolent dictator), I could give it to an LLM Judge along with any course description as context and get a very accurate pass/fail.</p>
+<p>Applying it to Shreya’s and Hamel’s “AI Evals” course, its an easy PASS! If you’re still not convinced, check out the many testimonials coming from other students <a href="https://testimonial.to/ai-evals-course" target="\_blank">here!</a></p>
+</section>
+</section>
+<section id="lessons-learned" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-learned">Lessons Learned</h2>
+<p>There are a lot of good blog posts coming out of this course from students that cover a myriad of really valuable insights derived from the course. I want to touch upon three that I’ve found really important in the context of my actual work and trying to put some of these ideas in practice.</p>
+<section id="lesson-1-if-you-arent-doing-evals-you-are-going-to-fail" class="level3">
+<h3 class="anchored" data-anchor-id="lesson-1-if-you-arent-doing-evals-you-are-going-to-fail">Lesson #1: If you aren’t doing evals you are going to fail</h3>
+<p>Evals are hard. There is a cost to assuming an eval-centered or eval-directed approach in building your AI powered applications. But if you go forward without it, you either don’t really care about the quality of your product and/or you’re going to fail hard at some point.</p>
+<p>For example, my previor employer’s IT group deployed a fairly general chat application to a university. There were folks asking if perhaps they were creating a solution to a problem that didn’t exist. It even led me to asking how they were doing their evals … getting ghosted … asking again … and getting ghosted again. Talking to end users, of which I was one, the product pales in comparison to what you can do with ChatGPT or even discover via google search, and as such, more and more folks are just abandoning it.</p>
+<p>If your organization is building AI into their offerings, ask them the same question … ask them how they are doing evals. If they ghost you or say its something they are thinking about, then you have your answer.</p>
+</section>
+<section id="lesson-2-if-you-dont-have-domain-experts-involved-you-are-going-to-fail" class="level3">
+<h3 class="anchored" data-anchor-id="lesson-2-if-you-dont-have-domain-experts-involved-you-are-going-to-fail">Lesson #2: If you don’t have domain experts involved you are going to fail</h3>
+<p>Building good evals requires time from domain experts to ensure your prompts, eval rubrics, human/LLM judges, etc… perform in the way intended.</p>
+<p>If you want to tell me that you don’t really care about the quality of your AI powered application without telling me, just tell me the domain experts don’t have time to be a part of this process and for the developer to do it himself. FYI, this was when I realized at my previous employeement that my supervisor didn’t really care about AI except as a bullet point in a Powerpoint presentation to sell clients on our services.</p>
+</section>
+<section id="lesson-3-you-need-to-know-how-to-write-english-well-you-are-going-to-fail" class="level3">
+<h3 class="anchored" data-anchor-id="lesson-3-you-need-to-know-how-to-write-english-well-you-are-going-to-fail">Lesson #3: You need to know how to write English well you are going to fail</h3>
+<p>You need to be able to articulate your intent very clearly for LLMs and humans you colloborate with the build your AI powered products. Clarity and providing detailed instructions in your prompts and evals are critical for success in this business.</p>
+<p>Here’s a few recommendations on improving your prompting acumen:</p>
+<ol type="1">
+<li>Read</li>
+</ol>
+<p>Reading improves your vocabularly and offers you a way to learn how to speak by mimicry of styles you find easy to follow yourself. Whether its good sci-fi, an article on talking to Claude, or a course reader on building evals, reading is such as easy way to improve your ability to communicate intent to both LLMs and human alike.</p>
+<ol start="2" type="1">
+<li>Read the Vendor/Model best practices</li>
+</ol>
+<p>Every major vendor has prompting best practices that tell you how their models prefer being talked too. Some of these guides are model specific. Either way, knowing whether your model likes markdown or XML and how to properly instruct it can go a long way in building quality AI powered systems that produce the outcomes you want.</p>
+<ol start="3" type="1">
+<li>Build</li>
+</ol>
+<p>Start building some apps. Whether its for work or pleasure, start building out some AI powered web applications to get practice communicating your intentions to both LLMs and your fellow human folk. One of the things I really liked about this course is that there is a real-world course project that allows just that for students willing to put some time into it.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Don’t fail!</p>
+<p>If you are in any role at a business building AI powered anything, this course is worth your time. Evals are hard and they are also essential. If you don’t understand where your application is failing or may fail, and you don’t have a systematic way to understand and then address these failures, your going to lose the trust of your users who will eventually move on to other products that do what they want and need.</p>
+<p>If you’re interested in keeping those users and building meaningful AI, this course is a great place to start!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Evals</category>
+  <category>LLMs</category>
+  <guid>https://ohmeow.com/posts/2025-06-15-ai-evals-course-retrospective.html</guid>
+  <pubDate>Sun, 15 Jun 2025 07:00:00 GMT</pubDate>
+  <media:content url="https://ohmeow.com/posts/images/blog-20250615/post-logo.png" medium="image" type="image/png" height="160" width="144"/>
+</item>
 <item>
   <title>Gemini (Part II) - The Unified SDK</title>
   <dc:creator>Wayde Gilliam</dc:creator>
@@ -21710,831 +21803,6 @@ Important
   <guid>https://ohmeow.com/posts/2020-11-06-ajtfb-chapter-1.html</guid>
   <pubDate>Fri, 06 Nov 2020 08:00:00 GMT</pubDate>
   <media:content url="https://ohmeow.com/posts/images/fastbook.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-  <title>Summarization with blurr</title>
-  <dc:creator>Wayde Gilliam</dc:creator>
-  <link>https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<div id="cell-1" class="cell" data-outputid="3ac2d826-5cf1-4e6b-c64f-6e996e2be933" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># only run this cell if you are in collab</span></span>
-<span id="cb1-2"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install transformers -Uqq</span></span>
-<span id="cb1-3"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install datasets -Uqq</span></span>
-<span id="cb1-4"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install bert-score -Uqq</span></span>
-<span id="cb1-5"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install sacremoses</span></span>
-<span id="cb1-6"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># !pip install ohmeow-blurr -Uqq</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: sacremoses in /usr/local/lib/python3.7/dist-packages (0.0.53)
-Requirement already satisfied: tqdm in /usr/local/lib/python3.7/dist-packages (from sacremoses) (4.64.0)
-Requirement already satisfied: joblib in /usr/local/lib/python3.7/dist-packages (from sacremoses) (1.1.0)
-Requirement already satisfied: regex in /usr/local/lib/python3.7/dist-packages (from sacremoses) (2019.12.20)
-Requirement already satisfied: click in /usr/local/lib/python3.7/dist-packages (from sacremoses) (7.1.2)
-Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from sacremoses) (1.15.0)</code></pre>
-</div>
-</div>
-<div id="cell-2" class="cell" data-outputid="a691ab48-3e25-442e-9c8e-79afefa3fd47" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> datasets</span>
-<span id="cb3-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">as</span> pd</span>
-<span id="cb3-3"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> fastai.text.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">all</span> <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span></span>
-<span id="cb3-4"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span></span>
-<span id="cb3-5"></span>
-<span id="cb3-6"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> blurr.text.data.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">all</span> <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span></span>
-<span id="cb3-7"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> blurr.text.modeling.<span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">all</span> <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">*</span></span>
-<span id="cb3-8"></span>
-<span id="cb3-9"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> nltk</span>
-<span id="cb3-10">nltk.download(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'punkt'</span>, quiet<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">True</span>)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>True</code></pre>
-</div>
-</div>
-<section id="data-preparation" class="level2">
-<h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
-<p>We’re going to use to use the <a href="https://huggingface.co/datasets">datasets</a> library from huggingface to grab your raw data. This package gives you access to all kinds of NLP related datasets, explanations of each, and various task specific metrics to use in evaluating your model. The best part being everything comes down to you in JSON! This makes it a breeze to get up and running quickly!</p>
-<p>We’ll just use a subset of the training set to build both our training and validation DataLoaders</p>
-<div id="cell-6" class="cell" data-outputid="8a736f83-88e1-4373-bba3-145403175329" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">raw_data <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> datasets.load_dataset(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'cnn_dailymail'</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'3.0.0'</span>, split<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'train[:1%]'</span>)</span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Reusing dataset cnn_dailymail (/root/.cache/huggingface/datasets/cnn_dailymail/3.0.0/3.0.0/1b3c71476f6d152c31c1730e83ccb08bcf23e348233f4fcc11e182248e6bf7de)</code></pre>
-</div>
-</div>
-<div id="cell-7" class="cell" data-outputid="2bd4fdb5-f195-4e5f-d462-19a51e668018" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">df <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> pd.DataFrame(raw_data)</span>
-<span id="cb7-2">df.head()</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-
-  <div id="df-a29154ff-c887-4abf-8a43-9c0b81d21357">
-    <div class="colab-df-container">
-      <div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">article</th>
-<th data-quarto-table-cell-role="th">highlights</th>
-<th data-quarto-table-cell-role="th">id</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>LONDON, England (Reuters) -- Harry Potter star Daniel Radcliffe gains access to a reported £20 million ($41.1 million) fortune as he turns 18 on Monday, but he insists the money won't cast a spell on him. Daniel Radcliffe as Harry Potter in "Harry Potter and the Order of the Phoenix" To the disappointment of gossip columnists around the world, the young actor says he has no plans to fritter his cash away on fast cars, drink and celebrity parties. "I don't plan to be one of those people who, as soon as they turn 18, suddenly buy themselves a massive sports car collection or something simila...</td>
-<td>Harry Potter star Daniel Radcliffe gets £20M fortune as he turns 18 Monday .\nYoung actor says he has no plans to fritter his cash away .\nRadcliffe's earnings from first five Potter films have been held in trust fund .</td>
-<td>42c027e4ff9730fbb3de84c1af0d2c506e41c3e4</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>Editor's note: In our Behind the Scenes series, CNN correspondents share their experiences in covering news and analyze the stories behind the events. Here, Soledad O'Brien takes users inside a jail where many of the inmates are mentally ill. An inmate housed on the "forgotten floor," where many mentally ill inmates are housed in Miami before trial. MIAMI, Florida (CNN) -- The ninth floor of the Miami-Dade pretrial detention facility is dubbed the "forgotten floor." Here, inmates with the most severe mental illnesses are incarcerated until they're ready to appear in court. Most often, they...</td>
-<td>Mentally ill inmates in Miami are housed on the "forgotten floor"\nJudge Steven Leifman says most are there as a result of "avoidable felonies"\nWhile CNN tours facility, patient shouts: "I am the son of the president"\nLeifman says the system is unjust and he's fighting for change .</td>
-<td>ee8871b15c50d0db17b0179a6d2beab35065f1e9</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>MINNEAPOLIS, Minnesota (CNN) -- Drivers who were on the Minneapolis bridge when it collapsed told harrowing tales of survival. "The whole bridge from one side of the Mississippi to the other just completely gave way, fell all the way down," survivor Gary Babineau told CNN. "I probably had a 30-, 35-foot free fall. And there's cars in the water, there's cars on fire. The whole bridge is down." He said his back was injured but he determined he could move around. "I realized there was a school bus right next to me, and me and a couple of other guys went over and started lifting the kids off t...</td>
-<td>NEW: "I thought I was going to die," driver says .\nMan says pickup truck was folded in half; he just has cut on face .\nDriver: "I probably had a 30-, 35-foot free fall"\nMinnesota bridge collapsed during rush hour Wednesday .</td>
-<td>06352019a19ae31e527f37f7571c6dd7f0c5da37</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>WASHINGTON (CNN) -- Doctors removed five small polyps from President Bush's colon on Saturday, and "none appeared worrisome," a White House spokesman said. The polyps were removed and sent to the National Naval Medical Center in Bethesda, Maryland, for routine microscopic examination, spokesman Scott Stanzel said. Results are expected in two to three days. All were small, less than a centimeter [half an inch] in diameter, he said. Bush is in good humor, Stanzel said, and will resume his activities at Camp David. During the procedure Vice President Dick Cheney assumed presidential power. Bu...</td>
-<td>Five small polyps found during procedure; "none worrisome," spokesman says .\nPresident reclaims powers transferred to vice president .\nBush undergoes routine colonoscopy at Camp David .</td>
-<td>24521a2abb2e1f5e34e6824e0f9e56904a2b0e88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>(CNN) -- The National Football League has indefinitely suspended Atlanta Falcons quarterback Michael Vick without pay, officials with the league said Friday. NFL star Michael Vick is set to appear in court Monday. A judge will have the final say on a plea deal. Earlier, Vick admitted to participating in a dogfighting ring as part of a plea agreement with federal prosecutors in Virginia. "Your admitted conduct was not only illegal, but also cruel and reprehensible. Your team, the NFL, and NFL fans have all been hurt by your actions," NFL Commissioner Roger Goodell said in a letter to Vick....</td>
-<td>NEW: NFL chief, Atlanta Falcons owner critical of Michael Vick's conduct .\nNFL suspends Falcons quarterback indefinitely without pay .\nVick admits funding dogfighting operation but says he did not gamble .\nVick due in federal court Monday; future in NFL remains uncertain .</td>
-<td>7fe70cc8b12fab2d0a258fababf7d9c6b5e1262a</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-a29154ff-c887-4abf-8a43-9c0b81d21357')" title="Convert this dataframe to an interactive table." style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"></path>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"></path><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"></path>
-  </svg>
-      </button>
-      
-  <style>
-    .colab-df-container {
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-      <script>
-        const buttonEl =
-          document.querySelector('#df-a29154ff-c887-4abf-8a43-9c0b81d21357 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-a29154ff-c887-4abf-8a43-9c0b81d21357');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-  
-</div>
-</div>
-<p>We begin by getting our hugginface objects needed for this task (e.g., the architecture, tokenizer, config, and model). We’ll use blurr’s <code>get_hf_objects</code> helper method here.</p>
-<div id="cell-9" class="cell" data-outputid="57bf4163-1a4d-46e4-fedf-bb7d5d3d07f0" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">pretrained_model_name <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"facebook/bart-large-cnn"</span></span>
-<span id="cb8-2">hf_arch, hf_config, hf_tokenizer, hf_model <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> get_hf_objects(pretrained_model_name, model_cls<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>BartForConditionalGeneration)</span>
-<span id="cb8-3"></span>
-<span id="cb8-4">hf_arch, <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">type</span>(hf_config), <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">type</span>(hf_tokenizer), <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">type</span>(hf_model)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>('bart',
- transformers.models.bart.configuration_bart.BartConfig,
- transformers.models.bart.tokenization_bart_fast.BartTokenizerFast,
- transformers.models.bart.modeling_bart.BartForConditionalGeneration)</code></pre>
-</div>
-</div>
-<p>Next we need to build out our DataBlock. Remember tha a DataBlock is a blueprint describing how to move your raw data into something modelable. That blueprint is executed when we pass it a data source, which in our case, will be the DataFrame we created above. We’ll use a random subset to get things moving along a bit faster for the demo as well.</p>
-<p>Notice that the blurr DataBlock as been dramatically simplified given the shift to on-the-fly batch-time tokenization. All we need is to define a single <code>Seq2SeqBatchTokenizeTransform</code> instance, optionally passing a list to any of the tokenization arguments to differentiate the values for the input and summary sequences. In addition to specifying a custom max length for the inputs, we can also do the same for the output sequences … and with the latest release of blurr, we can even customize the text generation by passing in <code>text_gen_kwargs</code>.</p>
-<p>We pass <code>noop</code> as a type transform for our targets because everything is already handled by the batch transform now.</p>
-<div id="cell-11" class="cell" data-outputid="dd3f5033-53a8-4bf2-f807-b7c9ed0ce9d3" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">text_gen_kwargs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> default_text_gen_kwargs(hf_config, hf_model, task<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'summarization'</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">;</span> text_gen_kwargs</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>{'bad_words_ids': None,
- 'bos_token_id': 0,
- 'decoder_start_token_id': 2,
- 'diversity_penalty': 0.0,
- 'do_sample': False,
- 'early_stopping': True,
- 'encoder_no_repeat_ngram_size': 0,
- 'eos_token_id': 2,
- 'exponential_decay_length_penalty': None,
- 'forced_bos_token_id': 0,
- 'forced_eos_token_id': 2,
- 'length_penalty': 2.0,
- 'max_length': 142,
- 'min_length': 56,
- 'no_repeat_ngram_size': 3,
- 'num_beam_groups': 1,
- 'num_beams': 4,
- 'num_return_sequences': 1,
- 'output_attentions': False,
- 'output_hidden_states': False,
- 'output_scores': False,
- 'pad_token_id': 1,
- 'remove_invalid_values': False,
- 'repetition_penalty': 1.0,
- 'return_dict_in_generate': False,
- 'temperature': 1.0,
- 'top_k': 50,
- 'top_p': 1.0,
- 'typical_p': 1.0,
- 'use_cache': True}</code></pre>
-</div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">hf_batch_tfm <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Seq2SeqBatchTokenizeTransform(</span>
-<span id="cb12-2">    hf_arch, hf_config, hf_tokenizer, hf_model, max_length<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">256</span>, max_tgt_length<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">130</span>, text_gen_kwargs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>text_gen_kwargs</span>
-<span id="cb12-3">)</span>
-<span id="cb12-4"></span>
-<span id="cb12-5">blocks <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> (Seq2SeqTextBlock(batch_tokenize_tfm<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>hf_batch_tfm), noop)</span>
-<span id="cb12-6">dblock <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> DataBlock(blocks<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>blocks, get_x<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColReader(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'article'</span>), get_y<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ColReader(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'highlights'</span>), splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>RandomSplitter())</span></code></pre></div>
-</div>
-<div id="cell-13" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">dls <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dblock.dataloaders(df, bs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span></code></pre></div>
-</div>
-<div id="cell-14" class="cell" data-outputid="0cb4e60e-9ec6-4da6-fb8d-45abbc8fca49" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(dls.train.items), <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(dls.valid.items)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>(2297, 574)</code></pre>
-</div>
-</div>
-<p>It’s always a good idea to check out a batch of data and make sure the shapes look right.</p>
-<div id="cell-16" class="cell" data-outputid="740b2d02-e8fe-401b-8dce-6c5119509fe7" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.one_batch()</span>
-<span id="cb16-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(b), b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'input_ids'</span>].shape, b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>].shape</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>(2, torch.Size([2, 256]), torch.Size([2, 66]))</code></pre>
-</div>
-</div>
-<p>Even better, we can take advantage of blurr’s TypeDispatched version of <code>show_batch</code> to look at things a bit more intuitively. We pass in the <code>dls</code> via the <code>dataloaders</code> argument so we can access all tokenization/modeling configuration stored in our batch transform above.</p>
-<div id="cell-18" class="cell" data-outputid="67b5a2d7-81bc-4cae-c5af-147fd7e1c2c8" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">dls.show_batch(dataloaders<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>dls, max_n<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span></code></pre></div>
-<div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">text</th>
-<th data-quarto-table-cell-role="th">target</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>&lt;s&gt; You wanted to know more about greenwashing, and Scot Case, from environmental marketing firm TerraChoice, answered. Greenwashing expert Scot Case of TerraChoice. "Why are green products often more expensive than ones that don't say they are green or environmentally friendly? Is it just because green has become a new form of 'premium brand'? Isn't this bad news if we want to make more people environmentally aware when they go shopping?" Harriet Gladwell. Case: First, it should be noted that not all greener products are more expensive. The remanufactured toner cartridges I purchase at a nationwide office-supply store, for example, carry the same warranty as other cartridges at a 30-percent lower cost. This greener option is less expensive because the manufacturer avoids the cost of manufacturing the plastic and electronic components. They simply reuse the parts from recycled cartridges. There are also greener products that do not cost extra. There are cleaning products and paints, for example, that have been certified as meeting tough environmental standards by EcoLogo or Green Seal that deliver the same high-quality performance one expects without costing any extra. Other greener products might be slightly more expensive initially, but generate substantial savings for the consumer. Energy-efficient compact fluorescent lightbul&lt;/s&gt;</td>
-<td>Scot Case answers your questions on greenwashing.\nHas green become a new form of "premium brand"?\nWhat green words and phrases should raise a red flag?\nClick here to read more answers to your questions.</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>&lt;s&gt; (CNN) -- Commentators who have watched the conflict in Northern Ireland play out for decades call the peace process a miracle. Various leaders negotiated for years to bring an end to Northern Ireland's "troubles." Culminating in a power sharing deal between Ulster's unionists, led by Ian Paisley, and Sinn Fein, the political arm of the IRA (nationalists), led by Gerry Adams, the road to peace has been a torturous one characterized by violence, set-backs and numerous false starts. Only recently the Ulster Defence Association, Northern Ireland's largest loyalist group, said it will cease to be an armed paramilitary group, starting at midnight on November 11, saying the "war is over." "All weaponry will be put beyond use," Colin Halliday of the Ulster Political Research Group, which is linked to the group, said in a speech in Belfast aired by RTE, Ireland's state-owned broadcaster. "The struggle to maintain the union is on a new and more complex battlefield." The Irish Republican Army (IRA) disarmed two years ago, helping to restore the province's government in Belfast. Irish Prime Minister Bertie Ahern said the most recent moves of groups to disarm was "significant and hopefully signals a further step&lt;/s&gt;</td>
-<td>Some commentators have called the peace process in Northern Ireland a "miracle"\nIt culminated in a power sharing deal between the Ulster's unionists and Sinn Fein.\nPeace and prosperity would not have occurred without diplomacy.</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="training" class="level2">
-<h2 class="anchored" data-anchor-id="training">Training</h2>
-<p>We’ll prepare our BART model for training by wrapping it in blurr’s <code>BaseModelWrapper</code> object and using the callback, <code>BaseModelCallback</code>, as usual. A new <code>Seq2SeqMetricsCallback</code> object allows us to specify Seq2Seq metrics we want to use, things like rouge and bertscore for tasks like summarization as well as metrics such as meteor, bleu, and sacrebleu for translations tasks. Using huggingface’s metrics library is as easy as specifying a metrics configuration such as below.</p>
-<p>Once we have everything in place, we’ll freeze our model so that only the last layer group’s parameters of trainable. See <a href="https://docs.fast.ai/basic_train.html#Discriminative-layer-training">here</a> for our discriminitative learning rates work in fastai.</p>
-<p><strong>Note:</strong> This has been tested with ALOT of other Seq2Seq models; see the docs for more information.</p>
-<div id="cell-21" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1">seq2seq_metrics <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> {</span>
-<span id="cb19-2">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'rouge'</span>: {</span>
-<span id="cb19-3">            <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'compute_kwargs'</span>: { <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'rouge_types'</span>: [<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"rouge1"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"rouge2"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"rougeL"</span>], <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'use_stemmer'</span>: <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">True</span> },</span>
-<span id="cb19-4">            <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'returns'</span>: [<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"rouge1"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"rouge2"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"rougeL"</span>]</span>
-<span id="cb19-5">        },</span>
-<span id="cb19-6">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'bertscore'</span>: {</span>
-<span id="cb19-7">            <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'compute_kwargs'</span>: { <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'lang'</span>: <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'en'</span> },</span>
-<span id="cb19-8">            <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'returns'</span>: [<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"precision"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"recall"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"f1"</span>]</span>
-<span id="cb19-9">        }</span>
-<span id="cb19-10">    }</span></code></pre></div>
-</div>
-<div id="cell-22" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">model <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> BaseModelWrapper(hf_model)</span>
-<span id="cb20-2">learn_cbs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [BaseModelCallback]</span>
-<span id="cb20-3">fit_cbs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [Seq2SeqMetricsCallback(custom_metrics<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>seq2seq_metrics)]</span>
-<span id="cb20-4"></span>
-<span id="cb20-5">learn <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Learner(dls, </span>
-<span id="cb20-6">                model,</span>
-<span id="cb20-7">                opt_func<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>ranger,</span>
-<span id="cb20-8">                loss_func<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>CrossEntropyLossFlat(),</span>
-<span id="cb20-9">                cbs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>learn_cbs,</span>
-<span id="cb20-10">                splitter<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>partial(blurr_seq2seq_splitter, arch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>hf_arch)).to_fp16()</span>
-<span id="cb20-11"></span>
-<span id="cb20-12">learn.create_opt() </span>
-<span id="cb20-13">learn.freeze()</span></code></pre></div>
-</div>
-<p>Still experimenting with how to use fastai’s learning rate finder for these kinds of models. If you all have any suggestions or interesting insights to share, please let me know. We’re only going to train the frozen model for one epoch for this demo, but feel free to progressively unfreeze the model and train the other layers to see if you can best my results below.</p>
-<div id="cell-24" class="cell" data-outputid="593f1808-246a-443f-e496-b3fd4b55b582" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1">learn.lr_find()</span></code></pre></div>
-<div class="cell-output cell-output-display">
-
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div>
-<div class="cell-output cell-output-display">
-
-</div>
-<div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>SuggestedLRs(valley=9.120108734350652e-05)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr_files/figure-html/cell-15-output-4.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>It’s also not a bad idea to run a batch through your model and make sure the shape of what goes in, and comes out, looks right.</p>
-<div id="cell-26" class="cell" data-outputid="ea067053-77fe-4579-b31b-081255c47214" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">b <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> dls.one_batch()</span>
-<span id="cb23-2">preds <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> learn.model(b[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>])</span>
-<span id="cb23-3"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">len</span>(preds),preds[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>], preds[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>].shape</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>(3,
- tensor(3.7155, device='cuda:0', grad_fn=&lt;NllLossBackward0&gt;),
- torch.Size([2, 60, 50264]))</code></pre>
-</div>
-</div>
-<div id="cell-27" class="cell" data-outputid="2b81f845-db0d-4e24-cbd0-afbcac35f705" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1">learn.fit_one_cycle(<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>, lr_max<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3e-5</span>, cbs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>fit_cbs)</span></code></pre></div>
-<div class="cell-output cell-output-display">
-
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div>
-<div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">epoch</th>
-<th data-quarto-table-cell-role="th">train_loss</th>
-<th data-quarto-table-cell-role="th">valid_loss</th>
-<th data-quarto-table-cell-role="th">rouge1</th>
-<th data-quarto-table-cell-role="th">rouge2</th>
-<th data-quarto-table-cell-role="th">rougeL</th>
-<th data-quarto-table-cell-role="th">bertscore_precision</th>
-<th data-quarto-table-cell-role="th">bertscore_recall</th>
-<th data-quarto-table-cell-role="th">bertscore_f1</th>
-<th data-quarto-table-cell-role="th">time</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>1.717729</td>
-<td>1.666989</td>
-<td>0.390802</td>
-<td>0.173328</td>
-<td>0.270079</td>
-<td>0.881220</td>
-<td>0.898129</td>
-<td>0.889528</td>
-<td>16:32</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"d3714713b90146089001d89fc98f6f43","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"48d126d3054349cb85f3c02c25880cdb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"a92845f968c1478db79dcb443ab00b12","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"797f396dc0f645edbeabfe96abdb1b6f","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
-</div>
-<p>And now we can look at the generated predictions using our <code>text_gen_kwargs</code> above</p>
-<div id="cell-29" class="cell" data-outputid="3fb91e74-f01c-4c56-9003-158853429b13" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">learn.show_results(learner<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>learn, max_n<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>)</span></code></pre></div>
-<div class="cell-output cell-output-display">
-
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div>
-<div class="cell-output cell-output-display">
-
-</div>
-<div class="cell-output cell-output-display">
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">text</th>
-<th data-quarto-table-cell-role="th">target</th>
-<th data-quarto-table-cell-role="th">prediction</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>(CNN) -- To some, she was a lifelong role model. Others call Pakistan's former prime minister and the first female prime minister of any Muslim nation a source of inspiration to women everywhere. One I-Reporter acknowledges, "I never was a political supporter of Benazir Bhutto but now after her death I feel that her loss is a loss for Pakistan, not just her political supporters." Anthony G. Moore photographed Benazir Bhutto with her husband Asif Ali Zardari in New York in 2006. Benazir Bhutto was assassinated during a suicide bombing on December 27, 2007, and I-Reporters from all over the world responded with their memories and condolences. Below are selections, some of which have been edited for length and clarity. Farhad Sethi of Lahore, Pakistan Breathing in the air of grief and sadness, the nation suffers the loss of our beloved leader Benazir Bhutto, an institution in herself withstanding pressures at times when suicide bombing has become an unstoppable enigma. A sniper pierced a bullet through her neck and our enthusiastic leader couldn't even make it to the hospital, her last words God knows what were they but her face and inspirational personality will always be remembered. A</td>
-<td>Former Pakistani Prime Minister Benazir Bhutto is assassinated.\nI-Reporters from around the world offer condolences, memories.\n"We Pakistanis are proud to acknowledge her," says one I-Reporter.\nI-Report: Share your memories, condolences, photos of Benazir Bhutto.</td>
-<td>[ Benazir Bhutto was assassinated during a suicide bombing on December 27, 2007 .\nI-Reporters from all over the world responded with their memories and condolences .\n"Her loss is a loss for Pakistan, not just her political supporters," one I-Reporter said ., Men's college basketball season comes to an end with the NCAA Tournament .\nDuke University in Durham, North Carolina, and the University of North Carolina in Chapel Hill are two of the top basketball towns .\nCollege basketball is deeply rooted in North Carolina culture, thanks to the success of the two universities .\nNorth Carolina and Duke fans are passionate and passionate about the sport .\nThe sport has its roots in the YMCA, where James Naismith invented basketball .]</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Even better though, blurr augments the fastai Learner with a <code>blurr_summarize</code> method that allows you to use huggingface’s <code>PreTrainedModel.generate</code> method to create something more human-like.</p>
-<div id="cell-31" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1">test_article <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"""</span></span>
-<span id="cb27-2"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline </span></span>
-<span id="cb27-3"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">crashes reaching 1,050 even before the Air Asia plane vanished. Two incidents involving Malaysia Airlines planes - one over eastern Ukraine and the other in the Indian Ocean - led to the deaths of 537 people, while an Air Algerie crash in Mali killed 116 and TransAsia Airways crash in Taiwan killed a further 49 people. The remaining 456 fatalities were largely in incidents involving small commercial planes or private aircraft operating on behalf of companies, governments or organisations. Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months. The all-time deadliest year for aviation was 1972 when a staggering 2,429 people were killed in a total of 55 plane crashes - including the crash of Aeroflot Flight 217, which killed 174 people in Russia, and Convair 990 Coronado, which claimed 155 lives in Spain. However this year's total death count of 1,212, including those presumed dead on board the missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 - which led to it being named the safest year in aviation since the end of the Second World War. Scroll down for videos. Deadly: The past 12 months have been the worst for aviation fatalities so far this decade - with the total of number of people killed if airline crashes reaching 1,158 even before the Air Asia plane (pictured) vanished. Fatal: Two incidents involving Malaysia Airlines planes - one over eastern Ukraine (pictured) and the other in the Indian Ocean - led to the deaths of 537 people. Surprising: Despite 2014 having the highest number of fatalities so far this decade, the total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949. 2014 has been a horrific year for Malaysia-based airlines, with 537 people dying on Malaysia Airlines planes, and a further 162 people missing and feared dead in this week's Air Asia incident. In total more than half the people killed in aviation incidents this year had been flying on board Malaysia-registered planes. In January a total of 12 people lost their lives in five separate incidents, while the same number of crashes in February killed 107. </span></span>
-<span id="cb27-4"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"""</span></span></code></pre></div>
-</div>
-<p>We can override the <code>text_gen_kwargs</code> we specified for our <code>DataLoaders</code> when we generate text using blurr’s <code>Learner.blurr_generate</code> method</p>
-<div id="cell-33" class="cell" data-outputid="9047bf01-481a-43fc-d7d1-7dd323ba6aad" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1">outputs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> learn.blurr_summarize(test_article, early_stopping<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">True</span>, num_beams<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span>, num_return_sequences<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span>)</span>
-<span id="cb28-2"></span>
-<span id="cb28-3"><span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> idx, o <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">enumerate</span>(outputs):</span>
-<span id="cb28-4">    <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f'=== Prediction </span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>idx<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;"> ===</span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\n</span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>o<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ch" style="color: #20794D;
-background-color: null;
-font-style: inherit;">\n</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'</span>)</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>=== Prediction 1 ===
-{'summary_texts': [' 2014 has been worst year for aviation fatalities so far this decade - with 1,158 deaths .\nTotal death count of 1,212, including those presumed dead on board missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 .\nThe total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months .\nTwo incidents involving Malaysia Airlines planes - one over eastern Ukraine and the other in the Indian Ocean - led to the deaths of 537 people .', ' 2014 has been worst year for aviation fatalities so far this decade - with 1,158 deaths .\nTotal death count of 1,212, including those presumed dead on board missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 .\nThe total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months .\n2014 has been a horrific year for Malaysia-based airlines, with 537 people dying on Malaysia Airlines planes .', ' 2014 has been worst year for aviation fatalities so far this decade - with 1,158 deaths .\nTotal death count of 1,212, including those presumed dead on board missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 .\nThe total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months .']}
-</code></pre>
-</div>
-</div>
-<p>What about inference? Easy!</p>
-<div id="cell-35" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1">learn.metrics <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">None</span></span>
-<span id="cb30-2">learn.export(fname<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'ft_cnndm_export.pkl'</span>)</span></code></pre></div>
-</div>
-<div id="cell-36" class="cell" data-outputid="82239158-d744-4ebb-a567-d77f5e1a2d7a" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1">inf_learn <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> load_learner(fname<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'ft_cnndm_export.pkl'</span>)</span>
-<span id="cb31-2">inf_learn.blurr_summarize(test_article)</span></code></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
-<pre><code>[{'summary_texts': ' 2014 has been worst year for aviation fatalities so far this decade - with 1,158 deaths .\nTotal death count of 1,212, including those presumed dead on board missing Air Asia flight, marks a significant rise on the very low 265 fatalities in 2013 .\nThe total number of crashes was in fact the lowest since the first commercial jet airliner took off in 1949 - totalling just 111 across the whole world over the past 12 months .\nTwo incidents involving Malaysia Airlines planes - one over eastern Ukraine and the other in the Indian Ocean - led to the deaths of 537 people .'}]</code></pre>
-</div>
-</div>
-</section>
-<section id="thats-it" class="level2">
-<h2 class="anchored" data-anchor-id="thats-it">That’s it</h2>
-<p><a href="https://ohmeow.github.io/blurr/">blurr</a> supports a number of huggingface transformer model tasks in addition to summarization (e.g., sequence classification , token classification, and question/answering, causal language modeling, and transation). The docs include examples for each of these tasks if you’re curious to learn more.</p>
-<p>For more information about ohmeow or to get in contact with me, head over to <a href="ohmeow.com">ohmeow.com</a> for all the details.</p>
-<p>Thanks!</p>
-
-
-</section>
-
- ]]></description>
-  <category>fastai</category>
-  <category>huggingface</category>
-  <category>blurr</category>
-  <category>summarization</category>
-  <category>text generation</category>
-  <guid>https://ohmeow.com/posts/2020-05-23-text-generation-with-blurr.html</guid>
-  <pubDate>Sat, 23 May 2020 07:00:00 GMT</pubDate>
-  <media:content url="https://ohmeow.com/posts/images/blurr-logo-small.png" medium="image" type="image/png" height="250" width="127"/>
 </item>
 </channel>
 </rss>
