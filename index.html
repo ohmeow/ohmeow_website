@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Applied AI Solutions for Modern Businesses – ohmeow</title>
+<title>ohmeow · Full-stack AI products, built end to end – ohmeow</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -47,7 +47,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-5db7610fca3ea74ceab0226f71e3f166.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-eb23b4b1d012f178a11d87ac1ceda5b8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0ae1f895226deb1b21203639f7baed99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,20 +105,23 @@ ul.task-list li input[type="checkbox"] {
     }
   })
   </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <script>
-// Set the color theme before first paint to avoid a flash of the wrong theme.
-// Priority: the user's saved choice, otherwise the OS-level preference.
+// Apply the color theme before first paint to avoid a flash of the wrong theme.
+// Priority: the visitor's saved choice (cookie, then localStorage), else the OS preference.
 (function () {
+  var theme = null;
   try {
-    var theme = localStorage.getItem('ohmeow-theme');
-    if (!theme) {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.setAttribute('data-bs-theme', theme);
-  } catch (err) {
-    /* storage unavailable: fall through to light */
+    var m = document.cookie.match(/(?:^|;\s*)ohmeow-theme=(light|dark)/);
+    if (m) theme = m[1];
+    if (!theme) theme = localStorage.getItem('ohmeow-theme');
+  } catch (err) { /* storage unavailable */ }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.setAttribute('data-bs-theme', theme);
 })();
 </script>
 
@@ -152,14 +155,14 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Applied AI Solutions for Modern Businesses – ohmeow">
-<meta property="og:description" content="ohmeow.com is dedicated to providing resources for full stack web application and machine learning developement">
+<meta property="og:title" content="ohmeow · Full-stack AI products, built end to end – ohmeow">
+<meta property="og:description" content="ohmeow builds full-stack AI products: eval-first LLM pipelines, robust APIs, and polished front-ends, backed by 25+ years of shipping software.">
 <meta property="og:image" content="https://ohmeow.com/posts/images/blog-20250615/post-logo.png">
 <meta property="og:site_name" content="ohmeow">
 <meta property="og:image:height" content="1494">
 <meta property="og:image:width" content="1342">
-<meta name="twitter:title" content="Applied AI Solutions for Modern Businesses – ohmeow">
-<meta name="twitter:description" content="ohmeow.com is dedicated to providing resources for full stack web application and machine learning developement">
+<meta name="twitter:title" content="ohmeow · Full-stack AI products, built end to end – ohmeow">
+<meta name="twitter:description" content="ohmeow builds full-stack AI products: eval-first LLM pipelines, robust APIs, and polished front-ends, backed by 25+ years of shipping software.">
 <meta name="twitter:image" content="https://ohmeow.com/posts/images/blog-20250615/post-logo.png">
 <meta name="twitter:image-height" content="1494">
 <meta name="twitter:image-width" content="1342">
@@ -174,8 +177,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo light-content">
-    <img src="./images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo dark-content">
+    <img src="./images/ohmeow_logo.png" alt="" class="navbar-logo light-content">
+    <img src="./images/ohmeow_logo_dark.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">ohmeow</span>
@@ -188,14 +191,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> <i class="bi bi-journal-text" role="img">
-</i> 
+    <a class="nav-link" href="./index.html#services"> 
+<span class="menu-text">Services</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html#clients"> 
+<span class="menu-text">Work</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-tools" role="img">
-</i> 
  <span class="menu-text">Guides</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
@@ -205,69 +213,68 @@ window.Quarto = {
  <span class="dropdown-text">All Guides</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./pages/guides/vue3-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="./pages/guides/vue3-guide.html"><i class="bi bi-file-earmark-code" role="img">
 </i> 
- <span class="dropdown-text">Vue3</span></a>
+ <span class="dropdown-text">Vue 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./pages/guides/fastapi-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="./pages/guides/fastapi-guide.html"><i class="bi bi-lightning-charge" role="img">
 </i> 
- <span class="dropdown-text">Fast API</span></a>
+ <span class="dropdown-text">FastAPI</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./pages/guides/postgresql-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="./pages/guides/postgresql-guide.html"><i class="bi bi-database" role="img">
 </i> 
  <span class="dropdown-text">PostgreSQL</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./pages/guides/deployment-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="./pages/guides/deployment-guide.html"><i class="bi bi-box-seam" role="img">
 </i> 
  <span class="dropdown-text">Deployment</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-stack" role="img">
-</i> 
- <span class="menu-text">Projects</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
         <li>
     <a class="dropdown-item" href="https://ohmeow.github.io/blurr/" target="blank"><i class="bi bi-layers" role="img">
 </i> 
- <span class="dropdown-text">blurr</span></a>
+ <span class="dropdown-text">blurr (open source)</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-book" role="img">
-</i> 
- <span class="menu-text">Study Groups</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
         <li>
     <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t" target="blank"><i class="bi bi-youtube" role="img">
 </i> 
  <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./index.html#about"><i class="bi bi-person" role="img">
+</i> 
+ <span class="dropdown-text">About me</span></a>
   </li>  
     </ul>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/waydegilliam" target="blank"> <i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://x.com/waydegilliam" target="blank"> <i class="bi bi-twitter-x" role="img" aria-label="X (Twitter)">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ohmeow" target="blank"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ohmeow" target="blank"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="https://linkedin.com/in/waydegilliam" target="blank"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img" aria-label="RSS feed">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -288,7 +295,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Applied AI Solutions for Modern Businesses</h1>
+<h1 class="title">ohmeow · Full-stack AI products, built end to end</h1>
 </div>
 
 
@@ -309,168 +316,170 @@ window.Quarto = {
 <div class="hero-grid" aria-hidden="true">
 
 </div>
+<div class="hero-copy">
 <p class="hero-eyebrow">
-AI Consulting · Full-Stack Engineering
+<span class="hero-dot" aria-hidden="true"></span> Available for new engagements
 </p>
-<section id="applied-ai-solutions-for-modern-businesses" class="level1">
-<h1>Applied AI <span class="hero-accent">Solutions</span> for Modern Businesses<span class="hero-cursor" aria-hidden="true"></span></h1>
+<section id="ai-products-that-actually-ship" class="level1">
+<h1>AI products that actually <span class="hero-accent">ship</span></h1>
 <div class="hero-lede">
-<p>Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.</p>
+<p>I design, build, and deploy LLM-powered products end to end: eval-first AI pipelines, production-grade APIs, and polished front-ends. Backed by 25+ years of shipping software for companies of every size.</p>
 </div>
-<p><a href="mailto:wgilliam@ohmeow.com" class="ohmeow-button"><i class="bi bi-envelope-fill"></i> Discuss your project</a> <a href="blog.html" class="ohmeow-button-outline">Read the blog</a></p>
+<div class="hero-actions">
+<p><a href="mailto:wgilliam@ohmeow.com" class="ohmeow-button"><i class="bi bi-envelope-fill"></i> Discuss your project</a> <a href="#services" class="ohmeow-button-outline">See services</a></p>
+</div>
+<p class="hero-trust">
+<span><i class="bi bi-cpu-fill"></i> LLMs, evals &amp; ML</span><span><i class="bi bi-stack"></i> FastAPI · Vue · React · Postgres</span><span><i class="bi bi-github"></i> Author of blurr · fast.ai community leader</span>
+</p>
 </section>
 </div>
+<div class="hero-terminal" aria-hidden="true">
+<div class="hero-terminal-bar">
+<i></i><i></i><i></i><span>ohmeow — engagement.log</span>
+</div>
+<div class="hero-terminal-body">
+<div class="tl cmd">
+<span class="k">$</span><span>ohmeow ship –product “ai-assistant”</span>
+</div>
+<div class="tl">
+<span class="arrow">→</span><span class="k">discover</span><span class="v">scope the problem, define success</span>
+</div>
+<div class="tl">
+<span class="arrow">→</span><span class="k">evals</span><span class="v">measure quality before writing prompts</span>
+</div>
+<div class="tl">
+<span class="arrow">→</span><span class="k">pipeline</span><span class="v">LLM + retrieval + guardrails</span>
+</div>
+<div class="tl">
+<span class="arrow">→</span><span class="k">full-stack</span><span class="v">FastAPI · Vue · Postgres · Docker</span>
+</div>
+<div class="tl">
+<span class="arrow">→</span><span class="k">deploy</span><span class="v">cloud, CI/CD, monitoring</span>
+</div>
+<div class="tl done">
+<span class="ok">✔</span><span class="k">shipped</span><span class="v">measured, monitored, improving<span class="hero-cursor"></span></span>
+</div>
+</div>
+</div>
+</div>
+<div class="stat-strip">
+<div class="stat">
+<span class="stat-value">25<em>+</em></span><span class="stat-label">Years shipping software</span>
+</div>
+<div class="stat">
+<span class="stat-value">10<em>+</em></span><span class="stat-label">Companies served, startups to enterprise</span>
+</div>
+<div class="stat">
+<span class="stat-value">End<em>-</em>to<em>-</em>end</span><span class="stat-label">Strategy, models, APIs, UI, deployment</span>
+</div>
+<div class="stat">
+<span class="stat-value">Eval<em>-</em>first</span><span class="stat-label">AI you can measure, trust, and improve</span>
+</div>
+</div>
+<div class="om-section">
 <p class="eyebrow">
 What I do
 </p>
 <section id="services" class="level2">
 <h2 class="anchored" data-anchor-id="services">Services</h2>
 <div class="section-sub">
-<p>Leveraging AI and web technologies to build innovative solutions that drive business value.</p>
+<p>Practical, production-minded help for teams that want AI features and applications that work in the real world, not just in a demo.</p>
 </div>
 <div class="service-grid">
-<div class="card service-card">
+<div class="service-card">
 <p><i class="bi bi-cpu-fill service-icon"></i></p>
-<section id="aiml-application-development" class="level4">
-<h4 class="anchored" data-anchor-id="aiml-application-development">AI/ML Application Development</h4>
-<p>Applied AI solutions tailored to business needs, with a focus on full-stack integration and deployment.</p>
+<section id="ai-ml-application-development" class="level4">
+<h4 class="anchored" data-anchor-id="ai-ml-application-development">AI / ML Application Development</h4>
+<p>Applied AI tailored to your business, from first prototype to a monitored, production system.</p>
 <ul>
-<li><i class="bi bi-check-circle-fill"></i> LLM &amp; NLP Workflows</li>
-<li><i class="bi bi-check-circle-fill"></i> Forecasting &amp; Classification Models</li>
-<li><i class="bi bi-check-circle-fill"></i> End-to-End Eval-First AI Pipelines</li>
+<li><i class="bi bi-check-circle-fill"></i> LLM apps, RAG, agents &amp; NLP workflows</li>
+<li><i class="bi bi-check-circle-fill"></i> Forecasting &amp; classification models</li>
+<li><i class="bi bi-check-circle-fill"></i> Eval-first pipelines with measurable quality</li>
 </ul>
 </section>
 </div>
-<div class="card service-card">
+<div class="service-card">
 <p><i class="bi bi-stack service-icon"></i></p>
 <section id="full-stack-engineering" class="level4">
 <h4 class="anchored" data-anchor-id="full-stack-engineering">Full-Stack Engineering</h4>
-<p>Robust and scalable web platforms engineered with modern technologies and a strong DevOps mindset.</p>
+<p>Robust, scalable web platforms engineered with modern tooling and a strong DevOps mindset.</p>
 <ul>
-<li><i class="bi bi-check-circle-fill"></i> React, Vue, Quasar, Next.js</li>
-<li><i class="bi bi-check-circle-fill"></i> FastAPI, ASP.NET Core, Node.js</li>
-<li><i class="bi bi-check-circle-fill"></i> Dockerized Systems &amp; Cloud Deployments</li>
+<li><i class="bi bi-check-circle-fill"></i> Vue, Quasar, React, Next.js front-ends</li>
+<li><i class="bi bi-check-circle-fill"></i> FastAPI, ASP.NET Core, Node.js back-ends</li>
+<li><i class="bi bi-check-circle-fill"></i> PostgreSQL, Docker &amp; cloud deployments</li>
 </ul>
 </section>
 </div>
-<div class="card service-card">
+<div class="service-card">
 <p><i class="bi bi-compass-fill service-icon"></i></p>
 <section id="ai-strategy-enablement" class="level4">
 <h4 class="anchored" data-anchor-id="ai-strategy-enablement">AI Strategy &amp; Enablement</h4>
-<p>Strategic guidance and hands-on support to help teams adopt, deploy, and evaluate AI effectively.</p>
+<p>Hands-on guidance so your team adopts, evaluates, and operates AI with confidence.</p>
 <ul>
-<li><i class="bi bi-check-circle-fill"></i> Technical Evaluations &amp; Model Benchmarking</li>
-<li><i class="bi bi-check-circle-fill"></i> AI-Driven Product Architecture</li>
-<li><i class="bi bi-check-circle-fill"></i> Training</li>
+<li><i class="bi bi-check-circle-fill"></i> Technical evaluations &amp; model benchmarking</li>
+<li><i class="bi bi-check-circle-fill"></i> AI-driven product architecture</li>
+<li><i class="bi bi-check-circle-fill"></i> Team training &amp; workshops</li>
 </ul>
 </section>
 </div>
 </div>
-<p class="eyebrow">
-From the blog
-</p>
 </section>
-<section id="latest-writing" class="level2">
-<h2 class="anchored" data-anchor-id="latest-writing">Latest Writing</h2>
-<div id="listing-recent-posts" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="RXZhbHMlMkNMTE1z" data-listing-date-sort="1749970800000" data-listing-file-modified-sort="1790214722540" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1265">
-<a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
-</a><div class="quarto-grid-item card h-100 card-left"><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/images/blog-20250615/post-logo.png" class="thumbnail-image card-img" style="height: 180px;">
-</p>
-</a><div class="card-body post-contents"><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
-<h5 class="no-anchor card-title listing-title">
-AI Evals For Engineers &amp; PMs: A Retrospective
-</h5>
-<div class="listing-reading-time card-text text-muted">7 min</div>
-</a><div class="card-text listing-description delink"><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
-</a><p><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">The initial cohort of the </a><a href="https://maven.com/parlance-labs/evals" target="\_blank">AI Evals for Engineers &amp; PMs</a> course is now in the books. Below are some of my…</p>
 </div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Jun 15, 2025
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="g-col-1" data-index="1" data-categories="TExNUyUyQ0dlbWluaSUyQ0dvb2dsZQ==" data-listing-date-sort="1735027200000" data-listing-file-modified-sort="1790214722540" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2620">
-<a href="./posts/2024-12-24-gemini-part-2-sdk.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/images/blog-20241213/blog-20241213-header.png" class="thumbnail-image card-img" style="height: 180px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Gemini (Part II) - The Unified SDK
-</h5>
-<div class="listing-reading-time card-text text-muted">14 min</div>
-<div class="card-text listing-description delink">
-<p>Today, we’ll look at how to get started with the unified SDK for both the Gemini API and Vertex API users.</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Dec 24, 2024
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="TExNUyUyQ0dlbWluaSUyQ0dvb2dsZQ==" data-listing-date-sort="1734076800000" data-listing-file-modified-sort="1790214722540" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1176">
-<a href="./posts/2024-12-13-gemini-part-1.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/images/blog-20241213/blog-20241213-header.png" class="thumbnail-image card-img" style="height: 180px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Gemini (Part I) - Why You Should Consider Gemini
-</h5>
-<div class="listing-reading-time card-text text-muted">6 min</div>
-<div class="card-text listing-description delink">
-<p>Gemini may not be “all you need”, but it is in my opinion the future. In this series we’ll explore the capabilities offered in the Gemini ecosystem and how this family of…</p>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Dec 13, 2024
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-<p><a href="blog.html" class="ohmeow-button-outline">View all posts</a></p>
+<div class="om-section">
 <p class="eyebrow">
-Who I am
+How I work
 </p>
+<section id="process" class="level2">
+<h2 class="anchored" data-anchor-id="process">From idea to production, without the guesswork</h2>
+<div class="section-sub">
+<p>A simple, transparent process that keeps risk low and momentum high.</p>
+</div>
+<div class="process-grid">
+<div class="process-step">
+<p><span class="process-num">01</span></p>
+<section id="discover" class="level4">
+<h4 class="anchored" data-anchor-id="discover">Discover</h4>
+<p>We scope the problem, the users, and what “good” looks like, then agree on a plan measured in weeks, not quarters.</p>
 </section>
-<section id="about" class="level2">
-<h2 class="anchored" data-anchor-id="about">About Me</h2>
-<div class="about-wrap">
-<div style="display:flex;align-items:flex-start;gap:2rem;flex-wrap:wrap;">
-<img src="profile.png" alt="Wayde Gilliam" class="profile d-none d-md-block">
-<div style="flex:1;min-width:260px;">
-<p><strong>Wayde Gilliam (ohmeow)</strong> I’m a full stack web application and AI/ML developer with well over 20 years in the business.</p>
-<p>In addition to being the author of <a href="https://ohmeow.github.io/blurr/" target="_blank">blurr</a>, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I’m also a proud <a href="https://forums.fast.ai/u/wgpubs/summary" target="_blank">fast.ai community leader</a>, where I’m active in both contributing to their deep learning library and helping folks out on the forums and discord.</p>
-<p>Outside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning. Feel free to give me a follow on twitter or github if any of the above interests you.</p>
-<p>Feel free to reach out to me via <a href="mailto:wgilliam@ohmeow.com">email</a> or <a href="https://twitter.com/messages/compose?recipient_id=waydegilliam" target="_blank">direct message on X</a>.</p>
-<div class="about-actions">
-<p><a href="https://github.com/ohmeow" class="ohmeow-button-outline" target="_blank"><i class="bi bi-github"></i> GitHub</a> <a href="https://twitter.com/waydegilliam" class="ohmeow-button-outline" target="_blank"><i class="bi bi-twitter-x"></i> Twitter</a> <a href="resume_wgilliam_202505.pdf" class="ohmeow-button" target="_blank"><i class="bi bi-file-earmark-arrow-down"></i> Download Resume</a></p>
+</div>
+<div class="process-step">
+<p><span class="process-num">02</span></p>
+<section id="prototype" class="level4">
+<h4 class="anchored" data-anchor-id="prototype">Prototype</h4>
+<p>A working slice of the product, fast. Real data, real users, real feedback before big investments are made.</p>
+</section>
+</div>
+<div class="process-step">
+<p><span class="process-num">03</span></p>
+<section id="evaluate" class="level4">
+<h4 class="anchored" data-anchor-id="evaluate">Evaluate</h4>
+<p>Evals and error analysis drive every iteration, so quality is something we can see and improve, not just feel.</p>
+</section>
+</div>
+<div class="process-step">
+<p><span class="process-num">04</span></p>
+<section id="ship-support" class="level4">
+<h4 class="anchored" data-anchor-id="ship-support">Ship &amp; support</h4>
+<p>Deployed, monitored, documented, and handed off cleanly, with ongoing support when you want it.</p>
+</section>
 </div>
 </div>
+</section>
 </div>
-</div>
+<div class="om-section">
+<div class="om-section-head">
+<div>
 <p class="eyebrow">
 Track record
 </p>
-</section>
 <section id="clients" class="level2">
-<h2 class="anchored" data-anchor-id="clients">Clients / Employment</h2>
-<p>I’ve had the pleasure of working with amazing companies across various industries.</p>
+<h2 class="anchored" data-anchor-id="clients">Clients &amp; employers</h2>
+<div class="section-sub">
+<p>I’ve had the pleasure of building with great companies across research, agriculture, e-commerce, education, and enterprise software.</p>
+</div>
+</section>
+</div>
+</div>
 <div class="client-cards">
 <div class="client-card">
 <div class="client-name">
@@ -493,7 +502,7 @@ Delivered ML pipelines and FastAPI backends to power cutting-edge conversational
 Weights &amp; Biases
 </div>
 <div class="client-desc">
-Delivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.
+Created educational content training ML developers to use fast.ai and blurr with Hugging Face transformers across NLP tasks.
 </div>
 </div>
 <div class="client-card">
@@ -502,6 +511,14 @@ Agrilynk
 </div>
 <div class="client-desc">
 Architected and built a production-ready AI platform to support real-time agricultural insights.
+</div>
+</div>
+<div class="client-card">
+<div class="client-name">
+UC San Diego
+</div>
+<div class="client-desc">
+Built an enterprise survey delivery and analytics platform, an AI pipeline for qualitative data, and forecasting models for HR employment needs.
 </div>
 </div>
 <div class="client-card">
@@ -530,14 +547,6 @@ Built branded digital experiences and backend infrastructure for media-rich appl
 </div>
 <div class="client-card">
 <div class="client-name">
-UC San Diego
-</div>
-<div class="client-desc">
-Work includes: Developed an enterprise survey delivery and analytics platorm, an AI pipeline to analyze qualitative data, initial forecasting models for HR employment needs, and more.
-</div>
-</div>
-<div class="client-card">
-<div class="client-name">
 BuyProduce.com
 </div>
 <div class="client-desc">
@@ -553,20 +562,193 @@ Rebuilt e-commerce systems and led backend dev teams at the forefront of early i
 </div>
 </div>
 </div>
+</div>
+<div class="om-section">
+<div class="om-section-head">
+<div>
+<p class="eyebrow">
+From the blog
+</p>
+<section id="writing" class="level2">
+<h2 class="anchored" data-anchor-id="writing">Latest writing</h2>
+<div class="section-sub">
+<p>Notes from the trenches on evals, LLMs, fast.ai, and full-stack engineering.</p>
+</div>
 </section>
+</div>
+<p><a href="blog.html" class="ohmeow-button-outline">View all posts <i class="bi bi-arrow-right"></i></a></p>
+</div>
+<div id="listing-recent-posts" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="RXZhbHMlMkNMTE1z" data-listing-date-sort="1749970800000" data-listing-file-modified-sort="1750224119000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1265">
+<a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
+</a><div class="quarto-grid-item card h-100 card-left"><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/images/blog-20250615/post-logo.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+</a><div class="card-body post-contents"><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
+<h5 class="no-anchor card-title listing-title">
+AI Evals For Engineers &amp; PMs: A Retrospective
+</h5>
+<div class="listing-reading-time card-text text-muted">7 min</div>
+</a><div class="card-text listing-description delink"><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">
+</a><p><a href="./posts/2025-06-15-ai-evals-course-retrospective.html" class="quarto-grid-link">The initial cohort of the </a><a href="https://maven.com/parlance-labs/evals" target="\_blank">AI Evals for Engineers &amp; PMs</a> course is now in the books. Below are some of my…</p>
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jun 15, 2025
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="g-col-1" data-index="1" data-categories="TExNUyUyQ0dlbWluaSUyQ0dvb2dsZQ==" data-listing-date-sort="1735027200000" data-listing-file-modified-sort="1750033045000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2620">
+<a href="./posts/2024-12-24-gemini-part-2-sdk.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/images/blog-20241213/blog-20241213-header.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Gemini (Part II) - The Unified SDK
+</h5>
+<div class="listing-reading-time card-text text-muted">14 min</div>
+<div class="card-text listing-description delink">
+<p>Today, we’ll look at how to get started with the unified SDK for both the Gemini API and Vertex API users.</p>
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Dec 24, 2024
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="TExNUyUyQ0dlbWluaSUyQ0dvb2dsZQ==" data-listing-date-sort="1734076800000" data-listing-file-modified-sort="1734146706000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1176">
+<a href="./posts/2024-12-13-gemini-part-1.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/images/blog-20241213/blog-20241213-header.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Gemini (Part I) - Why You Should Consider Gemini
+</h5>
+<div class="listing-reading-time card-text text-muted">6 min</div>
+<div class="card-text listing-description delink">
+<p>Gemini may not be “all you need”, but it is in my opinion the future. In this series we’ll explore the capabilities offered in the Gemini ecosystem and how this family of…</p>
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Dec 13, 2024
+</div>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</div>
+<div class="om-section">
+<p class="eyebrow">
+Who I am
+</p>
+<section id="about" class="level2">
+<h2 class="anchored" data-anchor-id="about">About me</h2>
+<div class="about-wrap">
+<p><img src="profile.png" alt="Wayde Gilliam" class="about-photo"></p>
+<div>
+<div class="about-name">
+Wayde Gilliam
+</div>
+<div class="about-role">
+Founder of ohmeow · Full-stack &amp; AI/ML engineer
+</div>
+<p>I’m a full-stack web application and AI/ML developer with well over 20 years in the business. I’ve led teams and shipped systems for early-internet retail giants, universities, startups, and research labs, and these days I spend most of my time building LLM-powered products that are measured as carefully as they are engineered.</p>
+<p>I’m the author of <a href="https://ohmeow.github.io/blurr/" target="_blank">blurr</a>, a Python library that lets fast.ai developers train Hugging Face transformers for core NLP tasks, and a proud <a href="https://forums.fast.ai/u/wgpubs/summary" target="_blank">fast.ai community leader</a>, contributing to the library and helping folks on the forums and Discord.</p>
+<p>Outside of work I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.</p>
+<div class="about-stack" aria-label="Core technologies">
+<span>Python</span><span>PyTorch</span><span>fast.ai</span><span>Hugging Face</span><span>LLMs &amp; evals</span><span>FastAPI</span><span>Vue / Quasar</span><span>React / Next.js</span><span>ASP.NET Core</span><span>PostgreSQL</span><span>Docker</span><span>Cloud / CI</span>
+</div>
+<div class="about-actions">
+<p><a href="mailto:wgilliam@ohmeow.com" class="ohmeow-button"><i class="bi bi-envelope-fill"></i> Email me</a> <a href="resume_wgilliam_202505.pdf" class="ohmeow-button-outline" target="_blank"><i class="bi bi-file-earmark-arrow-down"></i> Resume</a> <a href="https://github.com/ohmeow" class="ohmeow-button-outline" target="_blank"><i class="bi bi-github"></i> GitHub</a> <a href="https://linkedin.com/in/waydegilliam" class="ohmeow-button-outline" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a> <a href="https://x.com/waydegilliam" class="ohmeow-button-outline" target="_blank"><i class="bi bi-twitter-x"></i> X</a></p>
+</div>
+</div>
+</div>
+</section>
+</div>
 <section id="have-an-ai-project-in-mind" class="level2 cta-banner">
 <h2 class="anchored" data-anchor-id="have-an-ai-project-in-mind">Have an AI project in mind?</h2>
-<p>Whether it’s an LLM-powered product, an ML pipeline, or guidance on AI strategy — let’s talk about what I can build for you.</p>
-<p><a href="mailto:wgilliam@ohmeow.com" class="ohmeow-button"><i class="bi bi-envelope-fill"></i> wgilliam@ohmeow.com</a></p>
+<p>Whether it’s an LLM-powered product, an ML pipeline, or a second opinion on your AI strategy, let’s talk about what I can build for you.</p>
+<div class="cta-actions">
+<p><a href="mailto:wgilliam@ohmeow.com" class="ohmeow-button"><i class="bi bi-envelope-fill"></i> wgilliam@ohmeow.com</a> <a href="resume_wgilliam_202505.pdf" class="ohmeow-button-outline" target="_blank"><i class="bi bi-file-earmark-arrow-down"></i> Download resume</a></p>
+</div>
 </section>
 
 
 
 
 </main> <!-- /main -->
+<footer class="om-footer" id="site-footer">
+  <div class="om-footer-inner">
+    <div class="om-footer-brand">
+      <a href="./" class="om-footer-logo" aria-label="ohmeow home">
+        <img src="./images/ohmeow_logo.png" alt="ohmeow" class="light-content">
+        <img src="./images/ohmeow_logo_dark.png" alt="ohmeow" class="dark-content">
+      </a>
+      <p>
+        A boutique AI consulting and full-stack engineering practice run by Wayde Gilliam.
+        Eval-first LLM pipelines, production APIs, and polished front-ends, built end to end.
+      </p>
+      <a href="mailto:wgilliam@ohmeow.com" class="om-footer-email"><i class="bi bi-envelope-fill"></i> wgilliam@ohmeow.com</a>
+    </div>
+
+    <nav class="om-footer-col" aria-label="Explore">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="./#services">Services</a></li>
+        <li><a href="./#process">How I work</a></li>
+        <li><a href="./#clients">Clients &amp; work</a></li>
+        <li><a href="./#about">About</a></li>
+        <li><a href="./resume_wgilliam_202505.pdf" target="_blank" rel="noopener">Resume (PDF)</a></li>
+      </ul>
+    </nav>
+
+    <nav class="om-footer-col" aria-label="Writing">
+      <h3>Writing</h3>
+      <ul>
+        <li><a href="./blog.html">Blog</a></li>
+        <li><a href="./guides.html">Guides</a></li>
+        <li><a href="https://ohmeow.github.io/blurr/" target="_blank" rel="noopener">blurr (open source)</a></li>
+        <li><a href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t" target="_blank" rel="noopener">Study group videos</a></li>
+        <li><a href="./index.xml">RSS feed</a></li>
+      </ul>
+    </nav>
+
+    <nav class="om-footer-col" aria-label="Connect">
+      <h3>Connect</h3>
+      <ul>
+        <li><a href="https://github.com/ohmeow" target="_blank" rel="noopener"><i class="bi bi-github"></i> GitHub</a></li>
+        <li><a href="https://x.com/waydegilliam" target="_blank" rel="noopener"><i class="bi bi-twitter-x"></i> X / Twitter</a></li>
+        <li><a href="https://linkedin.com/in/waydegilliam" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
+        <li><a href="https://forums.fast.ai/u/wgpubs/summary" target="_blank" rel="noopener"><i class="bi bi-chat-dots-fill"></i> fast.ai forums</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="om-footer-bottom">
+    <span>© <span id="om-year">2026</span> ohmeow. All rights reserved.</span>
+    <span class="om-footer-made">Built with <a href="https://quarto.org" target="_blank" rel="noopener">Quarto</a></span>
+  </div>
+</footer>
+<script>document.getElementById('om-year').textContent = new Date().getFullYear();</script>
 <script>
-// Light/dark theme toggle for the navbar. Defaults to the OS preference
-// (set in <head>); the user's explicit choice is remembered in localStorage.
+// ohmeow site behaviors:
+//  1. light/dark theme toggle in the navbar (defaults to the OS preference; an
+//     explicit choice is remembered in a cookie + localStorage for return visits)
+//  2. blog listing: move the categories sidebar into the content column
+//  3. active-section highlighting for in-page navbar links on the homepage
 (function () {
   var STORAGE_KEY = 'ohmeow-theme';
 
@@ -574,14 +756,28 @@ Rebuilt e-commerce systems and led backend dev teams at the forefront of early i
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
+  function hasSavedChoice() {
+    try {
+      if (/(?:^|;\s*)ohmeow-theme=(light|dark)/.test(document.cookie)) return true;
+      return !!localStorage.getItem(STORAGE_KEY);
+    } catch (e) { return false; }
+  }
+
+  function saveChoice(theme) {
+    try {
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = STORAGE_KEY + '=' + theme + '; Max-Age=31536000; Path=/; SameSite=Lax' + secure;
+    } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+  }
+
   function paintToggle(theme) {
     var btn = document.getElementById('theme-toggle');
     if (!btn) return;
-    var icon = btn.querySelector('i');
-    if (icon) icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
     var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
     btn.setAttribute('aria-label', label);
     btn.setAttribute('title', label);
+    btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
   }
 
   function syncUtterances(theme) {
@@ -596,39 +792,95 @@ Rebuilt e-commerce systems and led backend dev teams at the forefront of early i
   function applyTheme(theme, persist) {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-bs-theme', theme);
-    if (persist) {
-      try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
-    }
+    if (persist) saveChoice(theme);
     paintToggle(theme);
     syncUtterances(theme);
   }
 
-  // Follow OS changes until the user picks a theme explicitly.
+  // Follow OS changes until the visitor picks a theme explicitly.
   try {
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    if (!hasSavedChoice() && window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-        applyTheme(e.matches ? 'dark' : 'light', false);
+        if (!hasSavedChoice()) applyTheme(e.matches ? 'dark' : 'light', false);
       });
     }
   } catch (e) {}
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function buildToggle() {
     var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
-    if (nav && !document.getElementById('theme-toggle')) {
-      var li = document.createElement('li');
-      li.className = 'nav-item compact';
-      var btn = document.createElement('button');
-      btn.id = 'theme-toggle';
-      btn.className = 'theme-toggle nav-link';
-      btn.type = 'button';
-      btn.innerHTML = '<i class="bi bi-moon-fill" role="img" aria-hidden="true"></i>';
-      btn.addEventListener('click', function () {
-        applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
-      });
-      li.appendChild(btn);
-      nav.appendChild(li);
+    if (!nav || document.getElementById('theme-toggle')) return;
+    var li = document.createElement('li');
+    li.className = 'nav-item compact theme-toggle-item';
+    var btn = document.createElement('button');
+    btn.id = 'theme-toggle';
+    btn.className = 'theme-toggle nav-link';
+    btn.type = 'button';
+    btn.innerHTML =
+      '<i class="bi bi-moon-stars-fill theme-icon-dark" aria-hidden="true"></i>' +
+      '<i class="bi bi-sun-fill theme-icon-light" aria-hidden="true"></i>';
+    btn.addEventListener('click', function () {
+      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
+    });
+    li.appendChild(btn);
+    nav.appendChild(li);
+  }
+
+  function buildCta() {
+    var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
+    if (!nav || nav.querySelector('.nav-cta')) return;
+    var li = document.createElement('li');
+    li.className = 'nav-item nav-cta-item';
+    var a = document.createElement('a');
+    a.className = 'nav-link nav-cta';
+    a.href = 'mailto:wgilliam@ohmeow.com';
+    a.innerHTML = '<i class="bi bi-envelope-fill" aria-hidden="true"></i><span class="menu-text">Let\'s talk</span>';
+    li.appendChild(a);
+    nav.appendChild(li);
+  }
+
+  function moveListingSidebar() {
+    var sidebar = document.querySelector('#quarto-content > .sidebar.margin-sidebar');
+    var listing = document.querySelector('.quarto-listing');
+    if (sidebar && listing && !sidebar.querySelector('#TOC') && !listing.contains(sidebar)) {
+      listing.appendChild(sidebar);
+      document.body.classList.add('has-listing-sidebar');
     }
+  }
+
+  function markActiveSections() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.navbar .nav-link[href*="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').split('#')[1];
+      var path = a.getAttribute('href').split('#')[0];
+      // only links that point at the current page
+      if (path && path !== '' && !location.pathname.endsWith(path.replace('./', ''))) {
+        if (!(path === 'index.html' && (location.pathname === '/' || location.pathname.endsWith('/index.html')))) return;
+      }
+      var el = id && document.getElementById(id);
+      if (el) map[id] = a;
+    });
+    var ids = Object.keys(map);
+    if (!ids.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          ids.forEach(function (i) { map[i].classList.remove('active'); });
+          map[en.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    ids.forEach(function (i) { io.observe(document.getElementById(i)); });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    buildToggle();
+    buildCta();
     paintToggle(currentTheme());
+    moveListingSidebar();
+    markActiveSections();
+    document.body.classList.add('om-ready');
     // Utterances loads its iframe lazily; sync its theme once it appears.
     var tries = 0;
     var timer = setInterval(function () {
@@ -1046,19 +1298,6 @@ Rebuilt e-commerce systems and led backend dev teams at the forefront of early i
   });
   </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-<p>© 2026 ohmeow.com</p>
-</div>   
-    <div class="nav-footer-center">
-      &nbsp;
-    </div>
-    <div class="nav-footer-right">
-<p><a href="mailto:wgilliam@ohmeow.com">E-mail</a> | <a href="https://x.com/waydegilliam">X</a> | <a href="https://github.com/ohmeow">GitHub</a> | <a href="https://ohmeow.com">Website</a></p>
-</div>
-  </div>
-</footer>
 
 
 

@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-5db7610fca3ea74ceab0226f71e3f166.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-eb23b4b1d012f178a11d87ac1ceda5b8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0ae1f895226deb1b21203639f7baed99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,20 +111,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <script>
-// Set the color theme before first paint to avoid a flash of the wrong theme.
-// Priority: the user's saved choice, otherwise the OS-level preference.
+// Apply the color theme before first paint to avoid a flash of the wrong theme.
+// Priority: the visitor's saved choice (cookie, then localStorage), else the OS preference.
 (function () {
+  var theme = null;
   try {
-    var theme = localStorage.getItem('ohmeow-theme');
-    if (!theme) {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.setAttribute('data-bs-theme', theme);
-  } catch (err) {
-    /* storage unavailable: fall through to light */
+    var m = document.cookie.match(/(?:^|;\s*)ohmeow-theme=(light|dark)/);
+    if (m) theme = m[1];
+    if (!theme) theme = localStorage.getItem('ohmeow-theme');
+  } catch (err) { /* storage unavailable */ }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.setAttribute('data-bs-theme', theme);
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
@@ -151,8 +154,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo light-content">
-    <img src="../images/ohmeow_logo.png" alt="ohmeow.com" class="navbar-logo dark-content">
+    <img src="../images/ohmeow_logo.png" alt="" class="navbar-logo light-content">
+    <img src="../images/ohmeow_logo_dark.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ohmeow</span>
@@ -165,14 +168,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../blog.html"> <i class="bi bi-journal-text" role="img">
-</i> 
+    <a class="nav-link" href="../index.html#services"> 
+<span class="menu-text">Services</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html#clients"> 
+<span class="menu-text">Work</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-tools" role="img">
-</i> 
  <span class="menu-text">Guides</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
@@ -182,69 +190,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">All Guides</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/vue3-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/vue3-guide.html"><i class="bi bi-file-earmark-code" role="img">
 </i> 
- <span class="dropdown-text">Vue3</span></a>
+ <span class="dropdown-text">Vue 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/fastapi-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/fastapi-guide.html"><i class="bi bi-lightning-charge" role="img">
 </i> 
- <span class="dropdown-text">Fast API</span></a>
+ <span class="dropdown-text">FastAPI</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/postgresql-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/postgresql-guide.html"><i class="bi bi-database" role="img">
 </i> 
  <span class="dropdown-text">PostgreSQL</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../pages/guides/deployment-guide.html"><i class="bi bi-box-arrow-up-right" role="img">
+    <a class="dropdown-item" href="../pages/guides/deployment-guide.html"><i class="bi bi-box-seam" role="img">
 </i> 
  <span class="dropdown-text">Deployment</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-stack" role="img">
-</i> 
- <span class="menu-text">Projects</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
         <li>
     <a class="dropdown-item" href="https://ohmeow.github.io/blurr/" target="blank"><i class="bi bi-layers" role="img">
 </i> 
- <span class="dropdown-text">blurr</span></a>
+ <span class="dropdown-text">blurr (open source)</span></a>
   </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-groups" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-book" role="img">
-</i> 
- <span class="menu-text">Study Groups</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-groups">    
         <li>
     <a class="dropdown-item" href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t" target="blank"><i class="bi bi-youtube" role="img">
 </i> 
  <span class="dropdown-text">fastai x Hugging Face Study Group</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../index.html#about"><i class="bi bi-person" role="img">
+</i> 
+ <span class="dropdown-text">About me</span></a>
   </li>  
     </ul>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/waydegilliam" target="blank"> <i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://x.com/waydegilliam" target="blank"> <i class="bi bi-twitter-x" role="img" aria-label="X (Twitter)">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ohmeow" target="blank"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ohmeow" target="blank"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="https://linkedin.com/in/waydegilliam" target="blank"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../index.xml"> <i class="bi bi-rss" role="img" aria-label="RSS feed">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -1370,9 +1377,65 @@ Important
 </section>
 
 </main> <!-- /main -->
+<footer class="om-footer" id="site-footer">
+  <div class="om-footer-inner">
+    <div class="om-footer-brand">
+      <a href="../" class="om-footer-logo" aria-label="ohmeow home">
+        <img src="../images/ohmeow_logo.png" alt="ohmeow" class="light-content">
+        <img src="../images/ohmeow_logo_dark.png" alt="ohmeow" class="dark-content">
+      </a>
+      <p>
+        A boutique AI consulting and full-stack engineering practice run by Wayde Gilliam.
+        Eval-first LLM pipelines, production APIs, and polished front-ends, built end to end.
+      </p>
+      <a href="mailto:wgilliam@ohmeow.com" class="om-footer-email"><i class="bi bi-envelope-fill"></i> wgilliam@ohmeow.com</a>
+    </div>
+
+    <nav class="om-footer-col" aria-label="Explore">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="../#services">Services</a></li>
+        <li><a href="../#process">How I work</a></li>
+        <li><a href="../#clients">Clients &amp; work</a></li>
+        <li><a href="../#about">About</a></li>
+        <li><a href="../resume_wgilliam_202505.pdf" target="_blank" rel="noopener">Resume (PDF)</a></li>
+      </ul>
+    </nav>
+
+    <nav class="om-footer-col" aria-label="Writing">
+      <h3>Writing</h3>
+      <ul>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../guides.html">Guides</a></li>
+        <li><a href="https://ohmeow.github.io/blurr/" target="_blank" rel="noopener">blurr (open source)</a></li>
+        <li><a href="https://www.youtube.com/playlist?list=PLD80i8An1OEF8UOb9N9uSoidOGIMKW96t" target="_blank" rel="noopener">Study group videos</a></li>
+        <li><a href="../index.xml">RSS feed</a></li>
+      </ul>
+    </nav>
+
+    <nav class="om-footer-col" aria-label="Connect">
+      <h3>Connect</h3>
+      <ul>
+        <li><a href="https://github.com/ohmeow" target="_blank" rel="noopener"><i class="bi bi-github"></i> GitHub</a></li>
+        <li><a href="https://x.com/waydegilliam" target="_blank" rel="noopener"><i class="bi bi-twitter-x"></i> X / Twitter</a></li>
+        <li><a href="https://linkedin.com/in/waydegilliam" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
+        <li><a href="https://forums.fast.ai/u/wgpubs/summary" target="_blank" rel="noopener"><i class="bi bi-chat-dots-fill"></i> fast.ai forums</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="om-footer-bottom">
+    <span>© <span id="om-year">2026</span> ohmeow. All rights reserved.</span>
+    <span class="om-footer-made">Built with <a href="https://quarto.org" target="_blank" rel="noopener">Quarto</a></span>
+  </div>
+</footer>
+<script>document.getElementById('om-year').textContent = new Date().getFullYear();</script>
 <script>
-// Light/dark theme toggle for the navbar. Defaults to the OS preference
-// (set in <head>); the user's explicit choice is remembered in localStorage.
+// ohmeow site behaviors:
+//  1. light/dark theme toggle in the navbar (defaults to the OS preference; an
+//     explicit choice is remembered in a cookie + localStorage for return visits)
+//  2. blog listing: move the categories sidebar into the content column
+//  3. active-section highlighting for in-page navbar links on the homepage
 (function () {
   var STORAGE_KEY = 'ohmeow-theme';
 
@@ -1380,14 +1443,28 @@ Important
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
+  function hasSavedChoice() {
+    try {
+      if (/(?:^|;\s*)ohmeow-theme=(light|dark)/.test(document.cookie)) return true;
+      return !!localStorage.getItem(STORAGE_KEY);
+    } catch (e) { return false; }
+  }
+
+  function saveChoice(theme) {
+    try {
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = STORAGE_KEY + '=' + theme + '; Max-Age=31536000; Path=/; SameSite=Lax' + secure;
+    } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+  }
+
   function paintToggle(theme) {
     var btn = document.getElementById('theme-toggle');
     if (!btn) return;
-    var icon = btn.querySelector('i');
-    if (icon) icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
     var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
     btn.setAttribute('aria-label', label);
     btn.setAttribute('title', label);
+    btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
   }
 
   function syncUtterances(theme) {
@@ -1402,39 +1479,95 @@ Important
   function applyTheme(theme, persist) {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-bs-theme', theme);
-    if (persist) {
-      try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
-    }
+    if (persist) saveChoice(theme);
     paintToggle(theme);
     syncUtterances(theme);
   }
 
-  // Follow OS changes until the user picks a theme explicitly.
+  // Follow OS changes until the visitor picks a theme explicitly.
   try {
-    if (!localStorage.getItem(STORAGE_KEY)) {
+    if (!hasSavedChoice() && window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-        applyTheme(e.matches ? 'dark' : 'light', false);
+        if (!hasSavedChoice()) applyTheme(e.matches ? 'dark' : 'light', false);
       });
     }
   } catch (e) {}
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function buildToggle() {
     var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
-    if (nav && !document.getElementById('theme-toggle')) {
-      var li = document.createElement('li');
-      li.className = 'nav-item compact';
-      var btn = document.createElement('button');
-      btn.id = 'theme-toggle';
-      btn.className = 'theme-toggle nav-link';
-      btn.type = 'button';
-      btn.innerHTML = '<i class="bi bi-moon-fill" role="img" aria-hidden="true"></i>';
-      btn.addEventListener('click', function () {
-        applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
-      });
-      li.appendChild(btn);
-      nav.appendChild(li);
+    if (!nav || document.getElementById('theme-toggle')) return;
+    var li = document.createElement('li');
+    li.className = 'nav-item compact theme-toggle-item';
+    var btn = document.createElement('button');
+    btn.id = 'theme-toggle';
+    btn.className = 'theme-toggle nav-link';
+    btn.type = 'button';
+    btn.innerHTML =
+      '<i class="bi bi-moon-stars-fill theme-icon-dark" aria-hidden="true"></i>' +
+      '<i class="bi bi-sun-fill theme-icon-light" aria-hidden="true"></i>';
+    btn.addEventListener('click', function () {
+      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
+    });
+    li.appendChild(btn);
+    nav.appendChild(li);
+  }
+
+  function buildCta() {
+    var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
+    if (!nav || nav.querySelector('.nav-cta')) return;
+    var li = document.createElement('li');
+    li.className = 'nav-item nav-cta-item';
+    var a = document.createElement('a');
+    a.className = 'nav-link nav-cta';
+    a.href = 'mailto:wgilliam@ohmeow.com';
+    a.innerHTML = '<i class="bi bi-envelope-fill" aria-hidden="true"></i><span class="menu-text">Let\'s talk</span>';
+    li.appendChild(a);
+    nav.appendChild(li);
+  }
+
+  function moveListingSidebar() {
+    var sidebar = document.querySelector('#quarto-content > .sidebar.margin-sidebar');
+    var listing = document.querySelector('.quarto-listing');
+    if (sidebar && listing && !sidebar.querySelector('#TOC') && !listing.contains(sidebar)) {
+      listing.appendChild(sidebar);
+      document.body.classList.add('has-listing-sidebar');
     }
+  }
+
+  function markActiveSections() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.navbar .nav-link[href*="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').split('#')[1];
+      var path = a.getAttribute('href').split('#')[0];
+      // only links that point at the current page
+      if (path && path !== '' && !location.pathname.endsWith(path.replace('./', ''))) {
+        if (!(path === 'index.html' && (location.pathname === '/' || location.pathname.endsWith('/index.html')))) return;
+      }
+      var el = id && document.getElementById(id);
+      if (el) map[id] = a;
+    });
+    var ids = Object.keys(map);
+    if (!ids.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          ids.forEach(function (i) { map[i].classList.remove('active'); });
+          map[en.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    ids.forEach(function (i) { io.observe(document.getElementById(i)); });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    buildToggle();
+    buildCta();
     paintToggle(currentTheme());
+    moveListingSidebar();
+    markActiveSections();
+    document.body.classList.add('om-ready');
     // Utterances loads its iframe lazily; sync its theme once it appears.
     var tries = 0;
     var timer = setInterval(function () {
@@ -1857,19 +1990,6 @@ Important
 <script src="https://utteranc.es/client.js" repo="ohmeow/ohmeow_website" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-<p>© 2026 ohmeow.com</p>
-</div>   
-    <div class="nav-footer-center">
-      &nbsp;
-    </div>
-    <div class="nav-footer-right">
-<p><a href="mailto:wgilliam@ohmeow.com">E-mail</a> | <a href="https://x.com/waydegilliam">X</a> | <a href="https://github.com/ohmeow">GitHub</a> | <a href="https://ohmeow.com">Website</a></p>
-</div>
-  </div>
-</footer>
 
 
 

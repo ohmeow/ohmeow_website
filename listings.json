@@ -1,6 +1,6 @@
 [
   {
-    "listing": "/index.html",
+    "listing": "/blog.html",
     "items": [
       "/posts/2025-06-15-ai-evals-course-retrospective.html",
       "/posts/2024-12-24-gemini-part-2-sdk.html",
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "listing": "/blog.html",
+    "listing": "/index.html",
     "items": [
       "/posts/2025-06-15-ai-evals-course-retrospective.html",
       "/posts/2024-12-24-gemini-part-2-sdk.html",
