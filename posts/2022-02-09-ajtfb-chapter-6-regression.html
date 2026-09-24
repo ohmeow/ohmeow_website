@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-5db7610fca3ea74ceab0226f71e3f166.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f48c27a38b6e5a6648c2b2a0f88e7efd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-13ae3e5c43e119947b0809674f1d9d6d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,6 +111,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script>
+// Set the color theme before first paint to avoid a flash of the wrong theme.
+// Priority: the user's saved choice, otherwise the OS-level preference.
+(function () {
+  try {
+    var theme = localStorage.getItem('ohmeow-theme');
+    if (!theme) {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+  } catch (err) {
+    /* storage unavailable: fall through to light */
+  }
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -705,6 +721,82 @@ Tip
 </section>
 
 </main> <!-- /main -->
+<script>
+// Light/dark theme toggle for the navbar. Defaults to the OS preference
+// (set in <head>); the user's explicit choice is remembered in localStorage.
+(function () {
+  var STORAGE_KEY = 'ohmeow-theme';
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function paintToggle(theme) {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    var icon = btn.querySelector('i');
+    if (icon) icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+    var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('title', label);
+  }
+
+  function syncUtterances(theme) {
+    var frame = document.querySelector('iframe.utterances-frame');
+    if (!frame || !frame.contentWindow) return;
+    frame.contentWindow.postMessage(
+      { type: 'set-theme', theme: theme === 'dark' ? 'github-dark' : 'github-light' },
+      'https://utteranc.es'
+    );
+  }
+
+  function applyTheme(theme, persist) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    if (persist) {
+      try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+    }
+    paintToggle(theme);
+    syncUtterances(theme);
+  }
+
+  // Follow OS changes until the user picks a theme explicitly.
+  try {
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+        applyTheme(e.matches ? 'dark' : 'light', false);
+      });
+    }
+  } catch (e) {}
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
+    if (nav && !document.getElementById('theme-toggle')) {
+      var li = document.createElement('li');
+      li.className = 'nav-item compact';
+      var btn = document.createElement('button');
+      btn.id = 'theme-toggle';
+      btn.className = 'theme-toggle nav-link';
+      btn.type = 'button';
+      btn.innerHTML = '<i class="bi bi-moon-fill" role="img" aria-hidden="true"></i>';
+      btn.addEventListener('click', function () {
+        applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
+      });
+      li.appendChild(btn);
+      nav.appendChild(li);
+    }
+    paintToggle(currentTheme());
+    // Utterances loads its iframe lazily; sync its theme once it appears.
+    var tries = 0;
+    var timer = setInterval(function () {
+      if (document.querySelector('iframe.utterances-frame') || ++tries > 20) {
+        syncUtterances(currentTheme());
+        clearInterval(timer);
+      }
+    }, 500);
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
