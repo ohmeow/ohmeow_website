@@ -17,6 +17,7 @@ website:
     logo-alt: ohmeow.com
     pinned: true
     collapse-below: lg
+    background: dark
     left:
       - text: Blog
         icon: bi-journal-text
@@ -24,6 +25,9 @@ website:
       - text: Guides
         icon: tools
         menu:
+          - text: "All Guides"
+            icon: journal-bookmark
+            href: guides.md
           - text: "Vue3"
             icon: box-arrow-up-right
             href: pages/guides/vue3-guide.md
@@ -61,7 +65,7 @@ website:
       - icon: rss
         href: index.xml
   page-footer:
-    left: "© 2025 ohmeow.com"
+    left: "© 2026 ohmeow.com"
     right: "[E-mail](mailto:wgilliam@ohmeow.com) | [X](https://x.com/waydegilliam) | [GitHub](https://github.com/ohmeow) | [Website](https://ohmeow.com)"
     background: "#f8f9fa"
     border: true
@@ -69,7 +73,7 @@ format:
   html:
     theme:
       - cosmo
-      # - custom.scss?v=1.2 # when deploying uncomment this
+      # - custom.scss?v=1.3 # when deploying uncomment this
       - custom.scss     # when testing local uncomment this
     grid:
       sidebar-width: 300px

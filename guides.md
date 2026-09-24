@@ -1,16 +1,40 @@
 ---
-layout: page
-title: Guides
-permalink: /guides/
+title: "Guides"
+description: "Practical, in-the-trenches guides to the tools I use building full-stack AI applications."
 ---
 
-## Full-stack web application
-### [Vue / Quasar](https://ohmeow.com/guides/vue3) 
-### [FastAPI](https://ohmeow.com/guides/fastapi) 
-### [PostgreSQL](https://ohmeow.com/guides/postgresql) 
-### [Deployment](https://ohmeow.com/guides/deployment) 
+::: {.guide-grid}
 
----
+::: {.guide-card}
+<i class="bi bi-file-earmark-code-fill guide-icon"></i>
 
-## Machine Learning / Deep Learning
-[How to learn (Deep Learning)](https://ohmeow.com/how-to/learn-deep-learning)
+#### [Vue 3](pages/guides/vue3-guide.md)
+
+Composition API patterns — computed properties, watchers, and component design.
+:::
+
+::: {.guide-card}
+<i class="bi bi-lightning-charge-fill guide-icon"></i>
+
+#### [FastAPI](pages/guides/fastapi-guide.md)
+
+API design, auth flows, Pydantic patterns, and testing with FastAPI.
+:::
+
+::: {.guide-card}
+<i class="bi bi-database-fill guide-icon"></i>
+
+#### [PostgreSQL](pages/guides/postgresql-guide.md)
+
+Database design, constraints, and practical SQL patterns for Postgres.
+:::
+
+::: {.guide-card}
+<i class="bi bi-box-seam-fill guide-icon"></i>
+
+#### [Deployment](pages/guides/deployment-guide.md)
+
+Docker, containerized deployments, and AWS tips & tricks.
+:::
+
+:::

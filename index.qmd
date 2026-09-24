@@ -1,93 +1,138 @@
 ---
-title: "Applied AI <span style='color:#f2994a;'>Solutions</span> for Modern Businesses"
+title: "Applied AI Solutions for Modern Businesses"
 page-layout: full
 comments: false
-format:
-  html:
-    theme: cosmo
+listing:
+  - id: recent-posts
+    contents: posts
+    sort: "date desc"
+    max-items: 3
+    type: grid
+    grid-columns: 3
+    image-height: 180px
+    fields: [image, date, title, description, reading-time]
 ---
 
-::: {.hero style="padding: 0.5rem 0; text-align: left;"}
-Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.
+::: {.hero-wrap}
+<div class="hero-grid" aria-hidden="true"></div>
+<p class="hero-eyebrow">AI Consulting · Full-Stack Engineering</p>
 
-[Explore Services](#services){.btn .btn-outline-secondary} 
-[About Me](#about){.btn .btn-outline-secondary}
-[Clients](#clients){.btn .btn-outline-secondary}
+# Applied AI <span class="hero-accent">Solutions</span> for Modern Businesses<span class="hero-cursor" aria-hidden="true"></span>
+
+::: {.hero-lede}
+Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.
 :::
+
+[<i class="bi bi-envelope-fill"></i> Discuss your project](mailto:wgilliam@ohmeow.com){.ohmeow-button}
+[Read the blog](blog.html){.ohmeow-button-outline}
+:::
+
+<p class="eyebrow">What I do</p>
 
 ## Services {#services}
 
+::: {.section-sub}
 Leveraging AI and web technologies to build innovative solutions that drive business value.
+:::
 
-::: {style="display: flex; gap: 1.5rem; flex-wrap: wrap;"}
+::: {.service-grid}
 
-::: {.card style="flex:1; min-width:250px;padding:1rem;"}
+::: {.card .service-card}
+<i class="bi bi-cpu-fill service-icon"></i>
+
 #### AI/ML Application Development
+
 Applied AI solutions tailored to business needs, with a focus on full-stack integration and deployment.
 
-- ✅ LLM & NLP Workflows
-- ✅ Forecasting & Classification Models
-- ✅ End-to-End Eval-First AI Pipelines
+- <i class="bi bi-check-circle-fill"></i> LLM & NLP Workflows
+- <i class="bi bi-check-circle-fill"></i> Forecasting & Classification Models
+- <i class="bi bi-check-circle-fill"></i> End-to-End Eval-First AI Pipelines
 :::
 
-::: {.card style="flex:1; min-width:250px;padding:1rem;"}
+::: {.card .service-card}
+<i class="bi bi-stack service-icon"></i>
+
 #### Full-Stack Engineering
+
 Robust and scalable web platforms engineered with modern technologies and a strong DevOps mindset.
 
-- ✅ React, Vue, Quasar, Next.js
-- ✅ FastAPI, ASP.NET Core, Node.js
-- ✅ Dockerized Systems & Cloud Deployments
+- <i class="bi bi-check-circle-fill"></i> React, Vue, Quasar, Next.js
+- <i class="bi bi-check-circle-fill"></i> FastAPI, ASP.NET Core, Node.js
+- <i class="bi bi-check-circle-fill"></i> Dockerized Systems & Cloud Deployments
 :::
 
-::: {.card style="flex:1; min-width:250px;padding:1rem;"}
+::: {.card .service-card}
+<i class="bi bi-compass-fill service-icon"></i>
+
 #### AI Strategy & Enablement
+
 Strategic guidance and hands-on support to help teams adopt, deploy, and evaluate AI effectively.
 
-- ✅ Technical Evaluations & Model Benchmarking
-- ✅ AI-Driven Product Architecture
-- ✅ Training
+- <i class="bi bi-check-circle-fill"></i> Technical Evaluations & Model Benchmarking
+- <i class="bi bi-check-circle-fill"></i> AI-Driven Product Architecture
+- <i class="bi bi-check-circle-fill"></i> Training
 :::
 
 :::
+
+<p class="eyebrow">From the blog</p>
+
+## Latest Writing
+
+::: {#recent-posts}
+:::
+
+[View all posts](blog.html){.ohmeow-button-outline}
+
+<p class="eyebrow">Who I am</p>
 
 ## About Me {#about}
 
-<div style="display:flex;align-items:flex-start;gap:2rem;">
-<img src="profile.png" alt="Wayde Gilliam" style="width:120px;border-radius:50%;border:2px solid #eee;" class="d-none d-md-block">
-<div>
-**Wayde Gilliam (ohmeow)**  
-I'm a full stack web application and AI/ML developer with well over 20 years in the business. 
+::: {.about-wrap}
+<div style="display:flex;align-items:flex-start;gap:2rem;flex-wrap:wrap;">
+<img src="profile.png" alt="Wayde Gilliam" class="profile d-none d-md-block">
+<div style="flex:1;min-width:260px;">
+**Wayde Gilliam (ohmeow)**
+I'm a full stack web application and AI/ML developer with well over 20 years in the business.
 
-In addition to being the author of [blurr](https://ohmeow.github.io/blurr/){target="_blank"}, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I'm also a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary){target="_blank"}, where I'm active in both contributing to their deep learning library and helping folks out on the forums and discord. 
+In addition to being the author of [blurr](https://ohmeow.github.io/blurr/){target="_blank"}, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I'm also a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary){target="_blank"}, where I'm active in both contributing to their deep learning library and helping folks out on the forums and discord.
 
 Outside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.  Feel free to give me a follow on twitter or github if any of the above interests you.
 
 Feel free to reach out to me via <a href="mailto:wgilliam@ohmeow.com">email</a> or <a href="https://twitter.com/messages/compose?recipient_id=waydegilliam" target="_blank">direct message on X</a>.
 
-
-[<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"} 
-[<i class="bi-twitter-x"></i> Twitter](https://twitter.com/waydegilliam){.ohmeow-button-outline target="_blank"} 
-[<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"} 
+<div class="about-actions">
+[<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"}
+[<i class="bi bi-twitter-x"></i> Twitter](https://twitter.com/waydegilliam){.ohmeow-button-outline target="_blank"}
+[<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"}
 </div>
 </div>
+</div>
+:::
 
+<p class="eyebrow">Track record</p>
 
 ## Clients / Employment {#clients}
 
 I've had the pleasure of working with amazing companies across various industries.
 
-::: {.client-logos style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin:2rem 0;"}
 ::: {.client-cards}
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Answer.AI</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Contributed to core libraries and tutorials driving open-source innovation in LLM tooling.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Musubilabs</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Delivered ML pipelines and FastAPI backends to power cutting-edge conversational AI tools.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Weights & Biases</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Delivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Agrilynk</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Architected and built a production-ready AI platform to support real-time agricultural insights.</div></div>
-
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Cotelligent</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Provided enterprise-grade software development and architecture consulting.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Epson</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Helped streamline development workflows with tailored software solutions.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>Car Crazy Central</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Built branded digital experiences and backend infrastructure for media-rich applications.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>UC San Diego</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Work includes: Developed an enterprise survey delivery and analytics platorm, an AI pipeline to analyze qualitative data, initial forecasting models for HR employment needs, and more.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>BuyProduce.com</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Built and led a dev team creating a flexible e-commerce engine for the produce industry.</div></div>
-<div class="client-card" style="max-width: 300px; height: 200px;"><div>AltaVista / Shopping.com</div><div style="font-size: 0.8em; font-weight: normal; margin-top: 0.5rem;">Rebuilt e-commerce systems and led backend dev teams at the forefront of early internet retail.</div></div>
+<div class="client-card"><div class="client-name">Answer.AI</div><div class="client-desc">Contributed to core libraries and tutorials driving open-source innovation in LLM tooling.</div></div>
+<div class="client-card"><div class="client-name">Musubilabs</div><div class="client-desc">Delivered ML pipelines and FastAPI backends to power cutting-edge conversational AI tools.</div></div>
+<div class="client-card"><div class="client-name">Weights & Biases</div><div class="client-desc">Delivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.</div></div>
+<div class="client-card"><div class="client-name">Agrilynk</div><div class="client-desc">Architected and built a production-ready AI platform to support real-time agricultural insights.</div></div>
+<div class="client-card"><div class="client-name">Cotelligent</div><div class="client-desc">Provided enterprise-grade software development and architecture consulting.</div></div>
+<div class="client-card"><div class="client-name">Epson</div><div class="client-desc">Helped streamline development workflows with tailored software solutions.</div></div>
+<div class="client-card"><div class="client-name">Car Crazy Central</div><div class="client-desc">Built branded digital experiences and backend infrastructure for media-rich applications.</div></div>
+<div class="client-card"><div class="client-name">UC San Diego</div><div class="client-desc">Work includes: Developed an enterprise survey delivery and analytics platorm, an AI pipeline to analyze qualitative data, initial forecasting models for HR employment needs, and more.</div></div>
+<div class="client-card"><div class="client-name">BuyProduce.com</div><div class="client-desc">Built and led a dev team creating a flexible e-commerce engine for the produce industry.</div></div>
+<div class="client-card"><div class="client-name">AltaVista / Shopping.com</div><div class="client-desc">Rebuilt e-commerce systems and led backend dev teams at the forefront of early internet retail.</div></div>
 :::
+
+::: {.cta-banner}
+## Have an AI project in mind?
+
+Whether it's an LLM-powered product, an ML pipeline, or guidance on AI strategy — let's talk about what I can build for you.
+
+[<i class="bi bi-envelope-fill"></i> wgilliam@ohmeow.com](mailto:wgilliam@ohmeow.com){.ohmeow-button}
 :::

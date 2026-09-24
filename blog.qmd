@@ -1,4 +1,6 @@
 ---
+title: "Blog"
+description: "Notes on AI, evals, LLMs, and full-stack engineering — from the trenches."
 listing:
   contents: posts
   sort: "date desc"
@@ -7,11 +9,9 @@ listing:
   sort-ui: true
   filter-ui: true
   feed: true
-  fields: [image, date, title, description, categories, author, reading-time, file-modified]
-  
+  fields: [image, date, title, description, categories, author, reading-time]
+
 page-layout: full
-title-block-banner: false
-format:
-  html:
-    theme: cosmo
+title-block-banner: true
+comments: false
 ---

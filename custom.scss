@@ -1,26 +1,148 @@
-body {
-  font-family: 'Roboto', sans-serif !important; /* Change to your desired font */
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto', sans-serif !important; /* Change header fonts if needed */
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /*-- scss:defaults --*/
 
-/*-- scss:mixins --*/
+// Brand palette
+$ohmeow: #cc5500;
+$ohmeow-dark: #a84300;
+$ohmeow-glow: #f2994a;
+$ohmeow-ink: #14171b;
+$ohmeow-ink-2: #1e232a;
 
-// configure navbar logo and remove odd spacking when search is included
-.navbar-brand {display: none;}
-.navbar-dark {background-color: #cc5500 !important;}
-.navbar-logo {max-height: 50px!important;}
+// Bootstrap / Cosmo overrides
+$primary: $ohmeow;
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+$headings-font-weight: 700;
+$border-radius: 0.65rem;
+$border-radius-lg: 1rem;
+$link-decoration: none;
 
-#quarto-search {
-  margin-left: 0px !important;
+/*-- scss:rules --*/
+
+/* ---------- base ---------- */
+
+::selection {
+  background: $ohmeow;
+  color: #fff;
 }
 
-@media (max-width: 991.98px) { 
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 
+main.content h1,
+main.content h2,
+main.content h3,
+main.content h4 {
+  letter-spacing: -0.02em;
+}
+
+main.content h2 {
+  margin-top: 3.5rem;
+  font-weight: 800;
+}
+
+main.content p,
+main.content li {
+  line-height: 1.7;
+}
+
+/* content links: brand color, underline on hover */
+main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.nav-link):not(.dropdown-item) {
+  color: $ohmeow-dark;
+  font-weight: 500;
+}
+
+main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.nav-link):not(.dropdown-item):hover {
+  color: $ohmeow;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* small caps eyebrow label used above section headers */
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: $ohmeow;
+  margin-bottom: 0.5rem;
+}
+
+.section-sub {
+  color: #5b6470;
+  font-size: 1.1rem;
+  max-width: 46rem;
+  margin-bottom: 2rem;
+}
+
+/* ---------- navbar ---------- */
+
+.navbar-brand { display: none; }
+.navbar-logo { max-height: 46px !important; }
+
+.navbar-dark {
+  background-color: $ohmeow-ink !important;
+  border-bottom: 1px solid #2b323b;
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+  transition: color 0.15s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: $ohmeow-glow;
+}
+
+.navbar-dark .navbar-nav .show > .nav-link,
+.navbar-dark .navbar-nav .nav-link.active {
+  color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+  box-shadow: inset 0 -3px 0 $ohmeow;
+}
+
+/* dropdown polish */
+.dropdown-menu {
+  border-radius: $border-radius-lg;
+  border: 1px solid #e8eaed;
+  box-shadow: 0 12px 32px rgba(20, 23, 27, 0.14);
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  border-radius: 0.5rem;
+  font-weight: 500;
+  padding: 0.55rem 0.9rem;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #fdf0e4;
+  color: $ohmeow-dark;
+}
+
+.dropdown-item .bi {
+  margin-right: 0.45rem;
+  color: $ohmeow;
+}
+
+/* keep the mobile search-button layout fixes */
+#quarto-search {
+  margin-left: 0 !important;
+}
+
+@media (max-width: 991.98px) {
   #navbarCollapse > .navbar-nav:nth-of-type(2) {
     flex-direction: row !important;
   }
@@ -36,54 +158,554 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-// button styles
+/* ---------- hero (homepage) ---------- */
+
+/* the hero provides the page H1, so hide Quarto's auto title block on the homepage */
+main:has(> .hero-wrap) > header#title-block-header {
+  display: none;
+}
+
+.hero-wrap {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(900px 340px at 85% -10%, rgba(204, 85, 0, 0.35), transparent 60%),
+    radial-gradient(700px 300px at 10% 110%, rgba(242, 153, 74, 0.16), transparent 60%),
+    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 70%, #2b1d10 100%);
+  background-size: 160% 160%, 160% 160%, 100% 100%;
+  color: #f4f6f8;
+  border-radius: 1.25rem;
+  padding: 4rem 3.5rem;
+  margin: 1.5rem 0 1rem;
+  animation: hero-aurora 16s ease-in-out infinite alternate;
+}
+
+/* drifting glow orbs */
+.hero-wrap::before,
+.hero-wrap::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.hero-wrap::before {
+  width: 440px;
+  height: 440px;
+  top: -150px;
+  right: -90px;
+  background: radial-gradient(circle, rgba(255, 122, 26, 0.42), transparent 65%);
+  animation: hero-drift-a 13s ease-in-out infinite alternate;
+}
+
+.hero-wrap::after {
+  width: 380px;
+  height: 380px;
+  bottom: -170px;
+  left: -70px;
+  background: radial-gradient(circle, rgba(122, 92, 255, 0.3), transparent 65%);
+  animation: hero-drift-b 17s ease-in-out infinite alternate;
+}
+
+/* faint animated dot grid */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(70% 90% at 50% 40%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(70% 90% at 50% 40%, black 30%, transparent 100%);
+  animation: hero-grid-pan 24s linear infinite;
+}
+
+@keyframes hero-aurora {
+  0%   { background-position: 20% 10%, 80% 90%, 0 0; }
+  50%  { background-position: 80% 40%, 20% 60%, 0 0; }
+  100% { background-position: 40% 80%, 60% 20%, 0 0; }
+}
+
+@keyframes hero-drift-a {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-120px, 90px) scale(1.15); }
+}
+
+@keyframes hero-drift-b {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(130px, -70px) scale(1.1); }
+}
+
+@keyframes hero-grid-pan {
+  from { background-position: 0 0; }
+  to   { background-position: 52px 26px; }
+}
+
+/* staggered entrance */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-wrap > :not(.hero-grid) {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-wrap > .hero-eyebrow,
+.hero-wrap > h1,
+.hero-wrap > .hero-lede,
+.hero-wrap > p:last-child {
+  opacity: 0;
+  animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-wrap > .hero-eyebrow { animation-delay: 0.05s; }
+.hero-wrap > h1            { animation-delay: 0.18s; }
+.hero-wrap > .hero-lede    { animation-delay: 0.32s; }
+.hero-wrap > p:last-child  { animation-delay: 0.46s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wrap,
+  .hero-wrap::before,
+  .hero-wrap::after,
+  .hero-grid,
+  .hero-accent,
+  .hero-cursor {
+    animation: none;
+  }
+  .hero-wrap > .hero-eyebrow,
+  .hero-wrap > h1,
+  .hero-wrap > .hero-lede,
+  .hero-wrap > p:last-child {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.hero-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: $ohmeow-glow;
+  margin-bottom: 1rem;
+}
+
+.hero-wrap h1 {
+  color: #fff;
+  font-weight: 800;
+  font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 1.25rem;
+  border-bottom: none;
+}
+
+.hero-accent {
+  background: linear-gradient(100deg, $ohmeow-glow 20%, #ffd9a8 40%, $ohmeow-glow 60%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hero-sheen 7s linear infinite;
+}
+
+@keyframes hero-sheen {
+  to { background-position: 220% center; }
+}
+
+/* blinking terminal cursor after the headline */
+.hero-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.12em;
+  vertical-align: -0.12em;
+  background: $ohmeow-glow;
+  border-radius: 2px;
+  animation: hero-blink 1.1s steps(1) infinite;
+}
+
+@keyframes hero-blink {
+  0%, 55%  { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+
+.hero-lede {
+  font-size: 1.2rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 44rem;
+  margin-bottom: 2rem;
+}
+
+.hero-wrap .ohmeow-button {
+  margin-right: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-wrap .ohmeow-button-outline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 0.5rem;
+}
+
+.hero-wrap .ohmeow-button-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  color: #fff;
+}
+
+/* ---------- buttons ---------- */
+
 .ohmeow-button {
-  background-color: #cc5500;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
+  background-color: $ohmeow;
+  color: #fff !important;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.65rem;
   text-decoration: none;
   display: inline-block;
+  border: 1px solid $ohmeow;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .ohmeow-button:hover {
-  background-color: #e36003;
+  background-color: $ohmeow-dark;
+  border-color: $ohmeow-dark;
+  color: #fff !important;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(204, 85, 0, 0.35);
 }
 
 .ohmeow-button-outline {
   background-color: transparent;
-  color: #cc5500;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 1px solid #cc5500;
+  color: $ohmeow-dark !important;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.65rem;
+  border: 1px solid $ohmeow;
   text-decoration: none;
   display: inline-block;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .ohmeow-button-outline:hover {
-  background-color: #f3f0f0;
+  background-color: #fdf0e4;
+  color: $ohmeow-dark !important;
+  text-decoration: none;
+  transform: translateY(-1px);
 }
 
+/* ---------- service cards ---------- */
+
+.service-grid {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.service-card {
+  flex: 1;
+  min-width: 260px;
+  border: 1px solid #e8eaed;
+  border-radius: $border-radius-lg;
+  padding: 1.75rem;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(20, 23, 27, 0.1);
+  border-color: #f0c9a3;
+}
+
+.service-card h4 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.service-icon {
+  display: inline-flex;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.9rem;
+  background: #fdf0e4;
+  color: $ohmeow;
+  font-size: 1.45rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.service-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.service-card ul li {
+  margin-bottom: 0.45rem;
+  font-size: 0.95rem;
+}
+
+.service-card ul .bi-check-circle-fill {
+  color: $ohmeow;
+  margin-right: 0.45rem;
+}
+
+/* ---------- about ---------- */
+
+.about-wrap {
+  background: #fafbfc;
+  border: 1px solid #eef0f2;
+  border-radius: $border-radius-lg;
+  padding: 2.25rem;
+  margin-top: 1.5rem;
+}
+
+.about-wrap img.profile {
+  width: 132px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 20px rgba(20, 23, 27, 0.14);
+}
+
+.about-actions .ohmeow-button,
+.about-actions .ohmeow-button-outline {
+  margin-right: 0.6rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- client cards ---------- */
 
 .client-cards {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.25rem;
   margin-top: 2rem;
 }
 
 .client-card {
-  background-color: #f8f9fa;
-  padding: 2rem 3rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  font-weight: 600;
-  text-align: center;
-  min-width: 160px;
-  transition: transform 0.2s ease;
+  background-color: #fff;
+  border: 1px solid #e8eaed;
+  border-top: 3px solid $ohmeow;
+  padding: 1.6rem 1.75rem;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  width: 300px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .client-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(20, 23, 27, 0.1);
+}
+
+.client-card .client-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: $ohmeow-ink;
+}
+
+.client-card .client-desc {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #5b6470;
+  line-height: 1.6;
+}
+
+/* ---------- CTA banner ---------- */
+
+.cta-banner {
+  background:
+    radial-gradient(600px 240px at 80% 0%, rgba(204, 85, 0, 0.4), transparent 60%),
+    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 75%, #2b1d10 100%);
+  color: #f4f6f8;
+  border-radius: 1.25rem;
+  padding: 3.25rem 2.5rem;
+  text-align: center;
+  margin: 4rem 0 2rem;
+}
+
+.cta-banner h2 {
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.cta-banner p {
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 40rem;
+  margin: 0 auto 1.75rem;
+  font-size: 1.08rem;
+}
+
+/* ---------- guide cards ---------- */
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.guide-card {
+  border: 1px solid #e8eaed;
+  border-radius: $border-radius-lg;
+  padding: 1.75rem;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(20, 23, 27, 0.1);
+  border-color: #f0c9a3;
+}
+
+.guide-card h4 {
+  margin-bottom: 0.5rem;
+}
+
+.guide-card p {
+  color: #5b6470;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.guide-icon {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.85rem;
+  background: #fdf0e4;
+  color: $ohmeow;
+  font-size: 1.3rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+/* ---------- blog listing ---------- */
+
+.quarto-listing .card {
+  border: 1px solid #e8eaed;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quarto-listing .card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(20, 23, 27, 0.1);
+}
+
+.quarto-listing .card-img,
+.quarto-listing .card-img-top {
+  border-bottom: 1px solid #eef0f2;
+}
+
+.quarto-listing .listing-title a {
+  color: $ohmeow-ink;
+}
+
+.quarto-listing .listing-title a:hover {
+  color: $ohmeow-dark;
+}
+
+.quarto-listing .listing-category {
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* blog title banner */
+.quarto-title-banner {
+  background:
+    radial-gradient(700px 260px at 85% 0%, rgba(204, 85, 0, 0.35), transparent 60%),
+    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 80%);
+  border-radius: 1.25rem;
+  margin-top: 1.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.quarto-title-banner .quarto-title h1.title,
+.quarto-title-banner .description {
+  color: #f4f6f8;
+}
+
+/* ---------- code ---------- */
+
+pre.sourceCode {
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(20, 23, 27, 0.04);
+}
+
+main.content p code,
+main.content li code,
+main.content td code {
+  background: #f3f4f6;
+  color: $ohmeow-dark;
+  padding: 0.15em 0.45em;
+  border-radius: 0.35rem;
+  font-size: 0.86em;
+  font-weight: 500;
+}
+
+/* ---------- footer ---------- */
+
+.nav-footer {
+  background: $ohmeow-ink !important;
+  color: #9aa3ad;
+  border-top: 3px solid $ohmeow !important;
+  margin-top: 4rem;
+}
+
+.nav-footer a {
+  color: #dfe4ea;
+}
+
+.nav-footer a:hover {
+  color: $ohmeow-glow;
+  text-decoration: none;
+}
+
+.nav-footer .nav-footer-left,
+.nav-footer .nav-footer-right,
+.nav-footer .nav-footer-center {
+  font-size: 0.92rem;
+}
+
+/* ---------- misc ---------- */
+
+blockquote {
+  border-left: 4px solid $ohmeow;
+  background: #fdf8f2;
+  border-radius: 0 0.65rem 0.65rem 0;
+  padding: 1rem 1.25rem;
+  color: #3d434c;
+}
+
+table.table {
+  border-radius: $border-radius;
+  overflow: hidden;
+}
+
+hr {
+  opacity: 0.12;
+  margin: 3rem 0;
 }
