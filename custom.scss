@@ -716,6 +716,41 @@ main:has(> .hero-wrap) > header#title-block-header {
   font-weight: 600;
 }
 
+/* blog listing: the categories sidebar is part of the content column,
+   sitting next to the posts (a script moves it inside the listing grid) */
+/* the listing's margin is empty after the move, so use the same
+   margin-collapsed grid as fullcontent pages like guides */
+body.has-listing-sidebar .page-columns {
+  grid-template-columns: [screen-start] 1.5rem [screen-start-inset] 5fr [page-start page-start-inset] 42px [body-start-outset] 42px [body-start] 1.5rem [body-content-start] minmax(500px, calc(1150px - 3rem)) [body-content-end] 1.5rem [body-end] 42px [body-end-outset] 42px [page-end-inset page-end] 5fr [screen-end-inset] 1.5rem;
+}
+body.has-listing-sidebar .quarto-listing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  column-gap: 2.5rem;
+  align-items: start;
+}
+body.has-listing-sidebar .quarto-listing .listing-actions-group {
+  grid-column: 1 / -1;
+}
+body.has-listing-sidebar .quarto-listing > .sidebar.margin-sidebar {
+  grid-column: 2;
+  grid-row: 2;
+  position: static;
+  margin: 0;
+  padding-top: 0;
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  body.has-listing-sidebar .quarto-listing {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.has-listing-sidebar .quarto-listing .listing-actions-group,
+  body.has-listing-sidebar .quarto-listing > .sidebar.margin-sidebar {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
 /* ---------- code ---------- */
 
 pre.sourceCode {

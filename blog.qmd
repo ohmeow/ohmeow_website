@@ -11,6 +11,7 @@ listing:
   feed: true
   fields: [image, date, title, description, categories, author, reading-time]
 
-page-layout: full
+page-layout: article
 comments: false
+include-after-body: includes/blog-listing-sidebar.html
 ---
