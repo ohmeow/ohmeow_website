@@ -687,6 +687,7 @@ main:has(> .hero-wrap) > header#title-block-header {
 /* ---------- blog listing ---------- */
 
 .quarto-listing .card {
+  background-color: var(--om-card-bg);
   border: 1px solid var(--om-card-border);
   border-radius: $border-radius-lg;
   overflow: hidden;
@@ -716,13 +717,35 @@ main:has(> .hero-wrap) > header#title-block-header {
   font-weight: 600;
 }
 
+/* ---------- unified content column ---------- */
+/* Blog posts use Quarto's default article grid (content at the same left edge
+   everywhere). Two page types would otherwise drift off it:
+   - the blog landing: no override needed, the default grid already applies
+     (the categories sidebar was moved inside the content by script)
+   - "fullcontent" pages (Quarto flags pages with no TOC and no margin
+     content, e.g. the guides hub and guide pages): force them onto the same
+     default grid at both breakpoints */
+body.fullcontent:not(.floating):not(.docked) .page-columns {
+  grid-template-columns: [screen-start] 1.5rem [screen-start-inset page-start page-start-inset body-start-outset] 5fr [body-start] 1.5rem [body-content-start] minmax(500px, calc(1100px - 3rem)) [body-content-end] 1.5rem [body-end] 42px [body-end-outset] minmax(90px, 174px) [page-end-inset] 42px [page-end] 5fr [screen-end-inset] 1.5rem [screen-end];
+}
+@media (min-width: 992px) {
+  body.fullcontent:not(.floating):not(.docked) .page-columns {
+    grid-template-columns: [screen-start] 1.5rem [screen-start-inset] 5fr [page-start page-start-inset] 42px [body-start-outset] 42px [body-start] 1.5rem [body-content-start] minmax(500px, calc(1150px - 3rem)) [body-content-end] 1.5rem [body-end] 42px [body-end-outset] minmax(90px, 174px) [page-end-inset] 42px [page-end] 5fr [screen-end-inset] 1.5rem [screen-end];
+  }
+}
+@media (max-width: 767.98px) {
+  body.fullcontent:not(.floating):not(.docked) .page-columns {
+    grid-template-columns: [screen-start] 1.5rem [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(0px, 1fr) [body-content-end body-end body-end-outset page-end-inset page-end screen-end-inset] 1.5rem [screen-end];
+  }
+}
+/* homepage: page-layout full makes main span the whole grid; pull it back
+   into the article column so hero, headers, and sections align with posts */
+.page-columns > main:has(> .hero-wrap) {
+  grid-column: body-content-start / body-content-end;
+}
+
 /* blog listing: the categories sidebar is part of the content column,
    sitting next to the posts (a script moves it inside the listing grid) */
-/* the listing's margin is empty after the move, so use the same
-   margin-collapsed grid as fullcontent pages like guides */
-body.has-listing-sidebar .page-columns {
-  grid-template-columns: [screen-start] 1.5rem [screen-start-inset] 5fr [page-start page-start-inset] 42px [body-start-outset] 42px [body-start] 1.5rem [body-content-start] minmax(500px, calc(1150px - 3rem)) [body-content-end] 1.5rem [body-end] 42px [body-end-outset] 42px [page-end-inset page-end] 5fr [screen-end-inset] 1.5rem;
-}
 body.has-listing-sidebar .quarto-listing {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 240px;
