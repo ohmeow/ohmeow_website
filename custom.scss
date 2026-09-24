@@ -309,11 +309,9 @@ main:has(> .hero-wrap) > header#title-block-header {
 }
 
 @keyframes hero-aurora {
-  /* a 4th static position is included for the section banners' dot-grid layer;
-     elements with only 3 background layers (the homepage hero) ignore it */
-  0%   { background-position: 20% 10%, 80% 90%, 0 0, 0 0; }
-  50%  { background-position: 80% 40%, 20% 60%, 0 0, 0 0; }
-  100% { background-position: 40% 80%, 60% 20%, 0 0, 0 0; }
+  0%   { background-position: 20% 10%, 80% 90%, 0 0; }
+  50%  { background-position: 80% 40%, 20% 60%, 0 0; }
+  100% { background-position: 40% 80%, 60% 20%, 0 0; }
 }
 
 @keyframes hero-drift-a {
@@ -361,15 +359,8 @@ main:has(> .hero-wrap) > header#title-block-header {
   .hero-wrap::after,
   .hero-grid,
   .hero-accent,
-  .hero-cursor,
-  .quarto-title-banner,
-  .quarto-title-banner::before,
-  .quarto-title-banner::after {
+  .hero-cursor {
     animation: none;
-  }
-  .quarto-title-banner .quarto-title {
-    animation: none;
-    opacity: 1;
   }
   .hero-wrap > .hero-eyebrow,
   .hero-wrap > h1,
@@ -723,93 +714,6 @@ main:has(> .hero-wrap) > header#title-block-header {
 .quarto-listing .listing-category {
   border-radius: 999px;
   font-weight: 600;
-}
-
-/* ---------- section banners (blog, guides): hero-style animated cards ---------- */
-
-/* keep the banner card aligned to the content column.
-   (note: #title-block-header sits directly under <body>, not inside #quarto-content) */
-#title-block-header .quarto-title-banner {
-  grid-column: body-content-start / body-content-end !important;
-}
-/* full-layout pages (blog): the content column is wider */
-body:has(main.column-page-left) #title-block-header .quarto-title-banner {
-  grid-column: page-start / body-content-end !important;
-}
-
-#title-block-header .quarto-title-banner {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  border-radius: 28px;
-  margin-top: 1.5rem;
-  padding: 3.5rem 3rem;
-  background:
-    radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.6px),
-    radial-gradient(900px 340px at 85% -10%, rgba(204, 85, 0, 0.35), transparent 60%),
-    radial-gradient(700px 300px at 10% 110%, rgba(242, 153, 74, 0.16), transparent 60%),
-    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 70%, #2b1d10 100%);
-  background-size: 22px 22px, 160% 160%, 160% 160%, 100% 100%;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
-  animation: hero-aurora 16s ease-in-out infinite alternate;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-#title-block-header .quarto-title-banner::before,
-#title-block-header .quarto-title-banner::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  border-radius: 50%;
-  filter: blur(70px);
-  pointer-events: none;
-}
-#title-block-header .quarto-title-banner::before {
-  width: 420px;
-  height: 420px;
-  top: -140px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(255, 122, 26, 0.35), transparent 70%);
-  animation: hero-drift-a 11s ease-in-out infinite alternate;
-}
-#title-block-header .quarto-title-banner::after {
-  width: 380px;
-  height: 380px;
-  bottom: -160px;
-  left: -60px;
-  background: radial-gradient(circle, rgba(43, 52, 99, 0.6), transparent 70%);
-  animation: hero-drift-b 13s ease-in-out infinite alternate;
-}
-
-#title-block-header .quarto-title-banner .quarto-title {
-  position: relative;
-  z-index: 1;
-  animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-#title-block-header .quarto-title-banner .quarto-title h1.title,
-#title-block-header .quarto-title-banner .description {
-  color: #f4f6f8;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
-}
-
-#title-block-header .quarto-title-banner .quarto-title h1.title {
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  letter-spacing: -0.02em;
-}
-
-#title-block-header .quarto-title-banner .description {
-  font-size: 1.05rem;
-  max-width: 62ch;
-}
-
-@media (max-width: 640px) {
-  #title-block-header .quarto-title-banner {
-    border-radius: 20px;
-    padding: 2.5rem 1.5rem;
-    margin-top: 1rem;
-  }
 }
 
 /* ---------- code ---------- */

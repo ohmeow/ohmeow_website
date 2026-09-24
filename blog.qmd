@@ -12,6 +12,5 @@ listing:
   fields: [image, date, title, description, categories, author, reading-time]
 
 page-layout: full
-title-block-banner: true
 comments: false
 ---
