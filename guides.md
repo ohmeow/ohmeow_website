@@ -1,6 +1,7 @@
 ---
 title: "Guides"
 description: "Practical, in-the-trenches guides to the tools I use building full-stack AI applications."
+title-block-banner: true
 ---
 
 ::: {.guide-grid}

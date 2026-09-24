@@ -1,0 +1,16 @@
+<script>
+// Set the color theme before first paint to avoid a flash of the wrong theme.
+// Priority: the user's saved choice, otherwise the OS-level preference.
+(function () {
+  try {
+    var theme = localStorage.getItem('ohmeow-theme');
+    if (!theme) {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+  } catch (err) {
+    /* storage unavailable: fall through to light */
+  }
+})();
+</script>

@@ -20,6 +20,91 @@ $link-decoration: none;
 
 /*-- scss:rules --*/
 
+/* ---------- theme tokens ---------- */
+/* Light values on :root; [data-theme="dark"] overrides them. Surfaces that are
+   dark in both modes (navbar, hero, footer, banners) keep hardcoded colors. */
+
+:root,
+[data-theme="light"] {
+  --om-card-bg: #ffffff;
+  --om-card-border: #e8eaed;
+  --om-muted: #5b6470;
+  --om-icon-bg: #fdf0e4;
+  --om-icon-fg: #cc5500;
+  --om-link: #a84300;
+  --om-link-hover: #cc5500;
+  --om-code-bg: #f3f4f6;
+  --om-code-fg: #a84300;
+  --om-quote-bg: #fdf8f2;
+  --om-quote-text: #3d434c;
+  --om-hover-bg: #fdf0e4;
+  --om-hover-border: #f0c9a3;
+  --om-title-link: #14171b;
+  --om-about-bg: #fafbfc;
+  --om-about-border: #eef0f2;
+  --om-source-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --om-card-bg: #1a1f26;
+  --om-card-border: #2c333d;
+  --om-muted: #9aa3ad;
+  --om-icon-bg: rgba(204, 85, 0, 0.16);
+  --om-icon-fg: #f2994a;
+  --om-link: #f2994a;
+  --om-link-hover: #f2994a;
+  --om-code-bg: #232b35;
+  --om-code-fg: #f2994a;
+  --om-quote-bg: rgba(204, 85, 0, 0.08);
+  --om-quote-text: #c9d1d9;
+  --om-hover-bg: rgba(204, 85, 0, 0.12);
+  --om-hover-border: #8a5a24;
+  --om-title-link: #f4f6f8;
+  --om-about-bg: #1a1f26;
+  --om-about-border: #2c333d;
+  --om-source-bg: #161b22;
+
+  /* code syntax highlighting: dark palette */
+  --quarto-hl-kw-color: #79c0ff;
+  --quarto-hl-ot-color: #79c0ff;
+  --quarto-hl-cf-color: #79c0ff;
+  --quarto-hl-at-color: #7ee787;
+  --quarto-hl-ss-color: #a5d6ff;
+  --quarto-hl-an-color: #8b949e;
+  --quarto-hl-fu-color: #d2a8ff;
+  --quarto-hl-st-color: #a5d6ff;
+  --quarto-hl-op-color: #8b949e;
+  --quarto-hl-er-color: #ff7b72;
+  --quarto-hl-bn-color: #ff7b72;
+  --quarto-hl-al-color: #ff7b72;
+  --quarto-hl-va-color: #c9d1d9;
+  --quarto-hl-pp-color: #ff7b72;
+  --quarto-hl-in-color: #8b949e;
+  --quarto-hl-vs-color: #a5d6ff;
+  --quarto-hl-wa-color: #8b949e;
+  --quarto-hl-do-color: #8b949e;
+  --quarto-hl-im-color: #79c0ff;
+  --quarto-hl-ch-color: #a5d6ff;
+  --quarto-hl-dt-color: #ff7b72;
+  --quarto-hl-fl-color: #ffa657;
+  --quarto-hl-co-color: #8b949e;
+  --quarto-hl-cv-color: #8b949e;
+  --quarto-hl-cn-color: #ffa657;
+  --quarto-hl-sc-color: #8b949e;
+  --quarto-hl-dv-color: #ff7b72;
+}
+
+/* dark code blocks: the highlight stylesheet hardcodes a light base color */
+[data-theme="dark"] div.sourceCode,
+[data-theme="dark"] div.sourceCode pre.sourceCode {
+  background-color: var(--om-source-bg);
+  color: #c9d1d9;
+}
+
+[data-theme="dark"] code span {
+  color: #c9d1d9;
+}
+
 /* ---------- base ---------- */
 
 ::selection {
@@ -51,12 +136,12 @@ main.content li {
 
 /* content links: brand color, underline on hover */
 main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.nav-link):not(.dropdown-item) {
-  color: $ohmeow-dark;
+  color: var(--om-link);
   font-weight: 500;
 }
 
 main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.nav-link):not(.dropdown-item):hover {
-  color: $ohmeow;
+  color: var(--om-link-hover);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -72,7 +157,7 @@ main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.na
 }
 
 .section-sub {
-  color: #5b6470;
+  color: var(--om-muted);
   font-size: 1.1rem;
   max-width: 46rem;
   margin-bottom: 2rem;
@@ -115,7 +200,7 @@ main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.na
 /* dropdown polish */
 .dropdown-menu {
   border-radius: $border-radius-lg;
-  border: 1px solid #e8eaed;
+  border: 1px solid var(--om-card-border);
   box-shadow: 0 12px 32px rgba(20, 23, 27, 0.14);
   padding: 0.5rem;
 }
@@ -128,8 +213,8 @@ main.content a:not(.btn):not(.ohmeow-button):not(.ohmeow-button-outline):not(.na
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-  background-color: #fdf0e4;
-  color: $ohmeow-dark;
+  background-color: var(--om-hover-bg);
+  color: var(--om-link);
 }
 
 .dropdown-item .bi {
@@ -224,9 +309,11 @@ main:has(> .hero-wrap) > header#title-block-header {
 }
 
 @keyframes hero-aurora {
-  0%   { background-position: 20% 10%, 80% 90%, 0 0; }
-  50%  { background-position: 80% 40%, 20% 60%, 0 0; }
-  100% { background-position: 40% 80%, 60% 20%, 0 0; }
+  /* a 4th static position is included for the section banners' dot-grid layer;
+     elements with only 3 background layers (the homepage hero) ignore it */
+  0%   { background-position: 20% 10%, 80% 90%, 0 0, 0 0; }
+  50%  { background-position: 80% 40%, 20% 60%, 0 0, 0 0; }
+  100% { background-position: 40% 80%, 60% 20%, 0 0, 0 0; }
 }
 
 @keyframes hero-drift-a {
@@ -274,8 +361,15 @@ main:has(> .hero-wrap) > header#title-block-header {
   .hero-wrap::after,
   .hero-grid,
   .hero-accent,
-  .hero-cursor {
+  .hero-cursor,
+  .quarto-title-banner,
+  .quarto-title-banner::before,
+  .quarto-title-banner::after {
     animation: none;
+  }
+  .quarto-title-banner .quarto-title {
+    animation: none;
+    opacity: 1;
   }
   .hero-wrap > .hero-eyebrow,
   .hero-wrap > h1,
@@ -385,7 +479,7 @@ main:has(> .hero-wrap) > header#title-block-header {
 
 .ohmeow-button-outline {
   background-color: transparent;
-  color: $ohmeow-dark !important;
+  color: var(--om-link) !important;
   font-weight: 600;
   padding: 0.7rem 1.5rem;
   border-radius: 0.65rem;
@@ -396,8 +490,8 @@ main:has(> .hero-wrap) > header#title-block-header {
 }
 
 .ohmeow-button-outline:hover {
-  background-color: #fdf0e4;
-  color: $ohmeow-dark !important;
+  background-color: var(--om-hover-bg);
+  color: var(--om-link) !important;
   text-decoration: none;
   transform: translateY(-1px);
 }
@@ -414,17 +508,17 @@ main:has(> .hero-wrap) > header#title-block-header {
 .service-card {
   flex: 1;
   min-width: 260px;
-  border: 1px solid #e8eaed;
+  border: 1px solid var(--om-card-border);
   border-radius: $border-radius-lg;
   padding: 1.75rem;
-  background: #fff;
+  background: var(--om-card-bg);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .service-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 34px rgba(20, 23, 27, 0.1);
-  border-color: #f0c9a3;
+  border-color: var(--om-hover-border);
 }
 
 .service-card h4 {
@@ -437,8 +531,8 @@ main:has(> .hero-wrap) > header#title-block-header {
   width: 3rem;
   height: 3rem;
   border-radius: 0.9rem;
-  background: #fdf0e4;
-  color: $ohmeow;
+  background: var(--om-icon-bg);
+  color: var(--om-icon-fg);
   font-size: 1.45rem;
   align-items: center;
   justify-content: center;
@@ -464,8 +558,8 @@ main:has(> .hero-wrap) > header#title-block-header {
 /* ---------- about ---------- */
 
 .about-wrap {
-  background: #fafbfc;
-  border: 1px solid #eef0f2;
+  background: var(--om-about-bg);
+  border: 1px solid var(--om-about-border);
   border-radius: $border-radius-lg;
   padding: 2.25rem;
   margin-top: 1.5rem;
@@ -474,7 +568,7 @@ main:has(> .hero-wrap) > header#title-block-header {
 .about-wrap img.profile {
   width: 132px;
   border-radius: 50%;
-  border: 3px solid #fff;
+  border: 3px solid var(--om-card-bg);
   box-shadow: 0 6px 20px rgba(20, 23, 27, 0.14);
 }
 
@@ -496,8 +590,8 @@ main:has(> .hero-wrap) > header#title-block-header {
 }
 
 .client-card {
-  background-color: #fff;
-  border: 1px solid #e8eaed;
+  background-color: var(--om-card-bg);
+  border: 1px solid var(--om-card-border);
   border-top: 3px solid $ohmeow;
   padding: 1.6rem 1.75rem;
   border-radius: $border-radius-lg;
@@ -516,13 +610,13 @@ main:has(> .hero-wrap) > header#title-block-header {
   font-weight: 700;
   font-size: 1.05rem;
   margin-bottom: 0.5rem;
-  color: $ohmeow-ink;
+  color: var(--om-title-link);
 }
 
 .client-card .client-desc {
   font-size: 0.85rem;
   font-weight: 400;
-  color: #5b6470;
+  color: var(--om-muted);
   line-height: 1.6;
 }
 
@@ -563,17 +657,17 @@ main:has(> .hero-wrap) > header#title-block-header {
 }
 
 .guide-card {
-  border: 1px solid #e8eaed;
+  border: 1px solid var(--om-card-border);
   border-radius: $border-radius-lg;
   padding: 1.75rem;
-  background: #fff;
+  background: var(--om-card-bg);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .guide-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 34px rgba(20, 23, 27, 0.1);
-  border-color: #f0c9a3;
+  border-color: var(--om-hover-border);
 }
 
 .guide-card h4 {
@@ -581,7 +675,7 @@ main:has(> .hero-wrap) > header#title-block-header {
 }
 
 .guide-card p {
-  color: #5b6470;
+  color: var(--om-muted);
   font-size: 0.95rem;
   margin-bottom: 0;
 }
@@ -591,8 +685,8 @@ main:has(> .hero-wrap) > header#title-block-header {
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 0.85rem;
-  background: #fdf0e4;
-  color: $ohmeow;
+  background: var(--om-icon-bg);
+  color: var(--om-icon-fg);
   font-size: 1.3rem;
   align-items: center;
   justify-content: center;
@@ -602,7 +696,7 @@ main:has(> .hero-wrap) > header#title-block-header {
 /* ---------- blog listing ---------- */
 
 .quarto-listing .card {
-  border: 1px solid #e8eaed;
+  border: 1px solid var(--om-card-border);
   border-radius: $border-radius-lg;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -615,15 +709,15 @@ main:has(> .hero-wrap) > header#title-block-header {
 
 .quarto-listing .card-img,
 .quarto-listing .card-img-top {
-  border-bottom: 1px solid #eef0f2;
+  border-bottom: 1px solid var(--om-card-border);
 }
 
 .quarto-listing .listing-title a {
-  color: $ohmeow-ink;
+  color: var(--om-title-link);
 }
 
 .quarto-listing .listing-title a:hover {
-  color: $ohmeow-dark;
+  color: var(--om-link-hover);
 }
 
 .quarto-listing .listing-category {
@@ -631,35 +725,106 @@ main:has(> .hero-wrap) > header#title-block-header {
   font-weight: 600;
 }
 
-/* blog title banner */
-.quarto-title-banner {
-  background:
-    radial-gradient(700px 260px at 85% 0%, rgba(204, 85, 0, 0.35), transparent 60%),
-    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 80%);
-  border-radius: 1.25rem;
-  margin-top: 1.5rem;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+/* ---------- section banners (blog, guides): hero-style animated cards ---------- */
+
+/* keep the banner card aligned to the content column.
+   (note: #title-block-header sits directly under <body>, not inside #quarto-content) */
+#title-block-header .quarto-title-banner {
+  grid-column: body-content-start / body-content-end !important;
+}
+/* full-layout pages (blog): the content column is wider */
+body:has(main.column-page-left) #title-block-header .quarto-title-banner {
+  grid-column: page-start / body-content-end !important;
 }
 
-.quarto-title-banner .quarto-title h1.title,
-.quarto-title-banner .description {
+#title-block-header .quarto-title-banner {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 28px;
+  margin-top: 1.5rem;
+  padding: 3.5rem 3rem;
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.6px),
+    radial-gradient(900px 340px at 85% -10%, rgba(204, 85, 0, 0.35), transparent 60%),
+    radial-gradient(700px 300px at 10% 110%, rgba(242, 153, 74, 0.16), transparent 60%),
+    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 70%, #2b1d10 100%);
+  background-size: 22px 22px, 160% 160%, 160% 160%, 100% 100%;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  animation: hero-aurora 16s ease-in-out infinite alternate;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+#title-block-header .quarto-title-banner::before,
+#title-block-header .quarto-title-banner::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+#title-block-header .quarto-title-banner::before {
+  width: 420px;
+  height: 420px;
+  top: -140px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(255, 122, 26, 0.35), transparent 70%);
+  animation: hero-drift-a 11s ease-in-out infinite alternate;
+}
+#title-block-header .quarto-title-banner::after {
+  width: 380px;
+  height: 380px;
+  bottom: -160px;
+  left: -60px;
+  background: radial-gradient(circle, rgba(43, 52, 99, 0.6), transparent 70%);
+  animation: hero-drift-b 13s ease-in-out infinite alternate;
+}
+
+#title-block-header .quarto-title-banner .quarto-title {
+  position: relative;
+  z-index: 1;
+  animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#title-block-header .quarto-title-banner .quarto-title h1.title,
+#title-block-header .quarto-title-banner .description {
   color: #f4f6f8;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+
+#title-block-header .quarto-title-banner .quarto-title h1.title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: -0.02em;
+}
+
+#title-block-header .quarto-title-banner .description {
+  font-size: 1.05rem;
+  max-width: 62ch;
+}
+
+@media (max-width: 640px) {
+  #title-block-header .quarto-title-banner {
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
+    margin-top: 1rem;
+  }
 }
 
 /* ---------- code ---------- */
 
 pre.sourceCode {
   border-radius: 0.75rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--om-card-border);
   box-shadow: 0 1px 2px rgba(20, 23, 27, 0.04);
 }
 
 main.content p code,
 main.content li code,
 main.content td code {
-  background: #f3f4f6;
-  color: $ohmeow-dark;
+  background: var(--om-code-bg);
+  color: var(--om-code-fg);
   padding: 0.15em 0.45em;
   border-radius: 0.35rem;
   font-size: 0.86em;
@@ -694,10 +859,10 @@ main.content td code {
 
 blockquote {
   border-left: 4px solid $ohmeow;
-  background: #fdf8f2;
+  background: var(--om-quote-bg);
   border-radius: 0 0.65rem 0.65rem 0;
   padding: 1rem 1.25rem;
-  color: #3d434c;
+  color: var(--om-quote-text);
 }
 
 table.table {
@@ -708,4 +873,24 @@ table.table {
 hr {
   opacity: 0.12;
   margin: 3rem 0;
+}
+
+/* ---------- theme toggle ---------- */
+
+.theme-toggle {
+  background: transparent;
+  border: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.02rem;
+  line-height: 1;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus {
+  color: $ohmeow-glow;
+  background-color: rgba(255, 255, 255, 0.07);
 }
