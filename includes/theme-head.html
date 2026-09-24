@@ -1,16 +1,19 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script>
-// Set the color theme before first paint to avoid a flash of the wrong theme.
-// Priority: the user's saved choice, otherwise the OS-level preference.
+// Apply the color theme before first paint to avoid a flash of the wrong theme.
+// Priority: the visitor's saved choice (cookie, then localStorage), else the OS preference.
 (function () {
+  var theme = null;
   try {
-    var theme = localStorage.getItem('ohmeow-theme');
-    if (!theme) {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.setAttribute('data-bs-theme', theme);
-  } catch (err) {
-    /* storage unavailable: fall through to light */
+    var m = document.cookie.match(/(?:^|;\s*)ohmeow-theme=(light|dark)/);
+    if (m) theme = m[1];
+    if (!theme) theme = localStorage.getItem('ohmeow-theme');
+  } catch (err) { /* storage unavailable */ }
+  if (theme !== 'light' && theme !== 'dark') {
+    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.setAttribute('data-bs-theme', theme);
 })();
 </script>

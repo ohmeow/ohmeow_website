@@ -1,0 +1,149 @@
+<script>
+// ohmeow site behaviors:
+//  1. light/dark theme toggle in the navbar (defaults to the OS preference; an
+//     explicit choice is remembered in a cookie + localStorage for return visits)
+//  2. blog listing: move the categories sidebar into the content column
+//  3. active-section highlighting for in-page navbar links on the homepage
+(function () {
+  var STORAGE_KEY = 'ohmeow-theme';
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function hasSavedChoice() {
+    try {
+      if (/(?:^|;\s*)ohmeow-theme=(light|dark)/.test(document.cookie)) return true;
+      return !!localStorage.getItem(STORAGE_KEY);
+    } catch (e) { return false; }
+  }
+
+  function saveChoice(theme) {
+    try {
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = STORAGE_KEY + '=' + theme + '; Max-Age=31536000; Path=/; SameSite=Lax' + secure;
+    } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+  }
+
+  function paintToggle(theme) {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('title', label);
+    btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+  }
+
+  function syncUtterances(theme) {
+    var frame = document.querySelector('iframe.utterances-frame');
+    if (!frame || !frame.contentWindow) return;
+    frame.contentWindow.postMessage(
+      { type: 'set-theme', theme: theme === 'dark' ? 'github-dark' : 'github-light' },
+      'https://utteranc.es'
+    );
+  }
+
+  function applyTheme(theme, persist) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    if (persist) saveChoice(theme);
+    paintToggle(theme);
+    syncUtterances(theme);
+  }
+
+  // Follow OS changes until the visitor picks a theme explicitly.
+  try {
+    if (!hasSavedChoice() && window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+        if (!hasSavedChoice()) applyTheme(e.matches ? 'dark' : 'light', false);
+      });
+    }
+  } catch (e) {}
+
+  function buildToggle() {
+    var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
+    if (!nav || document.getElementById('theme-toggle')) return;
+    var li = document.createElement('li');
+    li.className = 'nav-item compact theme-toggle-item';
+    var btn = document.createElement('button');
+    btn.id = 'theme-toggle';
+    btn.className = 'theme-toggle nav-link';
+    btn.type = 'button';
+    btn.innerHTML =
+      '<i class="bi bi-moon-stars-fill theme-icon-dark" aria-hidden="true"></i>' +
+      '<i class="bi bi-sun-fill theme-icon-light" aria-hidden="true"></i>';
+    btn.addEventListener('click', function () {
+      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
+    });
+    li.appendChild(btn);
+    nav.appendChild(li);
+  }
+
+  function buildCta() {
+    var nav = document.querySelector('.navbar .navbar-nav.ms-auto');
+    if (!nav || nav.querySelector('.nav-cta')) return;
+    var li = document.createElement('li');
+    li.className = 'nav-item nav-cta-item';
+    var a = document.createElement('a');
+    a.className = 'nav-link nav-cta';
+    a.href = 'mailto:wgilliam@ohmeow.com';
+    a.innerHTML = '<i class="bi bi-envelope-fill" aria-hidden="true"></i><span class="menu-text">Let\'s talk</span>';
+    li.appendChild(a);
+    nav.appendChild(li);
+  }
+
+  function moveListingSidebar() {
+    var sidebar = document.querySelector('#quarto-content > .sidebar.margin-sidebar');
+    var listing = document.querySelector('.quarto-listing');
+    if (sidebar && listing && !sidebar.querySelector('#TOC') && !listing.contains(sidebar)) {
+      listing.appendChild(sidebar);
+      document.body.classList.add('has-listing-sidebar');
+    }
+  }
+
+  function markActiveSections() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.navbar .nav-link[href*="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').split('#')[1];
+      var path = a.getAttribute('href').split('#')[0];
+      // only links that point at the current page
+      if (path && path !== '' && !location.pathname.endsWith(path.replace('./', ''))) {
+        if (!(path === 'index.html' && (location.pathname === '/' || location.pathname.endsWith('/index.html')))) return;
+      }
+      var el = id && document.getElementById(id);
+      if (el) map[id] = a;
+    });
+    var ids = Object.keys(map);
+    if (!ids.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          ids.forEach(function (i) { map[i].classList.remove('active'); });
+          map[en.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    ids.forEach(function (i) { io.observe(document.getElementById(i)); });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    buildToggle();
+    buildCta();
+    paintToggle(currentTheme());
+    moveListingSidebar();
+    markActiveSections();
+    document.body.classList.add('om-ready');
+    // Utterances loads its iframe lazily; sync its theme once it appears.
+    var tries = 0;
+    var timer = setInterval(function () {
+      if (document.querySelector('iframe.utterances-frame') || ++tries > 20) {
+        syncUtterances(currentTheme());
+        clearInterval(timer);
+      }
+    }, 500);
+  });
+})();
+</script>

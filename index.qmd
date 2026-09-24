@@ -1,7 +1,8 @@
 ---
-title: "Applied AI Solutions for Modern Businesses"
+title: "ohmeow · Full-stack AI products, built end to end"
 page-layout: full
 comments: false
+toc: false
 listing:
   - id: recent-posts
     contents: posts
@@ -9,130 +10,230 @@ listing:
     max-items: 3
     type: grid
     grid-columns: 3
-    image-height: 180px
+    image-height: 200px
     fields: [image, date, title, description, reading-time]
 ---
 
 ::: {.hero-wrap}
 <div class="hero-grid" aria-hidden="true"></div>
-<p class="hero-eyebrow">AI Consulting · Full-Stack Engineering</p>
 
-# Applied AI <span class="hero-accent">Solutions</span> for Modern Businesses<span class="hero-cursor" aria-hidden="true"></span>
+<div class="hero-copy">
+<p class="hero-eyebrow"><span class="hero-dot" aria-hidden="true"></span> Available for new engagements</p>
+
+# AI products that actually <span class="hero-accent">ship</span>
 
 ::: {.hero-lede}
-Leveraging over 25 years of development experience to build intelligent applications that solve real business problems.
+I design, build, and deploy LLM-powered products end to end: eval-first AI pipelines, production-grade APIs, and polished front-ends. Backed by 25+ years of shipping software for companies of every size.
 :::
 
+<div class="hero-actions">
 [<i class="bi bi-envelope-fill"></i> Discuss your project](mailto:wgilliam@ohmeow.com){.ohmeow-button}
-[Read the blog](blog.html){.ohmeow-button-outline}
+[See services](#services){.ohmeow-button-outline}
+</div>
+
+<p class="hero-trust"><span><i class="bi bi-cpu-fill"></i> LLMs, evals &amp; ML</span><span><i class="bi bi-stack"></i> FastAPI · Vue · React · Postgres</span><span><i class="bi bi-github"></i> Author of blurr · fast.ai community leader</span></p>
+</div>
+
+<div class="hero-terminal" aria-hidden="true">
+<div class="hero-terminal-bar"><i></i><i></i><i></i><span>ohmeow — engagement.log</span></div>
+<div class="hero-terminal-body">
+<div class="tl cmd"><span class="k">$</span><span>ohmeow ship --product "ai-assistant"</span></div>
+<div class="tl"><span class="arrow">→</span><span class="k">discover</span><span class="v">scope the problem, define success</span></div>
+<div class="tl"><span class="arrow">→</span><span class="k">evals</span><span class="v">measure quality before writing prompts</span></div>
+<div class="tl"><span class="arrow">→</span><span class="k">pipeline</span><span class="v">LLM + retrieval + guardrails</span></div>
+<div class="tl"><span class="arrow">→</span><span class="k">full-stack</span><span class="v">FastAPI · Vue · Postgres · Docker</span></div>
+<div class="tl"><span class="arrow">→</span><span class="k">deploy</span><span class="v">cloud, CI/CD, monitoring</span></div>
+<div class="tl done"><span class="ok">✔</span><span class="k">shipped</span><span class="v">measured, monitored, improving<span class="hero-cursor"></span></span></div>
+</div>
+</div>
 :::
 
+::: {.stat-strip}
+<div class="stat"><span class="stat-value">25<em>+</em></span><span class="stat-label">Years shipping software</span></div>
+<div class="stat"><span class="stat-value">10<em>+</em></span><span class="stat-label">Companies served, startups to enterprise</span></div>
+<div class="stat"><span class="stat-value">End<em>-</em>to<em>-</em>end</span><span class="stat-label">Strategy, models, APIs, UI, deployment</span></div>
+<div class="stat"><span class="stat-value">Eval<em>-</em>first</span><span class="stat-label">AI you can measure, trust, and improve</span></div>
+:::
+
+::: {.om-section}
 <p class="eyebrow">What I do</p>
 
 ## Services {#services}
 
 ::: {.section-sub}
-Leveraging AI and web technologies to build innovative solutions that drive business value.
+Practical, production-minded help for teams that want AI features and applications that work in the real world, not just in a demo.
 :::
 
 ::: {.service-grid}
 
-::: {.card .service-card}
+::: {.service-card}
 <i class="bi bi-cpu-fill service-icon"></i>
 
-#### AI/ML Application Development
+#### AI / ML Application Development
 
-Applied AI solutions tailored to business needs, with a focus on full-stack integration and deployment.
+Applied AI tailored to your business, from first prototype to a monitored, production system.
 
-- <i class="bi bi-check-circle-fill"></i> LLM & NLP Workflows
-- <i class="bi bi-check-circle-fill"></i> Forecasting & Classification Models
-- <i class="bi bi-check-circle-fill"></i> End-to-End Eval-First AI Pipelines
+- <i class="bi bi-check-circle-fill"></i> LLM apps, RAG, agents &amp; NLP workflows
+- <i class="bi bi-check-circle-fill"></i> Forecasting &amp; classification models
+- <i class="bi bi-check-circle-fill"></i> Eval-first pipelines with measurable quality
 :::
 
-::: {.card .service-card}
+::: {.service-card}
 <i class="bi bi-stack service-icon"></i>
 
 #### Full-Stack Engineering
 
-Robust and scalable web platforms engineered with modern technologies and a strong DevOps mindset.
+Robust, scalable web platforms engineered with modern tooling and a strong DevOps mindset.
 
-- <i class="bi bi-check-circle-fill"></i> React, Vue, Quasar, Next.js
-- <i class="bi bi-check-circle-fill"></i> FastAPI, ASP.NET Core, Node.js
-- <i class="bi bi-check-circle-fill"></i> Dockerized Systems & Cloud Deployments
+- <i class="bi bi-check-circle-fill"></i> Vue, Quasar, React, Next.js front-ends
+- <i class="bi bi-check-circle-fill"></i> FastAPI, ASP.NET Core, Node.js back-ends
+- <i class="bi bi-check-circle-fill"></i> PostgreSQL, Docker &amp; cloud deployments
 :::
 
-::: {.card .service-card}
+::: {.service-card}
 <i class="bi bi-compass-fill service-icon"></i>
 
-#### AI Strategy & Enablement
+#### AI Strategy &amp; Enablement
 
-Strategic guidance and hands-on support to help teams adopt, deploy, and evaluate AI effectively.
+Hands-on guidance so your team adopts, evaluates, and operates AI with confidence.
 
-- <i class="bi bi-check-circle-fill"></i> Technical Evaluations & Model Benchmarking
-- <i class="bi bi-check-circle-fill"></i> AI-Driven Product Architecture
-- <i class="bi bi-check-circle-fill"></i> Training
+- <i class="bi bi-check-circle-fill"></i> Technical evaluations &amp; model benchmarking
+- <i class="bi bi-check-circle-fill"></i> AI-driven product architecture
+- <i class="bi bi-check-circle-fill"></i> Team training &amp; workshops
 :::
 
 :::
-
-<p class="eyebrow">From the blog</p>
-
-## Latest Writing
-
-::: {#recent-posts}
 :::
 
-[View all posts](blog.html){.ohmeow-button-outline}
+::: {.om-section}
+<p class="eyebrow">How I work</p>
 
-<p class="eyebrow">Who I am</p>
+## From idea to production, without the guesswork {#process}
 
-## About Me {#about}
-
-::: {.about-wrap}
-<div style="display:flex;align-items:flex-start;gap:2rem;flex-wrap:wrap;">
-<img src="profile.png" alt="Wayde Gilliam" class="profile d-none d-md-block">
-<div style="flex:1;min-width:260px;">
-**Wayde Gilliam (ohmeow)**
-I'm a full stack web application and AI/ML developer with well over 20 years in the business.
-
-In addition to being the author of [blurr](https://ohmeow.github.io/blurr/){target="_blank"}, a python library that enables fast.ai developers to train Hugging Face transformers for core NLP tasks, I'm also a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary){target="_blank"}, where I'm active in both contributing to their deep learning library and helping folks out on the forums and discord.
-
-Outside of work, I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.  Feel free to give me a follow on twitter or github if any of the above interests you.
-
-Feel free to reach out to me via <a href="mailto:wgilliam@ohmeow.com">email</a> or <a href="https://twitter.com/messages/compose?recipient_id=waydegilliam" target="_blank">direct message on X</a>.
-
-<div class="about-actions">
-[<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"}
-[<i class="bi bi-twitter-x"></i> Twitter](https://twitter.com/waydegilliam){.ohmeow-button-outline target="_blank"}
-[<i class="bi bi-file-earmark-arrow-down"></i> Download Resume](resume_wgilliam_202505.pdf){.ohmeow-button target="_blank"}
-</div>
-</div>
-</div>
+::: {.section-sub}
+A simple, transparent process that keeps risk low and momentum high.
 :::
 
+::: {.process-grid}
+
+::: {.process-step}
+<span class="process-num">01</span>
+
+#### Discover
+
+We scope the problem, the users, and what "good" looks like, then agree on a plan measured in weeks, not quarters.
+:::
+
+::: {.process-step}
+<span class="process-num">02</span>
+
+#### Prototype
+
+A working slice of the product, fast. Real data, real users, real feedback before big investments are made.
+:::
+
+::: {.process-step}
+<span class="process-num">03</span>
+
+#### Evaluate
+
+Evals and error analysis drive every iteration, so quality is something we can see and improve, not just feel.
+:::
+
+::: {.process-step}
+<span class="process-num">04</span>
+
+#### Ship &amp; support
+
+Deployed, monitored, documented, and handed off cleanly, with ongoing support when you want it.
+:::
+
+:::
+:::
+
+::: {.om-section}
+<div class="om-section-head">
+<div>
 <p class="eyebrow">Track record</p>
 
-## Clients / Employment {#clients}
+## Clients &amp; employers {#clients}
 
-I've had the pleasure of working with amazing companies across various industries.
+::: {.section-sub}
+I've had the pleasure of building with great companies across research, agriculture, e-commerce, education, and enterprise software.
+:::
+</div>
+</div>
 
 ::: {.client-cards}
 <div class="client-card"><div class="client-name">Answer.AI</div><div class="client-desc">Contributed to core libraries and tutorials driving open-source innovation in LLM tooling.</div></div>
 <div class="client-card"><div class="client-name">Musubilabs</div><div class="client-desc">Delivered ML pipelines and FastAPI backends to power cutting-edge conversational AI tools.</div></div>
-<div class="client-card"><div class="client-name">Weights & Biases</div><div class="client-desc">Delivered educational content to train ML developers how to use fast.ai and blurr to train Hugging Face transformers across a range of NLP tasks.</div></div>
+<div class="client-card"><div class="client-name">Weights &amp; Biases</div><div class="client-desc">Created educational content training ML developers to use fast.ai and blurr with Hugging Face transformers across NLP tasks.</div></div>
 <div class="client-card"><div class="client-name">Agrilynk</div><div class="client-desc">Architected and built a production-ready AI platform to support real-time agricultural insights.</div></div>
+<div class="client-card"><div class="client-name">UC San Diego</div><div class="client-desc">Built an enterprise survey delivery and analytics platform, an AI pipeline for qualitative data, and forecasting models for HR employment needs.</div></div>
 <div class="client-card"><div class="client-name">Cotelligent</div><div class="client-desc">Provided enterprise-grade software development and architecture consulting.</div></div>
 <div class="client-card"><div class="client-name">Epson</div><div class="client-desc">Helped streamline development workflows with tailored software solutions.</div></div>
 <div class="client-card"><div class="client-name">Car Crazy Central</div><div class="client-desc">Built branded digital experiences and backend infrastructure for media-rich applications.</div></div>
-<div class="client-card"><div class="client-name">UC San Diego</div><div class="client-desc">Work includes: Developed an enterprise survey delivery and analytics platorm, an AI pipeline to analyze qualitative data, initial forecasting models for HR employment needs, and more.</div></div>
 <div class="client-card"><div class="client-name">BuyProduce.com</div><div class="client-desc">Built and led a dev team creating a flexible e-commerce engine for the produce industry.</div></div>
 <div class="client-card"><div class="client-name">AltaVista / Shopping.com</div><div class="client-desc">Rebuilt e-commerce systems and led backend dev teams at the forefront of early internet retail.</div></div>
+:::
+:::
+
+::: {.om-section}
+<div class="om-section-head">
+<div>
+<p class="eyebrow">From the blog</p>
+
+## Latest writing {#writing}
+
+::: {.section-sub}
+Notes from the trenches on evals, LLMs, fast.ai, and full-stack engineering.
+:::
+</div>
+[View all posts <i class="bi bi-arrow-right"></i>](blog.html){.ohmeow-button-outline}
+</div>
+
+::: {#recent-posts}
+:::
+:::
+
+::: {.om-section}
+<p class="eyebrow">Who I am</p>
+
+## About me {#about}
+
+::: {.about-wrap}
+<img src="profile.png" alt="Wayde Gilliam" class="about-photo">
+
+<div>
+<div class="about-name">Wayde Gilliam</div>
+<div class="about-role">Founder of ohmeow · Full-stack &amp; AI/ML engineer</div>
+
+I'm a full-stack web application and AI/ML developer with well over 20 years in the business. I've led teams and shipped systems for early-internet retail giants, universities, startups, and research labs, and these days I spend most of my time building LLM-powered products that are measured as carefully as they are engineered.
+
+I'm the author of [blurr](https://ohmeow.github.io/blurr/){target="_blank"}, a Python library that lets fast.ai developers train Hugging Face transformers for core NLP tasks, and a proud [fast.ai community leader](https://forums.fast.ai/u/wgpubs/summary){target="_blank"}, contributing to the library and helping folks on the forums and Discord.
+
+Outside of work I enjoy hanging out with my two labradors, reading, working out, and above all else, learning.
+
+<div class="about-stack" aria-label="Core technologies"><span>Python</span><span>PyTorch</span><span>fast.ai</span><span>Hugging Face</span><span>LLMs &amp; evals</span><span>FastAPI</span><span>Vue / Quasar</span><span>React / Next.js</span><span>ASP.NET Core</span><span>PostgreSQL</span><span>Docker</span><span>Cloud / CI</span></div>
+
+<div class="about-actions">
+[<i class="bi bi-envelope-fill"></i> Email me](mailto:wgilliam@ohmeow.com){.ohmeow-button}
+[<i class="bi bi-file-earmark-arrow-down"></i> Resume](resume_wgilliam_202505.pdf){.ohmeow-button-outline target="_blank"}
+[<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"}
+[<i class="bi bi-linkedin"></i> LinkedIn](https://linkedin.com/in/waydegilliam){.ohmeow-button-outline target="_blank"}
+[<i class="bi bi-twitter-x"></i> X](https://x.com/waydegilliam){.ohmeow-button-outline target="_blank"}
+</div>
+</div>
+:::
 :::
 
 ::: {.cta-banner}
 ## Have an AI project in mind?
 
-Whether it's an LLM-powered product, an ML pipeline, or guidance on AI strategy — let's talk about what I can build for you.
+Whether it's an LLM-powered product, an ML pipeline, or a second opinion on your AI strategy, let's talk about what I can build for you.
 
+<div class="cta-actions">
 [<i class="bi bi-envelope-fill"></i> wgilliam@ohmeow.com](mailto:wgilliam@ohmeow.com){.ohmeow-button}
+[<i class="bi bi-file-earmark-arrow-down"></i> Download resume](resume_wgilliam_202505.pdf){.ohmeow-button-outline target="_blank"}
+</div>
 :::

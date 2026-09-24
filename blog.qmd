@@ -13,5 +13,4 @@ listing:
 
 page-layout: article
 comments: false
-include-after-body: includes/blog-listing-sidebar.html
 ---
