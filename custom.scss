@@ -1471,3 +1471,21 @@ hr { opacity: 0.15; margin: 3rem 0; border-color: var(--om-border-strong); }
 /* back-to-top / misc Quarto chrome */
 .quarto-secondary-nav { background: var(--om-nav-bg); border-bottom: 1px solid var(--om-border); }
 .quarto-secondary-nav .quarto-secondary-nav-title { color: var(--om-text); }
+
+/* client card name links: keep the name dark, show an external-link hint on hover */
+.client-card .client-name a {
+  color: inherit !important;
+  font-weight: inherit !important;
+  text-decoration: none;
+}
+.client-card .client-name a::after {
+  font-family: "bootstrap-icons";
+  content: "\f1c5"; /* bi-box-arrow-up-right */
+  font-size: 0.7em;
+  font-weight: 400;
+  margin-left: 0.4em;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.client-card:hover .client-name a::after { opacity: 0.6; }
+.client-card .client-name a:hover { color: var(--om-brand) !important; }
