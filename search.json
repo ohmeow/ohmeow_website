@@ -46,7 +46,7 @@
     "href": "index.html",
     "title": "ohmeow · Full-stack AI products, built end to end",
     "section": "",
-    "text": "Available for new engagements\n\n\n\n\nI design, build, and deploy LLM-powered products end to end: eval-first AI pipelines, production-grade APIs, and polished front-ends. Backed by 25+ years of shipping software for companies of every size.\n\n\n Discuss your project See services\n\n\n LLMs, evals & ML FastAPI · Vue · React · Postgres Author of blurr · fast.ai community leader\n\n\n\n\n\nohmeow — engagement.log\n\n\n\n$ohmeow ship –product “ai-assistant”\n\n\n→discoverscope the problem, define success\n\n\n→evalsmeasure quality before writing prompts\n\n\n→pipelineLLM + retrieval + guardrails\n\n\n→full-stackFastAPI · Vue · Postgres · Docker\n\n\n→deploycloud, CI/CD, monitoring\n\n\n✔shippedmeasured, monitored, improving"
+    "text": "Available for new engagements\n\n\n\n\nI design, build, and deploy LLM-powered products end to end: eval-first AI pipelines, production-grade APIs, and polished front-ends. Backed by 25+ years of shipping software for companies of every size.\n\n\n Discuss your project  View the deck See services\n\n\n LLMs, evals & ML FastAPI · Vue · React · Postgres Author of blurr · fast.ai community leader\n\n\n\n\n\nohmeow — engagement.log\n\n\n\n$ohmeow ship –product “ai-assistant”\n\n\n→discoverscope the problem, define success\n\n\n→evalsmeasure quality before writing prompts\n\n\n→pipelineLLM + retrieval + guardrails\n\n\n→full-stackFastAPI · Vue · Postgres · Docker\n\n\n→deploycloud, CI/CD, monitoring\n\n\n✔shippedmeasured, monitored, improving"
   },
   {
     "objectID": "index.html#services",
@@ -61,6 +61,13 @@
     "title": "ohmeow · Full-stack AI products, built end to end",
     "section": "From idea to production, without the guesswork",
     "text": "From idea to production, without the guesswork\n\nA simple, transparent process that keeps risk low and momentum high.\n\n\n\n01\n\nDiscover\nWe scope the problem, the users, and what “good” looks like, then agree on a plan measured in weeks, not quarters.\n\n\n\n02\n\nPrototype\nA working slice of the product, fast. Real data, real users, real feedback before big investments are made.\n\n\n\n03\n\nEvaluate\nEvals and error analysis drive every iteration, so quality is something we can see and improve, not just feel.\n\n\n\n04\n\nShip & support\nDeployed, monitored, documented, and handed off cleanly, with ongoing support when you want it."
+  },
+  {
+    "objectID": "index.html#reel",
+    "href": "index.html#reel",
+    "title": "ohmeow · Full-stack AI products, built end to end",
+    "section": "ohmeow in 30 seconds",
+    "text": "ohmeow in 30 seconds\n\nA quick look at who I am, what I build, and where I can help. Want the full picture? Flip through the client deck: the problem, the approach, and what working together looks like.\n\n\n Open the client deck  Watch on YouTube"
   },
   {
     "objectID": "index.html#clients",
