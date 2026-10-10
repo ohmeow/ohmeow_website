@@ -246,7 +246,7 @@ Outside of work I enjoy hanging out with my two labradors, reading, working out,
 [<i class="bi bi-envelope-fill"></i> Email me](mailto:wgilliam@ohmeow.com){.ohmeow-button}
 [<i class="bi bi-file-earmark-arrow-down"></i> Resume](resume_wgilliam_202505.pdf){.ohmeow-button-outline target="_blank"}
 [<i class="bi bi-github"></i> GitHub](https://github.com/ohmeow){.ohmeow-button-outline target="_blank"}
-[<i class="bi bi-linkedin"></i> LinkedIn](https://linkedin.com/in/waydegilliam){.ohmeow-button-outline target="_blank"}
+[<i class="bi bi-linkedin"></i> LinkedIn](https://www.linkedin.com/in/wgilliam/){.ohmeow-button-outline target="_blank"}
 [<i class="bi bi-twitter-x"></i> X](https://x.com/waydegilliam){.ohmeow-button-outline target="_blank"}
 </div>
 </div>
