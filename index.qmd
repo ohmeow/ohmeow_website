@@ -28,6 +28,7 @@ I design, build, and deploy LLM-powered products end to end: eval-first AI pipel
 
 <div class="hero-actions">
 [<i class="bi bi-envelope-fill"></i> Discuss your project](mailto:wgilliam@ohmeow.com){.ohmeow-button}
+[<i class="bi bi-easel2"></i> View the deck](deck/index.html){.ohmeow-button-outline target="_blank" rel="noopener"}
 [See services](#services){.ohmeow-button-outline}
 </div>
 
@@ -148,6 +149,29 @@ Evals and error analysis drive every iteration, so quality is something we can s
 Deployed, monitored, documented, and handed off cleanly, with ongoing support when you want it.
 :::
 
+:::
+:::
+
+::: {.om-section}
+::: {.reel-wrap}
+<div class="reel-video">
+<iframe src="https://www.youtube-nocookie.com/embed/TfifMUqzeZs?rel=0&amp;modestbranding=1&amp;playsinline=1" title="ohmeow in 30 seconds" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+<div class="reel-copy">
+<p class="eyebrow">Watch &amp; flip through</p>
+
+## ohmeow in 30 seconds {#reel}
+
+::: {.reel-lede}
+A quick look at who I am, what I build, and where I can help. Want the full picture? Flip through the client deck: the problem, the approach, and what working together looks like.
+:::
+
+<div class="reel-actions">
+[<i class="bi bi-easel2-fill"></i> Open the client deck](deck/index.html){.ohmeow-button target="_blank" rel="noopener"}
+[<i class="bi bi-youtube"></i> Watch on YouTube](https://www.youtube.com/watch?v=TfifMUqzeZs){.ohmeow-button-outline target="_blank" rel="noopener"}
+</div>
+</div>
 :::
 :::
 

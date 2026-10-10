@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - deck/
 
 website:
   title: ohmeow

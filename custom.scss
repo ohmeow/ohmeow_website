@@ -765,6 +765,75 @@ main.content .hero-wrap p.hero-trust,
 @media (max-width: 991.98px) { .stat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* =========================================================
+   6b. SHOWREEL (homepage video + deck link)
+   ========================================================= */
+
+.reel-wrap {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  background:
+    radial-gradient(700px 300px at 0% 0%, rgba(200, 96, 42, 0.3), transparent 60%),
+    radial-gradient(600px 280px at 100% 100%, rgba(242, 153, 74, 0.14), transparent 60%),
+    linear-gradient(135deg, $ohmeow-ink 0%, $ohmeow-ink-2 75%, #2b1d10 100%);
+  color: #f4f6f8;
+  border-radius: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  box-shadow: 0 30px 80px rgba(20, 23, 27, 0.22);
+}
+
+.reel-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 0 6px rgba(200, 96, 42, 0.08);
+}
+
+.reel-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.reel-wrap h2 {
+  color: #fff !important;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  border: 0;
+  padding: 0;
+}
+
+.reel-wrap .eyebrow { color: $ohmeow-glow; }
+.reel-wrap .eyebrow::before { background: $ohmeow-glow; }
+
+.reel-lede,
+.reel-wrap .reel-lede p {
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0 0 1.75rem;
+}
+
+.reel-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.reel-wrap .ohmeow-button-outline { color: #fff !important; border-color: rgba(255, 255, 255, 0.4); }
+.reel-wrap .ohmeow-button-outline:hover,
+.reel-wrap .ohmeow-button-outline:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  color: #fff !important;
+}
+
+@media (max-width: 991.98px) {
+  .reel-wrap { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
    7. BUTTONS
    ========================================================= */
 
